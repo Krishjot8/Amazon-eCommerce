@@ -6,6 +6,7 @@ namespace Amazon_eCommerce_API.Repositories
 
     {
         Task<T> GetByIdAsync(int id);
+
        Task<List<T>> GetAllAsync();
 
 
