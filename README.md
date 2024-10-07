@@ -21,7 +21,8 @@ Debugging the backend Project is very crucial because many times, your projects 
 To debug the SwaggerUI calls. Simply go to the controller you are finding items for (ex. If doing CRUD operations on Products, go to the Products Controller.) To the left side, add a red dot next to the repositories. Also on the call you are doing (ex. GetProducts ) you can put the red dot at the starting Curly bracket and at the return statement. 
 
 
-//image
+![Amazon eCommerce API - How to Debug](assets/README-images/Amazon-eCommerce%20API%20-%20How%20to%20Debug.png)
+
 
 
 
