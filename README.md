@@ -56,7 +56,7 @@ After setting up your breakpoints, you can run SwaggerUI and execute your API ca
 
 To debug your code step by step, keep pressing F11. This allows you to step through the code line by line, helping you understand how products are fetched from the database and what happens at each stage of the execution. This detailed debugging process is valuable for identifying any issues and gaining insights into the application's behavior.
 
-![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/amazon-platform.png)
+![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/Debugging.png)
 
 ## Development server
 
