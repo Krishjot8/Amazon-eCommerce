@@ -1,35 +1,57 @@
+![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/amazon-platform.png)
+
+
 # Amazon-eCommerce
 
-Hello Guys, I this is an eCommerce Application resembling the real Amazon website. I used Angular for the Front End, .NET Core for the Backend and SQL Server for the database for this project. As of now, this is not a fully working project and exactly not all the features are included right now, but this eCommerce application will look as close to the real appliation as time goes on.
+Hello everyone,
 
-To access the Backend for this project navigate to the master section to find the code. For the Frontend, go to the main branch. When downloading the ZIP File when pressing the green code button, make sure to choose the 'main' branch first to download the ZIP file for the Frontend which uses Angular for the project. To download the Backend project which uses .NET CORE, make sure to click on the Master branch before you press the green code button to download the Zip file.
+This is an eCommerce application inspired by the Amazon website. The frontend is built using Angular, while the backend is developed with .NET Core. For the database, I am using SQL Server. Currently, the project is a work in progress, and not all features are fully implemented yet. However, as development continues, this application will closely resemble a real-world eCommerce platform.
+
+To access the backend code, navigate to the 'master' branch. For the frontend code, check the 'main' branch. When downloading the project, if you're interested in the Angular frontend, make sure to switch to the 'main' branch before clicking the green code button to download the ZIP file. If you're looking for the .NET Core backend, switch to the 'master' branch before downloading.
 
 
 
 
 # Backend
 
-For the Backend Section of this project, open the project and run the solution or project file. Extract the content of the master zip folder to a new folder on the desktop. Then you can either click on the solution file (Amazon-eCommerce API.sln) or the project file (Amazon-eCommerce API.csproj). I recommend using Visual Studio or VS Code to open  this projects.
+To run the backend of this project, follow these steps:
 
-In the solution Explorer you can click on the arrow to drop down and look at the contents. Which shows Controllers, Models, Repositories, Data and more folders.
+1. Download the ZIP file from the 'master' branch and extract its contents to a new folder on your desktop.
+   
+2. Open the project by either clicking on the solution file (Amazon-eCommerce API.sln) or the project file (Amazon-eCommerce API.csproj). I recommend using Visual Studio or Visual Studio Code for this project.
 
-The backend is mainly used to test and do CRUD operations for products, users and more items for Amazon. I have integrated SwaggerUI in this backend project to test operations. to Use Swagger go to the Green Arrow at the top and to the right click on the dropdown arrow and select IIS Express. This will Utilize SwaggerUI when you press the Green run button. There are CRUD Operations for Products, ProductTypes, ProductBrands  and many more.
+Once the project is open, you can explore the contents through the Solution Explorer. Expand the folders to view Controllers, Models, Repositories, Data, and more.
 
-# Debugging
+The backend is designed to perform CRUD operations (Create, Read, Update, Delete) for products, users, and other entities related to the eCommerce platform. SwaggerUI is integrated into this project for easy API testing. To use Swagger, go to the top toolbar and click the dropdown arrow next to the green "Run" button. Select IIS Express and then click the green "Run" button to launch SwaggerUI.
 
-Debugging the backend Project is very crucial because many times, your projects might encounter an error and debugging can help solve your problem. SwaggerUI calls can fail, and to find the problem you can debug them.
-To debug the SwaggerUI calls. Simply go to the controller you are finding items for (ex. If doing CRUD operations on Products, go to the Products Controller.) To the left side, add a red dot next to the repositories. Also on the call you are doing (ex. GetProducts ) you can put the red dot at the starting Curly bracket and at the return statement. 
+You can test CRUD operations for entities such as Products, Product Types, Product Brands, and more using SwaggerUI.
+
+# Debugging the Backend
+
+Debugging is crucial when working on the backend, as errors can occur during development. Debugging can help identify and resolve issues effectively. SwaggerUI calls, for instance, may fail, and debugging those calls can provide insight into the problem.
+
+To debug SwaggerUI calls:
+
+1. Navigate to the appropriate controller related to the operation you're testing (e.g., for CRUD operations on products, go to the ProductsController).
+2. In the controller, set breakpoints (represented by red dots) to pause the execution of the code. For example:
+
+   
+        • Add a breakpoint next to the repository calls.
+        • Place additional breakpoints at the starting curly bracket { and the return statement of the method you're debugging (e.g., GetProducts).
+
+    When you run the project in debug mode, execution will pause at these breakpoints, allowing you to inspect the data and track down issues.
 
 ![Amazon eCommerce API - How to Debug](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/Amazon-eCommerce%20API%20-%20How%20to%20Debug.png)
 
 
 
 
+# Using SwaggerUI for Debugging
 
 
+After setting up your breakpoints, you can run SwaggerUI and execute your API calls by pressing the Execute button. When you do this, a yellow arrow will appear on the left side of the code, indicating the current line of execution.
 
-Next when running Swagger UI and pressing the execute button to run the call. A yellow arrow will appear at the left. You will keep pressing F11 to debug the code line by line. This way we can understand how the products will be fetched from the database and what is going on in each line of the code.
-
+To debug your code step by step, keep pressing F11. This allows you to step through the code line by line, helping you understand how products are fetched from the database and what happens at each stage of the execution. This detailed debugging process is valuable for identifying any issues and gaining insights into the application's behavior.
 
 
 
