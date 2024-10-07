@@ -41,6 +41,20 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseStaticFiles();
 app.MapControllers();
 
-app.Run();
+/*
+using (var scope = app.Services.CreateScope())
+{
+
+
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<StoreContext>();
+    var dbInitializer = new DbInitializer(context);
+    await dbInitializer.InitializeAsync();
+
+}
+*/
+
+    app.Run();

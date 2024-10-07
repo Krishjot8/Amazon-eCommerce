@@ -7,5 +7,13 @@ namespace Amazon_eCommerce_API.Repositories
         Task<Product> GetProductByIdAsync(int id);
 
         Task<List<Product>> GetProductsAsync();
+
+        Task<List<ProductBrand>> GetProductBrandsAsync();
+
+        Task<List<ProductType>> GetProductTypesAsync();
+
+        Task<ProductBrand> GetProductBrandByIdAsync(int id);
+
+        Task<ProductType> GetProductTypeByIdAsync(int id);
     }
 }

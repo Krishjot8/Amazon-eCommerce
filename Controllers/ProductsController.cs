@@ -14,43 +14,128 @@ namespace Amazon_eCommerce_API.Controllers
 
     {
         private readonly IGenericRepository<Product> _productsrepository;
-        private readonly IGenericRepository<ProductBrand> _productbrandrepository;
-        private readonly IGenericRepository<ProductType> _producttyperepository;
+       
 
-        public ProductsController(IGenericRepository<Product> productsrepository,
-            IGenericRepository<ProductBrand> productbrandrepository,
-            IGenericRepository<ProductType> producttyperepository)       //assigning repositories
+        public ProductsController(IGenericRepository<Product> productsrepository
+           )       //assigning repositories
 
 
         {
             _productsrepository = productsrepository;
-            _productbrandrepository = productbrandrepository;
-            _producttyperepository = producttyperepository;
+           
         }
 
-        
+
+
         [HttpGet]
 
         public async Task<ActionResult<List<Product>>> GetProducts()
+
+
         {
 
-            var products = await _productsrepository.GetAllAsync();
+            var products = await _productsrepository.GetAllIncludingAsync(
+            p => p.ProductBrand,
+            p => p.ProductType,
+            p => p.Category
+        );
 
             return Ok(products);
 
         }
 
+
+
         [HttpGet("{id}")]
-        
-        public async Task <ActionResult<Product>> GetProduct(int id)
+
+        public async Task<ActionResult<Product>> GetProduct(int id)
         {
 
 
-            
+
             return await _productsrepository.GetByIdAsync(id);
 
         }
-        
+
+       
+    
+
+        [HttpPost]
+
+        public async Task<ActionResult<Product>> AddProduct(Product product) {
+
+            if (product == null) {
+
+                return BadRequest("The Product doesn't exist");
+
+               
+
+
+            }
+
+            if (product.StockQuantity < 0)
+            {
+                return BadRequest("Stock quantity cannot be negative.");
+            }
+
+            var createdProduct = await _productsrepository.AddAsync(product);
+
+            return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
+
+
+
+        }
+
+
+
+
+
+
+        //Update
+
+        [HttpPut("{id}")]
+
+        public async Task<ActionResult> UpdateProduct(int id, Product product)
+        {
+
+            if (id != product.Id)
+            {
+
+                return BadRequest("Product ID mismatch");
+
+
+            }
+
+             await _productsrepository.UpdateAsync(product);
+
+            return NoContent();
+
+
+
+        }
+
+        [HttpDelete("{id}")]
+
+        public async Task<ActionResult> DeleteProduct(int id)
+        {
+            var product = await _productsrepository.GetByIdAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            await _productsrepository.DeleteAsync(product.Id);
+
+            return NoContent();
+
+
+
+
+
+
+        }
+
 
 
     }

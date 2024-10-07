@@ -1,6 +1,7 @@
 ﻿
 
 using Amazon_eCommerce_API.Models;
+using Amazon_eCommerce_API.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -20,7 +21,9 @@ namespace Amazon_eCommerce_API.Data
 
         public DbSet <ProductType> ProductTypes { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
 
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
