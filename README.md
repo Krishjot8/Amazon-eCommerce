@@ -2,8 +2,9 @@
 
 Hello Guys, I this is an eCommerce Application resembling the real Amazon website. I used Angular for the Front End, .NET Core for the Backend and SQL Server for the database for this project. As of now, this is not a fully working project and exactly not all the features are included right now, but this eCommerce application will look as close to the real appliation as time goes on.
 
-To access the Backend for this project navigate to the master section to find the code. For the Frontend, go to the other branch.
+To access the Backend for this project navigate to the master section to find the code. For the Frontend, go to the main branch.
 
+In the backend, open the project and run the solution or project file.
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
