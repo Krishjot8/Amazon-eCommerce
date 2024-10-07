@@ -1,23 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AmazonBasicsComponent } from './amazon-basics/amazon-basics.component';
-import { AmazonHomeComponent } from './amazon-home/amazon-home.component';
-import { BestSellersComponent } from './best-sellers/best-sellers.component';
-import { BooksComponent } from './books/books.component';
-import { CustomerServiceComponent } from './customer-service/customer-service.component';
-import { FashionComponent } from './fashion/fashion.component';
-import { GiftCardsComponent } from './gift-cards/gift-cards.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { MusicComponent } from './music/music.component';
-import { NewReleasesComponent } from './new-releases/new-releases.component';
-import { PrimeComponent } from './prime/prime.component';
-import { RegistryComponent } from './registry/registry.component';
-import { RegisterComponent } from './register/register.component';
+import { AmazonBasicsComponent } from './pages/amazon-basics/amazon-basics.component';
+import { AmazonHomeComponent } from './pages/amazon-home/amazon-home.component';
+import { BestSellersComponent } from './pages/best-sellers/best-sellers.component';
+import { BooksComponent } from './pages/books/books.component';
+import { CustomerServiceComponent } from './pages/customer-service/customer-service.component';
+import { FashionComponent } from './pages/fashion/fashion.component';
+import { GiftCardsComponent } from './pages/gift-cards/gift-cards.component';
+import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './account/login/login.component';
+import { MusicComponent } from './pages/music/music.component';
+import { NewReleasesComponent } from './pages/new-releases/new-releases.component';
+import { PrimeComponent } from './pages/prime/prime.component';
+import { RegistryComponent } from './pages/registry/registry.component';
+import { RegisterComponent } from './account/register/register.component';
+import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
 
 const routes: Routes = [
-
-
   {
     path: '',
 
@@ -90,14 +89,15 @@ const routes: Routes = [
 
     component: RegisterComponent,
   },
+  {
+    path: 'movers&shakers',
+
+    component: MoversShakersComponent,
+  }
 ];
-
-
-
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

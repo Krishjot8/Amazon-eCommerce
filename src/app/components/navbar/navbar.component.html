@@ -1,0 +1,68 @@
+<div class="topbar">
+  <mat-toolbar class="toolbar1">
+    <img src="assets/amazon.jpg" style="cursor: pointer;" a routerLink="" alt="" height="60px" />
+
+    <input type="search" placeholder="Search Amazon" />
+
+    <div class="container">
+      <div class="signin" routerLink="/signin">
+        Hello, sign in<br />
+        <strong class="AandL">Account & Lists</strong>
+      </div>
+    </div>
+
+    <p style="color: white">Returns <br /><strong>& Orders</strong></p>
+  </mat-toolbar>
+
+  <mat-toolbar class="toolbar2">
+    <button (click)="drawer.toggle()" mat-icon-button>
+      <mat-icon style="color: white">menu</mat-icon>
+    </button>
+    <a routerLink="/gift-cards">Gift Cards</a>
+    <a routerLink="/bestsellers">Best Sellers</a>
+    <a routerLink="/stores">Amazon Basics</a>
+    <a routerLink="/help">Customer Service</a>
+    <a routerLink="/amazonprime">Prime</a>
+    <a routerLink="/new-releases">New Releases</a>
+    <a routerLink="/books">Books</a>
+    <a routerLink="/music">Music</a>
+    <a routerLink="/registries">Registry</a>
+    <a routerLink="/home-garden-kitchen-furniture-bedding">Amazon Home</a>
+    <a routerLink="/amazon-fashion">Fashion</a>
+  </mat-toolbar>
+
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer opened="false" mode="side">
+      <mat-nav-list>
+        <h3 class="sidebarmenus"><b>Trending</b></h3>
+        <mat-list-item>
+
+          <button routerLink="bestsellers" mat-button class="sidebarsubmenus">Best Sellers</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="new-releases" mat-button class="sidebarsubmenus">New Releases</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="movers&shakers" mat-button class="sidebarsubmenus"> Movers & Shakers </button>
+        </mat-list-item>
+        <hr>
+        <h3 class="sidebarmenus"><b>Help & Settings</b></h3>
+        <mat-list-item>
+          <button routerLink="/youraccount" mat-button class="sidebarsubmenus">Your Account</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="/signin" mat-button class="sidebarsubmenus">Sign In</button>
+        </mat-list-item>
+
+
+
+
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <div class="sidenav-content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

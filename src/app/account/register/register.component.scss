@@ -1,0 +1,52 @@
+.createAccount {
+  font-size: 25px;
+
+  font-family: Amazon;
+}
+
+div{
+  font-family: Amazon;
+  background-color: white;
+}
+
+img {
+  justify-content: right;
+}
+.inputlogin {
+  height: 2.2em;
+  border-radius: 8px;
+  width: 20em;
+}
+
+.container {
+  position: absolute;
+  left: 35%;
+  right: 30%;
+  top: 11%;
+  bottom: 10%;
+  box-sizing: border-box;
+  border-radius: 15px;
+  border: 1px solid rgb(219, 217, 217);
+}
+
+.submitbutton {
+  color: black;
+ font-family: Amazon;
+  border-color:2px solid black;
+  padding: 7px;
+  width: 20.55em;
+  height: 2.7em;
+  background-color: #ffd814;
+  cursor: pointer;
+  padding: 1px, 6px;
+  border-radius: 8px;
+  border: none;
+}
+.submitbutton:hover {
+  background-color: #d1b931fa;
+}
+
+.submitbutton:active {
+  background-color: #e8b621fa;
+  border: 3px solid turquoise;
+}

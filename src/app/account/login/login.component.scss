@@ -1,0 +1,68 @@
+.signin
+{
+
+font-size: 2em;
+
+}
+
+
+.amazonlogo{
+
+  justify-content: center;
+
+}
+.inputlogin{
+
+height: 2.2em;
+border-radius: 3px;
+width: 20em;
+
+
+}
+
+.AccountCreate{
+  height: 2.5em;
+  border-radius: 8px;
+  width: 25em;
+ position: absolute;
+ left: -44.00em;
+ right: 2em;
+ top:2em;
+ border: 1px solid rgb(219, 217, 217);
+background-color: white;
+}
+.container{
+
+position: absolute;
+left: 40em;
+right: 0em;
+top: 18em;
+bottom: 0em;
+margin: auto;
+border: 1px solid rgb(231, 231, 231);
+border-width: 0px;
+border-top: 2px;
+border-bottom: 2px;
+border-right: 2px;
+border-left: 2px;
+}
+
+.continuebutton{
+color: black;
+padding: 7px;
+width: 20.55em;
+height: 2.7em;
+background-color: #f8d00add;
+padding: 1px, 6px;
+border-radius: 8px;
+cursor: pointer;
+border: none
+}
+.continuebutton:hover{
+  background-color: #d1b931fa;
+}
+
+.continuebutton:active{
+  background-color: #e8b621fa;
+  border: 3px solid turquoise;
+}

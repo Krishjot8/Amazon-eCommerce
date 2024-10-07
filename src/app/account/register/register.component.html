@@ -1,0 +1,37 @@
+<div>
+  <img class="amazonlogo" src="assets/th.jpg" a routerLink="" alt="" height="40px" />
+  <div class="container">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+      <span class="createAccount">Create Account</span>
+      <br />
+      <br />
+      <span><strong>First Name</strong></span>
+      <br />
+      <input class="inputlogin" type="text" formControlName="firstName" placeholder="First Name" name="lastName" required />
+      <br />
+      <span><strong>Last Name</strong></span>
+      <br />
+      <input class="inputlogin" type="text" formControlName="lastName" placeholder="Last Name" name="lastName" required />
+      <br />
+      <span><strong>Email Address</strong></span>
+      <br />
+      <input class="inputlogin" type="email" formControlName="email" placeholder="Email Address" name="email" required />
+      <br />
+      <span><strong>Phone Number</strong></span>
+      <br />
+      <input class="inputlogin" type="tel" formControlName="mobilePhoneNumber" placeholder="Phone Number" name="mobilePhoneNumber" required />
+      <br />
+      <span><strong>Password</strong></span>
+      <br />
+      <input class="inputlogin" type="password" formControlName="password" placeholder="Password" name="password" required />
+      <br />
+      <span><strong>Confirm Password</strong></span>
+      <br />
+      <input class="inputlogin" type="password" formControlName="confirmPassword" placeholder="Confirm Password" name="confirmPassword" required />
+      <br />
+      <br />
+      <button type="submit" class="submitbutton">Create your Amazon Account</button>
+    </form>
+
+  </div>
+</div>
