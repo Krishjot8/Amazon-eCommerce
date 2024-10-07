@@ -1,6 +1,8 @@
-# AmazonECommerce
+# Amazon-eCommerce
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.5.
+Hello Guys, I this is an eCommerce Application resembling the real Amazon website. I used Angular for the Front End, .NET Core for the Backend and SQL Server for the database for this project. As of now, this is not a fully working project and exactly not all the features are included right now, but this eCommerce application will look as close to the real appliation as time goes on.
+
+To access the Backend for this project navigate to the master section to find the code. For the Frontend, go to the other branch.
 
 ## Development server
 
