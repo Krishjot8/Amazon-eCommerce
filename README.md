@@ -41,7 +41,7 @@ To debug SwaggerUI calls:
 
     When you run the project in debug mode, execution will pause at these breakpoints, allowing you to inspect the data and track down issues.
 
-![Amazon eCommerce API - How to Debug](https://github.com/Krishjot8/Amazon-eCommerce/main/Assets/README-images/Amazon-eCommerce%20API%20-%20How%20to%20Debug.png)
+![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/amazon-platform.png)
 
 
 
