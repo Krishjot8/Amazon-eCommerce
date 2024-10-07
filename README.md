@@ -12,7 +12,7 @@ To access the backend code, navigate to the 'master' branch. For the frontend co
 
 
 
-# Backend
+# Running the Backend
 
 To run the backend of this project, follow these steps:
 
