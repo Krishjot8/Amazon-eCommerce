@@ -41,15 +41,14 @@ To debug SwaggerUI calls:
 
     When you run the project in debug mode, execution will pause at these breakpoints, allowing you to inspect the data and track down issues.
 
-![Amazon eCommerce API - How to Debug](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/Amazon-eCommerce%20API%20-%20How%20to%20Debug.png)
+![Amazon eCommerce API - How to Debug](https://github.com/Krishjot8/Amazon-eCommerce/main/Assets/README-images/Amazon-eCommerce%20API%20-%20How%20to%20Debug.png)
 
 
 
 
 # Using SwaggerUI for Debugging
 
-![Amazon eCommerce API - Using SwaggerUI](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/
-Swagger UI.png)
+![Amazon eCommerce API - Using SwaggerUI](https://github.com/Krishjot8/Amazon-eCommerce/main/Assets/README-images/Swagger UI.png)
 
                     
 After setting up your breakpoints, you can run SwaggerUI and execute your API calls by pressing the Execute button. When you do this, a yellow arrow will appear on the left side of the code, indicating the current line of execution.
