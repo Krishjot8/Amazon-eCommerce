@@ -1,3 +1,6 @@
+![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/amazon-platform.png)
+
+
 # Amazon-eCommerce
 
 Hello Guys, I this is an eCommerce Application resembling the real Amazon website. I used Angular for the Front End, .NET Core for the Backend and SQL Server for the database for this project. As of now, this is not a fully working project and exactly not all the features are included right now, but this eCommerce application will look as close to the real appliation as time goes on.
