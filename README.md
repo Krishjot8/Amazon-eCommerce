@@ -34,6 +34,8 @@ To debug SwaggerUI calls:
 
 1. Navigate to the appropriate controller related to the operation you're testing (e.g., for CRUD operations on products, go to the ProductsController).
 2. In the controller, set breakpoints (represented by red dots) to pause the execution of the code. For example:
+
+   
         • Add a breakpoint next to the repository calls.
         • Place additional breakpoints at the starting curly bracket { and the return statement of the method you're debugging (e.g., GetProducts).
 
