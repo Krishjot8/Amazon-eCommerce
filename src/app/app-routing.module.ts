@@ -15,6 +15,7 @@ import { PrimeComponent } from './pages/prime/prime.component';
 import { RegistryComponent } from './pages/registry/registry.component';
 import { RegisterComponent } from './account/register/register.component';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
+import { VideoGamesComponent } from './pages/video-games/video-games.component';
 
 const routes: Routes = [
   {
@@ -93,6 +94,11 @@ const routes: Routes = [
     path: 'movers&shakers',
 
     component: MoversShakersComponent,
+  },
+  {
+    path: 'video-games',
+
+    component: VideoGamesComponent,
   }
 ];
 

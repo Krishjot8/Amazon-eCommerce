@@ -1,23 +1,58 @@
 <div class="topbar">
   <mat-toolbar class="toolbar1">
-    <img src="assets/amazon.jpg" style="cursor: pointer;" a routerLink="" alt="" height="60px" />
+    <img class="logo" src="assets/amazon.jpg"  a routerLink="" alt="" />
 
-    <input type="search" placeholder="Search Amazon" />
 
-    <div class="container">
-      <div class="signin" routerLink="/signin">
-        Hello, sign in<br />
-        <strong class="AandL">Account & Lists</strong>
+    <div class="search-bar-wrapper">
+
+
+
+<div class="dropdown-button">
+ <button class="dropdown" mat-button [matMenuTriggerFor]="menu">
+   All<mat-icon class="expand_more">expand_more</mat-icon>
+ </button>
+ <mat-menu #menu="matMenu">
+ <button mat-menu-item>Books</button>
+ <button mat-menu-item>Electronics</button>
+ <button mat-menu-item>Fashion</button>
+ <button mat-menu-item routerLink="/video-games">Video Games</button>
+ </mat-menu>
+</div>
+
+<input type="search" placeholder="Search Amazon"/>
+
+<button class="search-icon">
+<mat-icon>search</mat-icon>
+</button>
+
+    </div>
+
+
+
+    <div class="nav-sign-account">
+      <div routerLink="/signin">
+        <p>Hello, sign in</p>
+        <strong>Account & Lists</strong>
+
       </div>
     </div>
 
-    <p style="color: white">Returns <br /><strong>& Orders</strong></p>
+<div class="nav-return-orders">
+  <div routerLink="/orders">
+    <p>Returns</p>
+    <strong>& Orders</strong>
+  </div>
+
+</div>
+
+
+
   </mat-toolbar>
 
   <mat-toolbar class="toolbar2">
-    <button (click)="drawer.toggle()" mat-icon-button>
-      <mat-icon style="color: white">menu</mat-icon>
-    </button>
+    <div class="drawer-opener"> <button class="drawer-button" (click)="drawer.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon> All</button></div>
+
     <a routerLink="/gift-cards">Gift Cards</a>
     <a routerLink="/bestsellers">Best Sellers</a>
     <a routerLink="/stores">Amazon Basics</a>
@@ -30,6 +65,8 @@
     <a routerLink="/home-garden-kitchen-furniture-bedding">Amazon Home</a>
     <a routerLink="/amazon-fashion">Fashion</a>
   </mat-toolbar>
+
+
 
   <mat-drawer-container autosize>
     <mat-drawer #drawer opened="false" mode="side">

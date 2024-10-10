@@ -8,38 +8,99 @@ a:link {
   cursor: pointer;
 }
 
+a:hover {
+  border: 1px solid white;
+  padding: 2px;
+}
+
 a:visited {
   color: white;
   text-decoration: none;
 }
 
+a:active {
+  color: #1a98ff;
+}
+
 .toolbar2 {
   height: 3.2em;
   font-size: 14px;
+  width: 100%;
   font-family: Amazon;
   justify-content: space-evenly;
   background-color: #212f46;
 }
 
+.logo {
+  height: 60px;
+  cursor: pointer;
+}
+
+.logo:hover {
+  border: 1px solid white;
+}
+
 input {
-  height: 3.1em;
-  width: 45em;
-  margin-left: 21em;
-  margin-top: -0.2em;
+  height: 39px;
+  border: none;
+  width: 700px;
+  font-family: Amazon;
+  transform: translate(210px, -25px);
 }
 
-.AandL {
-  font-size: 12px;
-  font-family: Amazon;
+input:active {
+  color: #1a98ff;
 }
 
-.signin {
-  font-size: 12px;
-  margin-top: 1px;
-  margin-left: 9em;
-  font-family: Amazon;
+.nav-sign-account {
+  transform: translate(14.5em, 0.5em);
+}
+.nav-sign-account:hover {
+  border: 1px solid white;
+}
 
+.nav-sign-account strong {
+  font-size: 14px;
+  font-family: Amazon;
+  transform: translate(1px, -30px);
+}
+
+.nav-sign-account div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 2px;
+  font-size: 12px;
+  font-family: Amazon;
   color: white;
+  cursor: pointer;
+}
+
+.nav-return-orders {
+  color: white;
+  transform: translate(16em, 0.5em);
+}
+
+.nav-return-orders:hover {
+  border: 1px solid white;
+}
+
+.nav-return-orders strong {
+  font-size: 14px;
+  font-family: Amazon;
+  transform: translate(-1px, -30px);
+}
+
+.nav-return-orders div {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 2px;
+  font-size: 12px;
+  font-family: Amazon;
+  color: white;
+  cursor: pointer;
 }
 
 .login {
@@ -53,13 +114,68 @@ input {
   min-height: 650px;
 }
 
-.sidebarmenus
-{
-font-family: Amazon;
-margin-left: 27px;
+.sidebarmenus {
+  font-family: Amazon;
+  margin-left: 27px;
 }
 
-.sidebarsubmenus{
+.sidebarsubmenus {
+  font-family: Amazon;
+}
+
+.dropdown-button button {
+  height: 39px;
+  width: 4px;
 
   font-family: Amazon;
+  background-color: #e6e6e6;
+  transform: translate(158px, 20px);
+}
+
+.expand_more {
+  color: #686b6d;
+}
+.dropdown-button button:hover {
+  border: 1px solid white;
+}
+
+.dropdown-button button {
+  color: white;
+  font-family: Amazon;
+}
+
+.dropdown-button button:hover {
+  border: 1px solid white;
+}
+
+.toolbar2 .drawer-button mat-icon {
+  color: white;
+}
+
+.toolbar2 {
+  color: white;
+  font-family: Amazon;
+}
+
+.drawer-button {
+  font-family: Amazon;
+}
+
+.drawer-opener:hover {
+  width: 50px;
+  border: 1px solid white;
+}
+
+.search-icon {
+  background-color: rgb(143, 248, 255);
+  transform: translate(210px, -19px);
+  width: 3.3vw;
+  height: 5.5vh;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.search-icon:hover {
+  background-color: #1a98ff;
 }
