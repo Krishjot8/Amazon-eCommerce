@@ -17,10 +17,10 @@ import { MusicComponent } from './pages/music/music.component';
 import { RegistryComponent } from './pages/registry/registry.component';
 import { AmazonHomeComponent } from './pages/amazon-home/amazon-home.component';
 import { FashionComponent } from './pages/fashion/fashion.component';
-import { LoginComponent } from './account/login/login.component';
+import { LoginComponent } from './components/account/login/login.component';
 import {MatIconModule} from '@angular/material/icon';
 import { FooterComponent } from './components/footer/footer.component';
-import { RegisterComponent } from './account/register/register.component';
+import { RegisterComponent } from './components/account/register/register.component';
 import { CartComponent } from './components/cart/cart.component';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -30,9 +30,7 @@ import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.co
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
-import { VideoGameCarouselComponent } from './carousels/video-game-carousel/video-game-carousel.component';
-
-
+import { VideoGameCarouselComponent } from './components/carousels/video-game-carousel/video-game-carousel.component';
 @NgModule({
   declarations: [
     AppComponent,

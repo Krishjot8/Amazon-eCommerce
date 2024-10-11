@@ -8,12 +8,12 @@ import { CustomerServiceComponent } from './pages/customer-service/customer-serv
 import { FashionComponent } from './pages/fashion/fashion.component';
 import { GiftCardsComponent } from './pages/gift-cards/gift-cards.component';
 import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './account/login/login.component';
+import { LoginComponent } from './components/account/login/login.component';
 import { MusicComponent } from './pages/music/music.component';
 import { NewReleasesComponent } from './pages/new-releases/new-releases.component';
 import { PrimeComponent } from './pages/prime/prime.component';
 import { RegistryComponent } from './pages/registry/registry.component';
-import { RegisterComponent } from './account/register/register.component';
+import { RegisterComponent } from './components/account/register/register.component';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
 
