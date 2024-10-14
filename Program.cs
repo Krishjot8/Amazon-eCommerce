@@ -11,6 +11,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    
+    
+    });
+
+
+    //api localhost:44366
+
+});
 
 //Configuration
 
@@ -27,6 +43,7 @@ builder.Services.AddDbContext<StoreContext>(options =>
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
@@ -44,17 +61,9 @@ app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();
 
-/*
-using (var scope = app.Services.CreateScope())
-{
 
 
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<StoreContext>();
-    var dbInitializer = new DbInitializer(context);
-    await dbInitializer.InitializeAsync();
 
-}
-*/
+
 
     app.Run();

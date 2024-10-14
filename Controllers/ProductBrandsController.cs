@@ -17,9 +17,7 @@ namespace Amazon_eCommerce_API.Controllers
         private readonly IGenericRepository<ProductBrand> _productbrandrepository;
      
 
-        public ProductBrandsController( IGenericRepository<ProductBrand> productbrandrepository
-           )     
-
+        public ProductBrandsController( IGenericRepository<ProductBrand> productbrandrepository)
 
         {
           

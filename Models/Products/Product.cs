@@ -1,5 +1,7 @@
-﻿namespace Amazon_eCommerce_API.Models
-{
+﻿
+using Amazon_eCommerce_API.Models;
+
+
     public class Product : BaseModel
 
     {
@@ -25,4 +27,4 @@
        
 
     }
-}
+
