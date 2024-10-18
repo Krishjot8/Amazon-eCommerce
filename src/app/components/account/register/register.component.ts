@@ -13,63 +13,70 @@ export class RegisterComponent implements OnInit {
   registrationForm: FormGroup = new FormGroup({});
   submitted = false;
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private registerService: RegisterService
-  ) {}
+  constructor( private router: Router, private fb: FormBuilder, private registerService: RegisterService)
+  {
 
-  ngOnInit(): void {
     this.registrationForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      mobilePhoneNumber: ['', Validators.required],
+      username: ['',[Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required, Validators.minLength(6)],
-      confirmPassword: ['', Validators.required],
-    });
+      dateOfBirth:['',[Validators.required]],
+      phoneNumber: ['', [Validators.pattern(/^\+?[1-9]\d{0,14}$/)]],
+      password: ['', [Validators.required, Validators.minLength(6),
+        Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/)
+      ]],
+      confirmPassword: ['', [Validators.required]],
+      subscribeToNewsLetter:[false]
+    },
+      {
+        validators: this.passwordMatchValidator
+      });
+
+
   }
 
-  get f() {
-    return this.registrationForm.controls;
-  }
+  ngOnInit(): void {}
+
+
+
+private passwordMatchValidator (form: FormGroup){
+return form.get('password')?.value === form.get('confirmPassword')?.value
+?null: {mismatch:true};
+
+}
+
+
+
 
   onSubmit(): void {
-    this.submitted = true;
 
-    // Stop here if the form is invalid
-    if (this.registrationForm.invalid) {
-      return;
+if(this.registrationForm.valid){
+
+  const registrationData: UserRegistration = {
+    firstName: this.registrationForm.value.firstName,
+    lastName: this.registrationForm.value.lastName,
+    username:  this.registrationForm.value.username,
+    email:  this.registrationForm.value.email,
+    dateOfBirth: this.registrationForm.value.dateOfBirth ,
+    phoneNumber: this.registrationForm.value.phoneNumber,
+    password: this.registrationForm.value.password,
+    confirmPassword:this.registrationForm.value.confirmPassword,
+    subscribeToNewsLetter: false
+  };
+
+  this.registerService.registerUser(registrationData).subscribe({
+    next: (response) => {
+      console.log('Registration successful', response);
+      // Handle success (e.g., redirect to login)
+    },
+    error: (error) => {
+      console.error('Registration failed', error);
+      // Handle error (e.g., show error message)
     }
+  });
 
-    // Check if passwords match
-    if (
-      this.registrationForm.value.password !==
-      this.registrationForm.value.confirmPassword
-    ) {
-      alert('Passwords do not match');
-      return;
-    }
+}
 
-    const registrationData: UserRegistration = {
-      firstName: this.registrationForm.value.firstName,
-      lastName: this.registrationForm.value.lastName,
-      email: this.registrationForm.value.email,
-      mobilePhoneNumber: this.registrationForm.value.mobilePhoneNumber,
-      password: this.registrationForm.value.password,
-    };
-
-    /*
-    this.registerService.registerUser(registrationData).subscribe(
-      (response) => {
-        console.log('User registered successfully', response);
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        console.error('Error registering user', error);
-        alert('Registration failed. Please try again.');
-      }
-    );
-    */
   }
 }

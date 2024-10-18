@@ -16,11 +16,27 @@ font-size: 2em;
 height: 2.2em;
 border-radius: 3px;
 width: 20em;
-
+font-family: Amazon;
 
 }
 
-.AccountCreate{
+.container{
+
+  position: absolute;
+  left: 40em;
+  right: 0em;
+  top: 18em;
+  bottom: 0em;
+  margin: auto;
+  border: 1px solid rgb(231, 231, 231);
+  border-width: 0px;
+  border-top: 2px;
+  border-bottom: 2px;
+  border-right: 2px;
+  border-left: 2px;
+  }
+
+.account-create-button{
   height: 2.5em;
   border-radius: 8px;
   width: 25em;
@@ -30,22 +46,16 @@ width: 20em;
  top:2em;
  border: 1px solid rgb(219, 217, 217);
 background-color: white;
+font-family: Amazon;
+cursor: pointer;
 }
-.container{
 
-position: absolute;
-left: 40em;
-right: 0em;
-top: 18em;
-bottom: 0em;
-margin: auto;
-border: 1px solid rgb(231, 231, 231);
-border-width: 0px;
-border-top: 2px;
-border-bottom: 2px;
-border-right: 2px;
-border-left: 2px;
+.account-create-button:hover{
+  background-color: rgb(244, 244, 244);
 }
+
+
+
 
 .continuebutton{
 color: black;
@@ -56,10 +66,11 @@ background-color: #f8d00add;
 padding: 1px, 6px;
 border-radius: 8px;
 cursor: pointer;
-border: none
+border: none;
+font-family: Amazon;
 }
 .continuebutton:hover{
-  background-color: #d1b931fa;
+  background-color: #efcc07fa;
 }
 
 .continuebutton:active{
