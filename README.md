@@ -10,7 +10,7 @@ This is an eCommerce application inspired by the Amazon website. The frontend is
 To access the backend code, navigate to the 'master' branch. For the frontend code, check the 'main' branch. When downloading the project, if you're interested in the Angular frontend, make sure to switch to the 'main' branch before clicking the green code button to download the ZIP file. If you're looking for the .NET Core backend, switch to the 'master' branch before downloading.
 
 
-# Accessing Database Script
+# Creating & Accessing Database
 
 To access and create the Amazon-eCommerce database, you will have to first generate a SQL Script. I already have the Database script file in a folder for this branch.
 I recommend using any SQL Server IDE to generate and create your database to connect with this project.
