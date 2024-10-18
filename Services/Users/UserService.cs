@@ -2,6 +2,7 @@
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace Amazon_eCommerce_API.Services.Users
 {
@@ -20,7 +21,7 @@ namespace Amazon_eCommerce_API.Services.Users
         public async Task<User> AuthenticateUserAsync(UserLoginDto userLoginDto)
         {
             var user = await _storeContext.Users.SingleOrDefaultAsync(u => u.Email == userLoginDto.Email);
-            if (user == null || !await VerifyPasswordAsync(userLoginDto.Password, user.PasswordHash, user.PasswordSalt)) 
+            if (user == null || !await VerifyPasswordAsync(userLoginDto.Password, user.PasswordHash)) 
             
             { 
             
@@ -68,6 +69,13 @@ namespace Amazon_eCommerce_API.Services.Users
             throw new NotImplementedException();
         }
 
+        public async Task<string> HashPasswordAsync(string password)
+        {
+            var hashedPassword = await Task.Run(() => BCrypt.Net.BCrypt.HashPassword(password));
+
+            return hashedPassword;
+        }
+
         public Task<bool> IsEmailTakenAsync(string email)
         {
             throw new NotImplementedException();
@@ -78,11 +86,62 @@ namespace Amazon_eCommerce_API.Services.Users
             throw new NotImplementedException();
         }
 
-        public Task<User> RegisterUserAsync(UserRegistrationDto userRegistrationDto)
+        public async Task<User> RegisterUserAsync(UserRegistrationDto userRegistrationDto , string roleName)
         {
-            throw new NotImplementedException();
+
+            // Hash password 
+
+            var hashedPassword = await HashPasswordAsync(userRegistrationDto.Password);
+
+            var role = await _storeContext.UserRoles.FirstOrDefaultAsync(r => r.RoleName == roleName);
+
+
+            if (role == null) {
+
+
+                throw new Exception("Role not found");
+            }
+
+
+            //create new user
+            var user = new User
+            {
+                FirstName = userRegistrationDto.FirstName,
+                LastName = userRegistrationDto.LastName,
+                Username = userRegistrationDto.UserName,
+                Email = userRegistrationDto.Email,
+                PasswordHash = hashedPassword,
+                RoleId = role.Id,
+                Role = role
+
+
+            };
+
+            try {
+
+
+                await _storeContext.Users.AddAsync(user);
+                await _storeContext.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+
+
+            {
+
+                throw new Exception("An error occured while registering the user.", ex);
+                 
+            }
+
+           
+
+            return user;
+
         }
 
+
+
+   
         public Task<bool> ResetPasswordAsync(ForgotPasswordDto forgotPasswordDto)
         {
             throw new NotImplementedException();
@@ -103,14 +162,14 @@ namespace Amazon_eCommerce_API.Services.Users
             throw new NotImplementedException();
         }
 
-        public async Task<bool> VerifyPasswordAsync(string enteredPassword, byte[] storedHash, byte[] storedSalt)
+        public async Task<bool> VerifyPasswordAsync(string enteredPassword, string storedHash)
         {
 
-            string storedHashString = Convert.ToBase64String(storedHash);
-
-            return await Task.Run(() => BCrypt.Net.BCrypt.Verify(enteredPassword, storedHashString));
+            return await Task.Run(() => BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash));
 
 
         }
+
+    
     }
 }

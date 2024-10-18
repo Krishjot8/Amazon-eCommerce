@@ -25,6 +25,8 @@ namespace Amazon_eCommerce_API.Data
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<UserRole> UserRoles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -37,6 +39,12 @@ namespace Amazon_eCommerce_API.Data
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
+
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(u => u.RoleId);
 
 
 

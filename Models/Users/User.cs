@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -23,9 +24,17 @@ namespace Amazon_eCommerce_API.Models.Users
 
         public string Email { get; set; }
 
-        public byte[] PasswordHash { get; set; }
+        public string PasswordHash { get; set; }
 
-        public byte[] PasswordSalt { get; set; }
+
+        public int RoleId { get; set; }
+
+
+        [Required(ErrorMessage = "Role is required")]   
+
+            public UserRole Role { get; set; }
+
+       
 
 
 

@@ -9,7 +9,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<IEnumerable<User>> GetAllUsersAsync();
 
-        Task<User> RegisterUserAsync(UserRegistrationDto userRegistrationDto);
+        Task<User> RegisterUserAsync(UserRegistrationDto userRegistrationDto ,string roleName);
 
         Task<User> AuthenticateUserAsync(UserLoginDto userLoginDto);
 
@@ -31,12 +31,16 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<bool> IsUsernameTakenAsync(string username);
 
-        Task<bool> VerifyPasswordAsync(string enteredPassword, byte[] storedHash, byte[] storedSalt);
+        Task<string> HashPasswordAsync(string password);
+
+        Task<bool> VerifyPasswordAsync(string enteredPassword, string storedHash);
 
         Task<bool> ChangePasswordAsync(int userId, string newPassword);
 
         Task<bool> UpdateEmailAsync(int userId, string newEmail);
 
         Task<bool> ResetPasswordAsync(ForgotPasswordDto forgotPasswordDto);
+
+
     }
 }

@@ -22,7 +22,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}$", ErrorMessage = "Invalid format. Please use MM/DD/YYYY for Date of Birth.")]
 
-        public DateTime DateofBirth { get; set; }
+        public DateOnly DateofBirth { get; set; }
 
 
         [Required(ErrorMessage = "Your Username is Required")]
@@ -43,7 +43,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s
         [RegularExpression(@"^\+?[1-9]\d{0,14}$",
          ErrorMessage = "Invalid phone number format. Please enter a valid international phone number.")]
 
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
 
         public bool SubscribeToNewsLetter { get; set; }
