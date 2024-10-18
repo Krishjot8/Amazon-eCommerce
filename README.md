@@ -12,7 +12,7 @@ To access the backend code, navigate to the 'master' branch. For the frontend co
 
 # Creating & Accessing Database
 
-To access and create the Amazon-eCommerce database, you will have to first generate a SQL Script. I already have the Database script file in a folder for this branch.
+To access and create the Amazon-eCommerce database, you will have to first generate a SQL Script. I already have the database script file in a folder for this branch.
 I recommend using any SQL Server IDE to generate and create your database to connect with this project.
 
 1. Navigate to the .MSSQL Scripts folder.
