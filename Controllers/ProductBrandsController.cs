@@ -57,7 +57,6 @@ namespace Amazon_eCommerce_API.Controllers
         {
 
 
-
             return await _productbrandrepository.GetByIdAsync(id);
 
         }
@@ -107,9 +106,8 @@ namespace Amazon_eCommerce_API.Controllers
 
             return NoContent();
 
-
-
         }
+
 
 
         [HttpDelete("{id}")]
@@ -126,10 +124,6 @@ namespace Amazon_eCommerce_API.Controllers
             await _productbrandrepository.DeleteAsync(productbrand.Id);
 
             return NoContent();
-
-
-
-
 
 
         }

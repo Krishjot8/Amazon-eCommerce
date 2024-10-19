@@ -59,6 +59,32 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
+        [HttpGet]
+
+
+
+        public async Task<IActionResult> GetAllSellerAccounts() {
+
+            var user = await _userService.GetAllUsersAsync();
+
+
+            var selleruser = user.Where(e => e.RoleId == 3);
+
+
+            if (selleruser == null || !selleruser.Any()) {
+
+
+
+                return NotFound("The seller account you are looking for does not exist.");
+            }
+
+
+
+            return Ok(selleruser);
+        
+        }
+
+
 
 
     }

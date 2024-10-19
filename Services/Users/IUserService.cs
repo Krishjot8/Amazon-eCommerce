@@ -25,6 +25,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<bool> DeleteUserAsync(int userId);
 
+
         Task<bool> SubscribeToNewsLetterAsync(int userId);
 
         Task<bool> IsEmailTakenAsync(string email);

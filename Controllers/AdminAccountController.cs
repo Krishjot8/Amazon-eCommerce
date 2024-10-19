@@ -9,7 +9,7 @@ namespace Amazon_eCommerce_API.Controllers
     [ApiController]
     public class AdminAccountController : ControllerBase
     {
-        
+
         private readonly IUserService _userService;
 
         public AdminAccountController(IUserService userService)
@@ -20,9 +20,69 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
+        [HttpGet]
+
+        public async Task<IActionResult> GetAllAdminAccounts()
+        {
+
+
+            var users = await _userService.GetAllUsersAsync();
+
+
+            var adminUsers = users.Where(u => u.RoleId == 2).ToList();
+
+            if (adminUsers == null || !adminUsers.Any())
+            {
+
+
+                return NotFound("No admins were found.");
+
+            }
+
+
+
+
+
+
+            return Ok(adminUsers);
+
+
+
+        }
+
+
+
+
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetAdminAccountById(int Id)
+        {
+            var users = await _userService.GetAllUsersAsync();
+
+            // Find user by Id and ensure their RoleId is 2 (Admin)
+            var adminUser = users.FirstOrDefault(u => u.Id == Id && u.RoleId == 2);
+
+            if (adminUser == null)
+            {
+                return NotFound($"No admin found with user ID {Id}.");
+            }
+
+            return Ok(adminUser); // Return the admin user details
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         [HttpPost("register")]
 
-        public async Task<IActionResult> RegisterAdmin(UserRegistrationDto userRegistrationDto) 
+        public async Task<IActionResult>AdminRegister(UserRegistrationDto userRegistrationDto) 
         
         { 
         
@@ -55,6 +115,14 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         }
+
+
+
+
+
+
+
+
 
 
 

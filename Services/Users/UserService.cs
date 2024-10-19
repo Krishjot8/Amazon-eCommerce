@@ -44,9 +44,10 @@ namespace Amazon_eCommerce_API.Services.Users
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+
+            return await _storeContext.Users.ToListAsync();
         }
 
         public Task<User> GetUserByEmailAsync(string email)
@@ -56,7 +57,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         public Task<User> GetUserByIdAsync(int userId)
         {
-            throw new NotImplementedException();
+            return _storeContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
         public Task<User> GetUserByPhoneNumberAsync(string phoneNumber)
