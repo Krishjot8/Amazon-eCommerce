@@ -85,6 +85,30 @@ namespace Amazon_eCommerce_API.Controllers
         }
 
 
+        [HttpGet("{id}")]
+
+
+
+        public async Task<IActionResult> GetSellerAccount(int id)
+        {
+
+            var users = await _userService.GetAllUsersAsync();
+
+
+            var selleruser = users.FirstOrDefault(e => e.Id == id && e.RoleId == 3);
+
+            if(selleruser == null)
+            {
+
+                return NotFound($"There are no seller account with ID {id}");
+            }
+
+
+
+            return Ok(selleruser);
+
+
+        }
 
 
     }

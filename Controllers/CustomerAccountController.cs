@@ -1,5 +1,7 @@
-﻿using Amazon_eCommerce_API.Models.Users;
+﻿using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Users;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,12 @@ namespace Amazon_eCommerce_API.Controllers
     {
 
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public CustomerAccountController(IUserService userService)
+        public CustomerAccountController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
 
@@ -118,15 +122,66 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         }
+
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCustomerAccount(int id, [FromBody] UserUpdateDto userUpdateDto)
+        {
+            // Validate the model
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Fetch the user by ID from the user service
+            var customerUser = await _userService.GetUserByIdAsync(id); // You may need to implement this method
+
+            // Check if the user exists and is a customer
+            if (customerUser == null || customerUser.RoleId != 1)
+            {
+                return NotFound("The customer user you are trying to find does not exist or is not a customer.");
+            }
+
+            // Map the properties from UserUpdateDto to the customerUser entity
+            _mapper.Map(userUpdateDto, customerUser);
+
+            // Check if a new password is provided
+            if (!string.IsNullOrEmpty(userUpdateDto.NewPassword))
+            {
+                // Verify the current password
+                var passwordValid = await _userService.VerifyPasswordAsync(userUpdateDto.CurrentPassword, customerUser.PasswordHash);
+
+                if (!passwordValid)
+                {
+                    return BadRequest("Current Password is incorrect");
+                }
+
+                // Hash the new password and update it
+                customerUser.PasswordHash = await _userService.HashPasswordAsync(userUpdateDto.NewPassword);
+            }
+
+            // Save changes to the database
+            await _userService.UpdateUserAsync(id,userUpdateDto); // Ensure your UpdateUserAsync method accepts a User object
+
+            return Ok(new
+            {
+                Message = "Customer account updated successfully."
+            });
+        }
+
+
     }
+
 }
 
 
 
-        
 
 
-    
+
+
+
 
 
 
