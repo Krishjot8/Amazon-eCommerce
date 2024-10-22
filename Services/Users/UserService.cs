@@ -80,14 +80,19 @@ namespace Amazon_eCommerce_API.Services.Users
             return hashedPassword;
         }
 
-        public Task<bool> IsEmailTakenAsync(string email)
+        public async Task<bool> IsEmailTakenAsync(string email)
         {
-            throw new NotImplementedException();
+           var existingEmail = await _storeContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            return existingEmail != null;
         }
 
-        public Task<bool> IsUsernameTakenAsync(string username)
+      
+
+        public async Task<bool> IsUsernameTakenAsync(string username)
         {
-            throw new NotImplementedException();
+           var existingUsername = await _storeContext.Users.FirstOrDefaultAsync(x => x.Username == username);
+            return existingUsername != null;
         }
 
         public async Task<User> RegisterUserAsync(UserRegistrationDto userRegistrationDto , string roleName)
@@ -114,6 +119,7 @@ namespace Amazon_eCommerce_API.Services.Users
                 LastName = userRegistrationDto.LastName,
                 Username = userRegistrationDto.UserName,
                 Email = userRegistrationDto.Email,
+                PhoneNumber = userRegistrationDto.PhoneNumber,
                 PasswordHash = hashedPassword,
                 RoleId = role.Id,
                 Role = role

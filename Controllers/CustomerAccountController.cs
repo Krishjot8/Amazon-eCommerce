@@ -28,16 +28,34 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-        public async Task<IActionResult> RegisterCustomer(UserRegistrationDto userRegistrationDto)
+        public async Task<IActionResult> CustomerRegister(UserRegistrationDto userRegistrationDto)
 
         {
-
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            string roleName = "Customer";
+          var emailTaken = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
+            var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
 
+
+            if (emailTaken) {
+            
+            
+            return BadRequest($"The customer email address {userRegistrationDto.Email} is already taken.");  
+            
+            }
+
+            if (usernameTaken) {
+
+                return BadRequest($"The customer username {userRegistrationDto.UserName} is already taken.");
+            
+            }
+
+
+
+
+            string roleName = "Customer";
 
             var user = await _userService.RegisterUserAsync(userRegistrationDto, roleName);
 
@@ -46,11 +64,11 @@ namespace Amazon_eCommerce_API.Controllers
             if (user == null)
             {
 
-
                 return BadRequest("Customer Registration Failed");
 
-
             }
+
+           
 
 
             return Ok(new

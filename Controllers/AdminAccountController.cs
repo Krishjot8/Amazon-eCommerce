@@ -90,6 +90,24 @@ namespace Amazon_eCommerce_API.Controllers
               if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+
+              var emailTaken = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
+            var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
+
+            if (emailTaken) {
+
+
+                return BadRequest($"The admin email address {userRegistrationDto.Email} is already taken.");
+            }
+
+            if (usernameTaken) { 
+            
+            return BadRequest($"The admin username {userRegistrationDto.UserName} is already taken.");  
+            
+            }
+
+
+
             string roleName = "Admin";
 
 

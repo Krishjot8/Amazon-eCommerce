@@ -33,6 +33,8 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<bool> IsUsernameTakenAsync(string username);
 
+     
+
         Task<string> HashPasswordAsync(string password);
 
         Task<bool> VerifyPasswordAsync(string enteredPassword, string storedHash);

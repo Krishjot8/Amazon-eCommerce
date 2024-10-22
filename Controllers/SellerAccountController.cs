@@ -22,13 +22,34 @@ namespace Amazon_eCommerce_API.Controllers
 
         [HttpPost("register")]
 
-        public async Task<IActionResult> RegisterSeller(UserRegistrationDto userRegistrationDto) 
+        public async Task<IActionResult> SellerRegister(UserRegistrationDto userRegistrationDto) 
         
         { 
         
 
               if(!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+
+              var emailTaken  = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
+            var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
+
+
+            if (emailTaken) {
+
+                return BadRequest($"The seller email address {userRegistrationDto.Email} is already taken.");
+            
+            }
+
+            if (usernameTaken) {
+            
+
+                return BadRequest($"The seller username {userRegistrationDto.UserName} is already taken.");
+            
+            }
+
+
+
 
             string roleName = "Seller";
 

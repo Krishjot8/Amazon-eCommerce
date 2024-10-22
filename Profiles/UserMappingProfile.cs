@@ -25,7 +25,6 @@ namespace Amazon_eCommerce_API.Profiles
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.DateofBirth, opt => opt.Ignore()) // Ignoring DateofBirth as it's not in User
-                .ForMember(dest => dest.PhoneNumber, opt => opt.Ignore()) // Ignoring PhoneNumber as it's not in User
                 .ForMember(dest => dest.SubscribeToNewsLetter, opt => opt.Ignore()); // Ignore SubscribeToNewsLetter since it's not in User
 
         }

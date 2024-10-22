@@ -24,6 +24,13 @@ namespace Amazon_eCommerce_API.Models.Users
 
         public string Email { get; set; }
 
+
+        [Phone(ErrorMessage = "Invalid phone number format")]
+        [RegularExpression(@"^\+?[1-9]\d{0,14}$",
+     ErrorMessage = "Invalid phone number format. Please enter a valid international phone number.")]
+        public string PhoneNumber { get; set; }
+
+
         public string PasswordHash { get; set; }
 
 
