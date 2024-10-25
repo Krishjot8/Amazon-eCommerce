@@ -2,7 +2,7 @@
 
 namespace Amazon_eCommerce_API.Models.Users
 {
-    public class UserRegistrationDto
+    public class UserRegistrationDto          //Angular User Registration Entity
     {
 
         [Required(ErrorMessage = "Your First Name is required")]
@@ -35,10 +35,9 @@ namespace Amazon_eCommerce_API.Models.Users
         public string Email { get; set; }
 
 
-      
-        [Phone(ErrorMessage = "Invalid phone number format")]
-        [RegularExpression(@"^\+?[1-9]\d{0,14}$",
-        ErrorMessage = "Invalid phone number format. Please enter a valid international phone number.")]
+        [Phone(ErrorMessage = "Invalid phone number format.")]
+        [RegularExpression(@"^(\+?\d{1,3}[-. ]?)?(\(?\d{1,4}\)?[-. ]?)?(\d{1,4}[-. ]?)?(\d{1,4}[-. ]?)?(\d{1,9})$",
+      ErrorMessage = "Invalid phone number format. Please enter a valid phone number.")]
         public string PhoneNumber { get; set; }
 
 

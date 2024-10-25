@@ -142,7 +142,6 @@ namespace Amazon_eCommerce_API.Controllers
         }
 
 
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCustomerAccount(int id, [FromBody] UserUpdateDto userUpdateDto)
         {
@@ -153,7 +152,7 @@ namespace Amazon_eCommerce_API.Controllers
             }
 
             // Fetch the user by ID from the user service
-            var customerUser = await _userService.GetUserByIdAsync(id); // You may need to implement this method
+            var customerUser = await _userService.GetUserByIdAsync(id);
 
             // Check if the user exists and is a customer
             if (customerUser == null || customerUser.RoleId != 1)
@@ -164,29 +163,23 @@ namespace Amazon_eCommerce_API.Controllers
             // Map the properties from UserUpdateDto to the customerUser entity
             _mapper.Map(userUpdateDto, customerUser);
 
-            // Check if a new password is provided
-            if (!string.IsNullOrEmpty(userUpdateDto.NewPassword))
+            // Save changes to the database by calling UpdateUserAsync with the User entity
+            var isUpdated = await _userService.UpdateUserAsync(customerUser.Id, customerUser);
+
+            if (!isUpdated)
             {
-                // Verify the current password
-                var passwordValid = await _userService.VerifyPasswordAsync(userUpdateDto.CurrentPassword, customerUser.PasswordHash);
-
-                if (!passwordValid)
-                {
-                    return BadRequest("Current Password is incorrect");
-                }
-
-                // Hash the new password and update it
-                customerUser.PasswordHash = await _userService.HashPasswordAsync(userUpdateDto.NewPassword);
+                return StatusCode(500, "Error updating the user.");
             }
-
-            // Save changes to the database
-            await _userService.UpdateUserAsync(id,userUpdateDto); // Ensure your UpdateUserAsync method accepts a User object
 
             return Ok(new
             {
-                Message = "Customer account updated successfully."
+                Message = "Customer user account updated successfully."
             });
         }
+
+
+
+
 
 
     }

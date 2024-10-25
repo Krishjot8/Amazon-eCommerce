@@ -1,5 +1,7 @@
-﻿using Amazon_eCommerce_API.Models.Users;
+﻿using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Users;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +13,67 @@ namespace Amazon_eCommerce_API.Controllers
     {
 
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public AdminAccountController(IUserService userService)
+        public AdminAccountController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
+
+
+
+
+
+
+
+        [HttpPost("register")]
+
+        public async Task<IActionResult> AdminRegister(UserRegistrationDto userRegistrationDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+
+            var emailTaken = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
+            var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
+
+            if (emailTaken)
+            {
+
+                return BadRequest($"The admin email address {userRegistrationDto.Email} is already taken.");
+            }
+
+            if (usernameTaken)
+            {
+
+                return BadRequest($"The admin username {userRegistrationDto.UserName} is already taken.");
+
+            }
+
+            string roleName = "Admin";
+
+
+            var user = await _userService.RegisterUserAsync(userRegistrationDto, roleName);
+
+            if (user == null)
+            {
+
+                return BadRequest("Admin Registration Failed");
+
+            }
+
+            return Ok(new
+            {
+                Message = "Admin Registration Successful",
+                UserId = user.Id,  // Assuming your user model has an Id property
+                UserName = user.Username  // Returning the username for confirmation
+            });
+
+
+        }
+
+
 
 
 
@@ -25,28 +83,16 @@ namespace Amazon_eCommerce_API.Controllers
         public async Task<IActionResult> GetAllAdminAccounts()
         {
 
-
             var users = await _userService.GetAllUsersAsync();
-
 
             var adminUsers = users.Where(u => u.RoleId == 2).ToList();
 
             if (adminUsers == null || !adminUsers.Any())
             {
-
-
                 return NotFound("No admins were found.");
-
             }
 
-
-
-
-
-
             return Ok(adminUsers);
-
-
 
         }
 
@@ -54,7 +100,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetAdminAccountById(int Id)
+        public async Task<IActionResult> GetAdminAccount(int Id)
         {
             var users = await _userService.GetAllUsersAsync();
 
@@ -74,70 +120,49 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
+        [HttpPut("{id}")]
 
 
+        public async Task<IActionResult> UpdateAdminAccount(int id, UserUpdateDto userUpdateDto)
+        {
 
+            if (!ModelState.IsValid) {
 
-
-
-        [HttpPost("register")]
-
-        public async Task<IActionResult>AdminRegister(UserRegistrationDto userRegistrationDto) 
-        
-        { 
-        
-
-              if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-
-              var emailTaken = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
-            var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
-
-            if (emailTaken) {
-
-
-                return BadRequest($"The admin email address {userRegistrationDto.Email} is already taken.");
             }
 
-            if (usernameTaken) { 
-            
-            return BadRequest($"The admin username {userRegistrationDto.UserName} is already taken.");  
-            
+
+            var adminuser = await _userService.GetUserByIdAsync(id);
+
+            if (adminuser == null || adminuser.RoleId != 2) {
+
+                return NotFound("The admin user you are trying to update does not exist or is not an Admin");
+
             }
 
 
 
-            string roleName = "Admin";
+            _mapper.Map(userUpdateDto, adminuser);
+
+            var isUpdated = await _userService.UpdateUserAsync(adminuser.Id, adminuser);
+
+            if (!isUpdated) {
 
 
-            var user = await _userService.RegisterUserAsync(userRegistrationDto, roleName);
 
-
-
-            if (user == null) { 
-            
-            
-                 return BadRequest("Admin Registration Failed");
-              
-            
+                return StatusCode(500, "Error updating the admin user");
             }
-
 
             return Ok(new
             {
-                Message = "Admin Registration Successful",
-                UserId = user.Id,  // Assuming your user model has an Id property
-                UserName = user.Username  // Returning the username for confirmation
-            });
 
+                Message = "Admin user account updated successfully."
 
-        }
-
-
-
-
-
+            }
+         
+            );
+              }
 
 
 

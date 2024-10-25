@@ -1,6 +1,6 @@
 ﻿namespace Amazon_eCommerce_API.Models.DTO_s
 {
-    public class UserDto
+    public class UserDto        //Angular User Entity
     {
        
         public string FirstName { get; set; }

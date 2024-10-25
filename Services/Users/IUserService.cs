@@ -21,7 +21,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<User> GetUserByUsernameAsync(string username);
 
-        Task<bool> UpdateUserAsync(int userId, UserUpdateDto userUpdateDto);
+        Task<bool> UpdateUserAsync(int userId, User user);
 
 
         Task<bool> DeleteUserAsync(int userId);

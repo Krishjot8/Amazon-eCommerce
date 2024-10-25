@@ -26,6 +26,7 @@ namespace Amazon_eCommerce_API.Models.Users
 
 
         [Phone(ErrorMessage = "Invalid phone number format")]
+        [StringLength(20, ErrorMessage = "Phone Number cannot exceed 20 characters.")]
         [RegularExpression(@"^\+?[1-9]\d{0,14}$",
      ErrorMessage = "Invalid phone number format. Please enter a valid international phone number.")]
         public string PhoneNumber { get; set; }

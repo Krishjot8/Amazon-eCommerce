@@ -1,5 +1,7 @@
-﻿using Amazon_eCommerce_API.Models.Users;
+﻿using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Users;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,12 @@ namespace Amazon_eCommerce_API.Controllers
     {
         
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public SellerAccountController(IUserService userService)
+        public SellerAccountController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
 
@@ -26,43 +30,31 @@ namespace Amazon_eCommerce_API.Controllers
         
         { 
         
-
               if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-
 
               var emailTaken  = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
             var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
 
-
             if (emailTaken) {
 
                 return BadRequest($"The seller email address {userRegistrationDto.Email} is already taken.");
-            
+           
             }
 
             if (usernameTaken) {
             
-
                 return BadRequest($"The seller username {userRegistrationDto.UserName} is already taken.");
             
             }
 
-
-
-
             string roleName = "Seller";
-
 
             var user = await _userService.RegisterUserAsync(userRegistrationDto, roleName);
 
-
-
-            if (user == null) { 
+            if (user == null) {      
             
-            
-                 return BadRequest("Seller Registration Failed");
-              
+                 return BadRequest("Seller Registration Failed");        
             
             }
 
@@ -82,24 +74,17 @@ namespace Amazon_eCommerce_API.Controllers
 
         [HttpGet]
 
-
-
         public async Task<IActionResult> GetAllSellerAccounts() {
 
             var user = await _userService.GetAllUsersAsync();
 
-
             var selleruser = user.Where(e => e.RoleId == 3);
-
 
             if (selleruser == null || !selleruser.Any()) {
 
 
-
                 return NotFound("The seller account you are looking for does not exist.");
             }
-
-
 
             return Ok(selleruser);
         
@@ -107,8 +92,6 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         [HttpGet("{id}")]
-
-
 
         public async Task<IActionResult> GetSellerAccount(int id)
         {
@@ -125,10 +108,56 @@ namespace Amazon_eCommerce_API.Controllers
             }
 
 
-
             return Ok(selleruser);
 
 
+        }
+
+
+
+        [HttpPut("{id}")]
+
+
+        public async Task<IActionResult> UpdateSellerAccount(int id, UserUpdateDto userUpdateDto) 
+        {
+
+            if (!ModelState.IsValid) {
+
+                return BadRequest(ModelState);
+            
+            }
+        
+
+            var selleruser = await _userService.GetUserByIdAsync(id);
+
+            if (selleruser == null || selleruser.RoleId != 3) 
+            
+            {
+
+                return NotFound("The seller account you are trying to update does not exist or it is not a seller account.");
+            
+            }
+
+            _mapper.Map(userUpdateDto, selleruser);
+
+
+            var isUpdated = await _userService.UpdateUserAsync(selleruser.Id, selleruser);
+
+            if (!isUpdated) {
+
+                return StatusCode(500,"Error updating the seller account");     
+            }
+
+            return Ok(
+                new
+                {
+                    Message = "Seller account updated successfully."
+                }
+                );
+        
+        
+        
+        
         }
 
 

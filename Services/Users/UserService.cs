@@ -170,35 +170,21 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-        public async Task<bool> UpdateUserAsync(int userId, UserUpdateDto userUpdateDto)
+        public async Task<bool> UpdateUserAsync(int userId, User user)
         {
             // Retrieve the user from the database by ID
-            var user = await _storeContext.Users.FindAsync(userId);
+            var existingUser = await _storeContext.Users.FindAsync(userId);
 
-            if (user == null)
+            if (existingUser == null)
             {
                 return false; // Return false or throw an exception if the user is not found
             }
 
-            // Map the UserUpdateDto to the User entity (excluding password fields)
-            _mapper.Map(userUpdateDto, user);
-
-            // If the user wants to update the password
-            if (!string.IsNullOrEmpty(userUpdateDto.NewPassword))
-            {
-                // Verify the current password using the stored hash
-                var passwordValid = await VerifyPasswordAsync(userUpdateDto.CurrentPassword, user.PasswordHash);
-                if (!passwordValid)
-                {
-                    throw new Exception("Current password is incorrect");
-                }
-
-                // Hash the new password and update the PasswordHash field
-                user.PasswordHash = await HashPasswordAsync(userUpdateDto.NewPassword);
-            }
-
+           
+      
+     
             // Update the user entity in the database
-            _storeContext.Users.Update(user);
+            _storeContext.Users.Update(existingUser);
             var result = await _storeContext.SaveChangesAsync();
 
             return result > 0; // Return true if update was successful
