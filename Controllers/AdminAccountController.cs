@@ -123,7 +123,7 @@ namespace Amazon_eCommerce_API.Controllers
         [HttpPut("{id}")]
 
 
-        public async Task<IActionResult> UpdateAdminAccount(int id, UserUpdateDto userUpdateDto)
+        public async Task<IActionResult> UpdateAdminAccountDetails(int id, UserUpdateDto userUpdateDto)
         {
 
             if (!ModelState.IsValid) {
@@ -161,11 +161,59 @@ namespace Amazon_eCommerce_API.Controllers
 
             }
          
-            );
-              }
+            ); 
+        
+        
+        }
 
 
 
+
+        [HttpPut("update-password")]
+
+
+
+        public async Task<IActionResult> UpdateAdminAccountPassword(int userId, UserPasswordUpdateDto userPasswordUpdateDto)
+        {
+
+            if (!ModelState.IsValid) {
+
+                return BadRequest(ModelState);
+            
+            }
+        
+          var adminUser = await _userService.GetUserByIdAsync(userId);
+
+            if (adminUser == null || adminUser.RoleId != 2) {
+
+
+                return NotFound("The admin Password you are trying to update does not exist or is not an admin.");
+            
+            }
+
+            _mapper.Map(userPasswordUpdateDto,adminUser);
+
+
+            adminUser.PasswordHash = await _userService.HashPasswordAsync(userPasswordUpdateDto.NewPassword);
+
+
+            var isUpdated = await _userService.UpdateUserAsync(userId, adminUser);
+
+            if (!isUpdated) {
+
+                return StatusCode(500, "Error updating the admin password.");
+            
+            }
+
+            return Ok(new
+            { 
+            Message = "Admin password updated successfully."
+               
+            }
+                
+                );
+
+        }
 
 
 

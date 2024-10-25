@@ -39,7 +39,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<bool> VerifyPasswordAsync(string enteredPassword, string storedHash);
 
-        Task<bool> ChangePasswordAsync(int userId, string newPassword);
+        Task<bool> ChangePasswordAsync(int userId, UserPasswordUpdateDto userPasswordUpdateDto);
 
         Task<bool> UpdateEmailAsync(int userId, string newEmail);
 

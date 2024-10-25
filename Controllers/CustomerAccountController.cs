@@ -143,7 +143,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCustomerAccount(int id, [FromBody] UserUpdateDto userUpdateDto)
+        public async Task<IActionResult> UpdateCustomerAccountDetails(int id, [FromBody] UserUpdateDto userUpdateDto)
         {
             // Validate the model
             if (!ModelState.IsValid)
@@ -180,6 +180,55 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
+
+        [HttpPut("update-password")]
+
+
+
+        public async Task<IActionResult> UpdateCustomerAccountPassword(int userId, UserPasswordUpdateDto userPasswordUpdateDto)
+        {
+
+            if (!ModelState.IsValid) {
+            
+            return BadRequest(ModelState);
+            
+            }
+
+            var customerUser = await _userService.GetUserByIdAsync(userId);
+
+
+            if (customerUser == null || customerUser.RoleId != 1)
+            {
+
+                return NotFound("the customer password you are trying to update does not exist or the user is not a customer");
+            
+            
+            }
+
+
+            _mapper.Map(userPasswordUpdateDto, customerUser);
+
+            customerUser.PasswordHash = await _userService.HashPasswordAsync(userPasswordUpdateDto.NewPassword);
+
+
+            var isUpdated = await _userService.UpdateUserAsync(userId, customerUser);
+
+
+
+            if (!isUpdated)
+            {
+
+                return StatusCode(500,"Error updating the password");
+            
+            }
+
+            return Ok(new
+            {
+
+                Message = "Customer Password Updated successfully."
+
+            });
+        }
 
 
     }

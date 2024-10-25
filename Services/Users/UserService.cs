@@ -37,10 +37,37 @@ namespace Amazon_eCommerce_API.Services.Users
 
        
 
-        public Task<bool> ChangePasswordAsync(int userId, string newPassword)
+   
+        public async Task<bool> ChangePasswordAsync(int userId, UserPasswordUpdateDto userPasswordUpdateDto)
         {
-            throw new NotImplementedException();
+
+            //finds the user to change password
+            var existingUser = await _storeContext.Users.FindAsync(userId);
+
+            if (existingUser == null)
+            {
+                return false;
+            }
+
+            //Verify Current Password
+            if (!await VerifyPasswordAsync(userPasswordUpdateDto.CurrentPassword , existingUser.PasswordHash)) 
+            {
+
+                throw new UnauthorizedAccessException("Current password is incorrect");       
+            
+            }
+            existingUser.PasswordHash = await HashPasswordAsync(userPasswordUpdateDto.NewPassword);
+
+            _storeContext.Users.Update(existingUser);
+            var result = await _storeContext.SaveChangesAsync();
+            return result > 0;
+
         }
+
+
+
+
+
 
         public Task<bool> DeleteUserAsync(int userId)
         {

@@ -118,7 +118,7 @@ namespace Amazon_eCommerce_API.Controllers
         [HttpPut("{id}")]
 
 
-        public async Task<IActionResult> UpdateSellerAccount(int id, UserUpdateDto userUpdateDto) 
+        public async Task<IActionResult> UpdateSellerAccountDetails(int id, UserUpdateDto userUpdateDto) 
         {
 
             if (!ModelState.IsValid) {
@@ -156,6 +156,58 @@ namespace Amazon_eCommerce_API.Controllers
                 );
         
         
+        
+        
+        }
+
+
+
+        [HttpPut("update-password")]
+
+
+
+        public async Task<IActionResult> UpdateSellerAccountPassword(int userId, [FromBody] UserPasswordUpdateDto userPasswordUpdateDto) 
+        {
+
+            if (!ModelState.IsValid) { 
+            
+            
+                return BadRequest(ModelState);
+            }
+
+            var sellerUser = await _userService.GetUserByIdAsync(userId);
+
+            if (sellerUser == null || sellerUser.RoleId != 3)
+            {
+
+                return NotFound("The seller account you are looking for does not exist or it is not a seller account.");
+            
+            
+            }
+
+            _mapper.Map(userPasswordUpdateDto,sellerUser);
+
+            sellerUser.PasswordHash = await _userService.HashPasswordAsync(userPasswordUpdateDto.NewPassword);
+
+            var isUpdated = await _userService.UpdateUserAsync(userId, sellerUser);
+
+            if (!isUpdated)
+            {
+
+
+                return StatusCode(500, "Error updating the password");
+
+
+            }
+
+            return Ok(new
+
+            { 
+               Message = "The seller account password has been updated successfully."
+            }
+
+                );
+
         
         
         }
