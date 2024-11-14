@@ -11,7 +11,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<User> RegisterUserAsync(UserRegistrationDto userRegistrationDto ,string roleName);
 
-        Task<User> AuthenticateUserAsync(UserLoginDto userLoginDto);
+        Task<UserTokenResponseDto> AuthenticateUserAsync(UserLoginDto userLoginDto);
 
         Task<User> GetUserByIdAsync(int userId);
 

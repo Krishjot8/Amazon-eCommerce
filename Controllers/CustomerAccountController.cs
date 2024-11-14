@@ -1,9 +1,13 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s;
+﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.Users;
+using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Users;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Amazon_eCommerce_API.Controllers
 {
@@ -14,13 +18,20 @@ namespace Amazon_eCommerce_API.Controllers
 
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly ITokenService _tokenService;
+        private readonly StoreContext _storeContext;
 
-        public CustomerAccountController(IUserService userService, IMapper mapper)
+        public CustomerAccountController(IUserService userService, IMapper mapper, ITokenService tokenService, StoreContext storeContext)
         {
             _userService = userService;
             _mapper = mapper;
+            _tokenService = tokenService;
+            _storeContext = storeContext;
         }
 
+
+
+      
 
 
 
@@ -28,29 +39,30 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-        public async Task<IActionResult> CustomerRegister(UserRegistrationDto userRegistrationDto)
+         public async Task<IActionResult> CustomerRegister(UserRegistrationDto userRegistrationDto)
 
         {
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-          var emailTaken = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
+            var emailTaken = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
             var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
 
 
             if (emailTaken) {
-            
-            
-            return BadRequest($"The customer email address {userRegistrationDto.Email} is already taken.");  
-            
+
+
+                return BadRequest($"The customer email address {userRegistrationDto.Email} is already taken.");
+
             }
 
             if (usernameTaken) {
 
                 return BadRequest($"The customer username {userRegistrationDto.UserName} is already taken.");
-            
+
             }
+
 
 
 
@@ -68,7 +80,7 @@ namespace Amazon_eCommerce_API.Controllers
 
             }
 
-           
+
 
 
             return Ok(new
@@ -80,6 +92,62 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         }
+
+
+
+        [HttpPost("login")]
+        [Authorize]
+
+        public async Task<IActionResult> CustomerLogin([FromBody] UserLoginDto userLoginDto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+
+
+                return BadRequest(ModelState);
+            }
+
+            var customerUser = await _storeContext.Users
+                .Include(u => u.Role)
+                .SingleOrDefaultAsync(u => u.Email == userLoginDto.Email);
+
+            if (customerUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password, customerUser.PasswordHash))
+            {
+
+                return Unauthorized(new { message = "Invalid email or password" });
+
+
+            }
+
+            if (customerUser.RoleId != 1)
+            {
+
+                return Forbid("Only customers are allowed to log in");
+
+            }
+
+
+
+            var token = _tokenService.GenerateToken(customerUser);
+
+            var userTokenResponse = new UserTokenResponseDto
+            {
+
+                UserId = customerUser.Id,
+                Username = customerUser.Username,
+                Token = token
+
+            };
+
+            return Ok(userTokenResponse);
+
+
+
+
+        }
+
+
 
 
 
@@ -140,6 +208,109 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         }
+
+
+        [HttpGet("username")]
+
+        public async Task<IActionResult> GetCustomerAccountByUsername(string username)
+        
+        {
+
+
+            var customerUser = await _userService.GetUserByUsernameAsync(username);
+
+            if (customerUser == null || customerUser.RoleId != 1)
+            {
+
+                return NotFound("The customer user you are trying to find doesn't exist or is not a customer"); 
+            
+            
+            }
+
+            return Ok(customerUser);
+        
+        
+        }
+
+
+
+        [HttpGet("email")]
+
+        public async Task<IActionResult> GetCustomerAccountByEmail(string email)
+        { 
+        
+              var customerUser = await _userService.GetUserByEmailAsync(email);
+
+
+            if (customerUser == null || customerUser.RoleId != 1) {
+
+
+
+                return NotFound("The customer user you are trying to find does not exist or is not a customer.");
+            
+            }
+
+
+
+            return Ok(customerUser);
+        
+        }
+
+
+
+        [HttpGet("phoneNumber")]
+
+
+        public async Task<IActionResult> GetCustomerAccountbyPhoneNumber(string phoneNumber)
+        { 
+        
+            var customerUser = await _userService.GetUserByPhoneNumberAsync(phoneNumber);
+
+
+            if (customerUser == null || customerUser.RoleId != 1) { 
+            
+            
+            
+            return NotFound("The customer account you are trying to find does not exist or it is not a customer account.");
+            
+            }
+
+
+            return Ok(customerUser);
+        
+        
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         [HttpPut("{id}")]
@@ -230,6 +401,45 @@ namespace Amazon_eCommerce_API.Controllers
             });
         }
 
+
+
+        [HttpDelete("{id}")]
+
+
+        public async Task<IActionResult> DeleteCustomerUser(int id) 
+        {
+
+            var customerUser = await _userService.GetUserByIdAsync(id);
+
+
+            if (customerUser == null || customerUser.RoleId != 1)
+            {
+
+                return NotFound("The customer user you are trying to delete does not exist or is not a customer.");
+            
+            }
+       
+            var isDeleted = await _userService.DeleteUserAsync(id);
+
+            if (!isDeleted)
+            {
+
+                return StatusCode(500, "An error occured while attempting to delete the user.");
+
+            }
+
+            return Ok( new
+
+
+                {
+            
+                   Message = "Customer account deleted successfully."
+                 
+                }
+                
+                );
+        
+        }
 
     }
 

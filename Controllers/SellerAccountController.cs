@@ -114,6 +114,86 @@ namespace Amazon_eCommerce_API.Controllers
         }
 
 
+        [HttpGet("username")]
+
+
+        public async Task<IActionResult> GetSellerAccountByUsername(string username)
+        {
+
+            var sellerUser = await _userService.GetUserByUsernameAsync(username);
+
+            if(sellerUser == null || sellerUser.RoleId !=3)
+            {
+
+
+                return NotFound("The seller account you are trying to get does not exist or is not a seller account");
+
+
+            }
+
+
+            return Ok(sellerUser);
+        
+        
+        }
+
+
+
+
+
+
+
+
+        [HttpGet("email")]
+
+        public async Task<IActionResult>GetSellerAccountByEmail(string email)
+        {
+
+            var sellerUser = await _userService.GetUserByEmailAsync(email);
+
+            if(sellerUser == null || sellerUser.RoleId!=3)
+            {
+
+
+                return NotFound("The seller account you are trying to get does not exist or is not a seller account");
+
+
+            }
+
+            return Ok(sellerUser);
+
+        }
+
+
+
+
+
+
+
+        [HttpGet("phoneNumber")]
+
+
+        public async Task<IActionResult>GetSellerAccountByPhoneNumber(string phoneNumber)
+        {
+
+            var sellerUser = await _userService.GetUserByPhoneNumberAsync(phoneNumber);
+
+            if(sellerUser == null || sellerUser.RoleId !=3)
+            {
+
+
+                return NotFound("The seller account you are trying to get does not exist or it is not a seller account.");
+
+            }
+
+            return Ok(sellerUser);
+        }
+
+
+
+
+
+
 
         [HttpPut("{id}")]
 
@@ -211,6 +291,50 @@ namespace Amazon_eCommerce_API.Controllers
         
         
         }
+
+
+
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeleteSellerAccount(int id) {
+
+
+            var sellerUser = await _userService.GetUserByIdAsync(id);
+
+
+            if (sellerUser == null || sellerUser.RoleId != 3)
+            { 
+            
+            return NotFound("The seller user you are trying to delete does not exist or is not a seller.");
+            
+            }
+
+
+            var isDeleted = await _userService.DeleteUserAsync(id);
+
+
+            if (!isDeleted)
+            {
+
+                return StatusCode(500,"Error deleting seller account.");
+            
+            }
+
+
+            return Ok(new
+
+            { 
+               Message = "Seller account deleted successfully."
+            
+            }
+                
+                );
+
+
+        }
+
+
+
 
 
     }

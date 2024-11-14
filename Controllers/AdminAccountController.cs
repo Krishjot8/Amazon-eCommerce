@@ -2,6 +2,7 @@
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Users;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -75,6 +76,26 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
+        [HttpPost("login")]
+        [Authorize]
+
+        public async Task<IActionResult> AdminLogin([FromBody] UserLoginDto userLoginDto) 
+        
+        
+        { 
+        
+        
+
+
+        
+        
+        
+        
+        
+        }
+
+
+
 
 
 
@@ -114,6 +135,88 @@ namespace Amazon_eCommerce_API.Controllers
 
             return Ok(adminUser); // Return the admin user details
         }
+
+
+        [HttpGet("username")]
+
+
+
+        public async Task<IActionResult> GetAdminAccountByUsername(string username)
+        { 
+        
+
+            var adminUser = await _userService.GetUserByUsernameAsync(username);
+        
+        
+            if(adminUser == null || adminUser.RoleId !=2)
+            {
+
+                return NotFound("The admin account you are trying to get does not exist or is not an admin");
+
+
+            }
+
+            return Ok(adminUser);
+        }
+
+       
+        
+        
+        
+        
+        
+        [HttpGet("email")]
+
+        public async Task<IActionResult>GetAdminAccountByEmail(string email)
+        {
+
+            var adminUser = await _userService.GetUserByEmailAsync(email);
+
+
+            if(adminUser == null || adminUser.RoleId !=2)
+            {
+
+
+                return NotFound("The admin account you are trying to get does not exist or is not an admin");
+                
+                
+                
+                }
+
+
+            return Ok(adminUser);
+
+        }
+
+
+
+
+
+
+        
+        [HttpGet("phoneNumber")]
+
+        public async Task<IActionResult>GetAdminAccountByPhoneNumber(string phoneNumber)
+        {
+
+            var adminUser = await _userService.GetUserByPhoneNumberAsync(phoneNumber);
+
+
+            if(adminUser == null || adminUser.RoleId!=2)
+            {
+
+
+                return NotFound("The admin account you are trying to get does not exist or is not an admin");
+
+
+            }
+
+
+
+            return Ok(adminUser);
+        }
+
+
 
 
 
@@ -216,6 +319,43 @@ namespace Amazon_eCommerce_API.Controllers
         }
 
 
+
+
+        [HttpDelete("{id}")]
+
+
+        public async Task<IActionResult> DeleteAdminAccount(int id)
+        { 
+        
+        var adminUser = await _userService.GetUserByIdAsync(id);
+
+
+            if (adminUser == null || adminUser.RoleId != 2) {
+            
+                return NotFound("The admin account you are trying to delete does not exist or it is not a admin account.");         
+            
+            }
+
+
+            var isDeleted = await _userService.DeleteUserAsync(id);
+
+            if (!isDeleted) 
+            
+            {
+
+                return StatusCode(500, "Error deleting Admin User");
+            
+            }
+
+
+            return Ok(new
+            {
+               Message = "Admin user account deleted successfully."
+            }
+            );
+        
+        
+        }
 
 
 

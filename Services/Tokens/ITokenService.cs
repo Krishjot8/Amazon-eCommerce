@@ -1,8 +1,10 @@
-﻿namespace Amazon_eCommerce_API.Services
+﻿using Amazon_eCommerce_API.Models.Users;
+
+namespace Amazon_eCommerce_API.Services
 {
     public interface ITokenService
     {
 
-   // public string CreateToken(ApplicationUser user);
+          public string GenerateToken(User user);
     }
 }

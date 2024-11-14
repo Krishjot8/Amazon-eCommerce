@@ -12,16 +12,17 @@ namespace Amazon_eCommerce_API.Services.Users
     {
         private readonly StoreContext _storeContext;
         private readonly IMapper _mapper;
-
-        public UserService(StoreContext storeContext, IMapper mapper)
+        private readonly ITokenService _tokenService;
+        public UserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService)
         {
             _storeContext = storeContext;
             _mapper = mapper;
+            _tokenService = tokenService;
         }
 
 
 
-        public async Task<User> AuthenticateUserAsync(UserLoginDto userLoginDto)
+        public async Task<UserTokenResponseDto> AuthenticateUserAsync(UserLoginDto userLoginDto)
         {
             var user = await _storeContext.Users.SingleOrDefaultAsync(u => u.Email == userLoginDto.Email);
             if (user == null || !await VerifyPasswordAsync(userLoginDto.Password, user.PasswordHash)) 
@@ -32,7 +33,19 @@ namespace Amazon_eCommerce_API.Services.Users
             
             }
 
-            return user;
+            var token = _tokenService.GenerateToken(user);
+
+            var authResponse = new UserTokenResponseDto
+            {
+
+                UserId = user.Id,
+                Username = user.Username,
+                Token = token,
+
+
+            };
+
+            return authResponse;
         }
 
        
@@ -69,9 +82,25 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-        public Task<bool> DeleteUserAsync(int userId)
+        public async Task<bool> DeleteUserAsync(int userId)
         {
-            throw new NotImplementedException();
+           var user = await _storeContext.Users.FindAsync(userId);
+
+            if (user == null) 
+            
+            { 
+              return false;
+                
+            }
+
+            _storeContext.Users.Remove(user);
+
+            var result = await _storeContext.SaveChangesAsync();
+
+            return result > 0;
+
+
+
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
@@ -80,9 +109,9 @@ namespace Amazon_eCommerce_API.Services.Users
             return await _storeContext.Users.ToListAsync();
         }
 
-        public Task<User> GetUserByEmailAsync(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+          return await _storeContext.Users.SingleOrDefaultAsync(x => x.Email == email);
         }
 
         public Task<User> GetUserByIdAsync(int userId)
@@ -90,14 +119,17 @@ namespace Amazon_eCommerce_API.Services.Users
             return _storeContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public Task<User> GetUserByPhoneNumberAsync(string phoneNumber)
+        public async Task<User> GetUserByPhoneNumberAsync(string phoneNumber)
         {
-            throw new NotImplementedException();
+            return await _storeContext.Users.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
 
-        public Task<User> GetUserByUsernameAsync(string username)
+        public async Task<User> GetUserByUsernameAsync(string username)
         {
-            throw new NotImplementedException();
+           return await _storeContext.Users.SingleOrDefaultAsync(u => u.Username == username);
+
+
+
         }
 
         public async Task<string> HashPasswordAsync(string password)
