@@ -1,33 +1,60 @@
-.createAccount {
-  font-size: 25px;
+form span{
+  font-size: 30px;
 
   font-family: Amazon;
 }
 
-div{
-  font-family: Amazon;
-  background-color: white;
+  .registration-page{
+height: 100%;
+min-height: 1000px;
+background-color: rgb(255, 255, 255);
+  }
+
+  .registration-form{
+
+
+      }
+
+.amazonlogo {
+  text-align: center;
 }
 
-img {
-  justify-content: right;
-}
-.inputlogin {
-  height: 2.2em;
-  border-radius: 8px;
-  width: 20em;
-  font-family: Amazon;
-}
+label{
 
-.container {
+font-weight: bold;
+margin: 10px;
+padding-top: 2px;
+text-align: left;
+
+}
+.registration-container {
   position: absolute;
   left: 35%;
-  right: 30%;
-  top: 11%;
-  bottom: 10%;
+  right: 35%;
+  top: 1%;
+  bottom: 20%;
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 10px;
   border: 1px solid rgb(219, 217, 217);
+}
+
+
+.register-input {
+  height: 100%;
+  min-height: 28px;
+  border: 1px solid rgb(136, 136, 138);
+  border-radius: 6px;
+  width: 100%;
+  max-width: 80%;
+  font-family: Amazon;
+
+
+}
+
+.register-field{
+
+  margin-top: 15px;
+transform: translate(30px);
 }
 
 .submitbutton {

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -7,8 +8,12 @@ import { MatDrawer } from '@angular/material/sidenav';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+showNavbar = true;
 
-  constructor() { }
+  constructor(private router: Router) {
+
+
+  }
 
   @ViewChild('drawer', { static: false }) drawer!: MatDrawer;
 

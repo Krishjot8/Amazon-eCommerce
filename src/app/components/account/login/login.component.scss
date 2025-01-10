@@ -1,79 +1,74 @@
-.signin
-{
-
-font-size: 2em;
-
+.signin {
+  font-size: 210%;
+  margin-bottom: 10px;
+}
+.email {
+  font-weight: bold;
+  position: relative;
 }
 
+.amazon-authentication-logo {
+  width: 7%;
 
-.amazonlogo{
-
-  justify-content: center;
-
-}
-.inputlogin{
-
-height: 2.2em;
-border-radius: 3px;
-width: 20em;
-font-family: Amazon;
-
+  position: relative;
+  margin-left: 46.5%;
+  margin-right: 46.5%;
+  margin-top: 1%;
+  cursor: pointer;
 }
 
-.container{
+.inputlogin {
+  border-radius: 3px;
+  padding: 4px 64px;
+  font-family: Amazon;
+  border: 1px solid rgb(227, 227, 227);
+  background-color: aliceblue;
+}
 
-  position: absolute;
-  left: 40em;
-  right: 0em;
-  top: 18em;
-  bottom: 0em;
-  margin: auto;
-  border: 1px solid rgb(231, 231, 231);
-  border-width: 0px;
-  border-top: 2px;
-  border-bottom: 2px;
-  border-right: 2px;
-  border-left: 2px;
-  }
+.inputlogin:focus {
+  border: 1px solid cyan;
+}
 
-.account-create-button{
-  height: 2.5em;
+.container {
+  position: relative;
+
+  margin-left: 40%;
+  margin-right: 40%;
+}
+
+.account-create-button {
+  position: relative;
   border-radius: 8px;
-  width: 25em;
- position: absolute;
- left: -44.00em;
- right: 2em;
- top:2em;
- border: 1px solid rgb(219, 217, 217);
-background-color: white;
-font-family: Amazon;
-cursor: pointer;
+  width: 320px;
+  height: 30px;
+  margin: 0px -20px;
+  border: 1px solid rgb(219, 217, 217);
+  background-color: white;
+  font-family: Amazon;
+  cursor: pointer;
 }
 
-.account-create-button:hover{
+.account-create-button:hover {
   background-color: rgb(244, 244, 244);
 }
 
-
-
-
-.continuebutton{
-color: black;
-padding: 7px;
-width: 20.55em;
-height: 2.7em;
-background-color: #f8d00add;
-padding: 1px, 6px;
-border-radius: 8px;
-cursor: pointer;
-border: none;
-font-family: Amazon;
+.continuebutton {
+  color: black;
+  padding: 7px;
+  width: 20.55em;
+  height: 2.7em;
+  background-color: #f8d00add;
+  padding: 1px, 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-family: Amazon;
 }
-.continuebutton:hover{
+.continuebutton:hover {
   background-color: #efcc07fa;
 }
 
-.continuebutton:active{
+.continuebutton:active {
   background-color: #e8b621fa;
   border: 3px solid turquoise;
 }
