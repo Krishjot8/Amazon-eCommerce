@@ -1,15 +1,21 @@
-.signin {
+/*
+.sign-in-page{
+
+
+}
+ */
+.span-signin {
   font-size: 210%;
   margin-bottom: 10px;
 }
-.email {
+.span-email-mobile {
   font-weight: bold;
   position: relative;
+  margin-top: 22px;
 }
 
 .amazon-authentication-logo {
-  width: 7%;
-
+  width: 8%;
   position: relative;
   margin-left: 46.5%;
   margin-right: 46.5%;
@@ -18,24 +24,81 @@
 }
 
 .inputlogin {
-  border-radius: 3px;
-  padding: 4px 64px;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 270px;
+  height: 100%;
+  min-height: 25px;
   font-family: Amazon;
-  border: 1px solid rgb(227, 227, 227);
-  background-color: aliceblue;
+  border: 1px solid rgb(46, 46, 46);
+  background-color: rgb(248, 248, 248);
 }
 
 .inputlogin:focus {
   border: 1px solid cyan;
 }
 
-.container {
+.sign-in-container {
   position: relative;
-
   margin-left: 40%;
   margin-right: 40%;
+  margin-top: 5%;
+  border: 1px solid rgb(218, 217, 217);
+  border-radius: 12px;
+  padding-left: 30px;
+  padding-top: 25px;
+  height: 100%;
+  min-height: 300px;
+  width: 360px;
+  max-width: 350px;
 }
 
+
+.business-sign-in {
+  font-weight: bold;
+  font-family: Amazon;
+}
+
+.business-sign-in-link {
+  font-weight: 200;
+  font-family: Amazon;
+  margin-top: 5px;
+  text-decoration: none;
+}
+.business-sign-in-link a {
+  text-decoration: none;
+  color: #007185;
+}
+.business-sign-in-link a:hover {
+  color: rgb(209, 66, 0);
+}
+
+.sign-in-conditions-privacy {
+  font-family: Amazon;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 15px;
+  margin-right: 20%;
+  line-height: 120%;
+}
+
+hr {
+  width: 70%;
+  opacity: 30%;
+}
+.sign-in-conditions-privacy a:hover {
+  color: rgb(209, 66, 0);
+}
+
+.sign-in-conditions-privacy a {
+  color: #007185;
+}
+
+.sign-in-help {
+  font-family: Amazon;
+  font-size: 13px;
+  font-weight: 400;
+}
 .account-create-button {
   position: relative;
   border-radius: 8px;
@@ -52,17 +115,19 @@
   background-color: rgb(244, 244, 244);
 }
 
-.continuebutton {
+.submit-sign-in button {
   color: black;
   padding: 7px;
-  width: 20.55em;
-  height: 2.7em;
+  width: 100%;
+  max-width: 275px;
+  height: 100%;
   background-color: #f8d00add;
   padding: 1px, 6px;
-  border-radius: 8px;
+  border-radius: 18px;
   cursor: pointer;
   border: none;
   font-family: Amazon;
+  margin-top: 12px;
 }
 .continuebutton:hover {
   background-color: #efcc07fa;
@@ -71,4 +136,71 @@
 .continuebutton:active {
   background-color: #e8b621fa;
   border: 3px solid turquoise;
+}
+
+
+
+.h4-new-member h4{
+
+
+  margin: 10px;
+  padding: 0 10px; /* Space between the line and text */
+  position: relative;
+
+
+
+}
+
+.h4-new-member{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px ;
+
+
+}
+
+.h4-new-member h4::before,
+  .h4-new-member h4::after{
+
+    content: "";
+  position: absolute;
+  top: 50%;
+  width: 150%;
+  border-top: 1px solid #ccc; /* Line color */
+  }
+
+
+  .create-amazon-account-link-button
+{
+
+  text-align: center;
+}
+
+.create-amazon-account-link-button button
+{
+
+  width: 30%;
+  height: 100%;
+  min-height: 30px;
+  border-radius: 15px;
+  background-color: white;
+  border: 1px solid gray;
+  font-family: Amazon;
+  cursor: pointer;
+}
+
+.create-amazon-account-link-button button:hover
+{
+
+  background-color: rgb(246, 246, 246);
+
+}
+
+
+.create-amazon-account-link-button button:active
+{
+
+  background-color: rgb(232, 251, 255);
+  border: 3px solid #007185;
 }

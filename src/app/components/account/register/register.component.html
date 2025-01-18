@@ -6,62 +6,167 @@
 
       <div class="register-field">
         <label for="firstName">First Name</label>
-        <input class="register-input" type="text" name="firstName" formControlName="firstName" placeholder="First Name"
-          required />
+        <input class="register-input" type="text" name="firstName" formControlName="firstName"
+          [class.error-border]="registrationForm.get('firstName')?.touched  && registrationForm.get('firstName')?.invalid"
+          placeholder="First Name" />
+        <div class="register-errors"
+          *ngIf="registrationForm.get('firstName')?.touched && registrationForm.get('firstName')?.hasError('required')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Your first name is required</small>
+        </div>
+        <div class="register-errors" *ngIf="registrationForm.get('firstName')?.hasError('pattern')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Invalid first name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV' or
+            'XII'.</small>
+        </div>
       </div>
 
       <div class="register-field">
         <label for="lastName">Last Name</label>
-        <input class="register-input" type="text" name="lastName" formControlName="lastName" placeholder="Last Name"
-          required />
+        <input class="register-input" type="text" name="lastName" formControlName="lastName"
+          [class.error-border]="registrationForm.get('lastName')?.touched && registrationForm.get('lastName')?.invalid"
+          placeholder="Last Name" />
+        <div class="register-errors"
+          *ngIf="registrationForm.get('lastName')?.touched && registrationForm.get('lastName')?.hasError('required')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Your last name is required</small>
+        </div>
+        <div class="register-errors" *ngIf="registrationForm.get('lastName')?.hasError('pattern')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Invalid last name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV' or
+            'XII'.</small>
+        </div>
       </div>
 
       <div class="register-field">
         <label for="username">Username</label>
-        <input class="register-input" type="text" name="username" formControlName="username" placeholder="Username"
-          required />
+        <input class="register-input" type="text" name="username" formControlName="username"
+          [class.error-border]="registrationForm.get('username')?.touched && registrationForm.get('username')?.invalid"
+          placeholder="Username" />
+        <div class="register-errors"
+          *ngIf="registrationForm.get('username')?.touched && registrationForm.get('username')?.hasError('required')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Your username is required</small>
+        </div>
+        <div class="register-errors"
+          *ngIf="registrationForm.get('username')?.touched && !registrationForm.get('username')?.hasError('required') && registrationForm.get('username')?.invalid">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Username must be between 5-20 characters long</small>
+        </div>
       </div>
 
       <div class="register-field">
         <label for="email">Email Address</label>
-        <input class="register-input" type="email" name="email" formControlName="email" placeholder="Email Address"
-          required />
+        <input class="register-input" type="email" name="email" formControlName="email"
+          [class.error-border]="registrationForm.get('email')?.touched && registrationForm.get('email')?.invalid"
+          placeholder="Email Address" />
+        <div class="register-errors"
+          *ngIf="registrationForm.get('email')?.touched && registrationForm.get('email')?.hasError('required')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Your email address is required</small>
+        </div>
+        <div class="register-errors"
+          *ngIf="registrationForm.get('email')?.touched && !registrationForm.get('email')?.hasError('required') && registrationForm.get('email')?.invalid">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Invalid email format</small>
+        </div>
       </div>
 
       <div class="register-field">
         <label for="dateOfBirth">Date of Birth</label>
         <input class="register-input" type="date" name="dateOfBirth" formControlName="dateOfBirth"
-          placeholder="Date of Birth" required />
+          [class.error-border]="registrationForm.get('dateOfBirth')?.touched && registrationForm.get('dateOfBirth')?.hasError('required')"
+          placeholder="Date of Birth" />
+        <div class="register-errors"
+          *ngIf="registrationForm.get('dateOfBirth')?.touched && registrationForm.get('dateOfBirth')?.hasError('required')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Please select your date of birth</small>
+        </div>
       </div>
 
       <div class="register-field">
         <label for="phoneNumber">Phone Number</label>
-        <input class="register-input" type="tel" name="phoneNumber" formControlName="phoneNumber"
-          placeholder="Phone Number" required />
+        <input class="register-input" type="tel" name="phoneNumber"
+          [class.error-border]="registrationForm.get('phoneNumber')?.touched && registrationForm.get('phoneNumber')?.hasError('pattern')"
+          formControlName="phoneNumber" placeholder="ex: 123-456-7890" />
+        <div class="register-errors"
+          *ngIf="registrationForm.get('phoneNumber')?.touched && registrationForm.get('phoneNumber')?.hasError('pattern')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Invalid phone number format</small>
+        </div>
       </div>
 
       <div class="register-field">
         <label for="password">Password</label>
-        <input class="register-input" type="password" name="password" formControlName="password" placeholder="Password"
-          required />
+        <input class="register-input" type="password" name="password" formControlName="password"
+          [class.error-border]="registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid"
+          placeholder="Password" />
+        <div class="register-errors"
+          *ngIf=" registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Your password is required</small>
+        </div>
+        <div class="register-errors"
+          *ngIf="registrationForm.get('password')?.touched   && registrationForm.get('password')?.hasError('minlength') ">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Password must be at least 6 characters long</small>
+        </div>
+        <div class="register-errors"
+          *ngIf="registrationForm.get('password')?.touched  && registrationForm.get('password')?.hasError('pattern') && !registrationForm.get('password')?.hasError('minlength')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Password must contain at least one uppercase letter, one number, and one special character</small>
+        </div>
       </div>
 
       <div class="register-field">
         <label for="confirmPassword">Confirm Password</label>
         <input class="register-input" type="password" name="confirmPassword" formControlName="confirmPassword"
-          placeholder="Confirm Password" required />
+          [class.error-border]="registrationForm.get('confirmPassword')?.touched && registrationForm.get('confirmPassword')?.invalid"
+          placeholder="Re-enter Password" />
+        <div class="register-errors"
+          *ngIf="  registrationForm.get('confirmPassword')?.touched && registrationForm.get('confirmPassword')?.hasError('required') && registrationForm.get('confirmPassword')?.invalid">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Please re-enter your password</small>
+        </div>
+        <div class="register-errors"
+        *ngIf="registrationForm.get('confirmPassword')?.touched && registrationForm.get('confirmPassword')?.hasError('mismatch')">
+        <img src="assets/errors-icon.svg" alt="">
+        <small>Passwords do not match</small>
+      </div>
       </div>
 
-      <div class="register-field">
-        <label for="subscribeToNewsLetter">Subscribe To NewsLetter</label>
-        <input class="register-input" type="checkbox" name="subscribeToNewsLetter"
-          formControlName="subscribeToNewsLetter" required />
+      <hr>
+      <div class="newsletter-section">
+        <div class="subscribe-to-newsletter-title">
+          <h3>Subscribe to Newsletter</h3>
+        </div>
+        <div class="register-field">
+          <input class="register-input" id="newsletter-checkbox" type="checkbox" name="subscribeToNewsLetter"
+            formControlName="subscribeToNewsLetter" />
+          <div class="subscription-information">
+            <h4>We respect your privacy. By <em>subscribing,
+              </em> you agree to receive <br> occasional emails from us. You can
+              unsubscribe at any time.</h4>
+          </div>
+        </div>
       </div>
-
       <div class="submit-form">
-        <button type="submit" class="submitbutton">Verify Email</button>
+        <button type="submit" class="submitbutton">Verify Account</button>
       </div>
-
+      <hr>
+      <div class="terms-conditions">
+        <h5>By creating an account. You agree to Amazon's <a href="">Conditions of Use</a> and <a href="">Privacy
+            Notice</a>.</h5>
+      </div>
+      <hr>
+      <div class="business-login">
+        <h4 class="buy-for-work">Buying for work?</h4>
+        <h4><a href="">Create a free business account</a></h4>
+        <hr>
+        <div class="existing-account">
+          <h4>Already have an account? <a href="/signin">Sign In</a></h4>
+        </div>
+      </div>
     </form>
   </div>
 </div>
