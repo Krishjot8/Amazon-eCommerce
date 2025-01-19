@@ -16,7 +16,7 @@ import { RegistryComponent } from './pages/registry/registry.component';
 import { RegisterComponent } from './components/account/register/register.component';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
-
+import { VerifyEmailComponent } from './components/account/verify-email/verify-email.component';
 const routes: Routes = [
   {
     path: '',
@@ -99,6 +99,10 @@ const routes: Routes = [
     path: 'video-games',
 
     component: VideoGamesComponent,
+  },
+  {
+   path: 'verify-email',
+   component: VerifyEmailComponent
   }
 ];
 

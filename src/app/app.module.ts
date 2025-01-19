@@ -31,6 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
 import { VideoGameCarouselComponent } from './components/carousels/video-game-carousel/video-game-carousel.component';
+import { VerifyEmailComponent } from './components/account/verify-email/verify-email.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,8 +55,8 @@ import { VideoGameCarouselComponent } from './components/carousels/video-game-ca
     CartComponent,
     MoversShakersComponent,
     VideoGamesComponent,
-    VideoGameCarouselComponent
-
+    VideoGameCarouselComponent,
+    VerifyEmailComponent
 
 
 

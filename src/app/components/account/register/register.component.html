@@ -7,14 +7,12 @@
       <div class="register-field">
         <label for="firstName">First Name</label>
         <input class="register-input" type="text" name="firstName" formControlName="firstName"
-          [class.error-border]="registrationForm.get('firstName')?.touched  && registrationForm.get('firstName')?.invalid"
-          placeholder="First Name" />
-        <div class="register-errors"
-          *ngIf="registrationForm.get('firstName')?.touched && registrationForm.get('firstName')?.hasError('required')">
+          [class.error-border]="submitted   && registrationForm.get('firstName')?.invalid" placeholder="First Name" />
+        <div class="register-errors" *ngIf="submitted  && registrationForm.get('firstName')?.hasError('required')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Your first name is required</small>
         </div>
-        <div class="register-errors" *ngIf="registrationForm.get('firstName')?.hasError('pattern')">
+        <div class="register-errors" *ngIf=" submitted  && registrationForm.get('firstName')?.hasError('pattern')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Invalid first name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV' or
             'XII'.</small>
@@ -24,14 +22,12 @@
       <div class="register-field">
         <label for="lastName">Last Name</label>
         <input class="register-input" type="text" name="lastName" formControlName="lastName"
-          [class.error-border]="registrationForm.get('lastName')?.touched && registrationForm.get('lastName')?.invalid"
-          placeholder="Last Name" />
-        <div class="register-errors"
-          *ngIf="registrationForm.get('lastName')?.touched && registrationForm.get('lastName')?.hasError('required')">
+          [class.error-border]="submitted && registrationForm.get('lastName')?.invalid" placeholder="Last Name" />
+        <div class="register-errors" *ngIf="submitted  && registrationForm.get('lastName')?.hasError('required')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Your last name is required</small>
         </div>
-        <div class="register-errors" *ngIf="registrationForm.get('lastName')?.hasError('pattern')">
+        <div class="register-errors" *ngIf="submitted && registrationForm.get('lastName')?.hasError('pattern')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Invalid last name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV' or
             'XII'.</small>
@@ -41,15 +37,13 @@
       <div class="register-field">
         <label for="username">Username</label>
         <input class="register-input" type="text" name="username" formControlName="username"
-          [class.error-border]="registrationForm.get('username')?.touched && registrationForm.get('username')?.invalid"
-          placeholder="Username" />
-        <div class="register-errors"
-          *ngIf="registrationForm.get('username')?.touched && registrationForm.get('username')?.hasError('required')">
+          [class.error-border]="submitted  && registrationForm.get('username')?.invalid" placeholder="Username" />
+        <div class="register-errors" *ngIf="submitted  && registrationForm.get('username')?.hasError('required')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Your username is required</small>
         </div>
         <div class="register-errors"
-          *ngIf="registrationForm.get('username')?.touched && !registrationForm.get('username')?.hasError('required') && registrationForm.get('username')?.invalid">
+          *ngIf="submitted  && !registrationForm.get('username')?.hasError('required') && registrationForm.get('username')?.invalid">
           <img src="assets/errors-icon.svg" alt="">
           <small>Username must be between 5-20 characters long</small>
         </div>
@@ -58,15 +52,13 @@
       <div class="register-field">
         <label for="email">Email Address</label>
         <input class="register-input" type="email" name="email" formControlName="email"
-          [class.error-border]="registrationForm.get('email')?.touched && registrationForm.get('email')?.invalid"
-          placeholder="Email Address" />
-        <div class="register-errors"
-          *ngIf="registrationForm.get('email')?.touched && registrationForm.get('email')?.hasError('required')">
+          [class.error-border]="submitted  && registrationForm.get('email')?.invalid" placeholder="Email Address" />
+        <div class="register-errors" *ngIf="submitted  && registrationForm.get('email')?.hasError('required')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Your email address is required</small>
         </div>
         <div class="register-errors"
-          *ngIf="registrationForm.get('email')?.touched && !registrationForm.get('email')?.hasError('required') && registrationForm.get('email')?.invalid">
+          *ngIf="submitted && !registrationForm.get('email')?.hasError('required') && registrationForm.get('email')?.invalid">
           <img src="assets/errors-icon.svg" alt="">
           <small>Invalid email format</small>
         </div>
@@ -75,10 +67,9 @@
       <div class="register-field">
         <label for="dateOfBirth">Date of Birth</label>
         <input class="register-input" type="date" name="dateOfBirth" formControlName="dateOfBirth"
-          [class.error-border]="registrationForm.get('dateOfBirth')?.touched && registrationForm.get('dateOfBirth')?.hasError('required')"
+          [class.error-border]="submitted && registrationForm.get('dateOfBirth')?.hasError('required')"
           placeholder="Date of Birth" />
-        <div class="register-errors"
-          *ngIf="registrationForm.get('dateOfBirth')?.touched && registrationForm.get('dateOfBirth')?.hasError('required')">
+        <div class="register-errors" *ngIf="submitted && registrationForm.get('dateOfBirth')?.hasError('required')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Please select your date of birth</small>
         </div>
@@ -87,10 +78,10 @@
       <div class="register-field">
         <label for="phoneNumber">Phone Number</label>
         <input class="register-input" type="tel" name="phoneNumber"
-          [class.error-border]="registrationForm.get('phoneNumber')?.touched && registrationForm.get('phoneNumber')?.hasError('pattern')"
-          formControlName="phoneNumber" placeholder="ex: 123-456-7890" />
-        <div class="register-errors"
-          *ngIf="registrationForm.get('phoneNumber')?.touched && registrationForm.get('phoneNumber')?.hasError('pattern')">
+          [class.error-border]="submitted && registrationForm.get('phoneNumber')?.invalid
+          " formControlName="phoneNumber"
+          placeholder="ex: 123-456-7890" />
+        <div class="register-errors" *ngIf="submitted && registrationForm.get('phoneNumber')?.hasError('pattern')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Invalid phone number format</small>
         </div>
@@ -99,20 +90,18 @@
       <div class="register-field">
         <label for="password">Password</label>
         <input class="register-input" type="password" name="password" formControlName="password"
-          [class.error-border]="registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid"
-          placeholder="Password" />
-        <div class="register-errors"
-          *ngIf=" registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid">
+          [class.error-border]="submitted && registrationForm.get('password')?.invalid" placeholder="Password" />
+        <div class="register-errors" *ngIf=" submitted && registrationForm.get('password')?.hasError('required')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Your password is required</small>
         </div>
         <div class="register-errors"
-          *ngIf="registrationForm.get('password')?.touched   && registrationForm.get('password')?.hasError('minlength') ">
+          *ngIf="submitted && !registrationForm.get('password')?.hasError('required') &&registrationForm.get('password')?.hasError('minlength') ">
           <img src="assets/errors-icon.svg" alt="">
           <small>Password must be at least 6 characters long</small>
         </div>
         <div class="register-errors"
-          *ngIf="registrationForm.get('password')?.touched  && registrationForm.get('password')?.hasError('pattern') && !registrationForm.get('password')?.hasError('minlength')">
+          *ngIf="submitted && registrationForm.get('password')?.hasError('pattern') && !registrationForm.get('password')?.hasError('minlength')">
           <img src="assets/errors-icon.svg" alt="">
           <small>Password must contain at least one uppercase letter, one number, and one special character</small>
         </div>
@@ -121,18 +110,17 @@
       <div class="register-field">
         <label for="confirmPassword">Confirm Password</label>
         <input class="register-input" type="password" name="confirmPassword" formControlName="confirmPassword"
-          [class.error-border]="registrationForm.get('confirmPassword')?.touched && registrationForm.get('confirmPassword')?.invalid"
+          [class.error-border]="submitted && registrationForm.get('confirmPassword')?.invalid"
           placeholder="Re-enter Password" />
         <div class="register-errors"
-          *ngIf="  registrationForm.get('confirmPassword')?.touched && registrationForm.get('confirmPassword')?.hasError('required') && registrationForm.get('confirmPassword')?.invalid">
+          *ngIf="submitted && registrationForm.get('confirmPassword')?.hasError('required') && registrationForm.get('confirmPassword')?.invalid">
           <img src="assets/errors-icon.svg" alt="">
           <small>Please re-enter your password</small>
         </div>
-        <div class="register-errors"
-        *ngIf="registrationForm.get('confirmPassword')?.touched && registrationForm.get('confirmPassword')?.hasError('mismatch')">
-        <img src="assets/errors-icon.svg" alt="">
-        <small>Passwords do not match</small>
-      </div>
+        <div class="register-errors" *ngIf="submitted && registrationForm.get('confirmPassword')?.hasError('mismatch')">
+          <img src="assets/errors-icon.svg" alt="">
+          <small>Passwords do not match</small>
+        </div>
       </div>
 
       <hr>

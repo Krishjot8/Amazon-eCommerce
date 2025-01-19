@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterService } from './register.service';
 import { UserRegistration } from 'src/app/models/register.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -13,41 +14,46 @@ export class RegisterComponent implements OnInit {
   registrationForm: FormGroup = new FormGroup({});
   submitted = false;
 
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private registerService: RegisterService
-  ) {
+  )
+  {}
+
+  ngOnInit(): void {
+
     this.registrationForm = this.fb.group(
       {
-        firstName: ['', [Validators.required,
+        firstName: ['',
+          [Validators.required,
           Validators.maxLength(45),
           Validators.pattern(/^[A-Za-z' ]+([- ][A-Za-z' ]+)*( (IV|V|VI|VII|VIII|IX|X|XI|XII))?$/)]],
         lastName:  ['', [Validators.required,
           Validators.maxLength(45),
           Validators.pattern(/^[A-Za-z' ]+([- ][A-Za-z' ]+)*( (IV|V|VI|VII|VIII|IX|X|XI|XII))?$/)]],
-   username: ['', [Validators.required,Validators.minLength(5),Validators.maxLength(20)]],
+        username: ['', [Validators.required,Validators.minLength(5),Validators.maxLength(20)]],
         email: ['', [Validators.required, Validators.email]],
         dateOfBirth: ['', [Validators.required]],
-
         phoneNumber: ['', [Validators.pattern(/^(\+?\d{1,3}[-. ]?)?(\(?\d{1,4}\)?[-. ]?)?(\d{1,4}[-. ]?)?(\d{1,4}[-. ]?)?(\d{1,9})$/)]],
-
         password: ['', [ Validators.required, Validators.minLength(6),
             Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/),
-          ],
-        ],
-
+          ],],
         confirmPassword: ['', [Validators.required]],
         subscribeToNewsLetter: [false],
       },
-      {
-        validators: this.passwordMatchValidator,
-
-      }
+      {validators: this.passwordMatchValidator,}
     );
   }
 
-  ngOnInit(): void {}
+  ngOnDestroy():void{
+
+
+
+
+  }
+
 
   private passwordMatchValidator(formGroup: FormGroup) {
 
@@ -59,10 +65,10 @@ export class RegisterComponent implements OnInit {
 return null;
 
     }
-    if(confirmPasswordControl.errors && !confirmPasswordControl.errors['mismatch']){
+     if(confirmPasswordControl.errors && !confirmPasswordControl.errors['mismatch']){
 
-return null;
-    }
+  return null;
+      }
 
     if (passwordControl.value !== confirmPasswordControl.value) {
       confirmPasswordControl.setErrors({ mismatch: true }); // Set the error on confirmPassword
@@ -73,10 +79,12 @@ return null;
     return null;
   }
 
+
+
   onSubmit(): void {
 
     this.submitted = true;
-    
+
     if (this.registrationForm.valid) {
       const registrationData: UserRegistration = {
         firstName: this.registrationForm.value.firstName,
@@ -90,7 +98,7 @@ return null;
         subscribeToNewsLetter: false,
       };
 
-      console.log('Form Submitted', this.registrationForm.value);
+      console.log('Form Submitted', this.registrationForm.value, this.router.navigate(['verify-email']));
 
 
       this.registerService.registerUser(registrationData).subscribe({
@@ -99,6 +107,7 @@ return null;
           // Handle success (e.g., redirect to login)
           this.registrationForm.reset();
           this.submitted = false;
+           this.router.navigate(['verify-email'])
         },
         error: (error) => {
           console.error('Registration failed', error);
@@ -110,5 +119,9 @@ return null;
 
       this.registrationForm.markAllAsTouched();
     }
+
   }
-}
+
+
+  }
+
