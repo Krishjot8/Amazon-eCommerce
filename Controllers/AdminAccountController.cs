@@ -1,10 +1,13 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s;
+﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.Users;
+using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Users;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Amazon_eCommerce_API.Controllers
 {
@@ -15,11 +18,16 @@ namespace Amazon_eCommerce_API.Controllers
 
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly ITokenService _tokenService;
+        private readonly  StoreContext _storeContext;
+     
 
-        public AdminAccountController(IUserService userService, IMapper mapper)
+        public AdminAccountController(IUserService userService, IMapper mapper, StoreContext storeContext, ITokenService tokenService)
         {
             _userService = userService;
             _mapper = mapper;
+            _storeContext = storeContext;
+            _tokenService = tokenService;
         }
 
 
@@ -77,15 +85,57 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         [HttpPost("login")]
-        [Authorize]
+       
 
         public async Task<IActionResult> AdminLogin([FromBody] UserLoginDto userLoginDto) 
         
         
-        { 
-        
-        
+        {
 
+            if (!ModelState.IsValid) { 
+            
+                return BadRequest(ModelState);
+            
+            }
+
+
+            var adminUser = await _storeContext.Users.Include
+                (u => u.Role).SingleOrDefaultAsync(u => u.Email == userLoginDto.Email);
+
+        
+            if(adminUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password, adminUser.PasswordHash))
+            {
+
+
+                return Unauthorized(new { message = "Invalid email or password" });
+
+
+
+
+            }
+
+            if(adminUser.RoleId != 2)
+            {
+
+                return Forbid("Only Admins are allowed to Log in");
+
+
+            }
+
+            var token = _tokenService.GenerateToken(adminUser);
+
+
+            var userTokenResponse = new UserTokenResponseDto
+            {
+
+                UserId = adminUser.Id,
+                Username = adminUser.Username,
+                Token = token
+
+
+            };
+
+            return Ok(userTokenResponse);
 
         
         

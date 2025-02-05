@@ -1,9 +1,12 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s;
+﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.Users;
+using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Users;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Amazon_eCommerce_API.Controllers
 {
@@ -14,11 +17,15 @@ namespace Amazon_eCommerce_API.Controllers
         
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly ITokenService _tokenService;
+        private readonly StoreContext _storeContext;
 
-        public SellerAccountController(IUserService userService, IMapper mapper)
+        public SellerAccountController(IUserService userService, IMapper mapper, StoreContext storeContext, ITokenService tokenService)
         {
             _userService = userService;
             _mapper = mapper;
+            _storeContext = storeContext;
+            _tokenService = tokenService;
         }
 
 
@@ -67,6 +74,58 @@ namespace Amazon_eCommerce_API.Controllers
             });
 
 
+        }
+
+
+        [HttpPost("login")]
+
+
+        public async Task<IActionResult> SellerLogin([FromBody] UserLoginDto userLoginDto) {
+
+
+            if (!ModelState.IsValid)
+            {
+
+                return BadRequest(ModelState);
+
+            };
+
+            var sellerUser = await _storeContext.Users
+                .Include(u => u.Role)
+                .SingleOrDefaultAsync(u => u.Email == userLoginDto.Email);
+
+            if(sellerUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password,sellerUser.PasswordHash))
+            {
+
+                return Unauthorized(new {message = "Invalid Username or Password"});
+
+
+            }
+
+            if (sellerUser.RoleId != 3)
+            {
+
+                return Forbid("Only Amazon Sellers are allowed to login");
+
+            }
+
+            var token = _tokenService.GenerateToken(sellerUser);
+
+
+            var userTokenResponse = new UserTokenResponseDto
+            { 
+            
+                UserId = sellerUser.Id,
+                Username = sellerUser.Username,
+                Token = token
+            
+            
+            };
+
+            
+            return Ok(userTokenResponse);   
+        
+        
         }
 
 

@@ -208,13 +208,14 @@ namespace Amazon_eCommerce_API.Services.Users
 
         }
 
+      
 
-
-   
-        public Task<bool> ResetPasswordAsync(ForgotPasswordDto forgotPasswordDto)
+        public Task<bool> ResetPasswordAsync(UserForgotPasswordDto forgotPasswordDto)
         {
             throw new NotImplementedException();
         }
+
+      
 
         public Task<bool> SubscribeToNewsLetterAsync(int userId)
         {
@@ -249,7 +250,7 @@ namespace Amazon_eCommerce_API.Services.Users
             return result > 0; // Return true if update was successful
         }
 
-
+      
 
         public async Task<bool> VerifyPasswordAsync(string enteredPassword, string storedHash)
         {

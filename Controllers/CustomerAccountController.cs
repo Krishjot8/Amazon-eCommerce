@@ -96,8 +96,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         [HttpPost("login")]
-        [Authorize]
-
+       
         public async Task<IActionResult> CustomerLogin([FromBody] UserLoginDto userLoginDto)
         {
 
@@ -123,7 +122,7 @@ namespace Amazon_eCommerce_API.Controllers
             if (customerUser.RoleId != 1)
             {
 
-                return Forbid("Only customers are allowed to log in");
+                return Forbid("Only Amazon Customers are allowed to log in");
 
             }
 

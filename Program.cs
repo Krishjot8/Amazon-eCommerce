@@ -1,6 +1,8 @@
 using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Repositories;
 using Amazon_eCommerce_API.Services;
+using Amazon_eCommerce_API.Services.Cache;
+using Amazon_eCommerce_API.Services.Email;
 using Amazon_eCommerce_API.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -122,6 +124,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ICacheService, CacheService>();
+builder.Services.AddScoped<IEmailService,EmailService>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
