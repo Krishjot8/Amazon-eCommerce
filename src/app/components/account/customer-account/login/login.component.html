@@ -1,0 +1,51 @@
+<div class="sign-in-page">
+  <img class="amazon-authentication-logo" src="assets/amazon-authentication-logo.jpg" routerLink="" alt="" />
+  <div class="sign-in-container">
+    <div class="span-signin">
+      <span>Sign in or create account</span>
+    </div>
+    <div class="span-email-mobile">
+      <span>Email or mobile phone number</span>
+    </div>
+
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-sign-in" novalidate>
+      <div>
+        <input class="inputlogin" type="text" required formControlName="emailOrPhone"  [ngClass]="{ 'invalid': loginForm.get('emailOrPhone')?.invalid && touched}" />
+
+        <div class="error-message"  *ngIf= "errorMessage && touched"><img class="error-icon" src="assets/errors-icon.svg" alt="">{{errorMessage}}</div>
+
+
+        <div class="continue-sign-in">
+          <button type="submit">Continue</button>
+        </div>
+      </div>
+    </form>
+
+
+
+    <div class="sign-in-conditions-privacy">
+      <p>By continuing, you agree to Amazon's <a href="">Conditions
+          of Use</a> and <a href="">Privacy Notice</a>.</p>
+    </div>
+    <div class="sign-in-help">
+      <span>Need Help?</span>
+    </div>
+    <hr>
+    <div class="business-sign-in">
+      <span>Buying For Work?</span>
+      <div class="business-sign-in-link">
+        <a href="">Create a free business account</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="create-account-link">
+    <div class="h4-new-member">
+      <h4>New to Amazon?</h4>
+    </div>
+    <div>
+     <button class="create-amazon-account-button" routerLink="/register">Create your Amazon Account</button>
+    </div>
+  </div>
+</div>

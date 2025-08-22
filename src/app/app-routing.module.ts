@@ -8,15 +8,17 @@ import { CustomerServiceComponent } from './pages/customer-service/customer-serv
 import { FashionComponent } from './pages/fashion/fashion.component';
 import { GiftCardsComponent } from './pages/gift-cards/gift-cards.component';
 import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './components/account/login/login.component';
 import { MusicComponent } from './pages/music/music.component';
 import { NewReleasesComponent } from './pages/new-releases/new-releases.component';
 import { PrimeComponent } from './pages/prime/prime.component';
 import { RegistryComponent } from './pages/registry/registry.component';
-import { RegisterComponent } from './components/account/register/register.component';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
-import { VerifyEmailComponent } from './components/account/verify-email/verify-email.component';
+import { RegisterComponent } from './components/account/customer-account/register/register.component';
+import { CustomerLoginComponent } from './components/account/customer-account/login/login.component';
+import { VerifyEmailComponent } from './components/account/customer-account/verify-email/verify-email.component';
+import { LoginPasswordComponent } from './components/account/customer-account/login-password/login-password.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -83,7 +85,12 @@ const routes: Routes = [
   {
     path: 'signin',
 
-    component: LoginComponent,
+    component: CustomerLoginComponent,
+  },
+    {
+    path: 'login-password',
+
+    component: LoginPasswordComponent,
   },
   {
     path: 'register',
@@ -101,9 +108,9 @@ const routes: Routes = [
     component: VideoGamesComponent,
   },
   {
-   path: 'verify-email',
-   component: VerifyEmailComponent
-  }
+    path: 'verify-email',
+    component: VerifyEmailComponent,
+  },
 ];
 
 @NgModule({

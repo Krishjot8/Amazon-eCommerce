@@ -6,7 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { GiftCardsComponent } from './pages/gift-cards/gift-cards.component';
 import { BestSellersComponent } from './pages/best-sellers/best-sellers.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AmazonBasicsComponent } from './pages/amazon-basics/amazon-basics.component';
 import { CustomerServiceComponent } from './pages/customer-service/customer-service.component';
@@ -17,21 +17,29 @@ import { MusicComponent } from './pages/music/music.component';
 import { RegistryComponent } from './pages/registry/registry.component';
 import { AmazonHomeComponent } from './pages/amazon-home/amazon-home.component';
 import { FashionComponent } from './pages/fashion/fashion.component';
-import { LoginComponent } from './components/account/login/login.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from './components/footer/footer.component';
-import { RegisterComponent } from './components/account/register/register.component';
 import { CartComponent } from './components/cart/cart.component';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
-import {MatButtonModule} from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
 import { VideoGameCarouselComponent } from './components/carousels/video-game-carousel/video-game-carousel.component';
-import { VerifyEmailComponent } from './components/account/verify-email/verify-email.component';
+
+import { RegisterComponent } from './components/account/customer-account/register/register.component';
+import { VerifyEmailComponent } from './components/account/customer-account/verify-email/verify-email.component';
+import { CustomerLoginComponent } from './components/account/customer-account/login/login.component';
+import { BusinessRegisterComponent } from './components/account/business-account/business-register/business-register.component';
+import { BusinessVerifyEmailComponent } from './components/account/business-account/business-verify-email/business-verify-email.component';
+import { SellerLoginComponent } from './components/account/seller-account/seller-login/seller-login.component';
+import { SellerRegisterComponent } from './components/account/seller-account/seller-register/seller-register.component';
+import { SellerVerifyEmailComponent } from './components/account/seller-account/seller-verify-email/seller-verify-email.component';
+import { BusinessLoginComponent } from './components/account/business-account/business-login/business-login.component';
+import { LoginPasswordComponent } from './components/account/customer-account/login-password/login-password.component';
 
 @NgModule({
   declarations: [
@@ -49,17 +57,21 @@ import { VerifyEmailComponent } from './components/account/verify-email/verify-e
     RegistryComponent,
     AmazonHomeComponent,
     FashionComponent,
-    LoginComponent,
+    CustomerLoginComponent,
     FooterComponent,
     RegisterComponent,
     CartComponent,
     MoversShakersComponent,
     VideoGamesComponent,
     VideoGameCarouselComponent,
-    VerifyEmailComponent
-
-
-
+    VerifyEmailComponent,
+    BusinessLoginComponent,
+    BusinessRegisterComponent,
+    BusinessVerifyEmailComponent,
+    SellerLoginComponent,
+    SellerRegisterComponent,
+    SellerVerifyEmailComponent,
+    LoginPasswordComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -67,17 +79,14 @@ import { VerifyEmailComponent } from './components/account/verify-email/verify-e
     BrowserAnimationsModule,
     HttpClientModule,
     MatToolbarModule,
-   MatIconModule,
-   MatSidenavModule,
-   MatMenuModule,
-   MatListModule,
-   MatButtonModule,
-   ReactiveFormsModule,
-
-
-
+    MatIconModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatListModule,
+    MatButtonModule,
+    ReactiveFormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

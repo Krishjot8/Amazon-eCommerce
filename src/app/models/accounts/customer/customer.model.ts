@@ -1,12 +1,10 @@
-export interface UserRegistration {
+export interface Customer {
   firstName: string;
   lastName: string;
-  username: string;
+  userName: string;
   email: string;
   dateOfBirth: Date;
   phoneNumber?: string;
-  password: string;
-  confirmPassword : string;
   subscribeToNewsLetter: boolean;
 
 }

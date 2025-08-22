@@ -45,27 +45,30 @@ input {
   border: none;
   width: 700px;
   font-family: Amazon;
-  transform: translate(210px, -25px);
+
 }
 
 input:active {
   color: #1a98ff;
 }
 
-.nav-sign-account {
-  transform: translate(14.5em, 0.5em);
-}
-.nav-sign-account:hover {
-  border: 1px solid white;
-}
 
-.nav-sign-account strong {
-  font-size: 14px;
+
+//Nav-Sign In Account Styling
+
+.nav-sign-account-wrapper {
+   align-items: flex-start;
+   color: white;
+  cursor: pointer;
+
+  font-size: 12px;
   font-family: Amazon;
-  transform: translate(1px, -30px);
+  margin-left: 120px;
+  margin-top: 23px;
 }
 
-.nav-sign-account div {
+.nav-sign-account-text{
+ color: white;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -74,11 +77,31 @@ input:active {
   font-family: Amazon;
   color: white;
   cursor: pointer;
+
 }
+.nav-sign-account-text b {
+  font-size: 14px;
+  font-family: Amazon;
+  transform: translate(-1px, -30px);
+
+}
+
+.nav-sign-account-wrapper:hover {
+  border: 1px solid white;
+  border-radius: 2px;
+
+}
+
+
+
+
+
+//Nav Returns and Orders Styling
 
 .nav-return-orders {
   color: white;
-  transform: translate(16em, 0.5em);
+  margin-left: 35px;
+  margin-top: 24px;
 }
 
 .nav-return-orders:hover {
@@ -125,27 +148,31 @@ input:active {
 
 .dropdown-button button {
   height: 39px;
-  width: 4px;
+  min-width: 60px;
+  color: black;
 
+border-radius: 0%;
   font-family: Amazon;
-  background-color: #e6e6e6;
-  transform: translate(158px, 20px);
+  background-color: #d3d3d3;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
 }
 
-.expand_more {
-  color: #686b6d;
+.arrow_drop_down {
+  color: #000000;
 }
 .dropdown-button button:hover {
   border: 1px solid white;
 }
 
-.dropdown-button button {
-  color: white;
-  font-family: Amazon;
-}
 
-.dropdown-button button:hover {
-  border: 1px solid white;
+
+.dropdown-button button:active {
+border: 2px solid rgb(255, 153, 0);
 }
 
 .toolbar2 .drawer-button mat-icon {
@@ -166,17 +193,45 @@ input:active {
   border: 1px solid white;
 }
 
+.search-bar-wrapper{
+display: flex;
+align-items: center;
+max-width: 700px;
+border: 1px solid #ccc;
+overflow: hidden;
+background-color: white;
+margin-left: 180px;
+ border-top-left-radius: 5px;
+ border-bottom-left-radius: 5px;
+ border-top-right-radius: 5px;
+ border-bottom-right-radius: 5px;
+}
+
 .search-icon {
-  background-color: rgb(143, 248, 255);
-  transform: translate(210px, -19px);
-  width: 3.3vw;
-  height: 5.5vh;
-  border-radius: 5px;
+  background-color: #ffce12;
+  width: 50px;
+  height: 39px;
+
   border: none;
   cursor: pointer;
+ align-items: center;
+ justify-content: center;
+
 }
 
 .search-icon:hover {
-  background-color: #1a98ff;
+  background-color: #f8bd19;
+}
+.search-icon:active{
+
+
+border: 2px solid rgb(255, 153, 0);
+
+
 }
 
+.search-bar-wrapper:active{
+border: 2px solid rgb(255, 153, 0);
+
+
+}

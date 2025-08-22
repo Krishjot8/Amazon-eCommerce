@@ -1,15 +1,12 @@
 <div class="topbar">
   <mat-toolbar  class="toolbar1">
-    <img class="logo" src="assets/amazon.jpg"  a routerLink="" alt="" />
+    <img class="logo" src="assets/amazon.png"  a routerLink="" alt="" />
 
 
     <div class="search-bar-wrapper">
-
-
-
 <div class="dropdown-button">
  <button class="dropdown" mat-button [matMenuTriggerFor]="menu">
-   All<mat-icon class="expand_more">expand_more</mat-icon>
+   All<mat-icon class="arrow_drop_down">arrow_drop_down</mat-icon>
  </button>
  <mat-menu #menu="matMenu">
  <button mat-menu-item>Books</button>
@@ -29,12 +26,16 @@
 
 
 
-    <div class="nav-sign-account">
-      <div routerLink="/signin">
-        <p>Hello, sign in</p>
-        <strong>Account & Lists</strong>
+    <div class="nav-sign-account-wrapper">
+
+
+      <div class="nav-sign-account-text" routerLink="/signin">
+        <p>Hello, Sign in</p>
+        <b>Account & Lists</b>
 
       </div>
+
+
     </div>
 
 <div class="nav-return-orders">

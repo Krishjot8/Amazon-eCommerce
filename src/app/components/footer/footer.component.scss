@@ -1,27 +1,42 @@
 .footer {
-  height: 75%;
+  height: 600px;
   background-color: #212f46;
-  align-items: center;
+  text-align: center;
 }
 
 .footer2 {
-  height: 79%;
+  height: 500px;
   background-color: #0f1111;
 }
 
 table {
   display: flex;
   font-family: Amazon;
+
+  text-align: left;
+  justify-content: center;
 }
 
 table ul {
   list-style-type: none;
-  font-size: 70%;
   color: #dddddd;
+  margin-top: 45px;
+  cursor: pointer;
 }
+
+table li {
+margin-top: 8px;
+}
+
 
 .title {
   font-size: 110%;
   font-weight: bold;
   color: white;
+}
+
+hr{
+margin-top: 25px;
+
+border: 1px solid #3b547d;
 }

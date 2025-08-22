@@ -4,8 +4,25 @@
 
 }
  */
+
+.sign-in-container {
+  position: relative;
+  margin: 5% 38% 0% 38%;
+
+  border: 1px solid rgb(218, 217, 217);
+
+  border-radius: 12px;
+  padding-left: 30px;
+  padding-right: 0px;
+  padding-top: 25px;
+  height: 100%;
+  min-height: 300px;
+  width: 320px;
+  max-width: 350px;
+}
+
 .span-signin {
-  font-size: 210%;
+  font-size: 150%;
   margin-bottom: 10px;
 }
 .span-email-mobile {
@@ -28,31 +45,18 @@
   width: 100%;
   max-width: 270px;
   height: 100%;
-  min-height: 25px;
+  min-height: 30px;
+  font-size: 13px;
   font-family: Amazon;
-  border: 1px solid rgb(46, 46, 46);
+  border-radius: 3.5px;
+  border: 1.5px solid rgb(132, 131, 131);
   background-color: rgb(248, 248, 248);
 }
 
 .inputlogin:focus {
-  border: 1px solid cyan;
+  outline: none;
+  box-shadow: 0 0 0.2px 3px rgb(181, 237, 255);
 }
-
-.sign-in-container {
-  position: relative;
-  margin-left: 40%;
-  margin-right: 40%;
-  margin-top: 5%;
-  border: 1px solid rgb(218, 217, 217);
-  border-radius: 12px;
-  padding-left: 30px;
-  padding-top: 25px;
-  height: 100%;
-  min-height: 300px;
-  width: 360px;
-  max-width: 350px;
-}
-
 
 .business-sign-in {
   font-weight: bold;
@@ -67,10 +71,11 @@
 }
 .business-sign-in-link a {
   text-decoration: none;
-  color: #007185;
+  color: #2162a1;
 }
 .business-sign-in-link a:hover {
-  color: rgb(209, 66, 0);
+  color: #0f1111;
+  text-decoration: underline;
 }
 
 .sign-in-conditions-privacy {
@@ -82,40 +87,37 @@
   line-height: 120%;
 }
 
+//horizontal for buying for work
 hr {
-  width: 70%;
+  width: 100%;
+  transform: translate(-15px);
   opacity: 30%;
 }
 .sign-in-conditions-privacy a:hover {
-  color: rgb(209, 66, 0);
+  color: #0f1111;
+  text-decoration: underline;
 }
 
 .sign-in-conditions-privacy a {
-  color: #007185;
+  color: #2162a1;
 }
 
 .sign-in-help {
   font-family: Amazon;
   font-size: 13px;
   font-weight: 400;
+  color: #2162a1;
 }
-.account-create-button {
-  position: relative;
-  border-radius: 8px;
-  width: 320px;
-  height: 30px;
-  margin: 0px -20px;
-  border: 1px solid rgb(219, 217, 217);
-  background-color: white;
-  font-family: Amazon;
+
+.sign-in-help:hover {
+  color: #0f1111;
+  text-decoration: underline;
   cursor: pointer;
 }
 
-.account-create-button:hover {
-  background-color: rgb(244, 244, 244);
-}
+//Yellow Continue Button
 
-.submit-sign-in button {
+.continue-sign-in button {
   color: black;
   padding: 7px;
   width: 100%;
@@ -129,78 +131,82 @@ hr {
   font-family: Amazon;
   margin-top: 12px;
 }
-.continuebutton:hover {
+.continue-sign-in button:hover {
   background-color: #efcc07fa;
 }
 
-.continuebutton:active {
+.continue-sign-in button:active {
   background-color: #e8b621fa;
-  border: 3px solid turquoise;
 }
-
-
-
-.h4-new-member h4{
-
-
+//
+.h4-new-member h4 {
   margin: 10px;
   padding: 0 10px; /* Space between the line and text */
   position: relative;
-
-
-
 }
 
-.h4-new-member{
+.h4-new-member {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px ;
-
-
+  margin: 20px;
 }
 
-.h4-new-member h4::before,
-  .h4-new-member h4::after{
-
-    content: "";
+.h4-new-member h4::before {
+  content: "";
   position: absolute;
   top: 50%;
-  width: 150%;
+  width: 100%;
+  transform: translate(-143px, 0px);
   border-top: 1px solid #ccc; /* Line color */
-  }
-
-
-  .create-amazon-account-link-button
-{
-
-  text-align: center;
 }
 
-.create-amazon-account-link-button button
-{
+.h4-new-member h4::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translate(20px, 0px);
+  width: 100%;
+  border-top: 1px solid #ccc; /* Line color */
+}
 
+.create-amazon-account-button {
+  position: relative;
+  border-radius: 18px;
+  margin: 1% 36%;
   width: 30%;
   height: 100%;
-  min-height: 30px;
-  border-radius: 15px;
+  min-height: 35px;
+  border: 1px solid rgb(219, 217, 217);
   background-color: white;
-  border: 1px solid gray;
   font-family: Amazon;
   cursor: pointer;
+  justify-content: center;
 }
 
-.create-amazon-account-link-button button:hover
-{
+.create-amazon-account-button:hover {
+  background-color: rgb(244, 244, 244);
+}
 
-  background-color: rgb(246, 246, 246);
+.create-amazon-account-button:active {
+  background-color: rgb(234, 233, 233);
+}
+
+//error messages
+
+.error-message{
+
+  color:#Ba0933;
+  font-size: 12px;
+  margin-left: 5px;
 
 }
 
+.error-icon{
+ transform: translate(-4px,8px);
+}
 
-.create-amazon-account-link-button button:active
-{
+.inputlogin.invalid {
 
-  background-color: rgb(232, 251, 255);
-  border: 3px solid #007185;
+  border: 2px solid #Ba0933;
 }
