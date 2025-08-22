@@ -1,9 +1,11 @@
 ﻿using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.Users;
+using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace Amazon_eCommerce_API.Services.Users
 {
@@ -13,18 +15,50 @@ namespace Amazon_eCommerce_API.Services.Users
         private readonly StoreContext _storeContext;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
-        public UserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService)
+        private readonly ICacheService _cacheService;
+        public UserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService, ICacheService cacheService)
         {
             _storeContext = storeContext;
             _mapper = mapper;
             _tokenService = tokenService;
+            _cacheService = cacheService;
         }
 
 
 
         public async Task<UserTokenResponseDto> AuthenticateUserAsync(UserLoginDto userLoginDto)
+
+
+
+
+
         {
-            var user = await _storeContext.Users.SingleOrDefaultAsync(u => u.Email == userLoginDto.Email);
+
+
+
+            User user = null;
+
+
+            if (Regex.IsMatch(userLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+
+
+                user = await _storeContext.Users.SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
+
+
+
+            }
+
+            else
+            {
+
+                user = await _storeContext.Users.SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
+            
+            }
+
+
+
+
             if (user == null || !await VerifyPasswordAsync(userLoginDto.Password, user.PasswordHash)) 
             
             { 
@@ -208,14 +242,71 @@ namespace Amazon_eCommerce_API.Services.Users
 
         }
 
+
+
       
 
-        public Task<bool> ResetPasswordAsync(UserForgotPasswordDto forgotPasswordDto)
+        public async Task<bool> ResetPasswordAsync(UserForgotPasswordDto forgotPasswordDto)
         {
-            throw new NotImplementedException();
+
+            if (forgotPasswordDto.NewPassword != forgotPasswordDto.ReEnterPassword) 
+            
+            {
+                throw new ArgumentException("The password and confirmation password do not match");
+            
+            }
+
+
+            var user = await GetUserByEmailAsync(forgotPasswordDto.Email);
+
+            if (user == null)
+            {
+
+                throw new Exception("The user you are looking for does not exist");
+
+            }
+
+
+
+            var cachedOtp = await _cacheService.ValidateOtpAsync(forgotPasswordDto.Email,forgotPasswordDto.Otp);
+
+            if (cachedOtp == null) {
+
+
+
+                return false;
+            }
+
+            //Hash new password before updating
+
+
+            var hashedPassword = await HashPasswordAsync(forgotPasswordDto.NewPassword);
+
+
+            user.PasswordHash = hashedPassword;
+
+            var updateResult = await UpdateUserAsync(user.Id, user);
+
+
+            if (updateResult) {
+
+
+                await _cacheService.RemoveOtpAsync(forgotPasswordDto.Email);
+
+            }
+
+            return updateResult;
+
+
+
+
         }
 
       
+
+
+
+
 
         public Task<bool> SubscribeToNewsLetterAsync(int userId)
         {
@@ -241,10 +332,18 @@ namespace Amazon_eCommerce_API.Services.Users
             }
 
            
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;  
+            existingUser.Username = user.Username;
+            existingUser.Email = user.Email;
+            existingUser.PhoneNumber = user.PhoneNumber;
+            existingUser.IsEmailVerified = user.IsEmailVerified;
+
       
      
             // Update the user entity in the database
             _storeContext.Users.Update(existingUser);
+
             var result = await _storeContext.SaveChangesAsync();
 
             return result > 0; // Return true if update was successful

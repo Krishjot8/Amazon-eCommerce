@@ -50,8 +50,7 @@ builder.Services.AddSwaggerGen(c =>
              { 
              
              Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-             Id = "Bearer" +
-             ""
+             Id = "Bearer" + ""
              
              }
 
@@ -121,12 +120,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 //Repositories
 
+builder.Services.AddMemoryCache();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<IEmailService,EmailService>();
 builder.Services.AddAutoMapper(typeof(Program));
+
 
 var app = builder.Build();
 

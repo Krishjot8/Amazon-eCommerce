@@ -100,7 +100,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
             var adminUser = await _storeContext.Users.Include
-                (u => u.Role).SingleOrDefaultAsync(u => u.Email == userLoginDto.Email);
+                (u => u.Role).SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
 
         
             if(adminUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password, adminUser.PasswordHash))

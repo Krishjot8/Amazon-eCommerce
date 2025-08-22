@@ -19,10 +19,59 @@ namespace Amazon_eCommerce_API.Services.Email
             _cacheService = cacheService;
         }
 
-        public Task<bool> ResendEmailVerificationOtpAsync(string email)
+        public async Task<bool> ResendEmailVerificationOtpAsync(string email)
         {
-            throw new NotImplementedException();
+            var user = await _userService.GetUserByEmailAsync(email);
+
+            if (user == null) return false;
+
+
+            var otpLimit = await _cacheService.GetOtpRequestLimitAsync(email);
+
+            if (otpLimit != null && (DateTime.UtcNow - otpLimit.LastRequestTime).TotalMinutes < otpLimit.ExpirationMinutes)
+            {
+
+
+                return false;
+
+            }
+
+            //remove the old limit
+
+            await _cacheService.RemoveOtpRequestLimitAsync(email);
+
+            var otp = OneTimePasswordGenerator.GenerateOtp();
+
+            //generate new otp
+
+            await _cacheService.SetOtpAsync(email, new OtpCacheDto
+
+            {
+                Email = email,
+                Otp = otp,
+                ExpirationTime = DateTime.UtcNow.AddMinutes(10)
+            });
+
+
+
+            //generate new requestlimit
+
+            await _cacheService.SetOtpRequestLimitAsync(email, new OtpRequestLimitDto
+
+            {
+
+                Email = email,
+                LastRequestTime = DateTime.UtcNow,
+                ExpirationMinutes = 10
+
+
+            });
+
+            return await SendOtpEmailAsync(email,otp);
         }
+                
+                
+                    
 
 
 
@@ -118,7 +167,7 @@ namespace Amazon_eCommerce_API.Services.Email
         }
 
 
-        private string GetEmailTemplate(string otp) 
+        public string GetEmailTemplate(string verificationCode) 
         
         {
 
@@ -161,8 +210,15 @@ namespace Amazon_eCommerce_API.Services.Email
                             <img src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' alt='Amazon'>
                         </div>
                         <p>Your One-Time Password (OTP) is:</p>
-                        <div class='otp'>{otp}</div>
-                        <p>Don't share this OTP with anyone. Amazon takes your security seriously.</p>
+                        <div class='otp'>{verificationCode}</div>
+                        <p>Don't share this OTP with anyone. Amazon takes your account security very seriously.
+                        Amazon Customer Service will never ask you to disclose or verify your Amazon password. OTP, credit
+                        card, or banking account number. If you recieve a suspicious email with a link to update your account
+                        information, do not click on the link-- instead, report the email to Amazon for investigation.
+                        </p>
+
+                        <p>Thank you</p>
+
                         <div class='footer'>
                             &copy; 2025 Amazon.com, Inc. or its affiliates. All rights reserved.
                         </div>
@@ -180,9 +236,108 @@ namespace Amazon_eCommerce_API.Services.Email
 
 
 
-        public Task<bool> VerifyEmailOtpAsync(UserVerifyEmailDto dto)
+        public async Task<bool> VerifyEmailOtpAsync(UserVerifyEmailDto dto)
         {
-            throw new NotImplementedException();
+
+            if (dto.IsResendRequest)
+            {
+
+                var user = await _userService.GetUserByEmailAsync(dto.Email);
+
+                if (user == null) return false;
+
+
+                //check if user can request a new OTP
+
+                var canRequestOtp = await _cacheService.CanRequestOtpAsync(dto.Email);
+                if (!canRequestOtp) return false;
+
+
+                var newOtp = OneTimePasswordGenerator.GenerateOtp();
+
+
+
+                //cache new otp with expirationTime
+
+                var otpCacheDto = new OtpCacheDto
+                { 
+                
+                    Email = dto.Email,
+                    Otp = newOtp,
+                    ExpirationTime = DateTime.UtcNow.AddMinutes(10)
+
+                
+                
+                };
+
+                await _cacheService.SetOtpAsync(dto.Email, otpCacheDto);
+
+
+                //Apply Request Limit
+
+
+                await _cacheService.SetOtpRequestLimitAsync(dto.Email, new OtpRequestLimitDto
+                {
+                    Email = dto.Email,
+                    LastRequestTime = DateTime.UtcNow,
+                    ExpirationMinutes = 1
+
+
+
+                });
+
+                await SendOtpEmailAsync(dto.Email, newOtp);
+
+
+                return true;
+
+            }
+
+
+            // Handle OTP verification
+
+
+
+            var cachedOtpDto = await _cacheService.GetOtpAsync(dto.Email);
+            if(cachedOtpDto == null || cachedOtpDto.ExpirationTime <= DateTime.UtcNow)
+            {
+
+                await _cacheService.RemoveOtpAsync(dto.Email);
+                return false;
+
+
+            } 
+
+
+            if(cachedOtpDto.Otp != dto.OTP) return false;
+
+
+            //email verified
+
+
+            var existingUser = await _userService.GetUserByEmailAsync(dto.Email);
+
+
+            if(existingUser == null) return false;
+
+
+            existingUser.IsEmailVerified = true;
+
+            bool updateResult = await _userService.UpdateUserAsync(existingUser.Id, existingUser);
+
+            if (!updateResult)
+            {
+
+
+                return false; //User Update Failed
+            };
+
+            await _cacheService.RemoveOtpAsync(dto.Email);  //remove otp after successful verification
+
+            return true;
+
+
+
         }
     }
 }

@@ -42,9 +42,9 @@ namespace Amazon_eCommerce_API.Models.Users
 
             public UserRole Role { get; set; }
 
-       
 
 
+        public bool IsEmailVerified { get; set; } = false;
 
 
     }

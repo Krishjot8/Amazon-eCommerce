@@ -16,6 +16,9 @@ namespace Amazon_eCommerce_API.Services.Email
 
         Task<bool> ResendEmailVerificationOtpAsync(string email);
 
+        string GetEmailTemplate(string verificationCode);
+
+
 
 
     }

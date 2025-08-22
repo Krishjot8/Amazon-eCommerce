@@ -92,7 +92,7 @@ namespace Amazon_eCommerce_API.Controllers
 
             var sellerUser = await _storeContext.Users
                 .Include(u => u.Role)
-                .SingleOrDefaultAsync(u => u.Email == userLoginDto.Email);
+                .SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
 
             if(sellerUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password,sellerUser.PasswordHash))
             {

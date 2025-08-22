@@ -7,10 +7,12 @@ namespace Amazon_eCommerce_API.Services.Cache
     {
 
         private readonly IMemoryCache _memoryCache;
+      
 
         public CacheService(IMemoryCache memoryCache)
         {
             _memoryCache = memoryCache;
+        
         }
 
         private readonly TimeSpan DefaultOtpExpiry = TimeSpan.FromMinutes(10);
@@ -31,6 +33,9 @@ namespace Amazon_eCommerce_API.Services.Cache
             return await Task.FromResult(otpCacheDto);
         }
 
+
+
+
         public async Task<bool> IsOtpExpiredAsync(string email)
         {
             var otp = await GetOtpAsync(email);
@@ -38,11 +43,19 @@ namespace Amazon_eCommerce_API.Services.Cache
             return otp == null || otp.ExpirationTime <= DateTime.UtcNow;
         }
 
+
+
+
         public async Task RemoveOtpAsync(string email)
         {
             _memoryCache.Remove(email);
-            await Task.CompletedTask;
+             await Task.CompletedTask;
         }
+
+
+
+
+
 
         public async Task SetOtpAsync(string email, OtpCacheDto otpCacheDto)
         {
@@ -54,8 +67,64 @@ namespace Amazon_eCommerce_API.Services.Cache
 
         public async Task SetOtpRequestLimitAsync(string email, OtpRequestLimitDto otpRequestLimitDto)
         {
-            _memoryCache.Set($"otp_limit_{email}", true, TimeSpan.FromMinutes(otpRequestLimitDto.ExpirationMinutes));
+
+            var key = $"opt_limit_{email}";
+
+            
+            _memoryCache.Set(key, otpRequestLimitDto, TimeSpan.FromMinutes(otpRequestLimitDto.ExpirationMinutes));
+
             await Task.CompletedTask;
+        }
+
+        public async Task<OtpRequestLimitDto> GetOtpRequestLimitAsync(string email)
+        {
+            var key = $"otp_limit_{email}";
+
+            if(_memoryCache.TryGetValue(key, out OtpRequestLimitDto otpRequestLimitDto))
+            {
+
+                return await Task.FromResult(otpRequestLimitDto);
+            }
+
+            return await Task.FromResult<OtpRequestLimitDto>(null);
+        }
+
+        public async Task<bool> RemoveOtpRequestLimitAsync(string email)
+        {
+            var key = $"otp_limit_{email}";
+
+            if (_memoryCache.TryGetValue(key, out _))
+            {
+                _memoryCache.Remove(key);
+                return await Task.FromResult(true);
+
+            }
+
+            return await Task.FromResult(false);
+        }
+        
+
+
+
+
+
+
+        public async Task<OtpCacheDto> ValidateOtpAsync(string email, string otp)
+        {
+            var cachedOtp = await GetOtpAsync(email);
+          
+
+            if(cachedOtp == null || cachedOtp.ExpirationTime < DateTime.UtcNow)
+            {
+
+
+
+                return null;
+
+            }
+
+            return cachedOtp.Otp == otp ? cachedOtp: null;
+
         }
     }
 }

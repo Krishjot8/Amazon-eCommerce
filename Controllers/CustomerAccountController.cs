@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace Amazon_eCommerce_API.Controllers
 {
@@ -107,9 +108,33 @@ namespace Amazon_eCommerce_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var customerUser = await _storeContext.Users
-                .Include(u => u.Role)
-                .SingleOrDefaultAsync(u => u.Email == userLoginDto.Email);
+
+
+       
+              var  customerUser = await _storeContext.Users
+          .Include(u => u.Role)
+          .SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
+
+
+            if (customerUser == null) {
+
+                customerUser = await _storeContext.Users
+.Include(u => u.Role)
+.SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+            //Fix this
 
             if (customerUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password, customerUser.PasswordHash))
             {
@@ -140,8 +165,6 @@ namespace Amazon_eCommerce_API.Controllers
             };
 
             return Ok(userTokenResponse);
-
-
 
 
         }
@@ -294,24 +317,6 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCustomerAccountDetails(int id, [FromBody] UserUpdateDto userUpdateDto)
         {
@@ -399,6 +404,33 @@ namespace Amazon_eCommerce_API.Controllers
 
             });
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
