@@ -16,8 +16,9 @@ import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.co
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
 import { RegisterComponent } from './components/account/customer-account/register/register.component';
 import { CustomerLoginComponent } from './components/account/customer-account/login/login.component';
-import { VerifyEmailComponent } from './components/account/customer-account/verify-email/verify-email.component';
 import { LoginPasswordComponent } from './components/account/customer-account/login-password/login-password.component';
+import { CustomerVerificationComponent } from './components/account/customer-account/customer-verification/customer-verification.component';
+import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
 
 const routes: Routes = [
   {
@@ -108,8 +109,12 @@ const routes: Routes = [
     component: VideoGamesComponent,
   },
   {
-    path: 'verify-email',
-    component: VerifyEmailComponent,
+    path: 'customer-verification',
+    component: CustomerVerificationComponent,
+  },
+    {
+    path: 'new-customer-account',
+    component: NewCustomerAccountComponent,
   },
 ];
 

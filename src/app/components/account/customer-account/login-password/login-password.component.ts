@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
+  AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CustomerAuthenticationService } from '../customer-authentication.service';
+import { CustomerLogin } from 'src/app/models/accounts/customer/customer-login.model';
+import { PasswordChallengeResponse } from 'src/app/models/accounts/customer/customer-password-challenge-response';
+import { CustomerOtpVerification } from 'src/app/models/accounts/customer/customer-otp-verification.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-password',
@@ -15,20 +20,25 @@ import { Router } from '@angular/router';
 })
 export class LoginPasswordComponent implements OnInit {
   loginForm!: FormGroup;
-  errorMessage: string = '';
-  authErrorMessage: string = '';
-  submitted: boolean = false; // Track if the user pressed Submit
+  errorMessage: string = ''; // frontend validation
+  authErrorMessage: string = ''; // backend auth error
+  submitted: boolean = false; // track if user clicked submit
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: CustomerAuthenticationService
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       password: ['', [Validators.required, this.passwordValidator]],
     });
 
+    // clear backend error when typing
     this.loginForm.get('password')?.valueChanges.subscribe(() => {
-      if (this.submitted) this.validateInput();
       this.authErrorMessage = '';
+      if (this.submitted) this.validateInput();
     });
   }
 
@@ -44,7 +54,7 @@ export class LoginPasswordComponent implements OnInit {
 
   validateInput() {
     if (!this.submitted) {
-      this.errorMessage = ''; // Only show error after Submit
+      this.errorMessage = '';
       return;
     }
 
@@ -55,7 +65,7 @@ export class LoginPasswordComponent implements OnInit {
       if (control.errors['required']) {
         this.errorMessage = 'Enter Your Password';
       } else if (control.errors['invalidPassword']) {
-        this.errorMessage = 'Your Password is Incorrect';
+        this.errorMessage = 'Password is Incorrect';
       } else {
         this.errorMessage = '';
       }
@@ -64,16 +74,90 @@ export class LoginPasswordComponent implements OnInit {
     }
   }
 
+
+onPasswordInput(){
+
+  this.submitted = false;
+}
+
   onSubmit() {
     this.submitted = true;
     this.validateInput();
 
-    const control = this.loginForm.get('password');
-    if (!control || control.invalid) return;
+    if (this.loginForm.invalid) return;
 
-    const passwordValue = control.value;
+    const password = this.loginForm.get('password')?.value;
+    const emailOrPhone = localStorage.getItem('emailOrPhone');
 
-    localStorage.setItem('password', passwordValue);
-    this.router.navigate(['']); // Navigate to next page
+    if (!emailOrPhone) {
+      this.router.navigate(['signin']);
+      return;
+    }
+
+const loginPayload: CustomerLogin = {emailOrPhone,password};
+
+this.authService.startPasswordChallenge(loginPayload).subscribe({
+  next: (response: PasswordChallengeResponse) => {
+
+    const otpPayload : CustomerOtpVerification = {
+
+       Email: emailOrPhone,
+       OTP: '',
+      isResendRequest: false
+
+    };
+localStorage.setItem('pendingAuthId', response.pendingAuthId);
+localStorage.setItem('otpChannel', response.otpChannel);
+localStorage.setItem('otpMasked', response.maskedDestination);
+localStorage.setItem('otpPayload', JSON.stringify(otpPayload));
+
+this.router.navigate(['customer-verification']);
+
+  },
+  error: (err: HttpErrorResponse) => {
+
+console.log('Password challenge failed', err);
+if(err.status === 401){
+
+this.authErrorMessage = 'Your password is incorrect';
+
+}else if (err.status === 404){
+
+this.authErrorMessage = 'We cannot find an account with that email or phone';
+
+} else{
+
+this.authErrorMessage = 'Something went wrong. Please try again later';
+
+}
+
+  }
+}
+
+)
+
+
+
+
+    // send credentials to backend
+   /*  this.authService.login({ emailOrPhone, password }).subscribe({
+      next: (response) => {
+        localStorage.setItem('currentUser', JSON.stringify(response));
+        console.log('Login Successful:', response);
+        this.router.navigate(['']); // or OTP page
+      },
+      error: (err) => {
+        console.log('Login Failed:', err);
+        if (err.status === 401) {
+          this.authErrorMessage = 'Your password is incorrect';
+        } else if (err.status === 404) {
+          this.authErrorMessage =
+            'We cannot find an account with that email address';
+        } else {
+          this.authErrorMessage =
+            'Something went wrong. Please try again later';
+        }
+      },
+    }); */
   }
 }

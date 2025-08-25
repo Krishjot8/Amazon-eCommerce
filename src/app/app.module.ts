@@ -29,9 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
 import { VideoGameCarouselComponent } from './components/carousels/video-game-carousel/video-game-carousel.component';
-
 import { RegisterComponent } from './components/account/customer-account/register/register.component';
-import { VerifyEmailComponent } from './components/account/customer-account/verify-email/verify-email.component';
 import { CustomerLoginComponent } from './components/account/customer-account/login/login.component';
 import { BusinessRegisterComponent } from './components/account/business-account/business-register/business-register.component';
 import { BusinessVerifyEmailComponent } from './components/account/business-account/business-verify-email/business-verify-email.component';
@@ -40,6 +38,8 @@ import { SellerRegisterComponent } from './components/account/seller-account/sel
 import { SellerVerifyEmailComponent } from './components/account/seller-account/seller-verify-email/seller-verify-email.component';
 import { BusinessLoginComponent } from './components/account/business-account/business-login/business-login.component';
 import { LoginPasswordComponent } from './components/account/customer-account/login-password/login-password.component';
+import { CustomerVerificationComponent } from './components/account/customer-account/customer-verification/customer-verification.component';
+import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +64,6 @@ import { LoginPasswordComponent } from './components/account/customer-account/lo
     MoversShakersComponent,
     VideoGamesComponent,
     VideoGameCarouselComponent,
-    VerifyEmailComponent,
     BusinessLoginComponent,
     BusinessRegisterComponent,
     BusinessVerifyEmailComponent,
@@ -72,6 +71,8 @@ import { LoginPasswordComponent } from './components/account/customer-account/lo
     SellerRegisterComponent,
     SellerVerifyEmailComponent,
     LoginPasswordComponent,
+    CustomerVerificationComponent,
+    NewCustomerAccountComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -1,0 +1,147 @@
+.amazon-authentication-logo {
+  width: 8%;
+  position: relative;
+  margin-left: 46.5%;
+  margin-right: 46.5%;
+  margin-top: 1%;
+  cursor: pointer;
+}
+
+
+.new-customer-account-container {
+  position: relative;
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-top: 5%;
+  border: 1px solid rgb(218, 217, 217);
+  border-radius: 12px;
+  padding-left: 30px;
+  padding-top: 25px;
+  height: 100%;
+  min-height: 300px;
+  width: 360px;
+  max-width: 350px;
+}
+
+
+
+.span-amazon-new-account {
+  font-size: 150%;
+  margin-bottom: 10px;
+}
+
+
+.change-email{
+
+  cursor: pointer;
+  color: #2162a1;
+  margin-top: 20px;
+}
+
+.lets-create-an-account h4{
+font-family: Amazon;
+margin-top: 14px;
+}
+
+.proceed-to-account-create button{
+  color: black;
+  cursor: pointer;
+  font-family: Amazon;
+  border-color: 2px solid black;
+  padding: 7px;
+  width: 75%;
+  height: 100%;
+  background-color: #ffd814;
+  margin: 5px 25px;
+  border-radius: 20px;
+  border: none;
+}
+
+
+.proceed-to-account-create button:hover {
+  background-color: #d1b931fa;
+}
+
+.proceed-to-account-create button:active {
+  background-color: #e8b621fa;
+
+}
+
+
+
+
+
+
+
+.h4-new-member h4 {
+  margin: 10px;
+  padding: 0 10px; /* Space between the line and text */
+  position: relative;
+}
+
+.h4-new-member {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.h4-new-member h4::before,
+.h4-new-member h4::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 150%;
+  border-top: 1px solid #ccc; /* Line color */
+}
+
+
+.existing-customer{
+margin-top: 44px;
+
+}
+
+.existing-customer h4{
+font-family: Amazon;
+font-weight: bold;
+
+
+}
+
+
+
+.existing-customer-sign-in h4{
+font-family: Amazon;
+font-weight: normal;
+cursor: pointer;
+  color: #2162a1;
+
+}
+
+
+///
+
+.create-amazon-account-link-button {
+  text-align: center;
+}
+
+.create-amazon-account-link-button button {
+  width: 30%;
+  height: 100%;
+  min-height: 30px;
+  border-radius: 15px;
+  background-color: white;
+  border: 1px solid gray;
+  font-family: Amazon;
+  cursor: pointer;
+}
+
+.create-amazon-account-link-button button:hover {
+  background-color: rgb(246, 246, 246);
+}
+
+.create-amazon-account-link-button button:active {
+  background-color: rgb(232, 251, 255);
+  border: 3px solid #007185;
+}
+

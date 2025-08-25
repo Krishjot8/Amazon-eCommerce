@@ -6,7 +6,7 @@
 
 .footer2 {
   height: 500px;
-  background-color: #0f1111;
+  background-color: #171b20;
 }
 
 table {
@@ -21,22 +21,68 @@ table ul {
   list-style-type: none;
   color: #dddddd;
   margin-top: 45px;
+  margin-left: 50px;
   cursor: pointer;
 }
 
-table li {
-margin-top: 8px;
+table ul .title:hover {
+  cursor: default;
+  text-decoration: none;
 }
 
+.footer-links table ul li {
+  margin-top: 8px;
+}
+
+table ul li:hover {
+  text-decoration: underline;
+}
 
 .title {
   font-size: 110%;
   font-weight: bold;
   color: white;
+  text-decoration: none;
 }
 
-hr{
-margin-top: 25px;
+.title:hover {
+  text-decoration: none;
+}
 
-border: 1px solid #3b547d;
+hr {
+  margin-top: 25px;
+
+  border: 1px solid #3b547d;
+}
+
+//footer2 links
+
+.footer2-links table {
+  align-items: center;
+}
+
+.footer2-links table ul {
+  font-size: 12px;
+  align-self: start;
+}
+
+//footer2 links
+.footer2-links table ul li {
+  font-size: 12px;
+  align-self: start;
+}
+
+.footer2-links .row {
+  margin: 30px;
+}
+
+.footer2-links .row li .list-item-description {
+  color: #999999;
+  transform: translate(0px, -8px);
+}
+
+.footer2-links .row li .list-item-description:hover {
+  text-decoration: underline;
+  text-decoration-color: #999999;
+  color: #999999;
 }

@@ -1,4 +1,4 @@
-export interface CustomerVerifyEmail{
+export interface CustomerOtpVerification{
 
 Email : string;
 OTP : string;
