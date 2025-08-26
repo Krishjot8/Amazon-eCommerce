@@ -73,6 +73,18 @@ To debug your code step by step, keep pressing F11. This allows you to step thro
 
 ![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/Debugging.png)
 
+
+# Running the Frontend
+
+To run the frontend of this project, follow these steps:
+
+1. Download the ZIP file from the 'main' branch and extract its contents to a new folder on your desktop.
+   
+2. Open the project by navigating inside the 'main' folder in your integrated development environment.
+
+3. you can explore the contents through the Solution Explorer. Expand the src folder to view the app folder which contains its components, pages, models and other important files.
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
