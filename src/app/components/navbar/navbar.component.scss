@@ -133,17 +133,17 @@ input:active {
 }
 
 .sidenav-content {
-  font-family: Amazon;
+  font-family: Amazon Ember;
   min-height: 650px;
 }
 
 .sidebarmenus {
-  font-family: Amazon;
+  font-family: Amazon Ember;
   margin-left: 27px;
 }
 
 .sidebarsubmenus {
-  font-family: Amazon;
+font-family: Amazon;
 }
 
 .dropdown-button button {
@@ -234,4 +234,17 @@ border: 2px solid rgb(255, 153, 0);
 border: 2px solid rgb(255, 153, 0);
 
 
+}
+
+
+.drawer{
+
+  width: 350px;
+
+}
+
+.sidebar-sign-in{
+  background-color: #232F3E;
+color: white;
+text-align: center;
 }

@@ -18,25 +18,23 @@ export class CustomerLoginComponent implements OnInit {
   emailOrPhone: string = '';
   errorMessage: string = '';
   loginForm!: FormGroup;
-  touched: boolean = false; //track if input was touched
+
+  submitted: boolean = false; //track if input was touched
 
   constructor(public router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       emailOrPhone: ['', [Validators.required, this.emailOrPhoneValidator]],
-      updateOn:'change'
-    });
-
-    this.loginForm.get('emailOrPhone')?.valueChanges.subscribe(() => { //every time the user types or changes the input, you can dynamically show and hide errors as the user types, instead of waiting for them to press submit;
-      this.validateInput();
     });
   }
 
-  emailOrPhoneValidator(control: AbstractControl): ValidationErrors | null {  //control: AbstractControl; input control must return null - meaning no error or someError:true;
-    const value = control.value?.trim() ?? '';   // control.value gets actual input value; ?.trim()- trims whitespace if the value is not null or undefined
+  emailOrPhoneValidator(control: AbstractControl): ValidationErrors | null {
+    //control: AbstractControl; input control must return null - meaning no error or someError:true;
+    const value = control.value?.trim() ?? ''; // control.value gets actual input value; ?.trim()- trims whitespace if the value is not null or undefined
 
-    if (!value) {        //if input is empty return error of required field
+    if (!value) {
+      //if input is empty return error of required field
       return { required: true };
     }
 
@@ -51,25 +49,21 @@ export class CustomerLoginComponent implements OnInit {
 
     if (/[a-zA-Z]/.test(value)) return { invalidEmail: true }; // if input contains letters but was not a valid email, then it is not a phone it will be an invalid email, therefore return invalidEmail error.
 
-    return { invalidPhone: true };// if nothing above is matched its assumed it is a phone number but didnt match, return invalidPhone: true;
+    return { invalidPhone: true }; // if nothing above is matched its assumed it is a phone number but didnt match, return invalidPhone: true;
   }
 
-
-
   validateInput() {
-
     const control = this.loginForm.get('emailOrPhone');
     if (!control) return;
 
     const value = control.value?.trim() ?? '';
-    
 
-    if (control.touched || this.touched) {
-      if (control.errors?.['required']) {
+    if (control.errors) {
+      if (control.errors['required']) {
         this.errorMessage = 'Enter Your Mobile Number or Email Address';
-      } else if (control.errors?.['invalidEmail']) {
+      } else if (control.errors['invalidEmail']) {
         this.errorMessage = 'Invalid Email Address';
-      } else if (control.errors?.['invalidPhone']) {
+      } else if (control.errors['invalidPhone']) {
         this.errorMessage = 'Invalid Mobile Phone Number';
       } else {
         this.errorMessage = '';
@@ -79,13 +73,8 @@ export class CustomerLoginComponent implements OnInit {
     }
   }
 
-  onBlur() {
-    this.touched = false;
-    this.validateInput();
-  }
-
   onSubmit() {
-    this.touched = true;
+    this.submitted = true;
     this.validateInput();
 
     const control = this.loginForm.get('emailOrPhone');
@@ -98,4 +87,3 @@ export class CustomerLoginComponent implements OnInit {
     this.router.navigate(['login-password']);
   }
 }
-

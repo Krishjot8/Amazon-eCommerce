@@ -11,9 +11,12 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-sign-in" novalidate>
       <div>
-        <input class="inputlogin"  autocomplete="off" type="email" required formControlName="emailOrPhone"  [ngClass]="{ 'invalid': loginForm.get('emailOrPhone')?.invalid && touched}" />
+        <input class="inputlogin"  autocomplete="off" type="email" required formControlName="emailOrPhone"
+          [ngClass]="{'invalid': loginForm.get('emailOrPhone')?.hasError('required') && submitted}"
 
-        <div class="error-message"  *ngIf= "errorMessage && touched"><img class="error-icon" src="assets/errors-icon.svg" alt="">{{errorMessage}}</div>
+ />
+
+        <div class="error-message"  *ngIf= "errorMessage && submitted"><img class="error-icon" src="assets/errors-icon.svg" alt="">{{errorMessage}}</div>
 
 
         <div class="continue-sign-in">

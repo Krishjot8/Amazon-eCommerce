@@ -70,18 +70,72 @@
 
 
   <mat-drawer-container autosize>
-    <mat-drawer #drawer opened="false" mode="side">
+    <mat-drawer class="drawer" #drawer opened="false" mode="side">
+         <div class="sidebar-sign-in">
+   <button  routerLink="signin" mat-button class="sidebarsubmenus">Hello, sign In</button>
+        </div>
       <mat-nav-list>
+
+
         <h3 class="sidebarmenus"><b>Trending</b></h3>
         <mat-list-item>
 
-          <button routerLink="bestsellers" mat-button class="sidebarsubmenus">Best Sellers</button>
+         <button routerLink="bestsellers" mat-button class="sidebarsubmenus">Best Sellers</button>
         </mat-list-item>
         <mat-list-item>
           <button routerLink="new-releases" mat-button class="sidebarsubmenus">New Releases</button>
         </mat-list-item>
         <mat-list-item>
           <button routerLink="movers&shakers" mat-button class="sidebarsubmenus"> Movers & Shakers </button>
+        </mat-list-item>
+        <hr>
+          <h3 class="sidebarmenus"><b>Digital Content & Devices</b></h3>
+        <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Prime Video</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Amazon Music</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Echo & Alexa</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Amazon Nova</button>
+        </mat-list-item>
+          <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Fire Tablets</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Fire TV</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Amzon Luna - Cloud Gaming</button>
+        </mat-list-item>
+         <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Kindle E-readers & Books</button>
+        </mat-list-item>
+         <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Audible Books & Originals</button>
+        </mat-list-item>
+         <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Amazon Photos</button>
+        </mat-list-item>
+         <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Amazon Appstore</button>
+        </mat-list-item>
+        <hr>
+              <h3 class="sidebarmenus"><b>Shop by Department</b></h3>
+        <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Clothing, Shoes, Jewelry & Watches</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Amazon Fresh</button>
+        </mat-list-item>
+  <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Whole Foods Market</button>
+        </mat-list-item>
+          <mat-list-item>
+          <button routerLink="" mat-button class="sidebarsubmenus">Books</button>
         </mat-list-item>
         <hr>
         <h3 class="sidebarmenus"><b>Help & Settings</b></h3>
@@ -97,6 +151,7 @@
 
       </mat-nav-list>
     </mat-drawer>
+
     <mat-drawer-content>
       <div class="sidenav-content">
         <router-outlet></router-outlet>
