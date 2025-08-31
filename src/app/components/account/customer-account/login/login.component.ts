@@ -27,6 +27,13 @@ export class CustomerLoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       emailOrPhone: ['', [Validators.required, this.emailOrPhoneValidator]],
     });
+    
+  this.loginForm.get('emailOrPhone')?.valueChanges.subscribe(() => {
+    if (this.submitted) {
+      this.submitted = false; // hide errors as soon as the user types
+    }
+  });
+  
   }
 
   emailOrPhoneValidator(control: AbstractControl): ValidationErrors | null {

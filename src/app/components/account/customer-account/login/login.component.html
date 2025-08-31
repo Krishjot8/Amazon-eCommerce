@@ -5,14 +5,14 @@
       <span>Sign in or create account</span>
     </div>
     <div class="span-email-mobile">
-      <span>Email or mobile phone number</span>
+      <span>Enter mobile phone number or email</span>
     </div>
 
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-sign-in" novalidate>
       <div>
         <input class="inputlogin"  autocomplete="off" type="email" required formControlName="emailOrPhone"
-          [ngClass]="{'invalid': loginForm.get('emailOrPhone')?.hasError('required') && submitted}"
+          [ngClass]="{'invalid': loginForm.get('emailOrPhone')?.hasError && submitted}"
 
  />
 

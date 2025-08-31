@@ -78,17 +78,17 @@ body { margin: 0;
   font-family: Amazon;
  }
 
+ @font-face{
 
+  font-family: 'Amazon Ember';
+  src: url('assets/fonts/AmazonEmber_Bd.ttf') format('truetype');
+  }
 @font-face {
   font-family: 'Amazon';
   src: url('assets/fonts/Amazon.ttf') format('truetype');
 }
 
-@font-face{
 
-font-family: 'Amazon Ember';
-src: url('assets/fonts/AmazonEmber_Bd.ttf') format('truetype');
-}
 
 html, body { height: 100%;
 font-family: Amazon;}

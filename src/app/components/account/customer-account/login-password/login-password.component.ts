@@ -40,6 +40,12 @@ export class LoginPasswordComponent implements OnInit {
       this.authErrorMessage = '';
       if (this.submitted) this.validateInput();
     });
+
+    this.loginForm.get('emailOrPhone')?.valueChanges.subscribe(() => {
+      if (this.submitted) {
+        this.submitted = false; // hide errors as soon as the user types
+      }
+    });
   }
 
   passwordValidator(control: AbstractControl): ValidationErrors | null {

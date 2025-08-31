@@ -9,8 +9,9 @@ import { PasswordChallengeResponse } from 'src/app/models/accounts/customer/cust
   providedIn: 'root',
 })
 export class CustomerAuthenticationService {
-  private apiUrl = `https://localhost:44366`;
-
+  //private apiUrl = `https://localhost:44366`;
+  private apiUrl = `https://localhost:7102`;
+  
   constructor(private http: HttpClient) {}
 
   private identifierKey = 'loginIdentifier'; //name of storagekey
