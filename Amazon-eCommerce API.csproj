@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Services\Tokens\" />
+    <Folder Include="Services\Authentication\PasswordChallenge\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
