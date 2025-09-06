@@ -3,7 +3,7 @@
     public class OtpRequestLimitDto
     {
 
-        public string Email { get; set; }
+        public string Identifier { get; set; }
 
         public DateTime LastRequestTime { get; set; }
 

@@ -47,7 +47,7 @@ namespace Amazon_eCommerce_API.Services.Email
             await _cacheService.SetOtpAsync(email, new OtpCacheDto
 
             {
-                Email = email,
+                Identifier = email,
                 Otp = otp,
                 ExpirationTime = DateTime.UtcNow.AddMinutes(10)
             });
@@ -60,7 +60,7 @@ namespace Amazon_eCommerce_API.Services.Email
 
             {
 
-                Email = email,
+                Identifier = email,
                 LastRequestTime = DateTime.UtcNow,
                 ExpirationMinutes = 10
 
@@ -97,7 +97,7 @@ namespace Amazon_eCommerce_API.Services.Email
             var otpCatcheDto = new OtpCacheDto
             {
 
-                Email = dto.Email,
+                Identifier = dto.Email,
                 Otp = otp,
                 ExpirationTime = DateTime.UtcNow.AddMinutes(10)
 
@@ -213,7 +213,7 @@ namespace Amazon_eCommerce_API.Services.Email
                         <div class='otp'>{verificationCode}</div>
                         <p>Don't share this OTP with anyone. Amazon takes your account security very seriously.
                         Amazon Customer Service will never ask you to disclose or verify your Amazon password. OTP, credit
-                        card, or banking account number. If you recieve a suspicious email with a link to update your account
+                        card, or banking account number. If you receive a suspicious email with a link to update your account
                         information, do not click on the link-- instead, report the email to Amazon for investigation.
                         </p>
 
@@ -262,7 +262,7 @@ namespace Amazon_eCommerce_API.Services.Email
                 var otpCacheDto = new OtpCacheDto
                 { 
                 
-                    Email = dto.Email,
+                    Identifier = dto.Email,
                     Otp = newOtp,
                     ExpirationTime = DateTime.UtcNow.AddMinutes(10)
 
@@ -278,7 +278,7 @@ namespace Amazon_eCommerce_API.Services.Email
 
                 await _cacheService.SetOtpRequestLimitAsync(dto.Email, new OtpRequestLimitDto
                 {
-                    Email = dto.Email,
+                    Identifier = dto.Email,
                     LastRequestTime = DateTime.UtcNow,
                     ExpirationMinutes = 1
 
@@ -309,7 +309,7 @@ namespace Amazon_eCommerce_API.Services.Email
             } 
 
 
-            if(cachedOtpDto.Otp != dto.OTP) return false;
+            if(cachedOtpDto.Otp != dto.emailOtp) return false;
 
 
             //email verified
