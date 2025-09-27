@@ -5,6 +5,7 @@ using Amazon_eCommerce_API.Services.Cache;
 using Amazon_eCommerce_API.Services.Communication.Sms;
 using Amazon_eCommerce_API.Services.Email;
 using Amazon_eCommerce_API.Services.Users;
+using System.Security.Cryptography;
 
 namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 {
@@ -41,7 +42,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
             }
 
-            var otp = new Random().Next(1000000, 999999).ToString();
+            var otp =  RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
 
 
 

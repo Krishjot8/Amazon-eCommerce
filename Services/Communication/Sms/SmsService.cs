@@ -37,7 +37,7 @@ public class SmsService : ISmsService
 
     public async Task<bool> SendSmsVerificationAsync(UserVerifySmsDto dto)
     {
-        var otp = new Random().Next(100000,999999 ).ToString();
+        var otp = new Random().Next(100000,999999).ToString();
 
         return await SendOtpSmsAsync(dto.PhoneNumber, otp);
     }
