@@ -20,6 +20,7 @@ namespace Amazon_eCommerce_API.Services.Email
         private readonly int _smtpPort;
         private readonly string _senderEmail;
         private readonly string _senderPassword;
+        private readonly string _senderName;
 
         public EmailService(IUserService userService, ICacheService cacheService, IConfiguration configuration)
         {
@@ -31,6 +32,7 @@ namespace Amazon_eCommerce_API.Services.Email
             _smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
             _senderEmail = _configuration["EmailSettings:SenderEmail"];
             _senderPassword = _configuration["EmailSettings:SenderPassword"];
+            _senderName = _configuration["EmailSettings:SenderName"];
 
 
         }
@@ -158,7 +160,7 @@ namespace Amazon_eCommerce_API.Services.Email
             var mailMessage = new MailMessage
             {
 
-                From = new MailAddress(_senderEmail,"Amazon"),
+                From = new MailAddress(_senderEmail,_senderName),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = true

@@ -129,12 +129,16 @@ namespace Amazon_eCommerce_API.Controllers
             }
 
 
-   
 
-            if (customerUser == null)
+
+
+            if (customerUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password, customerUser.PasswordHash))
             {
 
-                return Unauthorized(new { message = "Invalid email or phone number" });
+
+                return Unauthorized(new { message = "Invalid email or password" });
+
+
 
 
             }
