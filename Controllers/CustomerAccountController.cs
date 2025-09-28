@@ -2,6 +2,7 @@
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services;
+using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Users;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -20,19 +21,21 @@ namespace Amazon_eCommerce_API.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
+        private readonly IPasswordChallengeService _passwordChallengeService;
         private readonly StoreContext _storeContext;
 
-        public CustomerAccountController(IUserService userService, IMapper mapper, ITokenService tokenService, StoreContext storeContext)
+        public CustomerAccountController(IUserService userService, IMapper mapper, ITokenService tokenService, StoreContext storeContext, IPasswordChallengeService passwordChallengeService)
         {
             _userService = userService;
             _mapper = mapper;
             _tokenService = tokenService;
             _storeContext = storeContext;
+            _passwordChallengeService = passwordChallengeService;
         }
 
 
 
-      
+
 
 
 
@@ -123,23 +126,15 @@ namespace Amazon_eCommerce_API.Controllers
 .SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
 
 
-
-
-
-
             }
 
 
+   
 
-
-
-
-            //Fix this
-
-            if (customerUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password, customerUser.PasswordHash))
+            if (customerUser == null)
             {
 
-                return Unauthorized(new { message = "Invalid email or password" });
+                return Unauthorized(new { message = "Invalid email or phone number" });
 
 
             }
@@ -152,19 +147,24 @@ namespace Amazon_eCommerce_API.Controllers
             }
 
 
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.Email ?? customerUser.PhoneNumber, userLoginDto.Password);
 
-            var token = _tokenService.GenerateToken(customerUser);
 
-            var userTokenResponse = new UserTokenResponseDto
+            if (otpChallenge == null)
+                return StatusCode(500, new { message = "Invalid Password"});
+
+
+
+
+            return Ok(new
+
             {
+                message = $"OTP sent to your {otpChallenge.OtpChannel}",
+                pendingAuthID = otpChallenge.PendingAuthId,
+                destination = otpChallenge.MaskedDestination
 
-                UserId = customerUser.Id,
-                Username = customerUser.Username,
-                Token = token
 
-            };
-
-            return Ok(userTokenResponse);
+            });
 
 
         }

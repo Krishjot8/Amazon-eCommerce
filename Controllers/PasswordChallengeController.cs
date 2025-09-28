@@ -1,5 +1,8 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s.UserAccount;
+﻿using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.UserAccount;
+using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Services.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +15,14 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         private readonly IPasswordChallengeService _passwordChallengeService;
+        private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
 
-        public PasswordChallengeController(IPasswordChallengeService passwordChallengeService)
+        public PasswordChallengeController(IPasswordChallengeService passwordChallengeService, IUserService userService, ITokenService tokenService)
         {
             _passwordChallengeService = passwordChallengeService;
+            _userService = userService;
+            _tokenService = tokenService;
         }
 
 
@@ -65,7 +72,38 @@ namespace Amazon_eCommerce_API.Controllers
                 return Unauthorized("Invalid or expired OTP");
 
 
-            return Ok( new {message = "OTP verified successfully." });
+            var user = await _userService.GetUserByEmailAsync(requestDto.PendingAuthId)
+                ?? await _userService.GetUserByPhoneNumberAsync(requestDto.PendingAuthId);
+
+            if (user == null)
+                return NotFound("User not found");
+
+
+            var token = _tokenService.GenerateToken(user);
+
+
+            var userTokenResponse = new UserTokenResponseDto
+            {
+
+                UserId = user.Id,
+                Username = user.Username,
+                Token = token
+
+            };
+
+
+
+            return Ok( new 
+            {
+                
+                message = "OTP verified successfully." ,
+                token = userTokenResponse.Token,
+                userId = userTokenResponse.UserId,
+                username = userTokenResponse.Username,
+
+
+
+            });
 
         }
 

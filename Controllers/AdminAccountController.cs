@@ -2,6 +2,7 @@
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services;
+using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Users;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -19,15 +20,17 @@ namespace Amazon_eCommerce_API.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
+        private readonly IPasswordChallengeService _passwordChallengeService;
         private readonly  StoreContext _storeContext;
-     
 
-        public AdminAccountController(IUserService userService, IMapper mapper, StoreContext storeContext, ITokenService tokenService)
+
+        public AdminAccountController(IUserService userService, IMapper mapper, StoreContext storeContext, ITokenService tokenService, IPasswordChallengeService passwordChallengeService)
         {
             _userService = userService;
             _mapper = mapper;
             _storeContext = storeContext;
             _tokenService = tokenService;
+            _passwordChallengeService = passwordChallengeService;
         }
 
 
@@ -122,26 +125,28 @@ namespace Amazon_eCommerce_API.Controllers
 
             }
 
-            var token = _tokenService.GenerateToken(adminUser);
 
 
-            var userTokenResponse = new UserTokenResponseDto
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(adminUser.Email ?? adminUser.PhoneNumber, userLoginDto.Password);
+
+
+            if (otpChallenge == null)
+                return StatusCode(500, new { message = "Invalid Password" });
+
+
+
+
+            return Ok(new
+
             {
+                message = $"OTP sent to your {otpChallenge.OtpChannel}",
+                pendingAuthID = otpChallenge.PendingAuthId,
+                destination = otpChallenge.MaskedDestination
 
-                UserId = adminUser.Id,
-                Username = adminUser.Username,
-                Token = token
+
+            });
 
 
-            };
-
-            return Ok(userTokenResponse);
-
-        
-        
-        
-        
-        
         }
 
 

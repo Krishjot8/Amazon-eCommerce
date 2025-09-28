@@ -1,4 +1,6 @@
 ﻿using Amazon_eCommerce_API.Extensions;
+
+
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.DTO_s.Cache;
 using Amazon_eCommerce_API.Services.Cache;
@@ -12,11 +14,25 @@ namespace Amazon_eCommerce_API.Services.Email
     {
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
+        private readonly IConfiguration _configuration;
 
-        public EmailService(IUserService userService, ICacheService cacheService)
+        private readonly string _smtpHost;
+        private readonly int _smtpPort;
+        private readonly string _senderEmail;
+        private readonly string _senderPassword;
+
+        public EmailService(IUserService userService, ICacheService cacheService, IConfiguration configuration)
         {
             _userService = userService;
             _cacheService = cacheService;
+            _configuration = configuration;
+
+            _smtpHost = _configuration["EmailSettings:SmtpHost"];
+            _smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
+            _senderEmail = _configuration["EmailSettings:SenderEmail"];
+            _senderPassword = _configuration["EmailSettings:SenderPassword"];
+
+
         }
 
         public async Task<bool> ResendEmailVerificationOtpAsync(string email)
@@ -67,11 +83,11 @@ namespace Amazon_eCommerce_API.Services.Email
 
             });
 
-            return await SendOtpEmailAsync(email,otp);
+            return await SendOtpEmailAsync(email, otp);
         }
-                
-                
-                    
+
+
+
 
 
 
@@ -106,7 +122,7 @@ namespace Amazon_eCommerce_API.Services.Email
             };
 
             await _cacheService.SetOtpAsync(dto.Email, otpCatcheDto);
-            await _cacheService.SetOtpRequestLimitAsync(dto.Email, new OtpRequestLimitDto {ExpirationMinutes = 10});
+            await _cacheService.SetOtpRequestLimitAsync(dto.Email, new OtpRequestLimitDto { ExpirationMinutes = 10 });
 
             var emailSent = await SendOtpEmailAsync(dto.Email, otp);
 
@@ -122,117 +138,117 @@ namespace Amazon_eCommerce_API.Services.Email
 
             var user = await _userService.GetUserByEmailAsync(email);
 
-            if (user == null)  return false;
+            if (user == null) return false;
 
             string subject = "Your Amazon OTP Code";
 
             string body = GetEmailTemplate(otp);
 
 
-            using (var client = new SmtpClient("smtp.your-email-provider.com"))
+            using var client = new SmtpClient(_smtpHost,_smtpPort)
             {
 
-                client.Port = 587;
-                client.Credentials = new NetworkCredential("your-email@example.com", "your-password");
-                client.EnableSsl = true;
+                Credentials = new NetworkCredential(_senderEmail, _senderPassword),
+                EnableSsl = true
 
 
-                var mailMessage = new MailMessage
-                {
-                    From = new MailAddress("your-email@example.com", "Amazon"),
-                    Subject = subject,
-                    Body = body,
-                   IsBodyHtml = true,
+            };
 
 
-                };
+            var mailMessage = new MailMessage
+            {
+
+                From = new MailAddress(_senderEmail,"Amazon"),
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+
+            };
+
+            mailMessage.To.Add(email);
 
 
-                mailMessage.To.Add(email);
+            try 
+            {
 
-                try
-                {
-
-                    await client.SendMailAsync(mailMessage);
-                    return true;
-                }
-                catch {
-
-                    return false;
-                
-                }
-
+                await client.SendMailAsync(mailMessage);
+                return true;
+            
+            
             }
+            catch
+            {
+
+                return false;
+
+            };
 
         }
 
 
-        public string GetEmailTemplate(string verificationCode) 
-        
+
+        public string GetEmailTemplate(string verificationCode)
         {
-
             return $@"
+    <html>
+    <head>
+        <meta name='color-scheme' content='light dark'>
+        <meta name='supported-color-schemes' content='light dark'>
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                background-color: #FFFFFF !important;
+                color: #000000 !important;
+                text-align: center;
+                padding: 20px;
+            }}
+            .email-container {{
+                background-color: #FFFFFF !important;
+                color: #000000 !important;
+                padding: 20px;
+                border-radius: 10px;
+                max-width: 500px;
+                margin: auto;
+            }}
+                .logo img {{
+                width: 120px !important;
+                height: auto !important;
+                display: block;
+                margin: 0 auto 20px auto;
+            }}
+            .otp {{
+                font-size: 32px;
+                font-weight: bold;
+                margin: 20px 0;
+                color: #000000 !important;
+            }}
+            p, .footer {{
+                color: #000000 !important;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class='email-container'>
+            <div class='logo'>
+                <img src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' alt='Amazon'>
+            </div>
+            <p>Your One-Time Password (OTP) is:</p>
+            <div class='otp'>{verificationCode}</div>
+            <p>Don't share this OTP with anyone. Amazon takes your account security very seriously.
+            Amazon Customer Service will never ask you to disclose or verify your Amazon password, OTP,
+            credit card, or banking account number. If you receive a suspicious email with a link to
+            update your account information, do not click on the link — instead, report the email to Amazon
+            for investigation.</p>
 
-                <html>
-                <head>
-                    <style>
-                        body {{
-                            font-family: Arial, sans-serif;
-                            background-color: #232F3E;
-                            color: white;
-                            text-align: center;
-                            padding: 20px;
-                        }}
-                        .email-container {{
-                            background-color: #131A22;
-                            padding: 20px;
-                            border-radius: 10px;
-                            max-width: 500px;
-                            margin: auto;
-                        }}
-                        .logo img {{
-                            max-width: 100px;
-                        }}
-                        .otp {{
-                            font-size: 32px;
-                            font-weight: bold;
-                            margin: 20px 0;
-                        }}
-                        .footer {{
-                            font-size: 12px;
-                            margin-top: 20px;
-                        }}
-                    </style>
-                </head>
-                <body>
-                    <div class='email-container'>
-                        <div class='logo'>
-                            <img src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' alt='Amazon'>
-                        </div>
-                        <p>Your One-Time Password (OTP) is:</p>
-                        <div class='otp'>{verificationCode}</div>
-                        <p>Don't share this OTP with anyone. Amazon takes your account security very seriously.
-                        Amazon Customer Service will never ask you to disclose or verify your Amazon password. OTP, credit
-                        card, or banking account number. If you receive a suspicious email with a link to update your account
-                        information, do not click on the link-- instead, report the email to Amazon for investigation.
-                        </p>
+            <p>Thank you</p>
 
-                        <p>Thank you</p>
-
-                        <div class='footer'>
-                            &copy; 2025 Amazon.com, Inc. or its affiliates. All rights reserved.
-                        </div>
-                    </div>
-                </body>
-                </html> ";
-        
-        
-        
-        
+            <div class='footer'>
+                &copy; 2025 Amazon.com, Inc. or its affiliates. All rights reserved.
+            </div>
+        </div>
+    </body>
+    </html>";
         }
-
-
-
 
 
 
