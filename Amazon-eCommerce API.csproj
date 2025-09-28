@@ -26,4 +26,8 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include=".MSSQL Scripts\Amazon eCommerce.sql" />
+  </ItemGroup>
+
 </Project>
