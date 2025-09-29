@@ -84,6 +84,7 @@ export class LoginPasswordComponent implements OnInit {
 onPasswordInput(){
 
   this.submitted = false;
+  this.authErrorMessage = '';
 }
 
   onSubmit() {
