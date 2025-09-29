@@ -14,7 +14,7 @@ namespace Amazon_eCommerce_API.Data
 
 
         }
-
+//good
         public DbSet<Product> Products { get; set; }
 
         public DbSet<ProductBrand> ProductBrands { get; set; }
