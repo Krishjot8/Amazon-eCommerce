@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include=".MSSQL Scripts\Amazon eCommerce Insert Data.sql" />
     <None Include=".MSSQL Scripts\Amazon eCommerce.sql" />
   </ItemGroup>
 
