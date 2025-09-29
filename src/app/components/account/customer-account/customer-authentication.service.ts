@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerLogin } from 'src/app/models/accounts/customer/customer-login.model';
 import { PasswordChallengeResponse } from 'src/app/models/accounts/customer/customer-password-challenge-response';
+import { environment } from 'src/environments/environment.desktop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerAuthenticationService {
-  //private apiUrl = `https://localhost:44366`;
-  private apiUrl = `https://localhost:7102`;
-  
+  private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
   private identifierKey = 'loginIdentifier'; //name of storagekey
@@ -27,11 +27,14 @@ export class CustomerAuthenticationService {
     return localStorage.getItem(this.identifierKey) ?? ''; //?? means if null return blank '';
   }
 
-
-startPasswordChallenge(payload: CustomerLogin): Observable<PasswordChallengeResponse>{
-
-  return this.http.post<PasswordChallengeResponse>(`${this.apiUrl}/password-challenge`,payload);
-}
+  startPasswordChallenge(
+    payload: CustomerLogin
+  ): Observable<PasswordChallengeResponse> {
+    return this.http.post<PasswordChallengeResponse>(
+      `${this.apiUrl}/password-challenge`,
+      payload
+    );
+  }
 
   login(loginData: CustomerLogin): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, loginData).pipe(
