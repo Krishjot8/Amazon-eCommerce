@@ -20,7 +20,7 @@ export class VideoGameCarouselComponent implements OnInit {
 this.getBrands();
 
   }
-  
+  //
   getBrands(): void{
     this.http.get<ProductBrand[]>(`${environment.apiUrl}/productbrands`).subscribe(data =>{
 
