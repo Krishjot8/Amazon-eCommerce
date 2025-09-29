@@ -4,13 +4,15 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerLogin } from 'src/app/models/accounts/customer/customer-login.model';
 import { PasswordChallengeResponse } from 'src/app/models/accounts/customer/customer-password-challenge-response';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerAuthenticationService {
-  //private apiUrl = `https://localhost:44366`;
-  private apiUrl = `https://localhost:7102`;
+  
+  private apiUrl =  environment.apiUrl
   
   constructor(private http: HttpClient) {}
 

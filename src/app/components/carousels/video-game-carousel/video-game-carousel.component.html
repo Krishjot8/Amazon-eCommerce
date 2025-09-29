@@ -1,12 +1,11 @@
 <div class="video-game-carousel">
   <div class="carousel-inner">
-
-    <div class="carousel-item" *ngFor="let brand of brands; let i = index" [class.active]="i === currentIndex">
-
-      <img [src]="brand.imageUrl" alt="{{brand.name}}" />
+    <div class="carousel-item" *ngFor="let brand of brands; let i = index; trackBy: trackByBrandId" [class.active]="i === currentIndex">
+      <img [src]="brand.pictureUrl" alt="{{brand.name}}" />
       <h4 style="font-family: Amazon;">{{brand.name}}</h4>
     </div>
   </div>
+
   <button (click)="prev()" class="carousel-control prev">
     <img src="assets/left-arrow.svg" />
   </button>

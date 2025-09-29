@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ProductBrand } from 'src/app/models/product-brands/product-brands.model';
+import { environment } from 'src/environments/environment.laptop';
 
 @Component({
   selector: 'video-game-carousel',
@@ -7,35 +10,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VideoGameCarouselComponent implements OnInit {
 
-  constructor() { }
+ 
 
+  brands: ProductBrand[] = [];
+  currentIndex = 0;
+  constructor(private http: HttpClient) {}
 
-brands = [
+  ngOnInit(): void{
+this.getBrands();
 
-  {name: 'Playstation',
-  imageUrl: 'https://localhost:44366/images/products/Video Games/Brand Images/PlayStation-Logo.jpg'
-  },
-  {name: 'Xbox',
-    imageUrl: 'https://localhost:44366/images/products/Video Games/Brand Images/Xbox-Logo.jpg'
-  },
-  {name: 'Nintendo',
-     imageUrl: 'https://localhost:44366/images/products/Video Games/Brand Images/Nintendo-Logo.jpg'
   }
-];
+  
+  getBrands(): void{
+    this.http.get<ProductBrand[]>(`${environment.apiUrl}/productbrands`).subscribe(data =>{
 
-currentIndex = 0;
-
-
-
-  ngOnInit(): void { }
-
-  next():  void{
-
-    this.currentIndex = (this.currentIndex + 1) % this.brands.length
+      this.brands = data.map((brand, index) =>({
+// If backend does not have ID, assign temporary frontend ID
+        id: brand.id ?? index + 1,
+        name: brand.name,
+        pictureUrl: brand.pictureUrl
+      }))
+    })
   }
 
-  prev(): void {
+ next(): void{
 
-    this.currentIndex = (this.currentIndex - 1 + this.brands.length) % this.brands.length
-  }
+this.currentIndex = (this.currentIndex + 1) % this.brands.length;
+ }
+
+
+ prev(): void {
+this.currentIndex = (this.currentIndex - 1 + this.brands.length) % this.brands.length
+
+ }
+
+ trackByBrandId(index: number, brand: ProductBrand): number {
+  return brand.id;
+}
 }

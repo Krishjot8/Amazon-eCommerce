@@ -28,7 +28,6 @@
               "src/assets"
             ],
             "styles": [
-              
               "src/styles.scss"
             ],
             "scripts": []
@@ -62,9 +61,25 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "desktop": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ]
+            },
+            "laptop": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.laptop.ts"
+                }
+              ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "desktop"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -74,9 +89,15 @@
             },
             "development": {
               "browserTarget": "Amazon-eCommerce:build:development"
+            },
+            "desktop": {
+              "browserTarget": "Amazon-eCommerce:build:desktop"
+            },
+            "laptop": {
+              "browserTarget": "Amazon-eCommerce:build:laptop"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "desktop"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
