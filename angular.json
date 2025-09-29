@@ -23,18 +23,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-<<<<<<< HEAD
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-=======
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
->>>>>>> origin/main
             "scripts": []
           },
           "configurations": {
@@ -67,18 +57,6 @@
               "sourceMap": true,
               "namedChunks": true
             },
-            "desktop": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-<<<<<<< HEAD
-                  "with": "src/environments/environment.ts"
-=======
-                  "with": "src/environments/environment.desktop.ts"
->>>>>>> origin/main
-                }
-              ]
-            },
             "laptop": {
               "fileReplacements": [
                 {
@@ -88,7 +66,7 @@
               ]
             }
           },
-          "defaultConfiguration": "desktop"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -99,20 +77,13 @@
             "development": {
               "browserTarget": "Amazon-eCommerce:build:development"
             },
-            "desktop": {
-              "browserTarget": "Amazon-eCommerce:build:desktop"
-            },
-            "laptop": {
-              "browserTarget": "Amazon-eCommerce:build:laptop"
-            }
+            "laptop": { "browserTarget": "Amazon-eCommerce:build:laptop" }
           },
-          "defaultConfiguration": "desktop"
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "Amazon-eCommerce:build"
-          }
+          "options": { "browserTarget": "Amazon-eCommerce:build" }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -130,7 +101,5 @@
       }
     }
   },
-  "cli": {
-    "analytics": "b6c967d1-ca72-44d5-980f-08334326aeea"
-  }
+  "cli": { "analytics": "b6c967d1-ca72-44d5-980f-08334326aeea" }
 }

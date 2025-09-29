@@ -4,25 +4,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerLogin } from 'src/app/models/accounts/customer/customer-login.model';
 import { PasswordChallengeResponse } from 'src/app/models/accounts/customer/customer-password-challenge-response';
-<<<<<<< HEAD
 import { environment } from 'src/environments/environment';
-
-=======
-import { environment } from 'src/environments/environment.desktop';
->>>>>>> origin/main
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerAuthenticationService {
-<<<<<<< HEAD
-  
-  private apiUrl =  environment.apiUrl
-  
-=======
   private apiUrl = environment.apiUrl;
 
->>>>>>> origin/main
   constructor(private http: HttpClient) {}
 
   private identifierKey = 'loginIdentifier'; //name of storagekey

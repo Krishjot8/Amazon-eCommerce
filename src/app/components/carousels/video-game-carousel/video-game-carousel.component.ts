@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment.laptop';
 })
 export class VideoGameCarouselComponent implements OnInit {
 
- 
+
 
   brands: ProductBrand[] = [];
   currentIndex = 0;
@@ -45,6 +45,6 @@ this.currentIndex = (this.currentIndex - 1 + this.brands.length) % this.brands.l
  }
 
  trackByBrandId(index: number, brand: ProductBrand): number {
-  return brand.id;
+  return brand.id ?? index;
 }
 }

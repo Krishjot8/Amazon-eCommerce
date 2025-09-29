@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ProductBrand } from 'src/app/models/product-brands/product-brands.model';
 import { environment } from 'src/environments/environment.laptop';
 
@@ -8,12 +8,24 @@ import { environment } from 'src/environments/environment.laptop';
   providedIn: 'root',
 })
 export class VideoGameCarouselService {
-  
+
   private apiUrl = environment.apiUrl; // automatically picked by Angular
 
   constructor(private http: HttpClient) { }
 
   getBrands(): Observable<ProductBrand[]> {
-    return this.http.get<ProductBrand[]>(`${this.apiUrl}/brands/video-games`);
+    return this.http.get<any[]>(`${this.apiUrl}/productbrands`).pipe(
+      map(data =>
+        data.map((brand, index) => ({
+      id: brand.id ?? index + 1,
+      name: brand.name,
+      pictureUrl: `${this.apiUrl}/${brand.pictureUrl}`
+
+
+        }))
+      )
+    );
   }
+
+
 }

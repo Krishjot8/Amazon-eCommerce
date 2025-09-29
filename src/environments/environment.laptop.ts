@@ -3,17 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-<<<<<<< HEAD
+
   production: false,
      apiUrl: 'https://localhost:7102/api'
 };
 
-=======
-<<<<<<<< HEAD:src/environments/environment.ts
-    production: false,
-     apiUrl: 'https://localhost:44366/api'
-  };
-  
+
   /*
    * For easier debugging in development mode, you can import the following file
    * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
@@ -22,15 +17,9 @@ export const environment = {
    * on performance if an error is thrown.
    */
   // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
-  
-========
-  production: false,
-  apiUrl: 'https://localhost:7102'
-};
 
 
 
->>>>>>> origin/main
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
@@ -39,7 +28,4 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
-<<<<<<< HEAD
-=======
->>>>>>>> origin/main:src/environments/environment.laptop.ts
->>>>>>> origin/main
+
