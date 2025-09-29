@@ -28,7 +28,7 @@ this.getBrands();
 // If backend does not have ID, assign temporary frontend ID
         id: brand.id ?? index + 1,
         name: brand.name,
-        pictureUrl: brand.pictureUrl
+        pictureUrl: `${environment.apiUrl.replace('/api', '')}${brand.pictureUrl}`
       }))
     })
   }
