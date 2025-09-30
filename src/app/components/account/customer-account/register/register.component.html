@@ -1,5 +1,5 @@
 <div class="registration-page">
-  <img class="amazonlogo" src="assets/AmazonAccount.png" a routerLink="" alt="" height="40px" />
+  <img class="amazonlogo" src="assets/logo-images/AmazonAccount.png" a routerLink="" alt="" height="40px" />
   <div class="registration-container">
     <form class="registration-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
       <span>Create Account</span>
@@ -9,11 +9,11 @@
         <input class="register-input" type="text" name="firstName" formControlName="firstName"
           [class.error-border]="submitted   && registrationForm.get('firstName')?.invalid" placeholder="First Name" />
         <div class="register-errors" *ngIf="submitted  && registrationForm.get('firstName')?.hasError('required')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Your first name is required</small>
         </div>
         <div class="register-errors" *ngIf=" submitted  && registrationForm.get('firstName')?.hasError('pattern')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Invalid first name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV' or
             'XII'.</small>
         </div>
@@ -24,11 +24,11 @@
         <input class="register-input" type="text" name="lastName" formControlName="lastName"
           [class.error-border]="submitted && registrationForm.get('lastName')?.invalid" placeholder="Last Name" />
         <div class="register-errors" *ngIf="submitted  && registrationForm.get('lastName')?.hasError('required')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Your last name is required</small>
         </div>
         <div class="register-errors" *ngIf="submitted && registrationForm.get('lastName')?.hasError('pattern')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Invalid last name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV' or
             'XII'.</small>
         </div>
@@ -39,12 +39,12 @@
         <input class="register-input" type="text" name="username" formControlName="username"
           [class.error-border]="submitted  && registrationForm.get('username')?.invalid" placeholder="Username" />
         <div class="register-errors" *ngIf="submitted  && registrationForm.get('username')?.hasError('required')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Your username is required</small>
         </div>
         <div class="register-errors"
           *ngIf="submitted  && !registrationForm.get('username')?.hasError('required') && registrationForm.get('username')?.invalid">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Username must be between 5-20 characters long</small>
         </div>
       </div>
@@ -54,12 +54,12 @@
         <input class="register-input" type="email" name="email" formControlName="email"
           [class.error-border]="submitted  && registrationForm.get('email')?.invalid" placeholder="Email Address" />
         <div class="register-errors" *ngIf="submitted  && registrationForm.get('email')?.hasError('required')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Your email address is required</small>
         </div>
         <div class="register-errors"
           *ngIf="submitted && !registrationForm.get('email')?.hasError('required') && registrationForm.get('email')?.invalid">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Invalid email format</small>
         </div>
       </div>
@@ -70,7 +70,7 @@
           [class.error-border]="submitted && registrationForm.get('dateOfBirth')?.hasError('required')"
           placeholder="Date of Birth" />
         <div class="register-errors" *ngIf="submitted && registrationForm.get('dateOfBirth')?.hasError('required')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Please select your date of birth</small>
         </div>
       </div>
@@ -82,7 +82,7 @@
           " formControlName="phoneNumber"
           placeholder="ex: 123-456-7890" />
         <div class="register-errors" *ngIf="submitted && registrationForm.get('phoneNumber')?.hasError('pattern')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Invalid phone number format</small>
         </div>
       </div>
@@ -92,17 +92,17 @@
         <input class="register-input" type="password" name="password" formControlName="password"
           [class.error-border]="submitted && registrationForm.get('password')?.invalid" placeholder="Password" />
         <div class="register-errors" *ngIf=" submitted && registrationForm.get('password')?.hasError('required')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Your password is required</small>
         </div>
         <div class="register-errors"
           *ngIf="submitted && !registrationForm.get('password')?.hasError('required') &&registrationForm.get('password')?.hasError('minlength') ">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Password must be at least 6 characters long</small>
         </div>
         <div class="register-errors"
           *ngIf="submitted && registrationForm.get('password')?.hasError('pattern') && !registrationForm.get('password')?.hasError('minlength')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Password must contain at least one uppercase letter, one number, and one special character</small>
         </div>
       </div>
@@ -114,11 +114,11 @@
           placeholder="Re-enter Password" />
         <div class="register-errors"
           *ngIf="submitted && registrationForm.get('confirmPassword')?.hasError('required') && registrationForm.get('confirmPassword')?.invalid">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Please re-enter your password</small>
         </div>
         <div class="register-errors" *ngIf="submitted && registrationForm.get('confirmPassword')?.hasError('mismatch')">
-          <img src="assets/errors-icon.svg" alt="">
+          <img src="assets/logo-images/errors-icon.svg" alt="">
           <small>Passwords do not match</small>
         </div>
       </div>
