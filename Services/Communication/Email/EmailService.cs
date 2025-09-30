@@ -7,6 +7,7 @@ using Amazon_eCommerce_API.Services.Cache;
 using Amazon_eCommerce_API.Services.Users;
 using System.Net;
 using System.Net.Mail;
+using Amazon_eCommerce_API.Models.EmailEntities;
 
 namespace Amazon_eCommerce_API.Services.Email
 {
@@ -15,12 +16,7 @@ namespace Amazon_eCommerce_API.Services.Email
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
         private readonly IConfiguration _configuration;
-
-        private readonly string _smtpHost;
-        private readonly int _smtpPort;
-        private readonly string _senderEmail;
-        private readonly string _senderPassword;
-        private readonly string _senderName;
+        private readonly EmailSettings _emailSettings;
 
         public EmailService(IUserService userService, ICacheService cacheService, IConfiguration configuration)
         {
@@ -28,16 +24,22 @@ namespace Amazon_eCommerce_API.Services.Email
             _cacheService = cacheService;
             _configuration = configuration;
 
-            _smtpHost = _configuration["EmailSettings:SmtpHost"];
-            _smtpPort = int.Parse(_configuration["EmailSettings:SmtpPort"]);
-            _senderEmail = _configuration["EmailSettings:SenderEmail"];
-            _senderPassword = _configuration["EmailSettings:SenderPassword"];
-            _senderName = _configuration["EmailSettings:SenderName"];
-
+            _emailSettings = _configuration.GetSection("EmailSettings").Get<EmailSettings>();
 
         }
 
-        public async Task<bool> ResendEmailVerificationOtpAsync(string email)
+        private EmailProviderSettings GetProvider(string providerName = null)
+        {
+            providerName ??= _emailSettings.DefaultProvider;
+
+            if (!_emailSettings.Providers.ContainsKey(providerName))
+                throw new Exception($"Email provider '{providerName}' is not configured.");
+
+            return _emailSettings.Providers[providerName];
+        }
+    
+
+    public async Task<bool> ResendEmailVerificationOtpAsync(string email)
         {
             var user = await _userService.GetUserByEmailAsync(email);
 
@@ -72,7 +74,7 @@ namespace Amazon_eCommerce_API.Services.Email
 
 
 
-            //generate new requestlimit
+            //generate new request limit
 
             await _cacheService.SetOtpRequestLimitAsync(email, new OtpRequestLimitDto
 
@@ -112,7 +114,7 @@ namespace Amazon_eCommerce_API.Services.Email
 
             //cache service
 
-            var otpCatcheDto = new OtpCacheDto
+            var otpCacheDto = new OtpCacheDto
             {
 
                 Identifier = dto.Email,
@@ -123,7 +125,7 @@ namespace Amazon_eCommerce_API.Services.Email
 
             };
 
-            await _cacheService.SetOtpAsync(dto.Email, otpCatcheDto);
+            await _cacheService.SetOtpAsync(dto.Email, otpCacheDto);
             await _cacheService.SetOtpRequestLimitAsync(dto.Email, new OtpRequestLimitDto { ExpirationMinutes = 10 });
 
             var emailSent = await SendOtpEmailAsync(dto.Email, otp);
@@ -135,22 +137,25 @@ namespace Amazon_eCommerce_API.Services.Email
 
         }
 
-        public async Task<bool> SendOtpEmailAsync(string email, string otp)
+        public async Task<bool> SendOtpEmailAsync(string email, string otp, string providerName = null)
         {
+           
 
             var user = await _userService.GetUserByEmailAsync(email);
 
             if (user == null) return false;
 
+            var provider = GetProvider(providerName);
+            
             string subject = "Your Amazon OTP Code";
 
             string body = GetEmailTemplate(otp);
 
 
-            using var client = new SmtpClient(_smtpHost,_smtpPort)
+            using var client = new SmtpClient(provider.SmtpHost,provider.SmtpPort)
             {
 
-                Credentials = new NetworkCredential(_senderEmail, _senderPassword),
+                Credentials = new NetworkCredential(provider.SenderEmail, provider.SenderPassword),
                 EnableSsl = true
 
 
@@ -160,7 +165,7 @@ namespace Amazon_eCommerce_API.Services.Email
             var mailMessage = new MailMessage
             {
 
-                From = new MailAddress(_senderEmail,_senderName),
+                From = new MailAddress(provider.SenderEmail, provider.SenderName),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = true
@@ -183,76 +188,72 @@ namespace Amazon_eCommerce_API.Services.Email
 
                 return false;
 
-            };
+            }
 
         }
 
 
 
-        public string GetEmailTemplate(string verificationCode)
-        {
-            return $@"
-    <html>
-    <head>
-        <meta name='color-scheme' content='light dark'>
-        <meta name='supported-color-schemes' content='light dark'>
-        <style>
-            body {{
-                font-family: Arial, sans-serif;
-                background-color: #FFFFFF !important;
-                color: #000000 !important;
-                text-align: center;
-                padding: 20px;
-            }}
-            .email-container {{
-                background-color: #FFFFFF !important;
-                color: #000000 !important;
-                padding: 20px;
-                border-radius: 10px;
-                max-width: 500px;
-                margin: auto;
-            }}
-                .logo img {{
-                width: 120px !important;
-                height: auto !important;
-                display: block;
-                margin: 0 auto 20px auto;
-            }}
-            .otp {{
-                font-size: 32px;
-                font-weight: bold;
-                margin: 20px 0;
-                color: #000000 !important;
-            }}
-            p, .footer {{
-                color: #000000 !important;
-            }}
-        </style>
-    </head>
-    <body>
-        <div class='email-container'>
-            <div class='logo'>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' alt='Amazon'>
-            </div>
-            <p>Your One-Time Password (OTP) is:</p>
-            <div class='otp'>{verificationCode}</div>
-            <p>Don't share this OTP with anyone. Amazon takes your account security very seriously.
+       public string GetEmailTemplate(string verificationCode)
+{
+    return $@"
+<html>
+<head>
+    <meta name='color-scheme' content='light'>
+    <meta name='supported-color-schemes' content='light'>
+    <style>
+        body {{
+            margin: 0;
+            padding: 0;
+        }}
+        .email-container {{
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF !important;
+            color: #000000 !important;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 20px auto;
+            border: 1px solid #e0e0e0;
+        }}
+        .otp {{
+            font-size: 32px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #000000 !important;
+        }}
+        p {{
+            color: #000000 !important;
+            line-height: 1.5;
+        }}
+        .footer {{
+            margin-top: 20px;
+            font-size: 12px;
+            color: #555555 !important;
+        }}
+    </style>
+</head>
+<body style='background-color:#FFFFFF !important; color:#000000 !important;'>
+    <div class='email-container' style='background-color:#FFFFFF !important; color:#000000 !important;'>
+        <div class='logo' style='text-align:center;'>
+            <img src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' alt='Amazon' style='width:120px; height:auto; display:block; margin:0 auto 20px auto;'>
+        </div>
+        <p style='color:#000000;'>Your One-Time Password (OTP) is:</p>
+        <div class='otp' style='color:#000000;'>{verificationCode}</div>
+        <p style='color:#000000;'>
+            Don't share this OTP with anyone. Amazon takes your account security very seriously.
             Amazon Customer Service will never ask you to disclose or verify your Amazon password, OTP,
             credit card, or banking account number. If you receive a suspicious email with a link to
             update your account information, do not click on the link — instead, report the email to Amazon
-            for investigation.</p>
-
-            <p>Thank you</p>
-
-            <div class='footer'>
-                &copy; 2025 Amazon.com, Inc. or its affiliates. All rights reserved.
-            </div>
-        </div>
-    </body>
-    </html>";
-        }
-
-
+            for investigation.
+        </p>
+        <p style='color:#000000;'>Thank you,</p>
+        <div class='footer' style='color:#555555;'>&copy; 2025 Amazon.com, Inc. or its affiliates. All rights reserved.</div>
+    </div>
+</body>
+</html>";
+}
 
         public async Task<bool> VerifyEmailOtpAsync(UserVerifyEmailDto dto)
         {
@@ -348,7 +349,7 @@ namespace Amazon_eCommerce_API.Services.Email
 
 
                 return false; //User Update Failed
-            };
+            }
 
             await _cacheService.RemoveOtpAsync(dto.Email);  //remove otp after successful verification
 

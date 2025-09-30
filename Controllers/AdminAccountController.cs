@@ -78,7 +78,7 @@ namespace Amazon_eCommerce_API.Controllers
             return Ok(new
             {
                 Message = "Admin Registration Successful",
-                UserId = user.Id,  // Assuming your user model has an Id property
+                UserId = user.Id,  // Assuming your user model has an IdD property
                 UserName = user.Username  // Returning the username for confirmation
             });
 
@@ -180,7 +180,7 @@ namespace Amazon_eCommerce_API.Controllers
         {
             var users = await _userService.GetAllUsersAsync();
 
-            // Find user by Id and ensure their RoleId is 2 (Admin)
+            // Find user by ID and ensure their RoleId is 2 (Admin)
             var adminUser = users.FirstOrDefault(u => u.Id == Id && u.RoleId == 2);
 
             if (adminUser == null)

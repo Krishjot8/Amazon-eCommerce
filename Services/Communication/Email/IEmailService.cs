@@ -5,10 +5,8 @@ namespace Amazon_eCommerce_API.Services.Email
     public interface IEmailService
     {
 
-
-
-
-        Task<bool> SendOtpEmailAsync(string email, string otp); // Send a one-time password (OTP) to the user via email.
+        
+        Task<bool> SendOtpEmailAsync(string email, string otp,string providerName = null); // Send a one-time password (OTP) to the user via email.
 
         Task<bool> SendEmailVerificationAsync(UserVerifyEmailDto dto); //Initiates the email verification process for a user.
 
