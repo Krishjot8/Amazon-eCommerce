@@ -87,84 +87,56 @@ onPasswordInput(){
   this.authErrorMessage = '';
 }
 
-  onSubmit() {
-    this.submitted = true;
-    this.validateInput();
+onSubmit() {
+  this.submitted = true;
 
-    if (this.loginForm.invalid) return;
-
-    const password = this.loginForm.get('password')?.value;
-    const emailOrPhone = localStorage.getItem('emailOrPhone');
-
-    if (!emailOrPhone) {
-      this.router.navigate(['signin']);
-      return;
-    }
-
-const loginPayload: CustomerLogin = {emailOrPhone,password};
-
-this.authService.startPasswordChallenge(loginPayload).subscribe({
-  next: (response: PasswordChallengeResponse) => {
-
-    const otpPayload : CustomerOtpVerification = {
-
-       Email: emailOrPhone,
-       OTP: '',
-      isResendRequest: false
-
-    };
-localStorage.setItem('pendingAuthId', response.pendingAuthId);
-localStorage.setItem('otpChannel', response.otpChannel);
-localStorage.setItem('otpMasked', response.maskedDestination);
-localStorage.setItem('otpPayload', JSON.stringify(otpPayload));
-
-this.router.navigate(['customer-verification']);
-
-  },
-  error: (err: HttpErrorResponse) => {
-
-console.log('Password challenge failed', err);
-if(err.status === 401){
-
-this.authErrorMessage = 'Your password is incorrect';
-
-}else if (err.status === 404){
-
-this.authErrorMessage = 'We cannot find an account with that email or phone';
-
-} else{
-
-this.authErrorMessage = 'Something went wrong. Please try again later';
-
-}
-
+  // Frontend validation first
+  if (this.loginForm.invalid) {
+    this.authErrorMessage = ''; // no backend error here
+    return;
   }
-}
 
-)
+  const password = this.loginForm.get('password')?.value.trim();
+  const emailOrPhone = localStorage.getItem('emailOrPhone');
 
-
-
-
-    // send credentials to backend
-   /*  this.authService.login({ emailOrPhone, password }).subscribe({
-      next: (response) => {
-        localStorage.setItem('currentUser', JSON.stringify(response));
-        console.log('Login Successful:', response);
-        this.router.navigate(['']); // or OTP page
-      },
-      error: (err) => {
-        console.log('Login Failed:', err);
-        if (err.status === 401) {
-          this.authErrorMessage = 'Your password is incorrect';
-        } else if (err.status === 404) {
-          this.authErrorMessage =
-            'We cannot find an account with that email address';
-        } else {
-          this.authErrorMessage =
-            'Something went wrong. Please try again later';
-        }
-      },
-    }); */
+  if (!emailOrPhone) {
+    this.router.navigate(['signin']);
+    return;
   }
+
+  const loginPayload: CustomerLogin = { emailOrPhone, password };
+
+  this.authService.startPasswordChallenge(loginPayload).subscribe({
+    next: (response: PasswordChallengeResponse) => {
+      // success: move to OTP verification
+      const otpPayload: CustomerOtpVerification = {
+        Email: emailOrPhone,
+        OTP: '',
+        isResendRequest: false,
+      };
+
+      localStorage.setItem('pendingAuthId', response.pendingAuthId);
+      localStorage.setItem('otpChannel', response.otpChannel);
+      localStorage.setItem('otpMasked', response.maskedDestination);
+      localStorage.setItem('otpPayload', JSON.stringify(otpPayload));
+
+      this.router.navigate(['customer-verification']);
+    },
+    error: (err: HttpErrorResponse) => {
+      console.log('Login failed', err);
+
+      if (err.status === 401) {
+        // Wrong password
+        this.authErrorMessage = 'Your password is incorrect';
+      } else if (err.status === 404) {
+        // No account
+        this.authErrorMessage =
+          'We cannot find an account with that email or phone';
+      } else {
+        // Something else
+        this.authErrorMessage = 'Something went wrong. Please try again later';
+      }
+    },
+  });
+}
 }

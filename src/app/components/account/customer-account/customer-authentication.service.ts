@@ -31,7 +31,7 @@ export class CustomerAuthenticationService {
     payload: CustomerLogin
   ): Observable<PasswordChallengeResponse> {
     return this.http.post<PasswordChallengeResponse>(
-      `${this.apiUrl}/password-challenge`,
+      `${this.apiUrl}/customeraccount/login`,
       payload
     );
   }
