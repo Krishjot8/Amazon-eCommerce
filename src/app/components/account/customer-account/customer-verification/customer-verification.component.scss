@@ -1,22 +1,49 @@
 
 .span-verify-email-address {
-  font-size: 210%;
+  font-size: 180%;
   margin-bottom: 10px;
+  font-family: Amazon;
 }
 .span-one-time-password {
-  font-weight: bold;
+  font-family: Amazon;
+  font-weight:bold;
   position: relative;
   margin-top: 22px;
 }
 
 .amazon-authentication-logo {
-  width: 8%;
+  width: 10%;
   position: relative;
-  margin-left: 46.5%;
-  margin-right: 46.5%;
+  margin-left:50%;
+  margin-right: 50%;
   margin-top: 1%;
   cursor: pointer;
 }
+
+.otp-information p{
+font-family: Amazon;
+font-size: 13px;
+
+margin-right: 15px;
+
+}
+
+.otp-information a{
+  font-family: Amazon;
+  font-size: 13px;
+  color: #007185;
+  margin-left: 15px;
+  text-decoration: none;
+  
+  }
+
+  .otp-information a:hover{
+   
+    color: #093f48;
+ text-decoration: underline;
+    
+    
+    }
 
 .input-verification-code {
   border-radius: 6px;
@@ -69,6 +96,17 @@
   font-family: Amazon;
   font-size: 13px;
   font-weight: 400;
+  margin-top: 24px;
+}
+.span-resend-one-time-password a{
+  color: #007185;
+  text-decoration: none;
+
+}
+
+.span-resend-one-time-password a:hover{
+  color: #07424d;
+  text-decoration: underline;
 }
 
 .submit-account-verification button {
