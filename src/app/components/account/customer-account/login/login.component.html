@@ -1,5 +1,6 @@
 <div class="sign-in-page">
-  <img class="amazon-authentication-logo" src="assets/logo-images/amazon-authentication-logo.jpg" routerLink="" alt="" />
+  <img class="amazon-authentication-logo" src="assets/logo-images/amazon-authentication-logo.jpg" routerLink=""
+    alt="" />
   <div class="sign-in-container">
     <div class="span-signin">
       <span>Sign in or create account</span>
@@ -11,12 +12,11 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-sign-in" novalidate>
       <div>
-        <input class="inputlogin"  autocomplete="off" type="email" required formControlName="emailOrPhone"
-          [ngClass]="{'invalid': loginForm.get('emailOrPhone')?.hasError && submitted}"
+        <input class="inputlogin" autocomplete="off" type="email" required formControlName="emailOrPhone"
+          [ngClass]="{'invalid': loginForm.get('emailOrPhone')?.hasError && submitted}" />
 
- />
-
-        <div class="error-message"  *ngIf= "errorMessage && submitted"><img class="error-icon" src="assets/logo-images/errors-icon.svg" alt="">{{errorMessage}}</div>
+        <div class="error-message" *ngIf="errorMessage && submitted"><img class="error-icon"
+            src="assets/logo-images/errors-icon.svg" alt="">{{errorMessage}}</div>
 
 
         <div class="continue-sign-in">
@@ -48,7 +48,7 @@
       <h4>New to Amazon?</h4>
     </div>
     <div>
-     <button class="create-amazon-account-button" routerLink="/register">Create your Amazon Account</button>
+      <button class="create-amazon-account-button" routerLink="/register">Create your Amazon Account</button>
     </div>
   </div>
 </div>

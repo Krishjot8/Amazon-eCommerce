@@ -1,10 +1,17 @@
 <div class="background-layout">
   <div class="main-content">
     <div class="carousel-home-main">
-      
+      <div class="carousel-track" [style.transform]="'translateX(-' + currentIndex * 100 +'%)'">
+<div class="carousel-item" *ngFor="let image of images">
+<img [src]="image" alt="Home banner" />
+</div>
+      </div>
 
+<button class="carousel-btn prev" (click)="prevSlide()">&#10094;</button>
+<button class="carousel-btn next" (click)="nextSlide()">&#10095;</button>
 
     </div>
+
 
   </div>
 
