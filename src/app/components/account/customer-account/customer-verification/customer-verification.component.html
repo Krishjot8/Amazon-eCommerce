@@ -1,30 +1,42 @@
 <div class="verify-account-page">
   <img class="amazon-authentication-logo" src="assets/logo-images/amazon-authentication-logo.jpg"  a routerLink="" alt="">
-  <div class="verify-account-container">
+  <div class="verify-account-container" [formGroup]="verifyForm">
     <div class="span-verify-email-address">
     <span>Verify Email Address</span>
     </div>
     <div class="otp-information">
       <p>To verify your email, we've sent a One Time Password
-        (OTP) to <a href="signin">(Change)</a>
+        (OTP) to {{maskedEmail}} <a href="signin">(Change)</a>
       </p>
     </div>
     <div class="span-one-time-password">
      <span>Enter security code</span>
     </div>
-<div class="form-verify-email">
-  <input class="input-verification-code" type="text"  required
-  pattern="^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})|(\d{3}-\d{3}-\d{4})$"/>
+<form class="form-verify-email" (ngSubmit)="onSubmit()" autocomplete ="off">
+  <input class="input-verification-code" type="text"
+   required
+   formControlName="otp"
+  pattern="^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})|(\d{3}-\d{3}-\d{4})$"
+  maxlength="6"/>
+
+<div class="error-message"
+*ngIf="verifyForm.controls['otp'].invalid && verifyForm.controls['otp'].touched">
+
+Invalid OTP. Please check your code and try again.
+</div>
+
 <div class="submit-account-verification">
   <button type="submit">Create your Amazon Account</button>
 </div>
-</div>
+</form>
 <div class="verify-account-conditions-privacy">
   <p>By creating an account, you agree to Amazon's <a href="">Conditions
-    of Use</a> and <a href="">Privacy Notice</a>.</p>
+    of Use</a> and <a href="">Privacy Notice</a></p>
 </div>
+
+
 <div class="span-resend-one-time-password">
-  <span> <a href="">Resend Code</a></span>
+  <span> <a (click)="onResendOtp()">Resend Code</a></span>
 </div>
 
 

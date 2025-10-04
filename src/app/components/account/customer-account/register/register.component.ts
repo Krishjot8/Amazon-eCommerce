@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterService } from './register.service';
 import { CustomerRegistration } from 'src/app/models/accounts/customer/customer-register.model';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -85,6 +84,7 @@ export class RegisterComponent implements OnInit {
     if (!passwordControl || !confirmPasswordControl) {
       return null;
     }
+
     if (
       confirmPasswordControl.errors &&
       !confirmPasswordControl.errors['mismatch']
@@ -120,7 +120,7 @@ export class RegisterComponent implements OnInit {
       console.log(
         'Form Submitted',
         this.registrationForm.value,
-        this.router.navigate(['verify-email'])
+
       );
 
       this.registerService.registerUser(registrationData).subscribe({
@@ -129,7 +129,10 @@ export class RegisterComponent implements OnInit {
           // Handle success (e.g., redirect to login)
           this.registrationForm.reset();
           this.submitted = false;
-          this.router.navigate(['verify-email']);
+
+ localStorage.setItem('verificationEmail', registrationData.email);
+
+          this.router.navigate(['customer-verification']);
         },
         error: (error) => {
           console.error('Registration failed', error);

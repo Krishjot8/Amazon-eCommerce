@@ -67,17 +67,20 @@ hr {
 }
 
 #newsletter-checkbox {
-  width: 40px;
- float: left;
+width: 40px;
+height: 20px;
+display: flex;
 
 }
 
-.subscription-information h4{
+.subscription-information {
 font-size: 12px;
 font-family: Amazon;
-transform: translateY(-10px);
+transform: translate(5px,-5px);
 line-height: 18px;
 }
+
+
 .submitbutton {
   color: black;
   cursor: pointer;
@@ -87,10 +90,10 @@ line-height: 18px;
   width: 50%;
   height: 100%;
   background-color: #ffd814;
-
   border-radius: 20px;
   border: none;
 }
+
 .submit-form {
   text-align: center;
 }

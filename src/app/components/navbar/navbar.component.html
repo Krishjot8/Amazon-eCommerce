@@ -30,9 +30,9 @@
 
 
       <div class="nav-sign-account-text" routerLink="/signin">
-        <p>Hello, Sign in</p>
+        <p *ngIf="userFirstName">Hello {{userFirstName}}</p>
+        <p *ngIf="!userFirstName">Hello, Sign in</p>
         <b>Account & Lists</b>
-
       </div>
 
 

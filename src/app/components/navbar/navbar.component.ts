@@ -8,19 +8,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+
+  userFirstName: string | null = null;
+
+
+ ngOnInit(): void {
+  this.userFirstName = localStorage.getItem('firstName');
+  
+  }
+
+
 showNavbar = true;
 
-  constructor(private router: Router) {
 
 
-  }
+  constructor(private router: Router) {}
 
   @ViewChild('drawer', { static: false }) drawer!: MatDrawer;
-
-
-
-  ngOnInit(): void {
-  }
 
 
   toggleDrawer() {

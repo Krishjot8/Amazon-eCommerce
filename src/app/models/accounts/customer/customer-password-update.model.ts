@@ -1,4 +1,4 @@
-export interface CustomerPasswordUpdate{
+export interface CustomerUpdatePassword{
 
   currentPassword : string;
   newPassword : string;

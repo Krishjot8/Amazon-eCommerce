@@ -7,7 +7,7 @@ import { CustomerRegistration } from 'src/app/models/accounts/customer/customer-
   providedIn: 'root',
 })
 export class RegisterService {
-  private apiUrl = 'https://localhost:44366/api/register';
+  private apiUrl = 'https://localhost:44366/api/CustomerAccount/register';
 
   constructor(private http: HttpClient) {}
 
