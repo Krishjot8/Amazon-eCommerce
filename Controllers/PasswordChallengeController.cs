@@ -65,7 +65,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-            var isValid = await _passwordChallengeService.VerifyOtpAsync(requestDto.PendingAuthId,requestDto.Otp);
+            var isValid = await _passwordChallengeService.VerifyOtpAsync(requestDto);
 
 
             if (!isValid)

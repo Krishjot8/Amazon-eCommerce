@@ -88,13 +88,13 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
         }
 
-        public async Task<bool> VerifyOtpAsync(string pendingAuthId, string otp)
+        public async Task<bool> VerifyOtpAsync(UserPasswordChallengeVerifyDto verifyDto)
         {
-           var cachedOtp =  _cacheService.ValidateOtpAsync(pendingAuthId, otp);
+           var cachedOtp =  _cacheService.ValidateOtpAsync(verifyDto.PendingAuthId, verifyDto.Otp);
 
            if (cachedOtp == null) return false;
 
-           await _cacheService.RemoveOtpAsync(pendingAuthId);
+           await _cacheService.RemoveOtpAsync(verifyDto.PendingAuthId);
            return true;
 
         }

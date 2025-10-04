@@ -29,7 +29,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<bool> SubscribeToNewsLetterAsync(int userId);
 
-        Task<bool> IsEmailTakenAsync(string email);
+        Task<bool> IsIdentifierTakenAsync(string identifier);
 
         Task<bool> IsUsernameTakenAsync(string username);
 

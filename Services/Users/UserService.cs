@@ -173,11 +173,11 @@ namespace Amazon_eCommerce_API.Services.Users
             return hashedPassword;
         }
 
-        public async Task<bool> IsEmailTakenAsync(string email)
+        public async Task<bool> IsIdentifierTakenAsync(string identifier)
         {
-           var existingEmail = await _storeContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+           var existingUser = await _storeContext.Users.FirstOrDefaultAsync(u => u.Email == identifier || u.PhoneNumber == identifier);
 
-            return existingEmail != null;
+            return existingUser != null;
         }
 
       

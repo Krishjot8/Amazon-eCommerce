@@ -6,8 +6,9 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
     {
 
         Task<UserPasswordChallengeResponseDto> GenerateOtpChallengeAsync(string emailOrPhone, string password);
-        Task<bool> VerifyOtpAsync(string pendingAuthId, string otp);
+        Task<bool> VerifyOtpAsync(UserPasswordChallengeVerifyDto verifyDto);
        
 
     }
 }
+

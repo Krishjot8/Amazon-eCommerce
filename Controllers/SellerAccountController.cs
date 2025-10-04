@@ -40,7 +40,7 @@ namespace Amazon_eCommerce_API.Controllers
               if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-              var emailTaken  = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
+              var emailTaken  = await _userService.IsIdentifierTakenAsync(userRegistrationDto.Email);
             var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
 
             if (emailTaken) {

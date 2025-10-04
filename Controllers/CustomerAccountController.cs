@@ -1,5 +1,6 @@
 ﻿using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.UserAccount;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
@@ -50,7 +51,7 @@ namespace Amazon_eCommerce_API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var emailTaken = await _userService.IsEmailTakenAsync(userRegistrationDto.Email);
+            var emailTaken = await _userService.IsIdentifierTakenAsync(userRegistrationDto.Email);
             var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
 
 
@@ -73,11 +74,11 @@ namespace Amazon_eCommerce_API.Controllers
 
             string roleName = "Customer";
 
-            var user = await _userService.RegisterUserAsync(userRegistrationDto, roleName);
+            var customerUser = await _userService.RegisterUserAsync(userRegistrationDto, roleName);
 
 
 
-            if (user == null)
+            if (customerUser == null)
             {
 
                 return BadRequest("Customer Registration Failed");
@@ -85,14 +86,32 @@ namespace Amazon_eCommerce_API.Controllers
             }
 
 
+            //New User is already in database now.
+
+
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.Email ?? customerUser.PhoneNumber ,userRegistrationDto.Password);
+
+            // Todo: Send OTP to user's email or phone number for verification
+
+
+
+            // add verify otp endpoint to log in and verify identity after registration
+
 
 
             return Ok(new
+
             {
-                Message = "Customer Registration Successful",
-                UserId = user.Id,  // Assuming your user model has an Id property
-                UserName = user.Username  // Returning the username for confirmation
+                message = $"OTP sent to your {otpChallenge.OtpChannel}",
+                pendingAuthID = otpChallenge.PendingAuthId,
+                destination = otpChallenge.MaskedDestination
+
+
             });
+
+
+
+
 
 
         }
