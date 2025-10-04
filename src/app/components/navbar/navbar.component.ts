@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  userFirstName: string | null = null;
+  username: string | null = null;
 
 
  ngOnInit(): void {
-  this.userFirstName = localStorage.getItem('firstName');
-  
+  this.username = localStorage.getItem('username');
+
   }
 
 

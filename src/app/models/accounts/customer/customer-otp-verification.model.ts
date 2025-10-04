@@ -1,8 +1,8 @@
 export interface CustomerOtpVerification{
 
-Email : string;
-OTP : string;
-email?: string;
-isResendRequest?: boolean;
+PendingAuthId : string;
+Otp : string;
+//email?: string;
+//isResendRequest?: boolean;
 
 }

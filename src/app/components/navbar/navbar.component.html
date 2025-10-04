@@ -1,26 +1,26 @@
 <div class="topbar">
-  <mat-toolbar  class="toolbar1">
-    <img class="logo" src="assets/logo-images/amazon.png"  a routerLink="" alt="" />
+  <mat-toolbar class="toolbar1">
+    <img class="logo" src="assets/logo-images/amazon.png" a routerLink="" alt="" />
 
 
     <div class="search-bar-wrapper">
-<div class="dropdown-button">
- <button class="dropdown" mat-button [matMenuTriggerFor]="menu">
-   All<mat-icon class="arrow_drop_down">arrow_drop_down</mat-icon>
- </button>
- <mat-menu #menu="matMenu">
- <button mat-menu-item>Books</button>
- <button mat-menu-item>Electronics</button>
- <button mat-menu-item>Fashion</button>
- <button mat-menu-item routerLink="/video-games">Video Games</button>
- </mat-menu>
-</div>
+      <div class="dropdown-button">
+        <button class="dropdown" mat-button [matMenuTriggerFor]="menu">
+          All<mat-icon class="arrow_drop_down">arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>Books</button>
+          <button mat-menu-item>Electronics</button>
+          <button mat-menu-item>Fashion</button>
+          <button mat-menu-item routerLink="/video-games">Video Games</button>
+        </mat-menu>
+      </div>
 
-<input type="search" placeholder="Search Amazon"/>
+      <input type="search" placeholder="Search Amazon" />
 
-<button class="search-icon">
-<mat-icon>search</mat-icon>
-</button>
+      <button class="search-icon">
+        <mat-icon>search</mat-icon>
+      </button>
 
     </div>
 
@@ -30,21 +30,21 @@
 
 
       <div class="nav-sign-account-text" routerLink="/signin">
-        <p *ngIf="userFirstName">Hello {{userFirstName}}</p>
-        <p *ngIf="!userFirstName">Hello, Sign in</p>
+        <p *ngIf="username">Hello {{username}}</p>
+        <p *ngIf="!username">Hello, Sign in</p>
         <b>Account & Lists</b>
       </div>
 
 
     </div>
 
-<div class="nav-return-orders">
-  <div routerLink="/orders">
-    <p>Returns</p>
-    <strong>& Orders</strong>
-  </div>
+    <div class="nav-return-orders">
+      <div routerLink="/orders">
+        <p>Returns</p>
+        <strong>& Orders</strong>
+      </div>
 
-</div>
+    </div>
 
 
 
@@ -52,7 +52,8 @@
 
   <mat-toolbar class="toolbar2">
     <div class="drawer-opener"> <button class="drawer-button" (click)="drawer.toggle()" mat-icon-button>
-      <mat-icon>menu</mat-icon> All</button></div>
+        <mat-icon>menu</mat-icon> All
+      </button></div>
 
     <a routerLink="/gift-cards">Gift Cards</a>
     <a routerLink="/bestsellers">Best Sellers</a>
@@ -71,16 +72,16 @@
 
   <mat-drawer-container autosize>
     <mat-drawer class="drawer" #drawer opened="false" mode="side">
-         <div class="sidebar-sign-in">
-   <button  routerLink="signin" mat-button class="sidebarsubmenus">Hello, sign In</button>
-        </div>
+      <div class="sidebar-sign-in">
+        <button routerLink="signin" mat-button class="sidebarsubmenus">Hello, sign In</button>
+      </div>
       <mat-nav-list>
 
 
         <h3 class="sidebarmenus"><b>Trending</b></h3>
         <mat-list-item>
 
-         <button routerLink="bestsellers" mat-button class="sidebarsubmenus">Best Sellers</button>
+          <button routerLink="bestsellers" mat-button class="sidebarsubmenus">Best Sellers</button>
         </mat-list-item>
         <mat-list-item>
           <button routerLink="new-releases" mat-button class="sidebarsubmenus">New Releases</button>
@@ -89,7 +90,7 @@
           <button routerLink="movers&shakers" mat-button class="sidebarsubmenus"> Movers & Shakers </button>
         </mat-list-item>
         <hr>
-          <h3 class="sidebarmenus"><b>Digital Content & Devices</b></h3>
+        <h3 class="sidebarmenus"><b>Digital Content & Devices</b></h3>
         <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Prime Video</button>
         </mat-list-item>
@@ -102,7 +103,7 @@
         <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Amazon Nova</button>
         </mat-list-item>
-          <mat-list-item>
+        <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Fire Tablets</button>
         </mat-list-item>
         <mat-list-item>
@@ -111,30 +112,30 @@
         <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Amzon Luna - Cloud Gaming</button>
         </mat-list-item>
-         <mat-list-item>
+        <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Kindle E-readers & Books</button>
         </mat-list-item>
-         <mat-list-item>
+        <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Audible Books & Originals</button>
         </mat-list-item>
-         <mat-list-item>
+        <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Amazon Photos</button>
         </mat-list-item>
-         <mat-list-item>
+        <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Amazon Appstore</button>
         </mat-list-item>
         <hr>
-              <h3 class="sidebarmenus"><b>Shop by Department</b></h3>
+        <h3 class="sidebarmenus"><b>Shop by Department</b></h3>
         <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Clothing, Shoes, Jewelry & Watches</button>
         </mat-list-item>
         <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Amazon Fresh</button>
         </mat-list-item>
-  <mat-list-item>
+        <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Whole Foods Market</button>
         </mat-list-item>
-          <mat-list-item>
+        <mat-list-item>
           <button routerLink="" mat-button class="sidebarsubmenus">Books</button>
         </mat-list-item>
         <hr>

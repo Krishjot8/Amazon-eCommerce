@@ -123,6 +123,10 @@ export class RegisterComponent implements OnInit {
 
       );
 
+
+
+
+
       this.registerService.registerUser(registrationData).subscribe({
         next: (response) => {
           console.log('Registration successful', response);
@@ -137,6 +141,15 @@ export class RegisterComponent implements OnInit {
         error: (error) => {
           console.error('Registration failed', error);
           // Handle error (e.g., show error message)
+
+          this.registrationForm.get('email')?.setErrors(null);
+
+          if(error.status === 400 && error.error?.message?.includes('email')){
+
+
+            this.registrationForm.get('email')?.setErrors({duplicateEmail:true});
+          }
+
         },
       });
     } else {

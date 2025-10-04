@@ -7,13 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   images: string[] = [
-    'assets/carousel-images/home-component-carousel-images/see-what-we-launched.jpg',
+    'assets/carousel-images/home-component-carousel-images/prime-big-deal-days-tv.jpg',
+    'assets/carousel-images/home-component-carousel-images/prime-big-deal-days.jpg',
     'assets/carousel-images/home-component-carousel-images/nba-prime.jpg',
-    'assets/carousel-images/home-component-carousel-images/nastygal.jpg',
-    'assets/carousel-images/home-component-carousel-images/hotel-costiera-prime-series.jpg',
-'assets/carousel-images/home-component-carousel-images/amazon-pharmacy.jpg',
-'assets/carousel-images/home-component-carousel-images/prime-big-deal-days.jpg'
-
+    'assets/carousel-images/home-component-carousel-images/amazon-pharmacy.jpg',
+    'assets/carousel-images/home-component-carousel-images/early-kitchen-deals.jpg',
+    'assets/carousel-images/home-component-carousel-images/gen-v.jpg',
   ];
 
   duplicatedImages: string[] = [];

@@ -1,15 +1,11 @@
 
 .span-verify-email-address {
-  font-size: 180%;
+  font-size: 110%;
   margin-bottom: 10px;
-  font-family: Amazon;
+  font-family: Amazon Ember;
+  font-weight: bold;
 }
-.span-one-time-password {
-  font-family: Amazon;
-  font-weight:bold;
-  position: relative;
-  margin-top: 22px;
-}
+
 
 .amazon-authentication-logo {
   width: 10%;
@@ -34,31 +30,33 @@ margin-right: 15px;
   color: #007185;
   margin-left: 15px;
   text-decoration: none;
-  
+
   }
 
   .otp-information a:hover{
-   
+
     color: #093f48;
  text-decoration: underline;
-    
-    
+
+
     }
 
 .input-verification-code {
-  border-radius: 6px;
-  width: 100%;
-  max-width: 270px;
+  border-radius: 3px;
+  width: 90%;
   height: 100%;
-  min-height: 25px;
+  min-height: 26px;
   font-family: Amazon;
-  border: 1px solid rgb(46, 46, 46);
+  border: 1px solid rgb(128, 128, 128);
+
+  box-shadow: 2px #007185;
   background-color: rgb(248, 248, 248);
 }
 
-.inputlogin:focus {
-  border: 1px solid cyan;
+.input-verification-code:focus {
+  border: 3px solid rgb(0, 187, 255);
 }
+
 
 .verify-account-container {
   position: relative;
@@ -110,12 +108,12 @@ margin-right: 15px;
 }
 
 .submit-account-verification button {
-  color: black;
+
   cursor: pointer;
   font-family: Amazon;
-  border-color: 2px solid black;
+
   padding: 7px;
-  width: 75%;
+  width: 90%;
   height: 100%;
   background-color: #ffd814;
   margin: 10px 5px;

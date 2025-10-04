@@ -20,6 +20,7 @@ maskedEmail: string = '';
   private router: Router,
   private authService: CustomerAuthenticationService
 ) {
+
   // Try to get the email from navigation state first
   const nav = this.router.getCurrentNavigation();
   const state = nav?.extras?.state as { email: string };
@@ -47,11 +48,12 @@ maskedEmail: string = '';
   });
 }
 
+
   ngOnInit(): void {}
 
   private maskEmail(email: string): string {
     const [name, domain] = email.split('@');
-    const maskedName = name.substring(0, 2) + '***';
+    const maskedName = name.substring(0, 2) + '******';
     return `${maskedName}@${domain}`;
   }
 
@@ -67,9 +69,9 @@ maskedEmail: string = '';
 
 const payload: CustomerOtpVerification = {
 
-  Email: this.email,
-  OTP: this.verifyForm.value.otp,
-  isResendRequest: false
+  PendingAuthId: this.email,
+  Otp: this.verifyForm.value.otp,
+  //isResendRequest: false
 };
 
 
@@ -82,7 +84,8 @@ const payload: CustomerOtpVerification = {
 
 
 localStorage.setItem('authToken', response.token);
-localStorage.setItem('firstName', response.firstName);
+localStorage.setItem('username', response.username);
+
 
 this.router.navigateByUrl('/').then(() => {
 
@@ -101,9 +104,9 @@ window.location.reload();
 
     const payload: CustomerOtpVerification = {
 
-      Email: this.email,
-      OTP: '',
-     isResendRequest: true,
+      PendingAuthId: this.email,
+      Otp: '',
+     //isResendRequest: true,
     };
 
     this.authService.resendOtp(payload).subscribe({
@@ -112,4 +115,7 @@ error: (err) => console.error('Failed to resend OTP', err),
 
     })
   }
+
+
+
 }

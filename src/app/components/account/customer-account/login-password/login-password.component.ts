@@ -110,9 +110,9 @@ onSubmit() {
     next: (response: PasswordChallengeResponse) => {
       // success: move to OTP verification
       const otpPayload: CustomerOtpVerification = {
-        Email: emailOrPhone,
-        OTP: '',
-        isResendRequest: false,
+        PendingAuthId: emailOrPhone,
+        Otp: '',
+     //   isResendRequest: false,
       };
 
       localStorage.setItem('pendingAuthId', response.pendingAuthId);

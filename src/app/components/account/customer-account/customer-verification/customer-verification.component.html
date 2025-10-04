@@ -1,32 +1,33 @@
 <div class="verify-account-page">
   <img class="amazon-authentication-logo" src="assets/logo-images/amazon-authentication-logo.jpg"  a routerLink="" alt="">
-  <div class="verify-account-container" [formGroup]="verifyForm">
+  <div class="verify-account-container">
     <div class="span-verify-email-address">
-    <span>Verify Email Address</span>
+    <span>Enter Verification Code</span>
     </div>
     <div class="otp-information">
-      <p>To verify your email, we've sent a One Time Password
-        (OTP) to {{maskedEmail}} <a href="signin">(Change)</a>
+      <p>For your security, we've sent the code to your
+        email {{maskedEmail}}.
       </p>
     </div>
-    <div class="span-one-time-password">
-     <span>Enter security code</span>
-    </div>
-<form class="form-verify-email" (ngSubmit)="onSubmit()" autocomplete ="off">
-  <input class="input-verification-code" type="text"
+
+<form  [formGroup]="verifyForm" class="form-verify-email" (ngSubmit)="onSubmit()" autocomplete ="off">
+  <input class="input-verification-code" autocomplete="off" type="text"
    required
    formControlName="otp"
-  pattern="^([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3})|(\d{3}-\d{3}-\d{4})$"
   maxlength="6"/>
 
-<div class="error-message"
-*ngIf="verifyForm.controls['otp'].invalid && verifyForm.controls['otp'].touched">
+ <div class="error-message"
+*ngIf="verifyForm.get('otp')?.invalid && verifyForm.get('otp')?.touched">
 
 Invalid OTP. Please check your code and try again.
 </div>
 
+<div class="span-resend-one-time-password">
+  <span> <a (click)="onResendOtp()">Resend Code</a></span>
+</div>
+
 <div class="submit-account-verification">
-  <button type="submit">Create your Amazon Account</button>
+  <button type="submit">Submit Code</button>
 </div>
 </form>
 <div class="verify-account-conditions-privacy">
@@ -34,10 +35,6 @@ Invalid OTP. Please check your code and try again.
     of Use</a> and <a href="">Privacy Notice</a></p>
 </div>
 
-
-<div class="span-resend-one-time-password">
-  <span> <a (click)="onResendOtp()">Resend Code</a></span>
-</div>
 
 
   </div>

@@ -1,13 +1,13 @@
 <div class="registration-page">
   <img class="amazonlogo" src="assets/logo-images/AmazonAccount.png" a routerLink="" alt="" height="40px" />
   <div class="registration-container">
-    <form class="registration-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <form class="registration-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()" >
       <span>Create Account</span>
 
       <div class="register-field-row">
         <div class="register-field">
           <label for="firstName">First Name</label>
-          <input class="register-input" type="text" name="firstName" formControlName="firstName"
+          <input class="register-input" type="text" name="firstName" formControlName="firstName" autocomplete="off"
             [class.error-border]="submitted   && registrationForm.get('firstName')?.invalid" placeholder="First Name" />
           <div class="register-errors" *ngIf="submitted  && registrationForm.get('firstName')?.hasError('required')">
             <img src="assets/logo-images/errors-icon.svg" alt="">
@@ -22,7 +22,7 @@
         </div>
         <div class="register-field">
           <label for="lastName">Last Name</label>
-          <input class="register-input" type="text" name="lastName" formControlName="lastName"
+          <input class="register-input" type="text" name="lastName" formControlName="lastName" autocomplete="off"
             [class.error-border]="submitted && registrationForm.get('lastName')?.invalid" placeholder="Last Name" />
           <div class="register-errors" *ngIf="submitted  && registrationForm.get('lastName')?.hasError('required')">
             <img src="assets/logo-images/errors-icon.svg" alt="">
@@ -41,7 +41,7 @@
       <div class="register-field-row">
         <div class="register-field">
           <label for="username">Username</label>
-          <input class="register-input" type="text" name="username" formControlName="username"
+          <input class="register-input" type="text" name="username" formControlName="username" autocomplete="off"
             [class.error-border]="submitted  && registrationForm.get('username')?.invalid" placeholder="Username" />
           <div class="register-errors" *ngIf="submitted  && registrationForm.get('username')?.hasError('required')">
             <img src="assets/logo-images/errors-icon.svg" alt="">
@@ -57,7 +57,7 @@
         <div class="register-field">
           <label for="email">Email Address</label>
           <input class="register-input" type="email" name="email" formControlName="email"
-            [class.error-border]="submitted  && registrationForm.get('email')?.invalid" placeholder="Email Address" />
+            [class.error-border]="submitted  && registrationForm.get('email')?.invalid" placeholder="Email Address" autocomplete="off" />
           <div class="register-errors" *ngIf="submitted  && registrationForm.get('email')?.hasError('required')">
             <img src="assets/logo-images/errors-icon.svg" alt="">
             <small>Your email address is required</small>
@@ -67,6 +67,11 @@
             <img src="assets/logo-images/errors-icon.svg" alt="">
             <small>Invalid email format</small>
           </div>
+          <div class="register-errors" *ngIf="submitted && registrationForm.get('email')?.hasError('duplicateEmail') ">
+            <img src="assets/logo-images/errors-icon.svg" alt="">
+            <small>There's already an account with this email. <a routerLink="/signin">Sign in</a> or learn
+              more.</small>
+          </div>
         </div>
 
       </div>
@@ -74,7 +79,7 @@
       <div class="register-field-row">
         <div class="register-field">
           <label for="dateOfBirth">Date of Birth</label>
-          <input class="register-input" type="date" name="dateOfBirth" formControlName="dateOfBirth"
+          <input class="register-input" type="date" name="dateOfBirth" formControlName="dateOfBirth" autocomplete="off"
             [class.error-border]="submitted && registrationForm.get('dateOfBirth')?.hasError('required')"
             placeholder="Date of Birth" />
           <div class="register-errors" *ngIf="submitted && registrationForm.get('dateOfBirth')?.hasError('required')">
@@ -85,7 +90,7 @@
 
         <div class="register-field">
           <label for="phoneNumber">Phone Number</label>
-          <input class="register-input" type="tel" name="phoneNumber" [class.error-border]="submitted && registrationForm.get('phoneNumber')?.invalid
+          <input class="register-input"  autocomplete="off" type="tel" name="phoneNumber" [class.error-border]="submitted && registrationForm.get('phoneNumber')?.invalid
           " formControlName="phoneNumber" placeholder="ex: 123-456-7890" />
           <div class="register-errors" *ngIf="submitted && registrationForm.get('phoneNumber')?.hasError('pattern')">
             <img src="assets/logo-images/errors-icon.svg" alt="">
@@ -97,7 +102,7 @@
       <div class="register-field-row">
         <div class="register-field">
           <label for="password">Password</label>
-          <input class="register-input" type="password" name="password" formControlName="password"
+          <input class="register-input" type="password" name="password" formControlName="password" autocomplete="off"
             [class.error-border]="submitted && registrationForm.get('password')?.invalid" placeholder="Password" />
           <div class="register-errors" *ngIf=" submitted && registrationForm.get('password')?.hasError('required')">
             <img src="assets/logo-images/errors-icon.svg" alt="">
@@ -117,7 +122,7 @@
 
         <div class="register-field">
           <label for="confirmPassword">Confirm Password</label>
-          <input class="register-input" type="password" name="confirmPassword" formControlName="confirmPassword"
+          <input class="register-input" type="password" name="confirmPassword" formControlName="confirmPassword" autocomplete="off"
             [class.error-border]="submitted && registrationForm.get('confirmPassword')?.invalid"
             placeholder="Re-enter Password" />
           <div class="register-errors"
@@ -133,7 +138,7 @@
         </div>
       </div>
 
-<hr style=" margin-top: 8%;">
+      <hr style=" margin-top: 8%;">
 
 
       <div class="newsletter-section">
@@ -151,24 +156,24 @@
         </div>
       </div>
       <div class="submit-form">
-        <button type="submit"  class="submitbutton">Verify Account</button>
+        <button type="submit" class="submitbutton">Verify Account</button>
       </div>
-<hr>
-<div class="register-field-row-terms-options">
-    <div class="terms-conditions">
-        <p>By creating an account. You agree to Amazon's <a href="">Conditions of Use</a> and <a href="">Privacy
-            Notice</a>.</p>
-      </div>
-
-      <div class="business-login">
-        <h4 class="buy-for-work">Buying for work?</h4>
-        <h4><a href="">Create a free business account</a></h4>
-      </div>
-</div>
-<hr>
-  <div class="existing-account">
-          <h4>Already have an account? <a href="/signin">Sign In</a></h4>
+      <hr>
+      <div class="register-field-row-terms-options">
+        <div class="terms-conditions">
+          <p>By creating an account. You agree to Amazon's <a href="">Conditions of Use</a> and <a href="">Privacy
+              Notice</a>.</p>
         </div>
+
+        <div class="business-login">
+          <h4 class="buy-for-work">Buying for work?</h4>
+          <h4><a href="">Create a free business account</a></h4>
+        </div>
+      </div>
+      <hr>
+      <div class="existing-account">
+        <h4>Already have an account? <a href="/signin">Sign In</a></h4>
+      </div>
 
     </form>
   </div>

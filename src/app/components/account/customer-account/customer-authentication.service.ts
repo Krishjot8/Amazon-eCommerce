@@ -63,7 +63,7 @@ return this.http.post<any>(`${this.apiUrl}/passwordchallenge/resendotp`,payload)
   }
 
   verifyOtp(customerOtpVerification: CustomerOtpVerification) {
-    return this.http.post<any>(`${this.apiUrl}/passwordchallenge/verifyotp`,customerOtpVerification)
+    return this.http.post<any>(`${this.apiUrl}/passwordchallenge/verify`,customerOtpVerification)
     .pipe(
       tap((response) =>{
 
