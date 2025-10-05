@@ -6,5 +6,4 @@ export interface Customer {
   dateOfBirth: Date;
   phoneNumber?: string;
   subscribeToNewsLetter: boolean;
-
 }

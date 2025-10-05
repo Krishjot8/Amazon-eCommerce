@@ -114,7 +114,7 @@ export class RegisterComponent implements OnInit {
         phoneNumber: this.registrationForm.value.phoneNumber,
         password: this.registrationForm.value.password,
         confirmPassword: this.registrationForm.value.confirmPassword,
-        subscribeToNewsLetter: false,
+        subscribeToNewsLetter: this.registrationForm.value.subscribeToNewsLetter,
       };
 
       console.log(
