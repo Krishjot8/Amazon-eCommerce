@@ -147,7 +147,7 @@ namespace Amazon_eCommerce_API.Services.Email
 
             var provider = GetProvider(providerName);
             
-            string subject = "Your Amazon OTP Code";
+            string subject = "amazon.com: Sign-in attempt";
 
             string body = GetEmailTemplate(otp);
 

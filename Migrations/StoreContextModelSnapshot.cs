@@ -105,6 +105,9 @@ namespace Amazon_eCommerce_API.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("SubscribeToNewsLetter")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(20)

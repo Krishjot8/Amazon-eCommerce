@@ -43,6 +43,8 @@ namespace Amazon_eCommerce_API.Models.Users
             public UserRole Role { get; set; }
 
 
+        public bool SubscribeToNewsLetter { get; set; } = false;
+
 
         public bool IsEmailVerified { get; set; } = false;
 

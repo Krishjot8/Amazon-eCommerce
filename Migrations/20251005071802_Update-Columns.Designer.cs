@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Amazon_eCommerce_API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20250929004506_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251005071802_Update-Columns")]
+    partial class UpdateColumns
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,6 +107,9 @@ namespace Amazon_eCommerce_API.Migrations
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("SubscribeToNewsLetter")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Username")
                         .IsRequired()

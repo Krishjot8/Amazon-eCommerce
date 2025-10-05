@@ -4,6 +4,7 @@ using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -188,6 +189,7 @@ namespace Amazon_eCommerce_API.Services.Users
             return existingUsername != null;
         }
 
+
         public async Task<User> RegisterUserAsync(UserRegistrationDto userRegistrationDto , string roleName)
         {
 
@@ -215,7 +217,9 @@ namespace Amazon_eCommerce_API.Services.Users
                 PhoneNumber = userRegistrationDto.PhoneNumber,
                 PasswordHash = hashedPassword,
                 RoleId = role.Id,
-                Role = role
+                Role = role,
+                SubscribeToNewsLetter = userRegistrationDto.SubscribeToNewsLetter,
+                IsEmailVerified = false
 
 
             };
@@ -308,9 +312,20 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-        public Task<bool> SubscribeToNewsLetterAsync(int userId)
+        public async Task<bool> SubscribeToNewsLetterAsync(int userId)
         {
-            throw new NotImplementedException();
+           var existingUser = await _storeContext.Users.FindAsync(userId);
+
+            if (existingUser == null)
+            {
+                return false;
+            }
+            existingUser.SubscribeToNewsLetter = true;   // If you want to allow unsubscribe, pass a parameter
+
+
+            _storeContext.Users.Update(existingUser);
+            var result = await _storeContext.SaveChangesAsync();
+            return result > 0;
         }
 
         public Task<bool> UpdateEmailAsync(int userId, string newEmail)
