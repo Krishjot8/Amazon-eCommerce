@@ -27,25 +27,17 @@
 
 
     <div class="nav-sign-account-wrapper">
-
-
-      <div class="nav-sign-account-text" routerLink="/signin">
-        <p *ngIf="username">Hello {{username}}</p>
-        <p *ngIf="!username">Hello, Sign in</p>
-        <b>Account & Lists</b>
-      </div>
-
-
+      <a class="nav-sign-account-text" routerLink="/signin">
+        <span class="greeting" *ngIf="username">Hello {{ username }}</span>
+        <span class="greeting" *ngIf="!username">Hello, Sign in</span>
+        <span class="account-label"><strong>Account &amp; Lists</strong></span>
+      </a>
     </div>
 
-    <div class="nav-return-orders">
-      <div routerLink="/orders">
-        <p>Returns</p>
-        <strong>& Orders</strong>
-      </div>
-
+    <div class="nav-return-orders" routerLink="/orders">
+      <span class="line">Returns</span>
+      <span class="line" style="font-weight: bold;">& Orders</span>
     </div>
-
 
 
   </mat-toolbar>

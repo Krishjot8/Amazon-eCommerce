@@ -6,11 +6,14 @@ a:link {
   color: white;
   text-decoration: none;
   cursor: pointer;
+  padding: 0px 7px;
+  border: 1px solid transparent;
 }
 
 a:hover {
   border: 1px solid white;
-  padding: 2px;
+ border-radius: 2.5px;
+
 }
 
 a:visited {
@@ -19,11 +22,11 @@ a:visited {
 }
 
 a:active {
-  color: #1a98ff;
+  color: #ebebeb;
 }
 
 .toolbar2 {
-  height: 3.2em;
+ height: 6vh;
   font-size: 14px;
   width: 100%;
   font-family: Amazon;
@@ -34,10 +37,13 @@ a:active {
 .logo {
   height: 60px;
   cursor: pointer;
+  border: 1px solid transparent;
+  padding: 8px;
 }
 
 .logo:hover {
   border: 1px solid white;
+border-radius: 2.5px;
 }
 
 input {
@@ -45,67 +51,91 @@ input {
   border: none;
   width: 700px;
   font-family: Amazon;
-
+  font-size: 15px;
 }
 
 input:active {
   color: #1a98ff;
 }
 
-
-
 //Nav-Sign In Account Styling
 
 .nav-sign-account-wrapper {
-   align-items: flex-start;
-   color: white;
-  cursor: pointer;
-
-  font-size: 12px;
+  display: inline-block;
+  margin-left: 100px;
+  margin-top: 5px;
   font-family: Amazon;
-  margin-left: 120px;
-  margin-top: 23px;
+  font-size: 13px;
+
 }
 
-.nav-sign-account-text{
- color: white;
+.nav-sign-account-text {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-top: 2px;
-  font-size: 12px;
-  font-family: Amazon;
+  flex-direction: column;   /* stack lines vertically */
   color: white;
+  border: 1px solid transparent;
+  text-decoration: none;
   cursor: pointer;
+}
+
+.nav-sign-account-text span {
+padding: 3px 0px;
 
 }
-.nav-sign-account-text b {
+
+
+.nav-sign-account-text .greeting {
+  font-size: 12px;
+  line-height: .5;
+
+
+
+}
+.nav-sign-account-text:hover {
+border: 1px solid white;
+border-radius: 2.5px;
+padding: 7px;
+}
+
+.nav-sign-account-text .account-label {
   font-size: 14px;
-  font-family: Amazon;
-  transform: translate(-1px, -30px);
+  font-weight: 700;
+  line-height: 1.1;
+}
+.nav-sign-account-text:hover {
+  border-color: #fff;
 
 }
-
-.nav-sign-account-wrapper:hover {
-  border: 1px solid white;
-  border-radius: 2px;
-
-}
-
-
-
-
-
 //Nav Returns and Orders Styling
 
 .nav-return-orders {
   color: white;
-  margin-left: 35px;
-  margin-top: 24px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: Amazon;
+  margin-left: 10px;
+  margin-top: 0;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  display: inline-block;
+  text-align: left; /* or center if you prefer */
+}
+
+.nav-return-orders .line {
+  display: block; /* each span becomes its own line */
+  line-height: 1.2; /* tighten vertical spacing */
+  margin: 0;
+  padding: 0;
 }
 
 .nav-return-orders:hover {
-  border: 1px solid white;
+ border: 1px solid white;
+border-radius: 2.5px;
+
+
+
+
 }
 
 .nav-return-orders strong {
@@ -119,7 +149,6 @@ input:active {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-top: 2px;
   font-size: 12px;
   font-family: Amazon;
   color: white;
@@ -143,15 +172,14 @@ input:active {
 }
 
 .sidebarsubmenus {
-font-family: Amazon;
+  font-family: Amazon;
 }
 
 .dropdown-button button {
   height: 39px;
   min-width: 60px;
   color: black;
-
-border-radius: 0%;
+  border-radius: 0%;
   font-family: Amazon;
   background-color: #d3d3d3;
   border: none;
@@ -159,7 +187,6 @@ border-radius: 0%;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
 }
 
 .arrow_drop_down {
@@ -169,10 +196,8 @@ border-radius: 0%;
   border: 1px solid white;
 }
 
-
-
 .dropdown-button button:active {
-border: 2px solid rgb(255, 153, 0);
+  border: 2px solid rgb(255, 153, 0);
 }
 
 .toolbar2 .drawer-button mat-icon {
@@ -193,18 +218,18 @@ border: 2px solid rgb(255, 153, 0);
   border: 1px solid white;
 }
 
-.search-bar-wrapper{
-display: flex;
-align-items: center;
-max-width: 700px;
-border: 1px solid #ccc;
-overflow: hidden;
-background-color: white;
-margin-left: 180px;
- border-top-left-radius: 5px;
- border-bottom-left-radius: 5px;
- border-top-right-radius: 5px;
- border-bottom-right-radius: 5px;
+.search-bar-wrapper {
+  display: flex;
+  align-items: center;
+  max-width: 700px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  background-color: white;
+  margin-left: 180px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .search-icon {
@@ -214,37 +239,27 @@ margin-left: 180px;
 
   border: none;
   cursor: pointer;
- align-items: center;
- justify-content: center;
-
+  align-items: center;
+  justify-content: center;
 }
 
 .search-icon:hover {
   background-color: #f8bd19;
 }
-.search-icon:active{
-
-
-border: 2px solid rgb(255, 153, 0);
-
-
+.search-icon:active {
+  border: 2px solid rgb(255, 153, 0);
 }
 
-.search-bar-wrapper:active{
-border: 2px solid rgb(255, 153, 0);
-
-
+.search-bar-wrapper:active {
+  border: 2px solid rgb(255, 153, 0);
 }
 
-
-.drawer{
-
+.drawer {
   width: 350px;
-
 }
 
-.sidebar-sign-in{
-  background-color: #232F3E;
-color: white;
-text-align: center;
+.sidebar-sign-in {
+  background-color: #232f3e;
+  color: white;
+  text-align: center;
 }
