@@ -19,6 +19,7 @@ import { CustomerLoginComponent } from './components/account/customer-account/lo
 import { LoginPasswordComponent } from './components/account/customer-account/login-password/login-password.component';
 import { CustomerVerificationComponent } from './components/account/customer-account/customer-verification/customer-verification.component';
 import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
+import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,13 @@ const routes: Routes = [
 
     component: HomeComponent,
   },
+
+    {
+    path: 'amazon-haul',
+
+    component: AmazonHaulComponent,
+  },
+
 
   {
     path: 'gift-cards',

@@ -12,8 +12,7 @@ a:link {
 
 a:hover {
   border: 1px solid white;
- border-radius: 2.5px;
-
+  border-radius: 2.5px;
 }
 
 a:visited {
@@ -26,7 +25,7 @@ a:active {
 }
 
 .toolbar2 {
- height: 6vh;
+  height: 6vh;
   font-size: 14px;
   width: 100%;
   font-family: Amazon;
@@ -38,12 +37,54 @@ a:active {
   height: 60px;
   cursor: pointer;
   border: 1px solid transparent;
-  padding: 8px;
+  padding: 0px 8px;
 }
 
 .logo:hover {
   border: 1px solid white;
-border-radius: 2.5px;
+  border-radius: 2.5px;
+}
+
+//Delivering to Address
+
+.deliver-location {
+  border: 1px solid transparent;
+  cursor: pointer;
+  padding: 8px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.deliver-location span {
+  border: 1px solid transparent;
+  cursor: pointer;
+  line-height: 1;
+  margin-left: 16px;
+}
+
+.deliver-location .delivering-address {
+  font-family: Amazon;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.deliver-location .location-update {
+  font-family: Amazon Ember;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  margin-left: 5px;
+  margin-top: -10px;
+}
+
+.deliver-location .location-update .location-logo {
+  margin-left: -10px;
+  transform: translate(2px, 4px);
+}
+
+.deliver-location:hover {
+  border: 1px solid white;
+  border-radius: 2.5px;
 }
 
 input {
@@ -62,16 +103,15 @@ input:active {
 
 .nav-sign-account-wrapper {
   display: inline-block;
-  margin-left: 100px;
+  margin-left: 85px;
   margin-top: 5px;
   font-family: Amazon;
   font-size: 13px;
-
 }
 
 .nav-sign-account-text {
   display: flex;
-  flex-direction: column;   /* stack lines vertically */
+  flex-direction: column; /* stack lines vertically */
   color: white;
   border: 1px solid transparent;
   text-decoration: none;
@@ -79,22 +119,17 @@ input:active {
 }
 
 .nav-sign-account-text span {
-padding: 3px 0px;
-
+  padding: 3px 0px;
 }
-
 
 .nav-sign-account-text .greeting {
   font-size: 12px;
-  line-height: .5;
-
-
-
+  line-height: 0.5;
 }
 .nav-sign-account-text:hover {
-border: 1px solid white;
-border-radius: 2.5px;
-padding: 7px;
+  border: 1px solid white;
+  border-radius: 2.5px;
+  padding: 7px;
 }
 
 .nav-sign-account-text .account-label {
@@ -104,7 +139,6 @@ padding: 7px;
 }
 .nav-sign-account-text:hover {
   border-color: #fff;
-
 }
 //Nav Returns and Orders Styling
 
@@ -130,12 +164,8 @@ padding: 7px;
 }
 
 .nav-return-orders:hover {
- border: 1px solid white;
-border-radius: 2.5px;
-
-
-
-
+  border: 1px solid white;
+  border-radius: 2.5px;
 }
 
 .nav-return-orders strong {
@@ -177,7 +207,7 @@ border-radius: 2.5px;
 
 .dropdown-button button {
   height: 39px;
-  min-width: 60px;
+  max-width: 30px;
   color: black;
   border-radius: 0%;
   font-family: Amazon;
@@ -209,13 +239,18 @@ border-radius: 2.5px;
   font-family: Amazon;
 }
 
-.drawer-button {
-  font-family: Amazon;
+.drawer-opener {
+  margin-left: -40px;
 }
 
-.drawer-opener:hover {
-  width: 50px;
+.drawer-button {
+  font-family: Amazon;
+  border: 1px solid transparent;
+}
+.drawer-button:hover {
+  font-family: Amazon;
   border: 1px solid white;
+  border-radius: 2.5px;
 }
 
 .search-bar-wrapper {
@@ -225,7 +260,7 @@ border-radius: 2.5px;
   border: 1px solid #ccc;
   overflow: hidden;
   background-color: white;
-  margin-left: 180px;
+  margin-left: 30px;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -262,4 +297,35 @@ border-radius: 2.5px;
   background-color: #232f3e;
   color: white;
   text-align: center;
+}
+
+.shopping-cart {
+  display: flex;
+  align-items: center; /* vertically align image + text */
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid transparent; /* reserve border space */
+  border-radius: 4px;
+  padding: 3px 6px; /* consistent padding */
+}
+
+.shopping-cart:hover {
+  border-color: white;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.shopping-cart img {
+  width: 85px; /* ✅ much smaller than 90px */
+  height: auto;
+  margin-right: 4px; /* space between image and text */
+  margin-top: 0; /* remove offset */
+}
+
+.shopping-cart .cart-text {
+  color: white;
+  font-family: Amazon, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  transform: translate(-29px, 10px);
 }

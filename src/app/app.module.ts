@@ -40,6 +40,7 @@ import { BusinessLoginComponent } from './components/account/business-account/bu
 import { LoginPasswordComponent } from './components/account/customer-account/login-password/login-password.component';
 import { CustomerVerificationComponent } from './components/account/customer-account/customer-verification/customer-verification.component';
 import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
+import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { NewCustomerAccountComponent } from './components/account/customer-accou
     LoginPasswordComponent,
     CustomerVerificationComponent,
     NewCustomerAccountComponent,
+    AmazonHaulComponent,
   ],
   imports: [
     AppRoutingModule,
