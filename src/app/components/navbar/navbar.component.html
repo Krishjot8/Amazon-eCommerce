@@ -1,5 +1,5 @@
 <div class="topbar">
-  <mat-toolbar class="toolbar1">
+  <mat-toolbar class="top-nav">
     <img class="logo" src="assets/logo-images/amazon.png" a routerLink="" alt="" />
 
     <div class="deliver-location">
@@ -36,6 +36,15 @@
         <span class="greeting" *ngIf="!username">Hello, Sign in</span>
         <span class="account-label"><strong>Account &amp; Lists</strong></span>
       </a>
+       <div class="account-dropdown-content">
+          <mat-icon class="account-arrow-dropdown">arrow_drop_down</mat-icon>
+             <div class="dropdown-section">
+
+             </div>
+
+
+
+       </div>
     </div>
 
     <div class="nav-return-orders" routerLink="/orders">
@@ -50,7 +59,7 @@
 
   </mat-toolbar>
 
-  <mat-toolbar class="toolbar2">
+  <mat-toolbar class="navigation-menu">
     <div class="drawer-opener"> <button class="drawer-button" (click)="drawer.toggle()" mat-icon-button>
         <mat-icon>menu</mat-icon> All
       </button></div>

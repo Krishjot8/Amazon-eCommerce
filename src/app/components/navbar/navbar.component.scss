@@ -1,37 +1,10 @@
-.toolbar1 {
+//Top Navigation
+
+.top-nav {
   background-color: black;
 }
 
-a:link {
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 0px 7px;
-  border: 1px solid transparent;
-}
-
-a:hover {
-  border: 1px solid white;
-  border-radius: 2.5px;
-}
-
-a:visited {
-  color: white;
-  text-decoration: none;
-}
-
-a:active {
-  color: #ebebeb;
-}
-
-.toolbar2 {
-  height: 6vh;
-  font-size: 14px;
-  width: 100%;
-  font-family: Amazon;
-  justify-content: space-evenly;
-  background-color: #212f46;
-}
+//Amazon Logo
 
 .logo {
   height: 60px;
@@ -87,6 +60,7 @@ a:active {
   border-radius: 2.5px;
 }
 
+//Amazon Search Bar
 input {
   height: 39px;
   border: none;
@@ -99,14 +73,75 @@ input:active {
   color: #1a98ff;
 }
 
-//Nav-Sign In Account Styling
+.search-bar-wrapper {
+  display: flex;
+  align-items: center;
+  max-width: 700px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  background-color: white;
+  margin-left: 30px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.search-icon {
+  background-color: #ffce12;
+  width: 50px;
+  height: 39px;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-icon:hover {
+  background-color: #f8bd19;
+}
+.search-icon:active {
+  border: 2px solid rgb(255, 153, 0);
+}
+
+.search-bar-wrapper:active {
+  border: 2px solid rgb(255, 153, 0);
+}
+
+.dropdown-button button {
+  height: 39px;
+  max-width: 30px;
+  color: black;
+  border-radius: 0%;
+  font-family: Amazon;
+  background-color: #d3d3d3;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.arrow_drop_down {
+  color: #000000;
+}
+
+.dropdown-button button:active {
+  border: 1.5px solid rgb(255, 153, 0);
+}
+
+//Region
+
+////Account & Lists
 
 .nav-sign-account-wrapper {
   display: inline-block;
   margin-left: 85px;
-  margin-top: 5px;
+  margin-top: 35px;
   font-family: Amazon;
   font-size: 13px;
+  transform: translateX(15px);
+  border: 1px solid transparent;
 }
 
 .nav-sign-account-text {
@@ -140,7 +175,17 @@ input:active {
 .nav-sign-account-text:hover {
   border-color: #fff;
 }
-//Nav Returns and Orders Styling
+
+.nav-sign-account-wrapper .account-dropdown-content {
+  transform: translate(110px, -20px);
+}
+
+.nav-sign-account-wrapper .account-dropdown-content .account-arrow-dropdown {
+  color: #ccc;
+  font-size: 15px;
+}
+
+//Return & Orders
 
 .nav-return-orders {
   color: white;
@@ -153,6 +198,7 @@ input:active {
   border: 1px solid transparent;
   border-radius: 4px;
   display: inline-block;
+  transform: translateX(30px);
   text-align: left; /* or center if you prefer */
 }
 
@@ -168,27 +214,62 @@ input:active {
   border-radius: 2.5px;
 }
 
-.nav-return-orders strong {
-  font-size: 14px;
-  font-family: Amazon;
-  transform: translate(-1px, -30px);
-}
+//Shopping Cart
 
-.nav-return-orders div {
-  color: white;
+.shopping-cart {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-size: 12px;
-  font-family: Amazon;
-  color: white;
+  align-items: center; /* vertically align image + text */
+  justify-content: center;
   cursor: pointer;
+  border: 1px solid transparent; /* reserve border space */
+  border-radius: 4px;
+  padding: 3px 6px; /* consistent padding */
+  transform: translateX(26px);
 }
 
-.login {
-  margin-left: 13px;
-  margin-bottom: 3px;
+.shopping-cart:hover {
+  border-color: white;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.shopping-cart img {
+  width: 78px; /* ✅ much smaller than 90px */
+  height: auto;
+  margin-right: 4px; /* space between image and text */
+  margin-top: 0; /* remove offset */
+}
+
+.shopping-cart .cart-text {
+  color: white;
+  font-family: Amazon, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  transform: translate(-25px, 8px);
+}
+
+//Navigation Menu
+
+.navigation-menu {
+  color: white;
+  height: 6vh;
+  font-size: 14px;
+  width: 100%;
   font-family: Amazon;
+  justify-content: space-evenly;
+  background-color: #212f46;
+}
+
+//Amazon Sidenav
+
+.drawer {
+  width: 350px;
+}
+
+.sidebar-sign-in {
+  background-color: #232f3e;
+  color: white;
+  text-align: center;
 }
 
 .sidenav-content {
@@ -205,42 +286,14 @@ input:active {
   font-family: Amazon;
 }
 
-.dropdown-button button {
-  height: 39px;
-  max-width: 30px;
-  color: black;
-  border-radius: 0%;
-  font-family: Amazon;
-  background-color: #d3d3d3;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
+//Sidenav Hamburger Menu
 
-.arrow_drop_down {
-  color: #000000;
-}
-.dropdown-button button:hover {
-  border: 1px solid white;
-}
-
-.dropdown-button button:active {
-  border: 2px solid rgb(255, 153, 0);
-}
-
-.toolbar2 .drawer-button mat-icon {
+.navigation-menu .drawer-button mat-icon {
   color: white;
-}
-
-.toolbar2 {
-  color: white;
-  font-family: Amazon;
 }
 
 .drawer-opener {
-  margin-left: -40px;
+  margin-left: -35px;
 }
 
 .drawer-button {
@@ -253,79 +306,25 @@ input:active {
   border-radius: 2.5px;
 }
 
-.search-bar-wrapper {
-  display: flex;
-  align-items: center;
-  max-width: 700px;
-  border: 1px solid #ccc;
-  overflow: hidden;
-  background-color: white;
-  margin-left: 30px;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
+//Navigation-Menu Links
 
-.search-icon {
-  background-color: #ffce12;
-  width: 50px;
-  height: 39px;
-
-  border: none;
+a:link {
+  text-decoration: none;
   cursor: pointer;
-  align-items: center;
-  justify-content: center;
+  padding: 0px 7px;
+  border: 1px solid transparent;
 }
 
-.search-icon:hover {
-  background-color: #f8bd19;
-}
-.search-icon:active {
-  border: 2px solid rgb(255, 153, 0);
+a:hover {
+  border: 1px solid white;
+  border-radius: 2.5px;
 }
 
-.search-bar-wrapper:active {
-  border: 2px solid rgb(255, 153, 0);
-}
-
-.drawer {
-  width: 350px;
-}
-
-.sidebar-sign-in {
-  background-color: #232f3e;
+a:visited {
   color: white;
-  text-align: center;
+  text-decoration: none;
 }
 
-.shopping-cart {
-  display: flex;
-  align-items: center; /* vertically align image + text */
-  justify-content: center;
-  cursor: pointer;
-  border: 1px solid transparent; /* reserve border space */
-  border-radius: 4px;
-  padding: 3px 6px; /* consistent padding */
-}
-
-.shopping-cart:hover {
-  border-color: white;
-  background-color: rgba(255, 255, 255, 0.04);
-}
-
-.shopping-cart img {
-  width: 85px; /* ✅ much smaller than 90px */
-  height: auto;
-  margin-right: 4px; /* space between image and text */
-  margin-top: 0; /* remove offset */
-}
-
-.shopping-cart .cart-text {
-  color: white;
-  font-family: Amazon, Arial, sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  transform: translate(-29px, 10px);
+a:active {
+  color: #ebebeb;
 }
