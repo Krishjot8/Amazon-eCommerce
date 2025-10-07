@@ -42,7 +42,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'bestsellers',
+    path: 'best-sellers',
 
     component: BestSellersComponent,
   },
@@ -57,7 +57,7 @@ const routes: Routes = [
     component: CustomerServiceComponent,
   },
   {
-    path: 'amazonprime',
+    path: 'amazon-prime',
 
     component: PrimeComponent,
   },

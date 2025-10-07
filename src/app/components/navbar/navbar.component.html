@@ -4,20 +4,21 @@
 
     <div class="deliver-location">
       <span class="delivering-address">Delivering to </span>
-     <span class="location-update"><img class="location-logo" src="assets/icons/location.png" alt="" width="18px"> Update Location</span>
+      <span class="location-update"><img class="location-logo" src="assets/icons/location.png" alt="" width="18px">
+        Update Location</span>
     </div>
 
     <div class="search-bar-wrapper">
       <div class="dropdown-button">
-        <button class="dropdown" mat-button [matMenuTriggerFor]="menu">
-          All<mat-icon class="arrow_drop_down">arrow_drop_down</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item>Books</button>
-          <button mat-menu-item>Electronics</button>
-          <button mat-menu-item>Fashion</button>
-          <button mat-menu-item routerLink="/video-games">Video Games</button>
-        </mat-menu>
+          <select>
+             <option>All Departments </option>
+             <option>Books</option>
+            <option>Electronics</option>
+            <option>Fashion</option>
+            <option routerLink="/video-games">Video Games</option>
+
+          </select>
+
       </div>
 
       <input type="search" placeholder="Search Amazon" />
@@ -36,15 +37,15 @@
         <span class="greeting" *ngIf="!username">Hello, Sign in</span>
         <span class="account-label"><strong>Account &amp; Lists</strong></span>
       </a>
-       <div class="account-dropdown-content">
-          <mat-icon class="account-arrow-dropdown">arrow_drop_down</mat-icon>
-             <div class="dropdown-section">
+      <div class="account-dropdown-content">
+        <mat-icon class="account-arrow-dropdown">arrow_drop_down</mat-icon>
+        <div class="dropdown-section">
 
-             </div>
+        </div>
 
 
 
-       </div>
+      </div>
     </div>
 
     <div class="nav-return-orders" routerLink="/orders">
@@ -67,9 +68,9 @@
 
     <a routerLink="/amazon-haul">Amazon Haul</a>
     <a routerLink="/help">Customer Service</a>
-    <a routerLink="/amazonprime">Prime</a>
+    <a routerLink="/amazon-prime">Prime</a>
     <a routerLink="/new-releases">New Releases</a>
-    <a routerLink="/bestsellers">Best Sellers</a>
+    <a routerLink="/best-sellers">Best Sellers</a>
     <a routerLink="/books">Books</a>
     <a routerLink="/music">Music</a>
     <a routerLink="/stores">Amazon Basics</a>

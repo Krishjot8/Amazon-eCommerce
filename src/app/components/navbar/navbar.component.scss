@@ -108,9 +108,14 @@ input:active {
   border: 2px solid rgb(255, 153, 0);
 }
 
-.dropdown-button button {
+.dropdown-button{
+  width: 20%;
+   height: 39px;
+  
+}
+.dropdown-button select{
   height: 39px;
-  max-width: 30px;
+width: 200px;
   color: black;
   border-radius: 0%;
   font-family: Amazon;
@@ -120,6 +125,21 @@ input:active {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+}
+
+.dropdown-button select option{
+
+
+  color: black;
+
+  font-family: Amazon;
+  background-color: #ffffff;
+font-size: 15px;
+
+
+  cursor: pointer;
+
 }
 
 .arrow_drop_down {
