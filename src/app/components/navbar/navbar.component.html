@@ -10,20 +10,22 @@
 
     <div class="search-bar-wrapper">
       <div class="dropdown-button">
-          <select>
+          <select class="search-dropdown" [(ngModel)]="selectedCategory">
              <option>All Departments </option>
              <option>Books</option>
             <option>Electronics</option>
             <option>Fashion</option>
             <option routerLink="/video-games">Video Games</option>
-
           </select>
 
       </div>
 
-      <input type="search" placeholder="Search Amazon" />
+      <input type="search" 
+      placeholder="Search Amazon"
+      [ngModel]="searchTerm"
+      />
 
-      <button class="search-icon">
+      <button class="search-icon" (click)="onSearch()">
         <mat-icon>search</mat-icon>
       </button>
 

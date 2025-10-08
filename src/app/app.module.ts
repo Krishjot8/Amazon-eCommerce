@@ -26,7 +26,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
 import { VideoGameCarouselComponent } from './components/carousels/video-game-carousel/video-game-carousel.component';
 import { RegisterComponent } from './components/account/customer-account/register/register.component';
@@ -88,6 +88,7 @@ import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
     MatListModule,
     MatButtonModule,
     ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
