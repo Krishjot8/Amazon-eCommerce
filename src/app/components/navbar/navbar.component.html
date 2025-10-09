@@ -10,22 +10,34 @@
 
     <div class="search-bar-wrapper">
       <div class="dropdown-button">
-          <select class="search-dropdown" [(ngModel)]="selectedCategory">
-             <option>All Departments </option>
-             <option>Books</option>
-            <option>Electronics</option>
-            <option>Fashion</option>
-            <option routerLink="/video-games">Video Games</option>
-          </select>
+        <select
+        class="search-dropdown"
+        [class.active]="isActive"
+         (click)="toggleActive()"
+         [(ngModel)]="selectedCategory"
+         (focus)="showDepartments = true"
+         >
 
+
+         <option *ngIf="!showDepartments" value="all">All</option>
+
+
+          <option *ngFor="let dept of departments" [value]="dept.value">
+            {{dept.label}}
+          </option>
+        </select>
+        
+        <mat-icon class="select-arrow-dropdown">
+          arrow_drop_down
+        </mat-icon>
       </div>
 
-      <input type="search" 
+      <input type="search"
       placeholder="Search Amazon"
-      [ngModel]="searchTerm"
-      />
+      [ngModel]="searchTerm" />
 
-      <button class="search-icon" (click)="onSearch()">
+      <button class="search-icon"
+      (click)="onSearch()">
         <mat-icon>search</mat-icon>
       </button>
 
@@ -42,7 +54,7 @@
       <div class="account-dropdown-content">
         <mat-icon class="account-arrow-dropdown">arrow_drop_down</mat-icon>
         <div class="dropdown-section">
-
+          <!-- sign in dropdown menu -->
         </div>
 
 
