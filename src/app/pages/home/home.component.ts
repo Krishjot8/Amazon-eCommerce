@@ -7,17 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   images: string[] = [
-    'assets/carousel-images/home-component-carousel-images/prime-big-deal-days-tv.jpg',
-    'assets/carousel-images/home-component-carousel-images/prime-big-deal-days.jpg',
     'assets/carousel-images/home-component-carousel-images/nba-prime.jpg',
     'assets/carousel-images/home-component-carousel-images/amazon-pharmacy.jpg',
     'assets/carousel-images/home-component-carousel-images/early-kitchen-deals.jpg',
     'assets/carousel-images/home-component-carousel-images/gen-v.jpg',
+        'assets/carousel-images/home-component-carousel-images/halloween-costumes.jpg',
   ];
 
   duplicatedImages: string[] = [];
   currentIndex = 0;
-  transition = 'transform 0.8s ease-in-out';
+  transition = 'transform 0.2s ease-in-out';
   autoSlideInterval: any;
 
   ngOnInit() {
@@ -25,17 +24,17 @@ export class HomeComponent implements OnInit {
     this.duplicatedImages = [...this.images, ...this.images];
 
     // Auto slide every 4 seconds
-    this.autoSlideInterval = setInterval(() => this.nextSlide(), 4000);
+    this.autoSlideInterval = setInterval(() => this.nextSlide(), 9000);
   }
 
   nextSlide() {
     this.currentIndex++;
-    this.transition = 'transform 0.8s ease-in-out';
+    this.transition = 'transform 0.3s ease-in-out';
   }
 
   prevSlide() {
     this.currentIndex--;
-    this.transition = 'transform 0.8s ease-in-out';
+    this.transition = 'transform 0.3s ease-in-out';
   }
 
   // Called after CSS transition ends

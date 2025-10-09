@@ -47,21 +47,18 @@
 
 .carousel-btn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.4);
+  top:30%;
+  transform: translateY(-150%);
+  background-color: rgba(0, 0, 0, 0);
   color: white;
   border: none;
-  padding: 12px;
-  font-size: 24px;
+
   cursor: pointer;
-  border-radius: 50%;
+
   z-index: 10;
   transition: background 0.3s;
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.6);
-  }
+
 }
 
 .prev {
