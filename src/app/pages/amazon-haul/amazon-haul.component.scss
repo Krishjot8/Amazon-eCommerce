@@ -1,0 +1,27 @@
+.amazon-haul-topbar {
+  height: 60px;
+  width: 100%;
+  background-color: #5c26c9;
+}
+
+.haul-dropdown img {
+  margin: 14px 26px;
+}
+
+.navigation nav {
+  display: flex;
+  margin: -50px 120px;
+}
+
+.navigation nav li {
+  font-family: Amazon;
+  margin-left: 22px;
+  list-style-type: none;
+  color: white;
+}
+
+.navigation nav li:hover {
+
+  color: white;
+  text-decoration: underline;
+}

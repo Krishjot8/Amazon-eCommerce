@@ -6,7 +6,7 @@
 .carousel-home-main {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 700px;
 
   overflow: hidden;
 }
@@ -28,8 +28,22 @@
     height: 700px;
 
     object-fit: cover;
+    display: block;
   }
 }
+
+.carousel-home-main::after{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(222,227,230,0), rgb(222,227,230));
+}
+
+
 
 .carousel-btn {
   position: absolute;

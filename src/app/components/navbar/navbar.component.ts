@@ -106,7 +106,14 @@ export class NavbarComponent implements OnInit {
 
   categoryRoutes: { [key: string]: string } = {
     'all-departments': '/',
-    fashion: 'amazon-fashion',
+    'alexa-skills':'',
+      'amazon-autos':'',
+    'amazon-devices':'',
+    'amazon-fresh':'',
+    'amazon-global-store':'',
+    'amazon-haul':'/amazon-haul',
+
+    'fashion': 'amazon-fashion',
     'video-games': '/video-games',
   };
 

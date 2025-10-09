@@ -124,9 +124,9 @@ input:active {
   padding: 0 35px 0 10px;
   font-family: Amazon;
   font-size: 14px;
-  border: none;
+
    background-color: #d3d3d3;
-   appearance: none;
+  appearance: none;
    cursor: pointer;
 
 }
@@ -134,7 +134,7 @@ input:active {
 
 .search-dropdown.active{
 
-  border: 2px solid rgb(0, 136, 255);
+   box-shadow: 13px solid rgb(0, 136, 255);
 
 }
 
@@ -293,7 +293,7 @@ color: #000;
 
 .navigation-menu {
   color: white;
-  height: 6vh;
+  height: 4.5vh;
   font-size: 14px;
   width: 100%;
   font-family: Amazon;
