@@ -6,21 +6,28 @@ import { filter } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Amazon-eCommerce';
 
 showHeaderFooter = true;
 
-  constructor(public router: Router){}
+  constructor(public router: Router){
+
+   this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        const noHeaderFooterRoutes = ['/signin', '/register'];
+        const currentUrl = event.urlAfterRedirects.split('?')[0]; // ignore query params
+
+        this.showHeaderFooter = !noHeaderFooterRoutes.includes(currentUrl);
+      });
+
+};
 
 
-  ngOnInit() {
- /*   this.router.events.pipe(
-  filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
-).subscribe(event => {
-  const path = event.urlAfterRedirects.toLowerCase().replace(/\/$/, ''); // lowercase & remove trailing slash
- this.showHeaderFooter = !['/signin', '/register'].includes(path);
 
-}); */
-}
-}
+  }
+
+
+
+

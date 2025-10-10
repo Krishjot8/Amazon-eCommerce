@@ -112,7 +112,6 @@ export class NavbarComponent implements OnInit {
     'amazon-fresh':'',
     'amazon-global-store':'',
     'amazon-haul':'/amazon-haul',
-
     'fashion': 'amazon-fashion',
     'video-games': '/video-games',
   };
