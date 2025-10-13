@@ -9,7 +9,16 @@
 }
 
 
+.drawer-close{
+background-color: none;
+scale: 1.4;
+color: #FFFFFF;
+transform: translate(55px);
 
+box-sizing: border-box;
+border-radius: 2px;
+
+}
 
 .mat-drawer-backdrop.mat-drawer-shown {
   background-color: rgba(0, 0, 0, 0.5); /* darker overlay */
@@ -116,7 +125,7 @@ body.mat-drawer-opened {
 //Amazon Search Bar
 input {
   height: 39px;
-  border: none;
+
   width: 700px;
   font-family: Amazon;
   font-size: 15px;
@@ -169,6 +178,7 @@ input:active {
 .search-dropdown {
   width: 100%;
   height: 100%;
+  
   padding: 0 35px 0 10px;
   font-family: Amazon;
   font-size: 14px;
@@ -176,6 +186,10 @@ input:active {
   background-color: #d3d3d3;
   appearance: none;
   cursor: pointer;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .search-dropdown.active {

@@ -80,9 +80,13 @@
 <!-- MAIN DRAWER + PAGE CONTENT -->
 <mat-drawer-container class="main-container">
   <!-- SIDE NAV -->
+
   <mat-drawer #drawer mode="over" class="drawer" disableClose="false" position="start">
+    
     <div class="sidebar-sign-in">
       <button routerLink="signin" mat-button class="sidebarsubmenus">Hello, Sign In</button>
+      <button class="drawer-close" mat-icon-button (click)="drawer.close()">
+        <mat-icon>close</mat-icon></button>
     </div>
 
     <mat-nav-list class="drawer-scroll">
@@ -107,6 +111,7 @@
 
   <!-- PAGE CONTENT -->
   <mat-drawer-content class="page-content">
-
+    
   </mat-drawer-content>
+ 
 </mat-drawer-container>
