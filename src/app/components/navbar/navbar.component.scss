@@ -5,9 +5,6 @@
   z-index: 1;
 }
 
-.main-container {
-}
-
 
 .drawer-close{
 background-color: none;
@@ -234,6 +231,7 @@ input:active {
   font-size: 13px;
   transform: translateX(15px);
   border: 1px solid transparent;
+  padding-bottom: 10px;
 }
 
 .nav-sign-account-text {
@@ -272,10 +270,27 @@ input:active {
   transform: translate(110px, -20px);
 }
 
-.nav-sign-account-wrapper .account-dropdown-content .account-arrow-dropdown {
+.account-arrow-dropdown {
   color: #ccc;
   font-size: 15px;
+  scale: 1.3;
+  transform: translate(83px,-10px);
 }
+
+
+::ng-deep .mat-menu-panel.account-lists-menu account-lists-menu-panel {
+  margin-top: 0 !important;       // remove default offset
+ // align exactly under button
+  border-radius: 0;               // flat like Amazon
+  min-width: 200px;               // match button width or desired width
+  pointer-events: auto;     
+  width: 5000px;      // ensure hover works
+  transform: translate(800px,65px);
+}
+
+
+
+
 
 //Return & Orders
 
@@ -385,6 +400,9 @@ mat-drawer-content {
   font-family: Amazon;
 }
 
+
+
+
 //Sidenav Hamburger Menu
 
 .navigation-menu .drawer-button mat-icon {
@@ -427,6 +445,7 @@ a:visited {
 a:active {
   color: #ebebeb;
 }
+
 
 
 

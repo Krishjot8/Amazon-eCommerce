@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 
@@ -9,6 +10,13 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
   @ViewChild('drawer', { static: false }) drawer!: MatDrawer;
+  @ViewChild('accountListsMenuTrigger',{read:MatMenuTrigger}) menuTrigger!:MatMenuTrigger;
+
+menuTimeout:any;
+
+
+isButtonHovered = false;
+isMenuHovered = false;
 
   isActive: boolean = false;
   searchTerm: string = '';
@@ -116,6 +124,16 @@ export class NavbarComponent implements OnInit {
     'video-games': '/video-games',
   };
 
+openMenu() {
+
+  clearTimeout(this.menuTimeout);
+  this.menuTrigger.openMenu();
+}
+
+closeMenu() {
+
+}
+
   onSearch() {
     console.log(
       'Searching for:',
@@ -128,6 +146,39 @@ export class NavbarComponent implements OnInit {
     this.router.navigate([route], { queryParams: { search: this.searchTerm } });
   }
 
+
+
+  onTriggerEnter() {
+    // Cancel any pending close
+    this.isButtonHovered = true;
+    clearTimeout(this.menuTimeout);
+    this.menuTrigger.openMenu();
+  }
+  
+  onTriggerLeave() {
+    // Start a timeout to close menu if not hovering menu
+    this.isButtonHovered = false; 
+    this.menuTimeout = setTimeout(() => {
+      this.menuTrigger.closeMenu();
+    }, 300);
+  }
+  
+  onMenuEnter() {
+    // Cancel the close timeout while hovering menu
+    this.isMenuHovered = true;  
+    clearTimeout(this.menuTimeout);
+  }
+  
+  onMenuLeave() {
+    // Close menu when leaving menu
+    this.isMenuHovered = false; 
+    this.menuTimeout = setTimeout(() => {
+      this.menuTrigger.closeMenu();
+    }, 200);
+  }
+
+
+
   toggleActive() {
     this.isActive = !this.isActive;
   }
@@ -137,5 +188,20 @@ export class NavbarComponent implements OnInit {
     if (this.drawer) {
       this.drawer.toggle();
     }
+  }
+  checkCloseMenu() {
+    // Only close menu if neither the button nor menu is hovered
+    if (!this.isButtonHovered && !this.isMenuHovered) {
+      this.menuTimeout = setTimeout(() => {
+        this.menuTrigger.closeMenu();
+      }, 200); // small delay to make it smooth
+    }
+  }
+
+  logout(){
+
+    localStorage.removeItem('username');
+    localStorage.removeItem('Token'); 
+    this.router.navigate(['/signin']);
   }
 }

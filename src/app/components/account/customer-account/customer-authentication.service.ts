@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { CustomerLogin } from 'src/app/models/accounts/customer/customer-login.model';
 import { CustomerOtpVerification } from 'src/app/models/accounts/customer/customer-otp-verification.model';
@@ -13,9 +13,18 @@ import { environment } from 'src/environments/environment';
 export class CustomerAuthenticationService {
   private apiUrl = environment.apiUrl;
 
+private currentUserSubject = new BehaviorSubject<string | null>(localStorage.getItem('username'));
+currentUser$ = this.currentUserSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   private identifierKey = 'loginIdentifier'; //name of storagekey
+
+
+setCurrentUser(username: string | null) {
+
+  this.currentUserSubject.next(username);
+}
 
   storeIdentifier(data: CustomerLogin) {
     //saves the email/phone to local storage
@@ -50,7 +59,9 @@ export class CustomerAuthenticationService {
   }
 
   logout() {
-    localStorage.removeItem('currentUser');
+   
+    localStorage.clear();
+    this.setCurrentUser(null);
   }
 
   isLoggedIn(): boolean {

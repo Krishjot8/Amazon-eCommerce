@@ -16,7 +16,7 @@ showHeaderFooter = true;
    this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event) => {
-        const noHeaderFooterRoutes = ['/signin', '/register'];
+        const noHeaderFooterRoutes = ['/signin', '/register','/login-password','/customer-verification','/new-customer-account'];
         const currentUrl = event.urlAfterRedirects.split('?')[0]; // ignore query params
 
         this.showHeaderFooter = !noHeaderFooterRoutes.includes(currentUrl);
