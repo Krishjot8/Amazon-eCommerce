@@ -31,18 +31,34 @@
       </button>
     </div>
 
-    <div class="nav-sign-account-wrapper">
-      <a class="nav-sign-account-text" routerLink="/signin">
-        <span class="greeting" *ngIf="username">Hello {{ username }}</span>
-        <span class="greeting" *ngIf="!username">Hello, Sign in</span>
-        <span class="account-label"><strong>Account &amp; Lists</strong></span>
-      </a>
-      <div class="account-dropdown-content">
-        <mat-icon class="account-arrow-dropdown">arrow_drop_down</mat-icon>
-        <div class="dropdown-section"></div>
-      </div>
-    </div>
+    <div class="nav-sign-account-wrapper"
+    (mouseenter)="onTriggerEnter()"
+    (mouseleave)="onTriggerLeave()">
 
+ <button mat-button 
+         #accountListsMenuTrigger="matMenuTrigger" 
+         [matMenuTriggerFor]="accountListsMenu" 
+         style="display:none">
+ </button>
+
+ <div class="nav-sign-account-text"> 
+   <span class="greeting" *ngIf="username">Hello {{ username }}</span>
+   <span class="greeting" *ngIf="!username">Hello, Sign in</span>
+   <span class="account-label"><strong>Account &amp; Lists</strong></span>
+   <mat-icon class="account-arrow-dropdown">arrow_drop_down</mat-icon>
+ </div>
+
+ <mat-menu class="account-lists-menu account-lists-menu-panel" #accountListsMenu="matMenu"
+           [hasBackdrop]="false"
+           (mouseenter)="onMenuEnter()"
+           (mouseleave)="onMenuLeave()">
+   <button mat-menu-item routerLink="/signin">Sign In</button>
+   <button mat-menu-item routerLink="/orders">Orders</button>
+   <button mat-menu-item routerLink="/profile">Your Profile</button>
+   <button mat-menu-item routerLink="/settings">Settings</button>
+   <button mat-menu-item (click)="logout()">Logout</button>
+ </mat-menu>
+</div>
     <div class="nav-return-orders" routerLink="/orders">
       <span class="line">Returns</span>
       <span class="line" style="font-weight: bold;">& Orders</span>
