@@ -283,7 +283,7 @@ input:active {
  // align exactly under button
   border-radius: 0;               // flat like Amazon
   min-width: 200px;               // match button width or desired width
-  pointer-events: auto;     
+  pointer-events: auto;
   width: 5000px;      // ensure hover works
   transform: translate(800px,65px);
 }
@@ -367,7 +367,9 @@ input:active {
   background-color: #212f46;
 }
 
-
+.navigation-menu a{
+ color: white;
+}
 
 //Amazon Sidenav
 
