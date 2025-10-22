@@ -278,20 +278,88 @@ input:active {
 }
 
 
-::ng-deep .mat-menu-panel.account-lists-menu account-lists-menu-panel {
-  margin-top: 0 !important;       // remove default offset
- // align exactly under button
-  border-radius: 0;               // flat like Amazon
-  min-width: 200px;               // match button width or desired width
+::ng-deep .mat-menu-panel.account-lists-menu.account-lists-menu-panel {
+  margin-top: 0 !important; /* Remove default offset */
+  border-radius: 0;         /* Flat like Amazon */
+  min-width: 430px;         /* Match button width or desired width */
   pointer-events: auto;
-  width: 5000px;      // ensure hover works
-  transform: translate(800px,65px);
+   
+  height: 500px;           /* Adjust width as needed */
+  transform: translate(950px, 65px); /* Align under the button */
+}
+
+::ng-deep .mat-menu-panel.account-lists-menu.account-lists-menu-panel h4{
+  font-family: Amazon;
+  font-weight: bold;
+  font-size: 12px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+::ng-deep .mat-menu-panel.account-lists-menu.account-lists-menu-panel ul li{
+ 
+  list-style-type: none;
+  font-family: Amazon;
+  font-size: 11px;
+  }
+
+::ng-deep .mat-menu-panel.account-lists-menu.account-lists-menu-panel ul li a{
+color: black;
+
+
+}
+
+.sign-in{
+
+  text-align: center;
+}
+
+.sign-in-button{
+  background-color: #ffd814;
+  color: black;
+  font-family: Amazon;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 11px;
+  height: 35px;
+ padding: 0 30px;
 }
 
 
+.sign-in span{
 
+display: flex;
+font-size: 10px;
 
+}
 
+.account-list-new-customer{
+margin-left: 160px;
+
+}
+
+.sections{
+
+  display: flex;
+  justify-content: center;
+}
+.sections h4{
+
+ text-align: center
+}
+
+.list-section{
+align-items: start;
+
+}
+
+.account-sections ul{
+
+text-align: left;
+}
 //Return & Orders
 
 .nav-return-orders {

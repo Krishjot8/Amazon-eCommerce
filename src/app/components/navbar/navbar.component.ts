@@ -158,9 +158,7 @@ closeMenu() {
   onTriggerLeave() {
     // Start a timeout to close menu if not hovering menu
     this.isButtonHovered = false; 
-    this.menuTimeout = setTimeout(() => {
-      this.menuTrigger.closeMenu();
-    }, 300);
+   this.checkCloseMenu();
   }
   
   onMenuEnter() {
@@ -172,9 +170,7 @@ closeMenu() {
   onMenuLeave() {
     // Close menu when leaving menu
     this.isMenuHovered = false; 
-    this.menuTimeout = setTimeout(() => {
-      this.menuTrigger.closeMenu();
-    }, 200);
+    this.checkCloseMenu();
   }
 
 
@@ -194,7 +190,7 @@ closeMenu() {
     if (!this.isButtonHovered && !this.isMenuHovered) {
       this.menuTimeout = setTimeout(() => {
         this.menuTrigger.closeMenu();
-      }, 200); // small delay to make it smooth
+      }, 8300); // small delay to make it smooth
     }
   }
 

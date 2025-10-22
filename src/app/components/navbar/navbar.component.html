@@ -36,6 +36,8 @@
     (mouseleave)="onTriggerLeave()">
 
  <button mat-button 
+ (mouseenter)="onMenuEnter()"
+ (mouseleave)="onMenuLeave()"
          #accountListsMenuTrigger="matMenuTrigger" 
          [matMenuTriggerFor]="accountListsMenu" 
          style="display:none">
@@ -49,15 +51,56 @@
  </div>
 
  <mat-menu class="account-lists-menu account-lists-menu-panel" #accountListsMenu="matMenu"
-           [hasBackdrop]="false"
-           (mouseenter)="onMenuEnter()"
-           (mouseleave)="onMenuLeave()">
-   <button mat-menu-item routerLink="/signin">Sign In</button>
-   <button mat-menu-item routerLink="/orders">Orders</button>
-   <button mat-menu-item routerLink="/profile">Your Profile</button>
-   <button mat-menu-item routerLink="/settings">Settings</button>
-   <button mat-menu-item (click)="logout()">Logout</button>
- </mat-menu>
+ [hasBackdrop]="false"
+ (mouseenter)="onMenuEnter()"
+ (mouseleave)="onMenuLeave()">
+ <div class="sign-in">
+    <button routerLink="signin" mat-button class="sign-in-button">Sign In</button>
+    <span class="account-list-new-customer">New customer? <a routerLink="register">Start here.</a></span>
+ </div>
+
+<div class="sections">
+<div class="list-section">
+  <h4>Your Lists</h4>
+  <ul>
+   <li><a href="">Create a List</a></li>
+   <li><a href="">Find a List or Registry</a></li>
+  </ul>
+</div>
+<div class="account-section">
+  <h4>Your Account</h4>
+ <ul>
+  <li><a href="">Account</a></li>
+  <li><a href="">Orders</a></li>
+  <li><a href="">Keep Shopping For</a></li>
+  <li><a href="">Recommendations</a></li>
+  <li><a href="">Browsing History</a></li>
+  <li><a href="">Your Shopping Preferences</a></li>
+  <li><a href="">Amazon Gift Cards</a></li>
+  <li><a href="">Watchlist</a></li>
+  <li><a href="">Video Purchases & Rentals</a></li>
+  <li><a href="">Kindle Unlimited</a></li>
+  <li><a href="">Content & Devices</a></li>
+  <li><a href="">Subscribe & Save Items</a></li>
+  <li><a href="">Memberships & Subscriptions</a></li>
+  <li><a href="">Prime Membership</a></li>
+  <li><a href="">Amazon Gift Cards</a></li>
+  <li><a href="">Music Library</a></li>
+  <li><a href="">Start a Selling Account</a></li>
+  <li><a href="">Register for a free Business Account</a></li>
+  <li><a href="">Customer Service</a></li>
+  <li><a href="">Logout</a></li>
+ </ul>
+
+
+
+
+</div>
+</div>
+
+
+
+</mat-menu>
 </div>
     <div class="nav-return-orders" routerLink="/orders">
       <span class="line">Returns</span>
