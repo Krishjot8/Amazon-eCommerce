@@ -28,7 +28,7 @@ import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.co
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
-import { VideoGameCarouselComponent } from './components/carousels/video-game-carousel/video-game-carousel.component';
+
 import { RegisterComponent } from './components/account/customer-account/register/register.component';
 import { CustomerLoginComponent } from './components/account/customer-account/login/login.component';
 import { BusinessRegisterComponent } from './components/account/business-account/business-register/business-register.component';
@@ -41,6 +41,9 @@ import { LoginPasswordComponent } from './components/account/customer-account/lo
 import { CustomerVerificationComponent } from './components/account/customer-account/customer-verification/customer-verification.component';
 import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
 import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
+import { TopBrandsCarouselComponent } from './components/carousels/video-games/top-brands-carousel/top-brands-carousel.component';
+import { ExploreGamingCarouselComponent } from './components/carousels/video-games/explore-gaming-carousel/explore-gaming-carousel.component';
+
 
 @NgModule({
   declarations: [
@@ -64,7 +67,7 @@ import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
     CartComponent,
     MoversShakersComponent,
     VideoGamesComponent,
-    VideoGameCarouselComponent,
+
     BusinessLoginComponent,
     BusinessRegisterComponent,
     BusinessVerifyEmailComponent,
@@ -75,6 +78,8 @@ import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
     CustomerVerificationComponent,
     NewCustomerAccountComponent,
     AmazonHaulComponent,
+ TopBrandsCarouselComponent,
+ ExploreGamingCarouselComponent
   ],
   imports: [
     AppRoutingModule,

@@ -1,4 +1,4 @@
-<div class="video-game-carousel">
+<div class="top-brands-carousel">
   <div class="carousel-inner">
     <div class="carousel-item" *ngFor="let brand of brands; let i = index; trackBy: trackByBrandId" [class.active]="i === currentIndex">
       <img [src]="brand.pictureUrl" alt="{{brand.name}}" />

@@ -487,19 +487,35 @@ color:#ed7124;
 
 //Amazon Sidenav
 
+
+//side-nav menu text
 .drawer {
   width: 350px;
+}
+
+button{
+  cursor: pointer;
+}
+
+.sidebar-sign-in-menu{
+ font-size: 19px;
+font-family: Amazon Ember;
+color: white;
+
 }
 
 .sidebar-sign-in {
   background-color: #232f3e;
   color: white;
   text-align: center;
+  font-size: 70px;
+  cursor: pointer;
 }
 mat-drawer-content {
   display: flex;
   flex-direction: column;
   z-index: 1000;
+
 }
 
 .sidenav-content {
@@ -510,16 +526,22 @@ mat-drawer-content {
 .sidebarmenus {
   font-family: Amazon Ember;
   margin-left: 27px;
+
 }
 
 .sidebarsubmenus {
   font-family: Amazon;
+
 }
 
 
+.drawer-scroll{
 
+  background-color: white;
+}
 
 //Sidenav Hamburger Menu
+
 
 .navigation-menu .drawer-button mat-icon {
   color: white;

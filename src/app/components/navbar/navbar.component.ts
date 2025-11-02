@@ -154,22 +154,22 @@ closeMenu() {
     clearTimeout(this.menuTimeout);
     this.menuTrigger.openMenu();
   }
-  
+
   onTriggerLeave() {
     // Start a timeout to close menu if not hovering menu
-    this.isButtonHovered = false; 
+    this.isButtonHovered = false;
    this.checkCloseMenu();
   }
-  
+
   onMenuEnter() {
     // Cancel the close timeout while hovering menu
-    this.isMenuHovered = true;  
+    this.isMenuHovered = true;
     clearTimeout(this.menuTimeout);
   }
-  
+
   onMenuLeave() {
     // Close menu when leaving menu
-    this.isMenuHovered = false; 
+    this.isMenuHovered = false;
     this.checkCloseMenu();
   }
 
@@ -190,14 +190,14 @@ closeMenu() {
     if (!this.isButtonHovered && !this.isMenuHovered) {
       this.menuTimeout = setTimeout(() => {
         this.menuTrigger.closeMenu();
-      }, 8300); // small delay to make it smooth
+      }, 5300); // small delay to make it smooth
     }
   }
 
   logout(){
 
     localStorage.removeItem('username');
-    localStorage.removeItem('Token'); 
+    localStorage.removeItem('Token');
     this.router.navigate(['/signin']);
   }
 }

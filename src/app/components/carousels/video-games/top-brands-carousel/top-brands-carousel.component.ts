@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { ProductBrand } from 'src/app/models/product-brands/product-brands.model';
 import { environment } from 'src/environments/environment';
 @Component({
-  selector: 'video-game-carousel',
-  templateUrl: './video-game-carousel.component.html',
-  styleUrls: ['./video-game-carousel.component.scss']
+  selector: 'top-brands-carousel',
+  templateUrl: './top-brands-carousel.component.html',
+  styleUrls: ['./top-brands-carousel.component.scss']
 })
-export class VideoGameCarouselComponent implements OnInit {
+export class TopBrandsCarouselComponent implements OnInit {
 
 
 

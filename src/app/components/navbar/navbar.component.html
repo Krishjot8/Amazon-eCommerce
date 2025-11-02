@@ -1,9 +1,5 @@
 <!-- TOP NAVBAR -->
 <div class="topbar">
-
-
-
-
   <mat-toolbar class="top-nav">
     <img class="logo" src="assets/logo-images/amazon.png" routerLink="" alt="" />
 
@@ -31,78 +27,70 @@
       </button>
     </div>
 
-    <div class="nav-sign-account-wrapper"
-    (mouseenter)="onTriggerEnter()"
-    (mouseleave)="onTriggerLeave()">
+    <div class="nav-sign-account-wrapper" (mouseenter)="onTriggerEnter()" (mouseleave)="onTriggerLeave()">
 
- <button mat-button
- (mouseenter)="onMenuEnter()"
- (mouseleave)="onMenuLeave()"
-         #accountListsMenuTrigger="matMenuTrigger"
-         [matMenuTriggerFor]="accountListsMenu"
-         style="display:none">
- </button>
+      <button mat-button (mouseenter)="onMenuEnter()" (mouseleave)="onMenuLeave()"
+        #accountListsMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="accountListsMenu" style="display:none">
+      </button>
 
- <div class="nav-sign-account-text">
-   <span class="greeting" *ngIf="username">Hello {{ username }}</span>
-   <span class="greeting" *ngIf="!username">Hello, Sign in</span>
-   <span class="account-label"><strong>Account &amp; Lists</strong></span>
-   <mat-icon class="account-arrow-dropdown">arrow_drop_down</mat-icon>
- </div>
+      <div class="nav-sign-account-text">
+        <span class="greeting" *ngIf="username">Hello {{ username }}</span>
+        <span class="greeting" *ngIf="!username">Hello, Sign in</span>
+        <span class="account-label"><strong>Account &amp; Lists</strong></span>
+        <mat-icon class="account-arrow-dropdown">arrow_drop_down</mat-icon>
+      </div>
 
- <mat-menu class="account-lists-menu account-lists-menu-panel" #accountListsMenu="matMenu"
- [hasBackdrop]="false"
- (mouseenter)="onMenuEnter()"
- (mouseleave)="onMenuLeave()">
- <div class="sign-in">
-    <button routerLink="signin" mat-button class="sign-in-button">Sign In</button>
-    <span class="account-list-new-customer">New customer? <a routerLink="register">Start here.</a></span>
- </div>
+      <mat-menu class="account-lists-menu account-lists-menu-panel" #accountListsMenu="matMenu" [hasBackdrop]="false"
+        (mouseenter)="onMenuEnter()" (mouseleave)="onMenuLeave()">
+        <div class="sign-in">
+          <button routerLink="signin" mat-button class="sign-in-button">Sign In</button>
+          <span class="account-list-new-customer">New customer? <a routerLink="register">Start here.</a></span>
+        </div>
 
-<div class="sections">
-  <hr class="vertical">
-<div class="list-section">
-  <h4>Your Lists</h4>
-  <ul>
-   <li><a href="">Create a List</a></li>
-   <li><a href="">Find a List or Registry</a></li>
-  </ul>
-</div>
-<div class="account-section">
-  <h4>Your Account</h4>
- <ul>
-  <li><a href="">Account</a></li>
-  <li><a href="">Orders</a></li>
-  <li><a href="">Keep Shopping For</a></li>
-  <li><a href="">Recommendations</a></li>
-  <li><a href="">Browsing History</a></li>
-  <li><a href="">Your Shopping Preferences</a></li>
-  <li><a href="">Amazon Gift Cards</a></li>
-  <li><a href="">Watchlist</a></li>
-  <li><a href="">Video Purchases & Rentals</a></li>
-  <li><a href="">Kindle Unlimited</a></li>
-  <li><a href="">Content & Devices</a></li>
-  <li><a href="">Subscribe & Save Items</a></li>
-  <li><a href="">Memberships & Subscriptions</a></li>
-  <li><a href="">Prime Membership</a></li>
-  <li><a href="">Amazon Gift Cards</a></li>
-  <li><a href="">Music Library</a></li>
-  <li><a href="">Start a Selling Account</a></li>
-  <li><a href="">Register for a free Business Account</a></li>
-  <li><a href="">Customer Service</a></li>
-  <li><a href="">Logout</a></li>
- </ul>
+        <div class="sections">
+          <hr class="vertical">
+          <div class="list-section">
+            <h4>Your Lists</h4>
+            <ul>
+              <li><a href="">Create a List</a></li>
+              <li><a href="">Find a List or Registry</a></li>
+            </ul>
+          </div>
+          <div class="account-section">
+            <h4>Your Account</h4>
+            <ul>
+              <li><a href="">Account</a></li>
+              <li><a href="">Orders</a></li>
+              <li><a href="">Keep Shopping For</a></li>
+              <li><a href="">Recommendations</a></li>
+              <li><a href="">Browsing History</a></li>
+              <li><a href="">Your Shopping Preferences</a></li>
+              <li><a href="">Amazon Gift Cards</a></li>
+              <li><a href="">Watchlist</a></li>
+              <li><a href="">Video Purchases & Rentals</a></li>
+              <li><a href="">Kindle Unlimited</a></li>
+              <li><a href="">Content & Devices</a></li>
+              <li><a href="">Subscribe & Save Items</a></li>
+              <li><a href="">Memberships & Subscriptions</a></li>
+              <li><a href="">Prime Membership</a></li>
+              <li><a href="">Amazon Gift Cards</a></li>
+              <li><a href="">Music Library</a></li>
+              <li><a href="">Start a Selling Account</a></li>
+              <li><a href="">Register for a free Business Account</a></li>
+              <li><a href="">Customer Service</a></li>
+              <li><a href="">Logout</a></li>
+            </ul>
 
 
 
 
-</div>
-</div>
+          </div>
+        </div>
 
 
 
-</mat-menu>
-</div>
+      </mat-menu>
+    </div>
     <div class="nav-return-orders" routerLink="/orders">
       <span class="line">Returns</span>
       <span class="line" style="font-weight: bold;">& Orders</span>
@@ -143,16 +131,16 @@
 
   <mat-drawer #drawer mode="over" class="drawer" disableClose="false" position="start">
 
-    <div class="sidebar-sign-in">
-      <button routerLink="signin" mat-button class="sidebarsubmenus">Hello, Sign In</button>
-      <button class="drawer-close" mat-icon-button (click)="drawer.close()">
-        <mat-icon>close</mat-icon></button>
+    <div class="sidebar-sign-in" routerLink="signin">
+      <button  mat-button class="sidebar-sign-in-menu">Hello, sign in</button>
+
     </div>
+
 
     <mat-nav-list class="drawer-scroll">
       <!-- Your entire list here -->
       <h3 class="sidebarmenus"><b>Trending</b></h3>
-      <mat-list-item><button routerLink="bestsellers" mat-button class="sidebarsubmenus">Best Sellers</button>
+      <mat-list-item><button routerLink="best-sellers" mat-button class="sidebarsubmenus">Best Sellers</button>
       </mat-list-item>
       <mat-list-item><button routerLink="new-releases" mat-button class="sidebarsubmenus">New Releases</button>
       </mat-list-item>
@@ -165,8 +153,38 @@
       <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Echo & Alexa</button></mat-list-item>
       <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Fire Tablets</button></mat-list-item>
       <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Fire TV</button></mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Amazon Luna</button></mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Kindle E-readers & Books</button>
+      </mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Audible Books & Originals</button>
+      </mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Amazon Photos</button></mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Amazon Appstore</button></mat-list-item>
+      <hr>
+      <h3 class="sidebarmenus"><b>Shop by Department</b></h3>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Clothing, Shoes, Jewlery &
+          Watches</button></mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Amazon Fresh</button></mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Whole Foods Market</button>
+      </mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Books</button></mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">See all</button></mat-list-item>
+    <hr />
+      <h3 class="sidebarmenus"><b>Programs & Features</b></h3>
+   <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Medical Care & Pharmacy</button></mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Amazon Physical Stores</button></mat-list-item>
+         <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Amazon Haul</button></mat-list-item>
+            <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Amazon Business</button></mat-list-item>
+               <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">See All</button></mat-list-item>
+                 <hr />
+      <h3 class="sidebarmenus"><b>Help & Settings</b></h3>
+   <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">Your Account</button></mat-list-item>
+      <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">English</button></mat-list-item>
+         <mat-list-item><button routerLink="" mat-button class="sidebarsubmenus">United States</button></mat-list-item>
+            <mat-list-item><button routerLink="signin" mat-button class="sidebarsubmenus">Sign in</button></mat-list-item>
       <!-- rest of your items... -->
     </mat-nav-list>
+
   </mat-drawer>
 
   <!-- PAGE CONTENT -->

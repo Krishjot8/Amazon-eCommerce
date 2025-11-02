@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class VideoGameCarouselService {
+export class TopBrandsCarouselService {
 
   private apiUrl = environment.apiUrl; // automatically picked by Angular
 
