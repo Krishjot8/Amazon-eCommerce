@@ -1,0 +1,62 @@
+.explore-gaming-carousel {
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  height: 275px;
+  max-width: 1150px;
+  overflow: hidden;
+
+  display: flex;
+
+  .carousel-inner {
+    display: flex;
+    flex-direction: row;
+
+    transition: transform 0.5s ease;
+  }
+
+  .carousel-item {
+    /* Prevents images from stretching */
+    width: 100%; /* Adjust this based on the number of items shown */
+    max-width: 220px; /* Set a maximum width for each image */
+    text-align: center;
+    margin-right: 10px;
+    cursor: pointer;
+
+    img {
+      border-radius: 8px;
+      max-width: 100%;
+      width: 280px;
+      height: 240px;
+      max-height: 100%;
+    }
+
+    &.active {
+      display: block;
+    }
+  }
+
+  .carousel-control {
+    position: absolute;
+    top: 50%;
+
+    transform: translateY(-50%);
+    background-color: #ffffff;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+    &.prev {
+      left: 10px;
+    }
+
+    &.next {
+      right: 10px;
+    }
+  }
+}
+
+button {
+  width: 55px;
+  height: 100px;
+}

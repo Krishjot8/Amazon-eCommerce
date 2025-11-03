@@ -1,1 +1,15 @@
-<p>explore-gaming-carousel works!</p>
+<div class="explore-gaming-carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item" *ngFor="let exploreItem of exploreItems ">
+      <img [src]="exploreItem.imageUrl" alt="{{exploreItem.title}}" />
+      <h4 style="font-family: Amazon;">{{exploreItem.title}}</h4>
+    </div>
+  </div>
+
+  <button (click)="prev()" class="carousel-control prev">
+    <img src="assets/logo-images/left-arrow.svg" />
+  </button>
+  <button (click)="next()" class="carousel-control next">
+    <img src="assets/logo-images/right-arrow.svg" />
+  </button>
+</div>

@@ -9,10 +9,10 @@ import { environment } from 'src/environments/environment';
 })
 export class TopBrandsCarouselComponent implements OnInit {
 
-
-
   brands: ProductBrand[] = [];
   currentIndex = 0;
+  itemWidth = 215;
+  gap = 15;
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void{
@@ -33,13 +33,19 @@ this.getBrands();
   }
 
  next(): void{
+const visibleItems = Math.floor(1150/this.itemWidth);
+if(this.currentIndex < this.brands.length - visibleItems){
 
-this.currentIndex = (this.currentIndex + 1) % this.brands.length;
+this.currentIndex++;
+}
+
  }
 
 
  prev(): void {
-this.currentIndex = (this.currentIndex - 1 + this.brands.length) % this.brands.length
+if(this.currentIndex > 0){
+  this.currentIndex--;
+}
 
  }
 
