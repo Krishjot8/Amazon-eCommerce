@@ -25,7 +25,7 @@ namespace Amazon_eCommerce_API.Services
 
       
 
-        public string GenerateToken(User user)
+        public string GenerateToken(CustomerUsers user)
         {
 
             var claims = new[]
@@ -33,7 +33,9 @@ namespace Amazon_eCommerce_API.Services
             {  new Claim(JwtRegisteredClaimNames.Sub, user.Username),
               new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
               new Claim(ClaimTypes.Email, user.Email),
-              new Claim("role", user.RoleId.ToString())// Role information
+
+
+            //  new Claim("role", user.RoleId.ToString())// Role information
             
             };
 

@@ -1,6 +1,7 @@
 ﻿
 
 using Amazon_eCommerce_API.Models;
+using Amazon_eCommerce_API.Models.DBEntities.Users;
 using Amazon_eCommerce_API.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -14,7 +15,7 @@ namespace Amazon_eCommerce_API.Data
 
 
         }
-//good
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<ProductBrand> ProductBrands { get; set; }
@@ -23,28 +24,42 @@ namespace Amazon_eCommerce_API.Data
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<CustomerUsers> CustomerUsers { get; set; }
 
-        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<BusinessUsers> BusinessUsers { get; set; }
+
+        public DbSet<SellerUsers> SellerUsers { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<CustomerUsers>()
               .HasIndex(u => u.Email)
               .IsUnique();
 
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<CustomerUsers>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
 
+            modelBuilder.Entity<BusinessUsers>()
+          .HasIndex(u => u.Email)
+          .IsUnique();
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Role)
-                .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleId);
+
+        
+
+            modelBuilder.Entity<SellerUsers>()
+                      .HasIndex(u => u.Email)
+                      .IsUnique();
+
+
+            modelBuilder.Entity<SellerUsers>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
+
 
 
 

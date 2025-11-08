@@ -4,21 +4,21 @@
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.DTO_s.Cache;
 using Amazon_eCommerce_API.Services.Cache;
-using Amazon_eCommerce_API.Services.Users;
 using System.Net;
 using System.Net.Mail;
 using Amazon_eCommerce_API.Models.EmailEntities;
+using Amazon_eCommerce_API.Services.Users.Customer;
 
 namespace Amazon_eCommerce_API.Services.Email
 {
     public class EmailService : IEmailService
     {
-        private readonly IUserService _userService;
+        private readonly ICustomerUserService _userService;
         private readonly ICacheService _cacheService;
         private readonly IConfiguration _configuration;
         private readonly EmailSettings _emailSettings;
 
-        public EmailService(IUserService userService, ICacheService cacheService, IConfiguration configuration)
+        public EmailService(ICustomerUserService userService, ICacheService cacheService, IConfiguration configuration)
         {
             _userService = userService;
             _cacheService = cacheService;
@@ -95,7 +95,7 @@ namespace Amazon_eCommerce_API.Services.Email
 
 
 
-        public async Task<bool> SendEmailVerificationAsync(UserVerifyEmailDto dto)
+        public async Task<bool> SendEmailVerificationAsync(SellerUserVerifyEmailDto dto)
         {
 
             var user = await _userService.GetUserByEmailAsync(dto.Email);  //get user email
@@ -255,7 +255,7 @@ namespace Amazon_eCommerce_API.Services.Email
 </html>";
 }
 
-        public async Task<bool> VerifyEmailOtpAsync(UserVerifyEmailDto dto)
+        public async Task<bool> VerifyEmailOtpAsync(SellerUserVerifyEmailDto dto)
         {
 
             if (dto.IsResendRequest)

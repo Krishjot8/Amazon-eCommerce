@@ -5,6 +5,6 @@ namespace Amazon_eCommerce_API.Services
     public interface ITokenService
     {
 
-          public string GenerateToken(User user);
+          public string GenerateToken(CustomerUsers user);
     }
 }

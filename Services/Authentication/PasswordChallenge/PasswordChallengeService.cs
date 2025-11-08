@@ -4,7 +4,7 @@ using Amazon_eCommerce_API.Models.DTO_s.UserAccount;
 using Amazon_eCommerce_API.Services.Cache;
 using Amazon_eCommerce_API.Services.Communication.Sms;
 using Amazon_eCommerce_API.Services.Email;
-using Amazon_eCommerce_API.Services.Users;
+using Amazon_eCommerce_API.Services.Users.Customer;
 using System.Security.Cryptography;
 
 namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
@@ -12,12 +12,12 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
     public class PasswordChallengeService : IPasswordChallengeService    //For Generating One time Password
     {
 
-        private readonly IUserService _userService;
+        private readonly ICustomerUserService _userService;
         private readonly ICacheService _cacheService;
         private readonly IEmailService  _emailService;
         private readonly ISmsService  _smsService;
 
-        public PasswordChallengeService(IUserService userService, ICacheService cacheService, IEmailService emailService, ISmsService smsService)
+        public PasswordChallengeService(ICustomerUserService userService, ICacheService cacheService, IEmailService emailService, ISmsService smsService)
         {
             _userService = userService;
             _cacheService = cacheService;
@@ -25,7 +25,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
             _smsService = smsService;
         }
         //
-        public async Task<UserPasswordChallengeResponseDto> GenerateOtpChallengeAsync(string identifier,
+        public async Task<BusinessUserPasswordChallengeResponseDto> GenerateOtpChallengeAsync(string identifier,
             string password)
         {
 
@@ -77,7 +77,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
             //return DTO
 
-            return new UserPasswordChallengeResponseDto
+            return new BusinessUserPasswordChallengeResponseDto
             {
 
                 PendingAuthId = identifier,
@@ -88,7 +88,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
         }
 
-        public async Task<bool> VerifyOtpAsync(UserPasswordChallengeVerifyDto verifyDto)
+        public async Task<bool> VerifyOtpAsync(BusinessUserPasswordChallengeVerifyDto verifyDto)
         {
            var cachedOtp =  _cacheService.ValidateOtpAsync(verifyDto.PendingAuthId, verifyDto.Otp);
 

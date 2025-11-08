@@ -1,0 +1,66 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Amazon_eCommerce_API.Models.DTO_s.CustomerAccount
+{
+    public class CustomerUserRegistrationDto          //Angular User Registration Entity
+    {
+
+        [Required(ErrorMessage = "Your First Name is required")]
+        [RegularExpression(@"^[A-Za-z' ]+([- ][A-Za-z' ]+)*( (IV|V|VI|VII|VIII|IX|X|XI|XII))?$",        
+        ErrorMessage = "Invalid first name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV' or 'XII'.")]
+        [StringLength(45)]
+        public string FirstName { get; set; }
+
+
+        [Required(ErrorMessage = "Your Last Name is required")]
+        [RegularExpression(@"^[A-Za-z' ]+([- ][A-Za-z' ]+)*( (IV|V|VI|VII|VIII|IX|X|XI|XII))?$",
+        ErrorMessage = "Invalid last name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV' or 'XII'.")]
+         [StringLength(45)]
+        public string LastName { get; set; }
+
+
+        [Required(ErrorMessage = "Your Date of Birth is required")]
+        [DataType(DataType.Date)]
+        public DateOnly DateofBirth { get; set; }
+
+
+        [Required(ErrorMessage = "Your Username is Required")]
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "Username must be between 5-20 characters long.")]
+        public string UserName { get; set; }
+
+
+
+        [Required(ErrorMessage = "Your Email Address is Required")]
+        [EmailAddress(ErrorMessage = "Invailid email format")]
+        public string Email { get; set; }
+
+
+        [Phone(ErrorMessage = "Invalid phone number format.")]
+        [RegularExpression(@"^(\+?\d{1,3}[-. ]?)?(\(?\d{1,4}\)?[-. ]?)?(\d{1,4}[-. ]?)?(\d{1,4}[-. ]?)?(\d{1,9})$",
+      ErrorMessage = "Invalid phone number format.")]
+        public string PhoneNumber { get; set; }
+
+
+        [Required(ErrorMessage = "Your password is required")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long.")]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$",
+            ErrorMessage = "Password must contain at least one uppercase letter, one number, and one special character.")]
+
+        public string Password { get; set; }
+
+        [Required(ErrorMessage = "please re-enter your password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+
+        public bool SubscribeToNewsLetter { get; set; }
+
+
+
+     
+
+
+
+
+    }
+}

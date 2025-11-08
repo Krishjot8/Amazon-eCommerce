@@ -3,7 +3,7 @@ using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
-using Amazon_eCommerce_API.Services.Users;
+using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,14 +17,14 @@ namespace Amazon_eCommerce_API.Controllers
     public class BusinessAccountController : ControllerBase
     {
 //hello
-        private readonly IUserService _userService;
+        private readonly ICustomerUserService _userService;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly IPasswordChallengeService _passwordChallengeService;
         private readonly  StoreContext _storeContext;
 
 
-        public BusinessAccountController(IUserService userService, IMapper mapper, StoreContext storeContext, ITokenService tokenService, IPasswordChallengeService passwordChallengeService)
+        public BusinessAccountController(ICustomerUserService userService, IMapper mapper, StoreContext storeContext, ITokenService tokenService, IPasswordChallengeService passwordChallengeService)
         {
             _userService = userService;
             _mapper = mapper;
@@ -41,7 +41,7 @@ namespace Amazon_eCommerce_API.Controllers
 
         [HttpPost("register")]
 
-        public async Task<IActionResult> BusinessRegister(UserRegistrationDto userRegistrationDto)
+        public async Task<IActionResult> BusinessRegister(BusinessUserRegistrationDto userRegistrationDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -90,7 +90,7 @@ namespace Amazon_eCommerce_API.Controllers
         [HttpPost("login")]
        
 
-        public async Task<IActionResult> BusinessLogin([FromBody] UserLoginDto userLoginDto) 
+        public async Task<IActionResult> BusinessLogin([FromBody] BusinessUserLoginDto userLoginDto) 
         
         
         {
@@ -281,7 +281,7 @@ namespace Amazon_eCommerce_API.Controllers
         [HttpPut("{id}")]
 
 
-        public async Task<IActionResult> UpdatBusinessAccountDetails(int id, UserUpdateDto userUpdateDto)
+        public async Task<IActionResult> UpdatBusinessAccountDetails(int id, SellerUserUpdateDto userUpdateDto)
         {
 
             if (!ModelState.IsValid) {
@@ -331,7 +331,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-        public async Task<IActionResult> UpdateBusinessAccountPassword(int userId, UserPasswordUpdateDto userPasswordUpdateDto)
+        public async Task<IActionResult> UpdateBusinessAccountPassword(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto)
         {
 
             if (!ModelState.IsValid) {

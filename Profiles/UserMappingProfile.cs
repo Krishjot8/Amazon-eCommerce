@@ -11,19 +11,19 @@ namespace Amazon_eCommerce_API.Profiles
         public UserMappingProfile() {
 
 
-            CreateMap<UserRegistrationDto, User>()
+            CreateMap<BusinessUserRegistrationDto, CustomerUsers>()
             .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
 
 
-            CreateMap<UserUpdateDto, User>()
-               .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
-                .ForMember(dest => dest.Role, opt => opt.Ignore());
+            CreateMap<SellerUserUpdateDto, CustomerUsers>()
+               .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
+               
 
-            CreateMap<UserPasswordUpdateDto, User>()
+            CreateMap<BusinessUserPasswordUpdateDto, CustomerUsers>()
          .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()); // Ignore PasswordHash initially
 
 
-            CreateMap<User, UserDto>()
+            CreateMap<CustomerUsers, BusinessAccountCreationDto>()
               .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username))

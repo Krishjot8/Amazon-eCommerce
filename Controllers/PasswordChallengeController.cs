@@ -2,7 +2,7 @@
 using Amazon_eCommerce_API.Models.DTO_s.UserAccount;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
-using Amazon_eCommerce_API.Services.Users;
+using Amazon_eCommerce_API.Services.Users.Customer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +15,10 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         private readonly IPasswordChallengeService _passwordChallengeService;
-        private readonly IUserService _userService;
+        private readonly ICustomerUserService _userService;
         private readonly ITokenService _tokenService;
 
-        public PasswordChallengeController(IPasswordChallengeService passwordChallengeService, IUserService userService, ITokenService tokenService)
+        public PasswordChallengeController(IPasswordChallengeService passwordChallengeService, ICustomerUserService userService, ITokenService tokenService)
         {
             _passwordChallengeService = passwordChallengeService;
             _userService = userService;
@@ -31,7 +31,7 @@ namespace Amazon_eCommerce_API.Controllers
         [HttpPost("generate")]
 
         /// Generates an OTP challenge for login (email or phone)
-        public async Task<IActionResult> GenerateOtp([FromBody] UserPasswordChallengeRequestDto requestDto)
+        public async Task<IActionResult> GenerateOtp([FromBody] BusinessUserPasswordChallengeRequestDto requestDto)
 
         {
 
@@ -57,7 +57,7 @@ namespace Amazon_eCommerce_API.Controllers
 
         [HttpPost("verify")]
 
-        public async Task<IActionResult> VerifyOtp([FromBody] UserPasswordChallengeVerifyDto requestDto)
+        public async Task<IActionResult> VerifyOtp([FromBody] BusinessUserPasswordChallengeVerifyDto requestDto)
         {
 
             if (requestDto == null || string.IsNullOrEmpty(requestDto.PendingAuthId) || string.IsNullOrEmpty(requestDto.Otp))
@@ -83,7 +83,7 @@ namespace Amazon_eCommerce_API.Controllers
             var token = _tokenService.GenerateToken(user);
 
 
-            var userTokenResponse = new UserTokenResponseDto
+            var userTokenResponse = new BusinessUserTokenResponseDto
             {
 
                 UserId = user.Id,

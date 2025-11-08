@@ -2,7 +2,7 @@
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services;
-using Amazon_eCommerce_API.Services.Users;
+using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +15,12 @@ namespace Amazon_eCommerce_API.Controllers
     public class SellerAccountController : ControllerBase
     {
         
-        private readonly IUserService _userService;
+        private readonly ICustomerUserService _userService;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly StoreContext _storeContext;
 
-        public SellerAccountController(IUserService userService, IMapper mapper, StoreContext storeContext, ITokenService tokenService)
+        public SellerAccountController(ICustomerUserService userService, IMapper mapper, StoreContext storeContext, ITokenService tokenService)
         {
             _userService = userService;
             _mapper = mapper;
@@ -33,7 +33,7 @@ namespace Amazon_eCommerce_API.Controllers
 
         [HttpPost("register")]
 
-        public async Task<IActionResult> SellerRegister(UserRegistrationDto userRegistrationDto) 
+        public async Task<IActionResult> SellerRegister(BusinessUserRegistrationDto userRegistrationDto) 
         
         { 
         
@@ -80,7 +80,7 @@ namespace Amazon_eCommerce_API.Controllers
         [HttpPost("login")]
 
 
-        public async Task<IActionResult> SellerLogin([FromBody] UserLoginDto userLoginDto) {
+        public async Task<IActionResult> SellerLogin([FromBody] BusinessUserLoginDto userLoginDto) {
 
 
             if (!ModelState.IsValid)
@@ -112,7 +112,7 @@ namespace Amazon_eCommerce_API.Controllers
             var token = _tokenService.GenerateToken(sellerUser);
 
 
-            var userTokenResponse = new UserTokenResponseDto
+            var userTokenResponse = new BusinessUserTokenResponseDto
             { 
             
                 UserId = sellerUser.Id,
@@ -257,7 +257,7 @@ namespace Amazon_eCommerce_API.Controllers
         [HttpPut("{id}")]
 
 
-        public async Task<IActionResult> UpdateSellerAccountDetails(int id, UserUpdateDto userUpdateDto) 
+        public async Task<IActionResult> UpdateSellerAccountDetails(int id, SellerUserUpdateDto userUpdateDto) 
         {
 
             if (!ModelState.IsValid) {
@@ -305,7 +305,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-        public async Task<IActionResult> UpdateSellerAccountPassword(int userId, [FromBody] UserPasswordUpdateDto userPasswordUpdateDto) 
+        public async Task<IActionResult> UpdateSellerAccountPassword(int userId, [FromBody] BusinessUserPasswordUpdateDto userPasswordUpdateDto) 
         {
 
             if (!ModelState.IsValid) { 

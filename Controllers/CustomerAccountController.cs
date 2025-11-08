@@ -4,7 +4,7 @@ using Amazon_eCommerce_API.Models.DTO_s.UserAccount;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
-using Amazon_eCommerce_API.Services.Users;
+using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,13 +19,13 @@ namespace Amazon_eCommerce_API.Controllers
     public class CustomerAccountController : ControllerBase
     {
 
-        private readonly IUserService _userService;
+        private readonly ICustomerUserService _userService;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly IPasswordChallengeService _passwordChallengeService;
         private readonly StoreContext _storeContext;
 
-        public CustomerAccountController(IUserService userService, IMapper mapper, ITokenService tokenService, StoreContext storeContext, IPasswordChallengeService passwordChallengeService)
+        public CustomerAccountController(ICustomerUserService userService, IMapper mapper, ITokenService tokenService, StoreContext storeContext, IPasswordChallengeService passwordChallengeService)
         {
             _userService = userService;
             _mapper = mapper;
@@ -44,27 +44,27 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-         public async Task<IActionResult> CustomerRegister(UserRegistrationDto userRegistrationDto)
+         public async Task<IActionResult> CustomerRegister(BusinessUserRegistrationDto CustomerUserRegistrationDto)
 
         {
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var emailTaken = await _userService.IsIdentifierTakenAsync(userRegistrationDto.Email);
-            var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
+            var emailTaken = await _userService.IsCustomerIdentifierTakenAsync(CustomerUserRegistrationDto.Email);
+            var usernameTaken = await _userService.IsCustomerUsernameTakenAsync(CustomerUserRegistrationDto.UserName);
 
 
             if (emailTaken) {
 
 
-                return BadRequest($"The customer email address {userRegistrationDto.Email} is already taken.");
+                return BadRequest($"The customer email address {CustomerUserRegistrationDto.Email} is already taken.");
 
             }
 
             if (usernameTaken) {
 
-                return BadRequest($"The customer username {userRegistrationDto.UserName} is already taken.");
+                return BadRequest($"The customer username {CustomerUserRegistrationDto.UserName} is already taken.");
 
             }
 
@@ -74,7 +74,7 @@ namespace Amazon_eCommerce_API.Controllers
 
             string roleName = "Customer";
 
-            var customerUser = await _userService.RegisterUserAsync(userRegistrationDto, roleName);
+            var customerUser = await _userService.RegisterCustomerUserAsync(CustomerUserRegistrationDto, roleName);
 
 
 
@@ -89,7 +89,7 @@ namespace Amazon_eCommerce_API.Controllers
             //New User is already in database now.
 
 
-            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.Email ?? customerUser.PhoneNumber ,userRegistrationDto.Password);
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.Email ?? customerUser.PhoneNumber , CustomerUserRegistrationDto.Password);
 
             // Todo: Send OTP to user's email or phone number for verification
 
@@ -120,7 +120,7 @@ namespace Amazon_eCommerce_API.Controllers
 
         [HttpPost("login")]
        
-        public async Task<IActionResult> CustomerLogin([FromBody] UserLoginDto userLoginDto)
+        public async Task<IActionResult> CustomerLogin([FromBody] BusinessUserLoginDto userLoginDto)
         {
 
             if (!ModelState.IsValid)
@@ -133,15 +133,14 @@ namespace Amazon_eCommerce_API.Controllers
 
 
        
-              var  customerUser = await _storeContext.Users
-          .Include(u => u.Role)
+              var  customerUser = await _storeContext.CustomerUsers
+     
           .SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
 
 
             if (customerUser == null) {
 
-                customerUser = await _storeContext.Users
-.Include(u => u.Role)
+                customerUser = await _storeContext.CustomerUsers
 .SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
 
 
@@ -151,7 +150,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-            if (customerUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password, customerUser.PasswordHash))
+            if (customerUser == null || !await _userService.VerifyCustomerPasswordAsync(userLoginDto.Password, customerUser.PasswordHash))
             {
 
 
@@ -162,12 +161,7 @@ namespace Amazon_eCommerce_API.Controllers
 
             }
 
-            if (customerUser.RoleId != 1)
-            {
-
-                return Forbid("Only Amazon Customers are allowed to log in");
-
-            }
+        
 
 
             var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.Email ?? customerUser.PhoneNumber, userLoginDto.Password);
@@ -206,21 +200,21 @@ namespace Amazon_eCommerce_API.Controllers
         {
 
 
-            var user = await _userService.GetAllUsersAsync();
+            var customerUsers = await _userService.GetAllCustomerUsersAsync();
 
 
-            var customerusers = user.Where(u => u.RoleId == 1);
+       
 
-            if (customerusers == null || !customerusers.Any())
+            if (customerUsers == null || !customerUsers.Any())
             {
 
 
-                return NotFound("the customer account you are looking for does not exist.");
+                return NotFound("No customer accounts found");
 
             }
 
 
-            return Ok(customerusers);
+            return Ok(customerUsers);
 
 
 
@@ -234,12 +228,12 @@ namespace Amazon_eCommerce_API.Controllers
         {
 
 
-            var user = await _userService.GetAllUsersAsync();
+            var customerUser = await _userService.GetAllCustomerUsersAsync();
+
+          
 
 
-            var customeruser = user.FirstOrDefault(u => u.Id == id && u.RoleId == 1);
-
-            if (customeruser == null)
+            if (customerUser == null || !customerUser.Any())
             {
 
 
@@ -247,7 +241,7 @@ namespace Amazon_eCommerce_API.Controllers
 
             }
 
-            return Ok(customeruser);
+            return Ok(customerUser);
 
 
 
@@ -262,14 +256,15 @@ namespace Amazon_eCommerce_API.Controllers
         {
 
 
-            var customerUser = await _userService.GetUserByUsernameAsync(username);
+            var customerUser = await _userService.GetUserByCustomerUsernameAsync(username);
 
-            if (customerUser == null || customerUser.RoleId != 1)
+
+            if (customerUser == null)
             {
 
-                return NotFound("The customer user you are trying to find doesn't exist or is not a customer"); 
-            
-            
+
+                return NotFound($"No Customer found with username {username}");
+
             }
 
             return Ok(customerUser);
@@ -284,21 +279,20 @@ namespace Amazon_eCommerce_API.Controllers
         public async Task<IActionResult> GetCustomerAccountByEmail(string email)
         { 
         
-              var customerUser = await _userService.GetUserByEmailAsync(email);
-
-
-            if (customerUser == null || customerUser.RoleId != 1) {
+              var customerUser = await _userService.GetUserByCustomerEmailAsync(email);
 
 
 
-                return NotFound("The customer user you are trying to find does not exist or is not a customer.");
-            
+            if (customerUser == null)
+            {
+
+
+                return NotFound($"No Customer found with email {email}");
+
             }
 
-
-
             return Ok(customerUser);
-        
+
         }
 
 
@@ -309,14 +303,14 @@ namespace Amazon_eCommerce_API.Controllers
         public async Task<IActionResult> GetCustomerAccountbyPhoneNumber(string phoneNumber)
         { 
         
-            var customerUser = await _userService.GetUserByPhoneNumberAsync(phoneNumber);
+            var customerUser = await _userService.GetUserByCustomerPhoneNumberAsync(phoneNumber);
 
 
-            if (customerUser == null || customerUser.RoleId != 1) { 
+            if (customerUser == null) { 
             
             
             
-            return NotFound("The customer account you are trying to find does not exist or it is not a customer account.");
+            return NotFound($"No Customer found with phone number {phoneNumber}");
             
             }
 
@@ -341,7 +335,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCustomerAccountDetails(int id, [FromBody] UserUpdateDto userUpdateDto)
+        public async Task<IActionResult> UpdateCustomerAccountDetails(int id, [FromBody] SellerUserUpdateDto userUpdateDto)
         {
             // Validate the model
             if (!ModelState.IsValid)
@@ -350,19 +344,19 @@ namespace Amazon_eCommerce_API.Controllers
             }
 
             // Fetch the user by ID from the user service
-            var customerUser = await _userService.GetUserByIdAsync(id);
+            var customerUser = await _userService.GetUserByCustomerIdAsync(id);
 
             // Check if the user exists and is a customer
-            if (customerUser == null || customerUser.RoleId != 1)
+            if (customerUser == null)
             {
-                return NotFound("The customer user you are trying to find does not exist or is not a customer.");
+                return NotFound("The customer user you are trying to find does not exist ");
             }
 
             // Map the properties from UserUpdateDto to the customerUser entity
             _mapper.Map(userUpdateDto, customerUser);
 
             // Save changes to the database by calling UpdateUserAsync with the User entity
-            var isUpdated = await _userService.UpdateUserAsync(customerUser.Id, customerUser);
+            var isUpdated = await _userService.UpdateCustomerUserAsync(customerUser.Id, customerUser);
 
             if (!isUpdated)
             {
@@ -383,7 +377,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-        public async Task<IActionResult> UpdateCustomerAccountPassword(int userId, UserPasswordUpdateDto userPasswordUpdateDto)
+        public async Task<IActionResult> UpdateCustomerAccountPassword(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto)
         {
 
             if (!ModelState.IsValid) {
@@ -392,13 +386,13 @@ namespace Amazon_eCommerce_API.Controllers
             
             }
 
-            var customerUser = await _userService.GetUserByIdAsync(userId);
+            var customerUser = await _userService.GetUserByCustomerIdAsync(userId);
 
 
-            if (customerUser == null || customerUser.RoleId != 1)
+            if (customerUser == null)
             {
 
-                return NotFound("the customer password you are trying to update does not exist or the user is not a customer");
+                return NotFound("the customer password you are trying to update does not exist ");
             
             
             }
@@ -406,10 +400,10 @@ namespace Amazon_eCommerce_API.Controllers
 
             _mapper.Map(userPasswordUpdateDto, customerUser);
 
-            customerUser.PasswordHash = await _userService.HashPasswordAsync(userPasswordUpdateDto.NewPassword);
+            customerUser.PasswordHash = await _userService.HashCustomerPasswordAsync(userPasswordUpdateDto.NewPassword);
 
 
-            var isUpdated = await _userService.UpdateUserAsync(userId, customerUser);
+            var isUpdated = await _userService.UpdateCustomerUserAsync(userId, customerUser);
 
 
 
@@ -436,49 +430,28 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [HttpDelete("{id}")]
 
 
         public async Task<IActionResult> DeleteCustomerUser(int id) 
         {
 
-            var customerUser = await _userService.GetUserByIdAsync(id);
+            var customerUser = await _userService.GetUserByCustomerIdAsync(id);
 
 
-            if (customerUser == null || customerUser.RoleId != 1)
+            if (customerUser == null)
             {
 
-                return NotFound("The customer user you are trying to delete does not exist or is not a customer.");
+                return NotFound("The customer user you are trying to delete does not exist.");
             
             }
        
-            var isDeleted = await _userService.DeleteUserAsync(id);
+            var isDeleted = await _userService.DeleteCustomerUserAsync(id);
 
             if (!isDeleted)
             {
 
-                return StatusCode(500, "An error occured while attempting to delete the user.");
+                return StatusCode(500, "An error occured while attempting to delete the customer user.");
 
             }
 
