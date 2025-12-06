@@ -1,12 +1,9 @@
 ﻿using Amazon_eCommerce_API.Data;
-using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.Users;
+using Amazon_eCommerce_API.Models.DTO_s.BusinessAccount;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -66,7 +63,7 @@ namespace Amazon_eCommerce_API.Controllers
             string roleName = "Business";
 
 
-            var user = await _userService.RegisterUserAsync(userRegistrationDto, roleName);
+            var user = await _userService.RegisterBusinessUserAsync(userRegistrationDto, roleName);
 
             if (user == null)
             {

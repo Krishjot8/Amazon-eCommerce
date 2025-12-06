@@ -10,14 +10,14 @@ using System.Text.RegularExpressions;
 
 namespace Amazon_eCommerce_API.Services.Users
 {
-    public class BusinessUserService : IBusinessUserService
+    public class SellerUserService : ISellerUserService
 
     {
         private readonly StoreContext _storeContext;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly ICacheService _cacheService;
-        public BusinessUserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService, ICacheService cacheService)
+        public SellerUserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService, ICacheService cacheService)
         {
             _storeContext = storeContext;
             _mapper = mapper;

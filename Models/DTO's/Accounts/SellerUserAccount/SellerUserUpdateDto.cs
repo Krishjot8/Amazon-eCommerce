@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Amazon_eCommerce_API.Models.DTO_s.SellerAccount;
-{
+
+
     public class SellerUserUpdateDto            //Angular User Update Entity without Password after logging in
     {
 
@@ -51,4 +52,4 @@ namespace Amazon_eCommerce_API.Models.DTO_s.SellerAccount;
       
 
     }
-}
+

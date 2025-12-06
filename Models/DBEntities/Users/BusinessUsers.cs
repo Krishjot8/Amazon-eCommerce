@@ -44,7 +44,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users
 
 
         [StringLength(20)]
-        public string SuiteOrUnit { get; set; }
+        public string? SuiteOrUnit { get; set; }
 
 
         [Required]

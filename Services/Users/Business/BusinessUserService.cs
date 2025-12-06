@@ -1,5 +1,8 @@
 ﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DBEntities.Users;
 using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
+using Amazon_eCommerce_API.Models.DTO_s.BusinessAccount;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
@@ -25,7 +28,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-        public async Task<BusinessUserTokenResponseDto> CustomerAuthenticateUserAsync(BusinessUserLoginDto userLoginDto)
+        public async Task<BusinessUserTokenResponseDto> BusinessAuthenticateUserAsync(BusinessUserLoginDto userLoginDto)
 
 
         {
@@ -55,7 +58,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-            if (user == null || !await VerifyCustomerPasswordAsync(userLoginDto.Password, user.PasswordHash)) 
+            if (user == null || !await VerifyBusinessPasswordAsync(userLoginDto.Password, user.PasswordHash)) 
             
             { 
             
@@ -81,7 +84,7 @@ namespace Amazon_eCommerce_API.Services.Users
        
 
    
-        public async Task<bool> ChangeCustomerPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto)
+        public async Task<bool> ChangeBusinessPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto)
         {
 
             //finds the user to change password
@@ -93,13 +96,13 @@ namespace Amazon_eCommerce_API.Services.Users
             }
 
             //Verify Current Password
-            if (!await VerifyCustomerPasswordAsync(userPasswordUpdateDto.CurrentPassword , existingUser.PasswordHash)) 
+            if (!await VerifyBusinessPasswordAsync(userPasswordUpdateDto.CurrentPassword , existingUser.PasswordHash)) 
             {
 
                 throw new UnauthorizedAccessException("Current password is incorrect");       
             
             }
-            existingUser.PasswordHash = await HashCustomerPasswordAsync(userPasswordUpdateDto.NewPassword);
+            existingUser.PasswordHash = await HashBusinessPasswordAsync(userPasswordUpdateDto.NewPassword);
 
             _storeContext.CustomerUsers.Update(existingUser);
             var result = await _storeContext.SaveChangesAsync();
@@ -112,7 +115,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-        public async Task<bool> DeleteCustomerUserAsync(int userId)
+        public async Task<bool> DeleteBusinessUserAsync(int userId)
         {
            var user = await _storeContext.CustomerUsers.FindAsync(userId);
 
@@ -133,103 +136,130 @@ namespace Amazon_eCommerce_API.Services.Users
 
         }
 
-        public async Task<IEnumerable<CustomerUsers>> GetAllCustomerUsersAsync()
+        public async Task<IEnumerable<BusinessUsers>> GetAllBusinessUsersAsync()
         {
 
-            return await _storeContext.CustomerUsers.ToListAsync();
+            return await _storeContext.BusinessUsers.ToListAsync();
         }
 
-        public async Task<CustomerUsers> GetUserByCustomerEmailAsync(string email)
+        public async Task<BusinessUsers> GetUserByBusinessEmailAsync(string email)
         {
-          return await _storeContext.CustomerUsers.SingleOrDefaultAsync(x => x.Email == email);
+          return await _storeContext.BusinessUsers.SingleOrDefaultAsync(x => x.Email == email);
         }
 
-        public Task<CustomerUsers> GetUserByCustomerIdAsync(int userId)
+        public Task<BusinessUsers> GetUserByBusinessIdAsync(int userId)
         {
-            return _storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Id == userId);
+            return _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<CustomerUsers> GetUserByCustomerPhoneNumberAsync(string phoneNumber)
+        public async Task<BusinessUsers> GetUserByBusinessPhoneNumberAsync(string phoneNumber)
         {
-            return await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+            return await _storeContext.BusinessUsers.SingleOrDefaultAsync(u => u.BusinessPhone == phoneNumber);
         }
 
-        public async Task<CustomerUsers> GetUserByCustomerUsernameAsync(string username)
+        public async Task<BusinessUsers> GetUserByBusinessNameAsync(string businessName)
         {
-           return await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Username == username);
+           return await _storeContext.BusinessUsers.SingleOrDefaultAsync(u => u.BusinessName == businessName);
 
 
 
         }
 
-        public async Task<string> HashCustomerPasswordAsync(string password)
+        public async Task<string> HashBusinessPasswordAsync(string password)
         {
             var hashedPassword = await Task.Run(() => BCrypt.Net.BCrypt.HashPassword(password));
 
             return hashedPassword;
         }
 
-        public async Task<bool> IsCustomerIdentifierTakenAsync(string identifier)
+        public async Task<bool> IsBusinessIdentifierTakenAsync(string identifier)
         {
-           var existingUser = await _storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Email == identifier || u.PhoneNumber == identifier);
+           var existingUser = await _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.Email == identifier || u.BusinessPhone == identifier);
 
             return existingUser != null;
         }
 
       
 
-        public async Task<bool> IsCustomerUsernameTakenAsync(string username)
+        public async Task<bool> IsBusinessNameTakenAsync(string businessName)
         {
-           var existingUsername = await _storeContext.CustomerUsers.FirstOrDefaultAsync(x => x.Username == username);
+           var existingUsername = await _storeContext.BusinessUsers.FirstOrDefaultAsync(x => x.BusinessName == businessName);
             return existingUsername != null;
         }
 
 
-        public async Task<CustomerUsers> RegisterCustomerUserAsync(BusinessUserRegistrationDto userRegistrationDto , string roleName)
+        public async Task<BusinessUsers> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto)
         {
+
+
+
+            var existingUser = await _storeContext.BusinessUsers
+                .FirstOrDefaultAsync(u => u.Email == setupDto.Email);
+
+
+
+
+            if (existingUser == null) {
+
+
+                throw new Exception("A business account with this email already exists");
+            
+            }
+
+
+            if (setupDto.Password != setupDto.ConfirmPassword)
+                throw new Exception("Passwords do not match");
+
+
+
+
+            //split full name into first and last name
+            var nameParts = setupDto.FullName.Trim().Split(' ',2);
+            string firstName = nameParts.Length > 0 ? nameParts[0] : "";
+            string lastName = nameParts.Length > 1 ? nameParts[1] : "";
+
 
             // Hash password 
 
-            var hashedPassword = await HashCustomerPasswordAsync(userRegistrationDto.Password);
-
-          
+            var hashedPassword = await HashBusinessPasswordAsync(setupDto.Password);
 
 
 
-            //create new user
-            var user = new CustomerUsers
+            var newBusinessUser = new BusinessUsers
             {
-                FirstName = userRegistrationDto.FirstName,
-                LastName = userRegistrationDto.LastName,
-                Username = userRegistrationDto.UserName,
-                Email = userRegistrationDto.Email,
-                PhoneNumber = userRegistrationDto.PhoneNumber,
-                PasswordHash = hashedPassword, 
-                SubscribeToNewsLetter = userRegistrationDto.SubscribeToNewsLetter,
-                IsEmailVerified = false
+
+                FirstName = firstName,
+                LastName = lastName,
+                Email = setupDto.Email,
+                PasswordHash = hashedPassword,
+
+
+
+
+                BusinessPhone = null,
+                RecieveTextUpdates = false,
+                BusinessName = null,
+                BusinessType = null,
+                StreetAddress = null,
+                SuiteOrUnit = null,
+                ZipCode = null,
+                City = null,
+                State = null,
+
+
+                IsEmailVerified = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
 
 
             };
 
-            try {
 
+         
+         _storeContext.BusinessUsers.Add(newBusinessUser);
+            await _storeContext.SaveChangesAsync();
 
-                await _storeContext.CustomerUsers.AddAsync(user);
-                await _storeContext.SaveChangesAsync();
-
-            }
-            catch (Exception ex)
-
-
-            {
-
-                throw new Exception("An error occured while registering the user.", ex);
-                 
-            }
-
-           
-
-            return user;
+            return newBusinessUser;
 
         }
 
@@ -237,7 +267,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
       
 
-        public async Task<bool> ResetCustomerPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto)
+        public async Task<bool> ResetBusinessPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto)
         {
 
             if (forgotPasswordDto.NewPassword != forgotPasswordDto.ReEnterPassword) 
@@ -248,7 +278,7 @@ namespace Amazon_eCommerce_API.Services.Users
             }
 
 
-            var user = await GetUserByCustomerEmailAsync(forgotPasswordDto.Email);
+            var user = await GetUserByBusinessEmailAsync(forgotPasswordDto.Email);
 
             if (user == null)
             {
@@ -271,12 +301,12 @@ namespace Amazon_eCommerce_API.Services.Users
             //Hash new password before updating
 
 
-            var hashedPassword = await HashCustomerPasswordAsync(forgotPasswordDto.NewPassword);
+            var hashedPassword = await HashBusinessPasswordAsync(forgotPasswordDto.NewPassword);
 
 
             user.PasswordHash = hashedPassword;
 
-            var updateResult = await UpdateCustomerUserAsync(user.Id, user);
+            var updateResult = await UpdateBusinessUserAsync(user.Id, user);
 
 
             if (updateResult) {
@@ -299,23 +329,8 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-        public async Task<bool> SubscribeToNewsLetterAsync(int userId)
-        {
-           var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);
 
-            if (existingUser == null)
-            {
-                return false;
-            }
-            existingUser.SubscribeToNewsLetter = true;   // If you want to allow unsubscribe, pass a parameter
-
-
-            _storeContext.CustomerUsers.Update(existingUser);
-            var result = await _storeContext.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public Task<bool> UpdateCustomerEmailAsync(int userId, string newEmail)
+        public Task<bool> UpdateBusinessEmailAsync(int userId, string newEmail)
         {
             throw new NotImplementedException();
         }
@@ -323,28 +338,36 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-        public async Task<bool> UpdateCustomerUserAsync(int userId, CustomerUsers user)
+        public async Task<bool> UpdateBusinessUserAsync(int userId, BusinessUsers businessUser)
         {
             // Retrieve the user from the database by ID
-            var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);
+            var existingBusinessUser = await _storeContext.BusinessUsers.FindAsync(userId);
 
-            if (existingUser == null)
+            if (existingBusinessUser == null)
             {
-                return false; // Return false or throw an exception if the user is not found
+                return false; // Return false or throw an exception if the business user is not found
             }
 
-           
-            existingUser.FirstName = user.FirstName;
-            existingUser.LastName = user.LastName;  
-            existingUser.Username = user.Username;
-            existingUser.Email = user.Email;
-            existingUser.PhoneNumber = user.PhoneNumber;
-            existingUser.IsEmailVerified = user.IsEmailVerified;
 
-      
-     
+            existingBusinessUser.FirstName = businessUser.FirstName;
+            existingBusinessUser.LastName = businessUser.LastName;
+            existingBusinessUser.Email = businessUser.Email;
+            existingBusinessUser.BusinessPhone = businessUser.BusinessPhone;
+            existingBusinessUser.RecieveTextUpdates = businessUser.RecieveTextUpdates;
+            existingBusinessUser.BusinessName = businessUser.BusinessName;
+            existingBusinessUser.BusinessType = businessUser.BusinessType;
+            existingBusinessUser.StreetAddress = businessUser.StreetAddress;
+            existingBusinessUser.SuiteOrUnit = businessUser.SuiteOrUnit;
+            existingBusinessUser.ZipCode = businessUser.ZipCode;
+            existingBusinessUser.City = businessUser.City;
+            existingBusinessUser.State = businessUser.State;
+            existingBusinessUser.IsEmailVerified = businessUser.IsEmailVerified;
+            existingBusinessUser.UpdatedAt = businessUser.UpdatedAt;
+
+
+
             // Update the user entity in the database
-            _storeContext.CustomerUsers.Update(existingUser);
+            _storeContext.BusinessUsers.Update(existingBusinessUser);
 
             var result = await _storeContext.SaveChangesAsync();
 
@@ -353,7 +376,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
       
 
-        public async Task<bool> VerifyCustomerPasswordAsync(string enteredPassword, string storedHash)
+        public async Task<bool> VerifyBusinessPasswordAsync(string enteredPassword, string storedHash)
         {
 
             return await Task.Run(() => BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash));
@@ -361,6 +384,14 @@ namespace Amazon_eCommerce_API.Services.Users
 
         }
 
-    
+        public Task<bool> IsBusinessEmailAvailableAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<BusinessUsers> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

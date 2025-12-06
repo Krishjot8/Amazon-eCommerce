@@ -2,7 +2,7 @@
 
 namespace Amazon_eCommerce_API.Models.DTO_s.BusinessAccount
 {
-    public class BusinessAccountCreationDto       
+    public class BusinessAccountEmailDto       
     {
        
         

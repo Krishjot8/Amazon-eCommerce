@@ -1,5 +1,7 @@
 ﻿using Amazon_eCommerce_API.Models.DBEntities.Users;
 using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
+using Amazon_eCommerce_API.Models.DTO_s.BusinessAccount;
 using Amazon_eCommerce_API.Models.Users;
 
 namespace Amazon_eCommerce_API.Services.Users
@@ -10,43 +12,55 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<IEnumerable<BusinessUsers>> GetAllBusinessUsersAsync();
 
-        Task<BusinessUsers> RegisterCustomerUserAsync(BusinessUserRegistrationDto userRegistrationDto ,string roleName);
 
-        Task<BusinessUserTokenResponseDto> CustomerAuthenticateUserAsync(BusinessUserLoginDto userLoginDto);
-
-        Task<BusinessUsers> GetUserByCustomerIdAsync(int userId);
-
-        Task<BusinessUsers> GetUserByCustomerEmailAsync(string email);
-
-        Task<BusinessUsers> GetUserByCustomerPhoneNumberAsync(string phoneNumber);
-
-        Task<BusinessUsers> GetUserByCustomerUsernameAsync(string username);
-
-        Task<bool> UpdateCustomerUserAsync(int userId, CustomerUsers user);
+        Task<bool> IsBusinessEmailAvailableAsync(string email);
 
 
-        Task<bool> DeleteCustomerUserAsync(int userId);
+        Task<BusinessUsers> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto);
 
 
-        Task<bool> SubscribeToNewsLetterAsync(int userId);
+        Task<BusinessUsers> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto);
 
-        Task<bool> IsCustomerIdentifierTakenAsync(string identifier);
 
-        Task<bool> IsCustomerUsernameTakenAsync(string username);
+        Task<BusinessUserTokenResponseDto> BusinessAuthenticateUserAsync(BusinessUserLoginDto userLoginDto);
+
+
+
+        Task<BusinessUsers> GetUserByBusinessIdAsync(int userId);
+
+        Task<BusinessUsers> GetUserByBusinessEmailAsync(string email);
+
+        Task<BusinessUsers> GetUserByBusinessPhoneNumberAsync(string phoneNumber);
+
+        Task<BusinessUsers> GetUserByBusinessNameAsync(string businessName);
+
+
+
+
+        Task<bool> UpdateBusinessUserAsync(int userId, BusinessUsers user);
+
+
+        Task<bool> DeleteBusinessUserAsync(int userId);
+
+
+
+        Task<bool> IsBusinessIdentifierTakenAsync(string identifier);
+
+        Task<bool> IsBusinessNameTakenAsync(string businessName);
 
      
 
-        Task<string> HashCustomerPasswordAsync(string password);
+        Task<string> HashBusinessPasswordAsync(string password);
 
-        Task<bool> VerifyCustomerPasswordAsync(string enteredPassword, string storedHash);
+        Task<bool> VerifyBusinessPasswordAsync(string enteredPassword, string storedHash);
 
 
 
-        Task<bool> ChangeCustomerPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto);
+        Task<bool> ChangeBusinessPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto);
 
-        Task<bool> UpdateCustomerEmailAsync(int userId, string newEmail);
+        Task<bool> UpdateBusinessEmailAsync(int userId, string newEmail);
 
-        Task<bool> ResetCustomerPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto);
+        Task<bool> ResetBusinessPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto);
 
 
         

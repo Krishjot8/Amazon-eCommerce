@@ -1,17 +1,18 @@
 ﻿using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.SellerAccount;
 using Amazon_eCommerce_API.Models.Users;
 
 namespace Amazon_eCommerce_API.Services.Users
 {
-    public interface IBusinessUserService
+    public interface ISellerUserService
     {
 
 
         Task<IEnumerable<CustomerUsers>> GetAllCustomerUsersAsync();
 
-        Task<CustomerUsers> RegisterCustomerUserAsync(BusinessUserRegistrationDto userRegistrationDto ,string roleName);
+        Task<CustomerUsers> RegisterCustomerUserAsync(SellerUserRegistrationDto userRegistrationDto, string roleName);
 
-        Task<BusinessUserTokenResponseDto> CustomerAuthenticateUserAsync(BusinessUserLoginDto userLoginDto);
+        Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto userLoginDto);
 
         Task<CustomerUsers> GetUserByCustomerIdAsync(int userId);
 

@@ -1,5 +1,6 @@
 ﻿using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.CustomerAccount;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
@@ -27,7 +28,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
 
 
-        public async Task<BusinessUserTokenResponseDto> CustomerAuthenticateUserAsync(BusinessUserLoginDto userLoginDto)
+        public async Task<CustomerUserTokenResponseDto> CustomerAuthenticateUserAsync(CustomerUserLoginDto userLoginDto)
 
 
         {
@@ -67,7 +68,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
             var token = _tokenService.GenerateToken(user);
 
-            var authResponse = new BusinessUserTokenResponseDto
+            var authResponse = new CustomerUserTokenResponseDto
             {
 
                 UserId = user.Id,
@@ -83,7 +84,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
        
 
    
-        public async Task<bool> ChangeCustomerPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto)
+        public async Task<bool> ChangeCustomerPasswordAsync(int userId, CustomerUserPasswordUpdateDto userPasswordUpdateDto)
         {
 
             //finds the user to change password
@@ -187,7 +188,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
         }
 
 
-        public async Task<CustomerUsers> RegisterCustomerUserAsync(BusinessUserRegistrationDto userRegistrationDto , string roleName)
+        public async Task<CustomerUsers> RegisterCustomerUserAsync(CustomerUserRegistrationDto userRegistrationDto , string roleName)
         {
 
             // Hash password 
@@ -239,7 +240,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
       
 
-        public async Task<bool> ResetCustomerPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto)
+        public async Task<bool> ResetCustomerPasswordAsync(CustomerUserForgotPasswordDto forgotPasswordDto)
         {
 
             if (forgotPasswordDto.NewPassword != forgotPasswordDto.ReEnterPassword) 

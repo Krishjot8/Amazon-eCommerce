@@ -1,4 +1,5 @@
 ﻿using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.CustomerAccount;
 using Amazon_eCommerce_API.Models.Users;
 
 namespace Amazon_eCommerce_API.Services.Users.Customer
@@ -9,9 +10,9 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         Task<IEnumerable<CustomerUsers>> GetAllCustomerUsersAsync();
 
-        Task<CustomerUsers> RegisterCustomerUserAsync(BusinessUserRegistrationDto userRegistrationDto ,string roleName);
+        Task<CustomerUsers> RegisterCustomerUserAsync(CustomerUserRegistrationDto userRegistrationDto ,string roleName);
 
-        Task<BusinessUserTokenResponseDto> CustomerAuthenticateUserAsync(BusinessUserLoginDto userLoginDto);
+        Task<CustomerUserTokenResponseDto> CustomerAuthenticateUserAsync(CustomerUserLoginDto userLoginDto);
 
         Task<CustomerUsers> GetUserByCustomerIdAsync(int userId);
 
@@ -41,11 +42,11 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
 
 
-        Task<bool> ChangeCustomerPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto);
+        Task<bool> ChangeCustomerPasswordAsync(int userId, CustomerUserPasswordUpdateDto userPasswordUpdateDto);
 
         Task<bool> UpdateCustomerEmailAsync(int userId, string newEmail);
 
-        Task<bool> ResetCustomerPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto);
+        Task<bool> ResetCustomerPasswordAsync(CustomerUserForgotPasswordDto forgotPasswordDto);
 
 
         
