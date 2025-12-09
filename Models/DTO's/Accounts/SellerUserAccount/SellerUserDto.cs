@@ -19,7 +19,6 @@ public class SellersAccountCreationDto        //Angular User Entity
     [Phone]
     public string? PhoneNumber { get; set; }
 
-    public bool SubscribeToNewsLetter { get; set; }
-   
+  
 
 }

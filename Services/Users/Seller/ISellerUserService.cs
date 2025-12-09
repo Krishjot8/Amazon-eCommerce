@@ -1,4 +1,5 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s;
+﻿using Amazon_eCommerce_API.Models.DBEntities.Users;
+using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.DTO_s.SellerAccount;
 using Amazon_eCommerce_API.Models.Users;
 
@@ -8,45 +9,43 @@ namespace Amazon_eCommerce_API.Services.Users
     {
 
 
-        Task<IEnumerable<CustomerUsers>> GetAllCustomerUsersAsync();
+        Task<IEnumerable<SellerUsers>> GetAllSellerUsersAsync();
 
-        Task<CustomerUsers> RegisterCustomerUserAsync(SellerUserRegistrationDto userRegistrationDto, string roleName);
+        Task<SellerUsers> RegisterSellerUserAsync(SellerUserRegistrationDto sellerUserRegistrationDto);
 
-        Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto userLoginDto);
+        Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto sellerUserLoginDto);
 
-        Task<CustomerUsers> GetUserByCustomerIdAsync(int userId);
+        Task<SellerUsers> GetUserBySellerIdAsync(int sellerUserId);
 
-        Task<CustomerUsers> GetUserByCustomerEmailAsync(string email);
+        Task<SellerUsers> GetUserBySellerEmailAsync(string sellerEmail);
 
-        Task<CustomerUsers> GetUserByCustomerPhoneNumberAsync(string phoneNumber);
-
-        Task<CustomerUsers> GetUserByCustomerUsernameAsync(string username);
-
-        Task<bool> UpdateCustomerUserAsync(int userId, CustomerUsers user);
+        Task<SellerUsers> GetUserBySellerPhoneNumberAsync(string sellerPhoneNumber);
 
 
-        Task<bool> DeleteCustomerUserAsync(int userId);
+        Task<CustomerUsers> GetUserBySellerUsernameAsync(string sellerUsername);
+
+        Task<bool> UpdateSellerUserAsync(int sellerUserId, SellerUsers sellerUser);
 
 
-        Task<bool> SubscribeToNewsLetterAsync(int userId);
+        Task<bool> DeleteSellerUserAsync(int sellerUserId);
 
-        Task<bool> IsCustomerIdentifierTakenAsync(string identifier);
 
-        Task<bool> IsCustomerUsernameTakenAsync(string username);
+
+        Task<bool> IsSellerIdentifierTakenAsync(string sellerIdentifier);
 
      
 
-        Task<string> HashCustomerPasswordAsync(string password);
+        Task<string> HashSellerPasswordAsync(string sellerPassword);
 
-        Task<bool> VerifyCustomerPasswordAsync(string enteredPassword, string storedHash);
+        Task<bool> VerifySellerPasswordAsync(string sellerEnteredPassword, string sellerStoredHash);
 
 
 
-        Task<bool> ChangeCustomerPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto);
+        Task<bool> ChangeSellerPasswordAsync(int sellerUserId, SellerUserPasswordUpdateDto sellerUserPasswordUpdateDto);
 
-        Task<bool> UpdateCustomerEmailAsync(int userId, string newEmail);
+        Task<bool> UpdateSellerEmailAsync(int sellerUserId, string sellerNewEmail);
 
-        Task<bool> ResetCustomerPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto);
+        Task<bool> ResetSellerPasswordAsync(SellerUserForgotPasswordDto forgotPasswordDto);
 
 
         

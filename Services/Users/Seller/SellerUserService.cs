@@ -1,5 +1,7 @@
 ﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DBEntities.Users;
 using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.SellerAccount;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
@@ -27,21 +29,21 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-        public async Task<BusinessUserTokenResponseDto> CustomerAuthenticateUserAsync(BusinessUserLoginDto userLoginDto)
+        public async Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto sellerUserLoginDto)
 
 
         {
 
 
 
-            CustomerUsers user = null;
+            SellerUsers user = null;
 
 
-            if (Regex.IsMatch(userLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            if (Regex.IsMatch(sellerUserLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
 
 
-                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
+                user = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.Email == sellerUserLoginDto.EmailOrPhone);
 
 
 
@@ -50,14 +52,14 @@ namespace Amazon_eCommerce_API.Services.Users
             else
             {
 
-                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
+                user = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == sellerUserLoginDto.EmailOrPhone);
             
             }
 
 
 
 
-            if (user == null || !await VerifyCustomerPasswordAsync(userLoginDto.Password, user.PasswordHash)) 
+            if (user == null || !await VerifySellerPasswordAsync(sellerUserLoginDto.Password, user.PasswordHash)) 
             
             { 
             
@@ -67,7 +69,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
             var token = _tokenService.GenerateToken(user);
 
-            var authResponse = new BusinessUserTokenResponseDto
+            var authResponse = new SellerUserTokenResponseDto
             {
 
                 UserId = user.Id,
