@@ -2,7 +2,7 @@
 
 namespace Amazon_eCommerce_API.Models.DTO_s.SellerAccount;
 
-public class SellersAccountCreationDto        //Angular User Entity
+public class SellerUserDto        //Angular User Entity
 {
    
     public string FirstName { get; set; }
