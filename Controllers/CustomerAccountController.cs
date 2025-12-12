@@ -1,16 +1,16 @@
 ﻿using Amazon_eCommerce_API.Data;
-using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.DTO_s.UserAccount;
-using Amazon_eCommerce_API.Models.Users;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
+using Amazon_eCommerce_API.Models.DTO_s.BusinessAccount;
+using Amazon_eCommerce_API.Models.DTO_s.CustomerAccount;
+using Amazon_eCommerce_API.Models.DTO_s.SellerAccount;
 
 namespace Amazon_eCommerce_API.Controllers
 {
@@ -44,7 +44,7 @@ namespace Amazon_eCommerce_API.Controllers
 
 
 
-         public async Task<IActionResult> CustomerRegister(BusinessUserRegistrationDto CustomerUserRegistrationDto)
+         public async Task<IActionResult> CustomerRegister(CustomerUserRegistrationDto CustomerUserRegistrationDto)
 
         {
 

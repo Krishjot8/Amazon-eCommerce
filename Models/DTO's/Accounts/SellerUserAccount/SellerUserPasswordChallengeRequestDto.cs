@@ -1,4 +1,4 @@
-﻿namespace Amazon_eCommerce_API.Models.DTO_s.SellerAccount
+﻿namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount
 
 {
 public class SellerUserPasswordChallengeRequestDto

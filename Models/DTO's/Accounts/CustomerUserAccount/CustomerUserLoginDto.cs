@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.CustomerAccount
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount
 {
     public class CustomerUserLoginDto  //Angular User Login Entity  
     {

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount;
 
 namespace Amazon_eCommerce_API.Services.Users.Customer
 {

@@ -31,22 +31,18 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
 
 
        public DateTime IdentityDocumentExpirationDate { get; set; }
-
-
-
+       
 
         [Required]
         public string Country { get; set; }  //Prefilled
-
-
+        
         [Required]
 
         public string AddressLine1 { get; set; }
 
 
         public string? AddressLine2 { get; set; }
-
-
+        
         [Required]
 
         public string City { get; set; }

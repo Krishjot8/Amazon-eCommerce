@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.CustomerAccount
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount
 {
     public class CustomerUserDto        //Angular User Entity
     {
@@ -11,8 +11,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.CustomerAccount
 
         [EmailAddress]
         public string Email { get; set; }
-
-     
+        
 
         public DateOnly DateofBirth { get; set; }
 

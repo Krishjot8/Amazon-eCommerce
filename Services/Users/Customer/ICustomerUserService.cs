@@ -1,4 +1,5 @@
 ﻿using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount;
 using Amazon_eCommerce_API.Models.DTO_s.CustomerAccount;
 using Amazon_eCommerce_API.Models.Users;
 

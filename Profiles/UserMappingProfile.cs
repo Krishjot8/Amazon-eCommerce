@@ -1,4 +1,5 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s;
+﻿using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount;
+using Amazon_eCommerce_API.Models.DTO_s.CustomerAccount;
 using Amazon_eCommerce_API.Models.Users;
 using AutoMapper;
 
@@ -11,19 +12,19 @@ namespace Amazon_eCommerce_API.Profiles
         public UserMappingProfile() {
 
 
-            CreateMap<BusinessUserRegistrationDto, CustomerUsers>()
+            CreateMap<CustomerUserRegistrationDto, CustomerUsers>()
             .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
 
 
-            CreateMap<SellerUserUpdateDto, CustomerUsers>()
+            CreateMap<CustomerUserUpdateDto, CustomerUsers>()
                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
                
 
-            CreateMap<BusinessUserPasswordUpdateDto, CustomerUsers>()
+            CreateMap<CustomerUserPasswordUpdateDto, CustomerUsers>()
          .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()); // Ignore PasswordHash initially
 
 
-            CreateMap<CustomerUsers, BusinessAccountCreationDto>()
+            CreateMap<CustomerUsers, CustomerUserRegistrationDto>()
               .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username))

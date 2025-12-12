@@ -5,7 +5,7 @@
 
         public string Email { get; set; }
 
-        public string emailOtp { get; set; }
+        public string EmailOtp { get; set; }
 
         public bool IsResendRequest { get; set; }
 

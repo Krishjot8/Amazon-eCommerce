@@ -1,5 +1,6 @@
 ﻿using Amazon_eCommerce_API.Models.DBEntities.Users;
 using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount;
 using Amazon_eCommerce_API.Models.DTO_s.SellerAccount;
 using Amazon_eCommerce_API.Models.Users;
 
@@ -11,7 +12,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<IEnumerable<SellerUsers>> GetAllSellerUsersAsync();
 
-        Task<SellerUsers> RegisterSellerUserAsync(SellerUserRegistrationDto sellerUserRegistrationDto);
+        //Task<SellerUsers> RegisterSellerUserAsync(SellerUserRegistrationDto sellerUserRegistrationDto);
 
         Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto sellerUserLoginDto);
 
@@ -29,8 +30,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<bool> DeleteSellerUserAsync(int sellerUserId);
 
-
-
+        
         Task<bool> IsSellerIdentifierTakenAsync(string sellerIdentifier);
 
      

@@ -4,7 +4,7 @@
 
 namespace Amazon_eCommerce_API.Models.DTO_s.CustomerAccount
 {
-    public class CustomerrUserUpdateDto            //Angular User Update Entity without Password after logging in
+    public class CustomerUserUpdateDto            //Angular User Update Entity without Password after logging in
     {
 
 

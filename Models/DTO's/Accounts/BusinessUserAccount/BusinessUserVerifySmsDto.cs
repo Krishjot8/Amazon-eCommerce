@@ -1,4 +1,4 @@
-namespace Amazon_eCommerce_API.Models.DTO_s.BusinessAccount
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount
 { 
 
 public class BusinessUserVerifySmsDto

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount;
 
 namespace Amazon_eCommerce_API.Services.Users
 {
@@ -33,9 +34,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
         {
-
-
-
+            
             SellerUsers user = null;
 
 
@@ -44,11 +43,8 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
                 user = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.Email == sellerUserLoginDto.EmailOrPhone);
-
-
-
+                
             }
-
             else
             {
 

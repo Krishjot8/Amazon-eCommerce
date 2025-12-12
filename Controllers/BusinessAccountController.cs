@@ -1,4 +1,5 @@
 ﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
 using Amazon_eCommerce_API.Models.DTO_s.BusinessAccount;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
