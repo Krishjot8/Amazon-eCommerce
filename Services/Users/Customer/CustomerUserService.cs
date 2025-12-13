@@ -1,34 +1,24 @@
 ﻿using Amazon_eCommerce_API.Data;
-using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
 
 namespace Amazon_eCommerce_API.Services.Users.Customer
 {
-    public class CustomerUserService : ICustomerUserService
+    public class CustomerUserService(
+        StoreContext storeContext,
+        IMapper mapper,
+        ITokenService tokenService,
+        ICacheService cacheService)
+        : ICustomerUserService
 
     {
-        private readonly StoreContext _storeContext;
-        private readonly IMapper _mapper;
-        private readonly ITokenService _tokenService;
-        private readonly ICacheService _cacheService;
-        public CustomerUserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService, ICacheService cacheService)
-        {
-            _storeContext = storeContext;
-            _mapper = mapper;
-            _tokenService = tokenService;
-            _cacheService = cacheService;
-        }
-
+        private readonly IMapper _mapper = mapper;
 
 
         public async Task<CustomerUserTokenResponseDto> CustomerAuthenticateUserAsync(CustomerUserLoginDto userLoginDto)
@@ -45,7 +35,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             {
 
 
-                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
+                user = await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
 
 
 
@@ -54,7 +44,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             else
             {
 
-                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
+                user = await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
             
             }
 
@@ -69,7 +59,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             
             }
 
-            var token = _tokenService.GenerateToken(user);
+            var token = tokenService.GenerateToken(user);
 
             var authResponse = new CustomerUserTokenResponseDto
             {
@@ -91,7 +81,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
         {
 
             //finds the user to change password
-            var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);
+            var existingUser = await storeContext.CustomerUsers.FindAsync(userId);
 
             if (existingUser == null)
             {
@@ -107,8 +97,8 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             }
             existingUser.PasswordHash = await HashCustomerPasswordAsync(userPasswordUpdateDto.NewPassword);
 
-            _storeContext.CustomerUsers.Update(existingUser);
-            var result = await _storeContext.SaveChangesAsync();
+            storeContext.CustomerUsers.Update(existingUser);
+            var result = await storeContext.SaveChangesAsync();
             return result > 0;
 
         }
@@ -120,7 +110,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         public async Task<bool> DeleteCustomerUserAsync(int userId)
         {
-           var user = await _storeContext.CustomerUsers.FindAsync(userId);
+           var user = await storeContext.CustomerUsers.FindAsync(userId);
 
             if (user == null) 
             
@@ -129,9 +119,9 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
                 
             }
 
-            _storeContext.CustomerUsers.Remove(user);
+            storeContext.CustomerUsers.Remove(user);
 
-            var result = await _storeContext.SaveChangesAsync();
+            var result = await storeContext.SaveChangesAsync();
 
             return result > 0;
 
@@ -142,27 +132,27 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
         public async Task<IEnumerable<CustomerUser>> GetAllCustomerUsersAsync()
         {
 
-            return await _storeContext.CustomerUsers.ToListAsync();
+            return await storeContext.CustomerUsers.ToListAsync();
         }
 
         public async Task<CustomerUser> GetUserByCustomerEmailAsync(string email)
         {
-          return await _storeContext.CustomerUsers.SingleOrDefaultAsync(x => x.Email == email);
+          return await storeContext.CustomerUsers.SingleOrDefaultAsync(x => x.Email == email);
         }
 
         public Task<CustomerUser> GetUserByCustomerIdAsync(int userId)
         {
-            return _storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Id == userId);
+            return storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
         public async Task<CustomerUser> GetUserByCustomerPhoneNumberAsync(string phoneNumber)
         {
-            return await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+            return await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
 
         public async Task<CustomerUser> GetUserByCustomerUsernameAsync(string username)
         {
-           return await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Username == username);
+           return await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Username == username);
 
 
 
@@ -177,7 +167,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         public async Task<bool> IsCustomerIdentifierTakenAsync(string identifier)
         {
-           var existingUser = await _storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Email == identifier || u.PhoneNumber == identifier);
+           var existingUser = await storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Email == identifier || u.PhoneNumber == identifier);
 
             return existingUser != null;
         }
@@ -186,7 +176,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         public async Task<bool> IsCustomerUsernameTakenAsync(string username)
         {
-           var existingUsername = await _storeContext.CustomerUsers.FirstOrDefaultAsync(x => x.Username == username);
+           var existingUsername = await storeContext.CustomerUsers.FirstOrDefaultAsync(x => x.Username == username);
             return existingUsername != null;
         }
 
@@ -220,8 +210,8 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             try {
 
 
-                await _storeContext.CustomerUsers.AddAsync(user);
-                await _storeContext.SaveChangesAsync();
+                await storeContext.CustomerUsers.AddAsync(user);
+                await storeContext.SaveChangesAsync();
 
             }
             catch (Exception ex)
@@ -239,9 +229,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         }
 
-
-
-      
+        
 
         public async Task<bool> ResetCustomerPasswordAsync(CustomerUserForgotPasswordDto forgotPasswordDto)
         {
@@ -265,7 +253,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
 
 
-            var cachedOtp = await _cacheService.ValidateOtpAsync(forgotPasswordDto.Email,forgotPasswordDto.Otp);
+            var cachedOtp = await cacheService.ValidateOtpAsync(forgotPasswordDto.Email,forgotPasswordDto.Otp);
 
             if (cachedOtp == null) {
 
@@ -288,7 +276,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             if (updateResult) {
 
 
-                await _cacheService.RemoveOtpAsync(forgotPasswordDto.Email);
+                await cacheService.RemoveOtpAsync(forgotPasswordDto.Email);
 
             }
 
@@ -299,15 +287,11 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         }
 
-      
-
-
-
 
 
         public async Task<bool> SubscribeToNewsLetterAsync(int userId)
         {
-           var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);
+           var existingUser = await storeContext.CustomerUsers.FindAsync(userId);
 
             if (existingUser == null)
             {
@@ -316,8 +300,8 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             existingUser.SubscribeToNewsLetter = true;   // If you want to allow unsubscribe, pass a parameter
 
 
-            _storeContext.CustomerUsers.Update(existingUser);
-            var result = await _storeContext.SaveChangesAsync();
+            storeContext.CustomerUsers.Update(existingUser);
+            var result = await storeContext.SaveChangesAsync();
             return result > 0;
         }
 
@@ -332,7 +316,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
         public async Task<bool> UpdateCustomerUserAsync(int userId, CustomerUser user)
         {
             // Retrieve the user from the database by ID
-            var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);
+            var existingUser = await storeContext.CustomerUsers.FindAsync(userId);
 
             if (existingUser == null)
             {
@@ -350,9 +334,9 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
       
      
             // Update the user entity in the database
-            _storeContext.CustomerUsers.Update(existingUser);
+            storeContext.CustomerUsers.Update(existingUser);
 
-            var result = await _storeContext.SaveChangesAsync();
+            var result = await storeContext.SaveChangesAsync();
 
             return result > 0; // Return true if update was successful
         }

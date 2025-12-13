@@ -5,12 +5,12 @@ using Amazon_eCommerce_API.Services.Users.Customer;
 
 namespace Amazon_eCommerce_API.Services.Communication.Sms;
 
-public class SmsService : ISmsService
+public class CustomerSmsService : ISmsService
 {
     private readonly ICacheService _cacheService;
     private readonly ICustomerUserService _userService;
 
-    public SmsService(ICustomerUserService userService, ICacheService cacheService)
+    public CustomerSmsService(ICustomerUserService userService, ICacheService cacheService)
     {
         _userService = userService;
         _cacheService = cacheService;
@@ -35,7 +35,7 @@ public class SmsService : ISmsService
         return true;
     }
 
-    public async Task<bool> SendSmsVerificationAsync(SellerUserVerifySmsDto dto)
+    public async Task<bool> SendSmsVerificationAsync(CustomerUserVerifySmsDto dto)
     {
         var otp = new Random().Next(100000,999999).ToString();
 

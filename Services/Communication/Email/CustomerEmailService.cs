@@ -1,26 +1,24 @@
-﻿using Amazon_eCommerce_API.Extensions;
-
-
-using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.DTO_s.Cache;
-using Amazon_eCommerce_API.Services.Cache;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
+using Amazon_eCommerce_API.Extensions;
+using Amazon_eCommerce_API.Models.DTO_s.Cache;
 using Amazon_eCommerce_API.Models.EmailEntities;
+using Amazon_eCommerce_API.Services.Cache;
+using Amazon_eCommerce_API.Services.Email;
 using Amazon_eCommerce_API.Services.Users.Customer;
 
-namespace Amazon_eCommerce_API.Services.Email
+namespace Amazon_eCommerce_API.Services.Communication.Email
 {
-    public class EmailService : IEmailService
+    public class CustomerEmailService : IEmailService
     {
-        private readonly ICustomerUserService _userService;
+        private readonly ICustomerUserService _customerUserService;
         private readonly ICacheService _cacheService;
         private readonly IConfiguration _configuration;
         private readonly EmailSettings _emailSettings;
 
-        public EmailService(ICustomerUserService userService, ICacheService cacheService, IConfiguration configuration)
+        public CustomerEmailService(ICustomerUserService customerUserService, ICacheService cacheService, IConfiguration configuration)
         {
-            _userService = userService;
+            _customerUserService = customerUserService;
             _cacheService = cacheService;
             _configuration = configuration;
 
@@ -41,7 +39,7 @@ namespace Amazon_eCommerce_API.Services.Email
 
     public async Task<bool> ResendEmailVerificationOtpAsync(string email)
         {
-            var user = await _userService.GetUserByEmailAsync(email);
+            var user = await _customerUserService.GetUserByCustomerEmailAsync(email);
 
             if (user == null) return false;
 

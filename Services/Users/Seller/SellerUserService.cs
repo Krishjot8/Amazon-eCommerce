@@ -1,9 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using Amazon_eCommerce_API.Data;
-using Amazon_eCommerce_API.Models.DBEntities.Users;
-using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Password;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -32,27 +31,27 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
         {
             
-            SellerUser user = null;
+            SellerUser sellerUser = null;
 
 
             if (Regex.IsMatch(sellerUserLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
 
 
-                user = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.Email == sellerUserLoginDto.EmailOrPhone);
+                sellerUser = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.Email == sellerUserLoginDto.EmailOrPhone);
                 
             }
             else
             {
 
-                user = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == sellerUserLoginDto.EmailOrPhone);
+                sellerUser = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == sellerUserLoginDto.EmailOrPhone);
             
             }
 
 
 
 
-            if (user == null || !await VerifySellerPasswordAsync(sellerUserLoginDto.Password, user.PasswordHash)) 
+            if (sellerUser == null || !await VerifySellerPasswordAsync(sellerUserLoginDto.Password, sellerUser.PasswordHash)) 
             
             { 
             
@@ -60,13 +59,13 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             
             }
 
-            var token = _tokenService.GenerateToken(user);
+            var token = _tokenService.GenerateToken(sellerUser);
 
             var authResponse = new SellerUserTokenResponseDto
             {
 
-                UserId = user.Id,
-                Username = user.Username,
+                UserId = sellerUser.Id,
+                Username = sellerUser.Username,
                 Token = token,
 
 
@@ -78,11 +77,11 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
        
 
    
-        public async Task<bool> ChangeCustomerPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto)
+        public async Task<bool> ChangeSellerPasswordAsync(int userId, SellerUserPasswordUpdateDto userPasswordUpdateDto)
         {
 
             //finds the user to change password
-            var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);
+            var existingUser = await _storeContext.SellerUsers.FindAsync(userId);
 
             if (existingUser == null)
             {
@@ -90,15 +89,15 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             }
 
             //Verify Current Password
-            if (!await VerifyCustomerPasswordAsync(userPasswordUpdateDto.CurrentPassword , existingUser.PasswordHash)) 
+            if (!await VerifySellerPasswordAsync(userPasswordUpdateDto.CurrentPassword , existingUser.PasswordHash)) 
             {
 
                 throw new UnauthorizedAccessException("Current password is incorrect");       
             
             }
-            existingUser.PasswordHash = await HashCustomerPasswordAsync(userPasswordUpdateDto.NewPassword);
+            existingUser.PasswordHash = await HashSellerPasswordAsync(userPasswordUpdateDto.NewPassword);
 
-            _storeContext.CustomerUsers.Update(existingUser);
+            _storeContext.SellerUsers.Update(existingUser);
             var result = await _storeContext.SaveChangesAsync();
             return result > 0;
 
@@ -109,9 +108,9 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
 
 
-        public async Task<bool> DeleteCustomerUserAsync(int userId)
+        public async Task<bool> DeleteSellerUserAsync(int userId)
         {
-           var user = await _storeContext.CustomerUsers.FindAsync(userId);
+           var user = await _storeContext.SellerUsers.FindAsync(userId);
 
             if (user == null) 
             
@@ -120,7 +119,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
                 
             }
 
-            _storeContext.CustomerUsers.Remove(user);
+            _storeContext.SellerUsers.Remove(user);
 
             var result = await _storeContext.SaveChangesAsync();
 
@@ -130,79 +129,67 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
         }
 
-        public async Task<IEnumerable<CustomerUser>> GetAllCustomerUsersAsync()
+        public async Task<IEnumerable<SellerUser>> GetAllSellerUsersAsync()
         {
 
-            return await _storeContext.CustomerUsers.ToListAsync();
+            return await _storeContext.SellerUsers.ToListAsync();
         }
 
-        public async Task<CustomerUser> GetUserByCustomerEmailAsync(string email)
+        public async Task<SellerUser> GetUserBySellerEmailAsync(string email)
         {
-          return await _storeContext.CustomerUsers.SingleOrDefaultAsync(x => x.Email == email);
+          return await _storeContext.SellerUsers.SingleOrDefaultAsync(x => x.Email == email);
         }
 
-        public Task<CustomerUser> GetUserByCustomerIdAsync(int userId)
+        public Task<SellerUser> GetUserBySellerIdAsync(int userId)
         {
-            return _storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Id == userId);
+            return _storeContext.SellerUsers.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<CustomerUser> GetUserByCustomerPhoneNumberAsync(string phoneNumber)
+        public async Task<SellerUser> GetUserBySellerPhoneNumberAsync(string phoneNumber)
         {
-            return await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+            return await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
 
-        public async Task<CustomerUser> GetUserByCustomerUsernameAsync(string username)
+        public async Task<SellerUser> GetUserBySellerUsernameAsync(string username)
         {
-           return await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Username == username);
-
-
-
+           return await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.Username == username);
+           
         }
 
-        public async Task<string> HashCustomerPasswordAsync(string password)
+        public async Task<string> HashSellerPasswordAsync(string password)
         {
             var hashedPassword = await Task.Run(() => BCrypt.Net.BCrypt.HashPassword(password));
 
             return hashedPassword;
         }
 
-        public async Task<bool> IsCustomerIdentifierTakenAsync(string identifier)
+        public async Task<bool> IsSellerIdentifierTakenAsync(string identifier)
         {
-           var existingUser = await _storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Email == identifier || u.PhoneNumber == identifier);
+           var existingUser = await _storeContext.SellerUsers.FirstOrDefaultAsync(u => u.Email == identifier || u.PhoneNumber == identifier);
 
             return existingUser != null;
         }
 
-      
-
-        public async Task<bool> IsCustomerUsernameTakenAsync(string username)
-        {
-           var existingUsername = await _storeContext.CustomerUsers.FirstOrDefaultAsync(x => x.Username == username);
-            return existingUsername != null;
-        }
-
-
-        public async Task<CustomerUser> RegisterCustomerUserAsync(BusinessUserRegistrationDto userRegistrationDto , string roleName)
+        
+        public async Task<SellerUser> RegisterSellerUserAsync(SellerUserRegistrationDto userRegistrationDto)
         {
 
             // Hash password 
 
-            var hashedPassword = await HashCustomerPasswordAsync(userRegistrationDto.Password);
+            var hashedPassword = await HashSellerPasswordAsync(userRegistrationDto.Password);
 
           
 
 
 
             //create new user
-            var user = new CustomerUser
+            var user = new SellerUser
             {
                 FirstName = userRegistrationDto.FirstName,
                 LastName = userRegistrationDto.LastName,
-                Username = userRegistrationDto.UserName,
                 Email = userRegistrationDto.Email,
                 PhoneNumber = userRegistrationDto.PhoneNumber,
                 PasswordHash = hashedPassword, 
-                SubscribeToNewsLetter = userRegistrationDto.SubscribeToNewsLetter,
                 IsEmailVerified = false
 
 
@@ -211,7 +198,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             try {
 
 
-                await _storeContext.CustomerUsers.AddAsync(user);
+                await _storeContext.SellerUsers.AddAsync(user);
                 await _storeContext.SaveChangesAsync();
 
             }
@@ -229,12 +216,9 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             return user;
 
         }
-
-
-
       
 
-        public async Task<bool> ResetCustomerPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto)
+        public async Task<bool> ResetSellerPasswordAsync(SellerUserForgotPasswordDto forgotPasswordDto)
         {
 
             if (forgotPasswordDto.NewPassword != forgotPasswordDto.ReEnterPassword) 
@@ -245,7 +229,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             }
 
 
-            var user = await GetUserByCustomerEmailAsync(forgotPasswordDto.Email);
+            var user = await GetUserBySellerEmailAsync(forgotPasswordDto.Email);
 
             if (user == null)
             {
@@ -268,12 +252,12 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             //Hash new password before updating
 
 
-            var hashedPassword = await HashCustomerPasswordAsync(forgotPasswordDto.NewPassword);
+            var hashedPassword = await HashSellerPasswordAsync(forgotPasswordDto.NewPassword);
 
 
             user.PasswordHash = hashedPassword;
 
-            var updateResult = await UpdateCustomerUserAsync(user.Id, user);
+            var updateResult = await UpdateSellerUserAsync(user.Id, user);
 
 
             if (updateResult) {
@@ -290,29 +274,9 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
         }
 
-      
+        
 
-
-
-
-
-        public async Task<bool> SubscribeToNewsLetterAsync(int userId)
-        {
-           var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);
-
-            if (existingUser == null)
-            {
-                return false;
-            }
-            existingUser.SubscribeToNewsLetter = true;   // If you want to allow unsubscribe, pass a parameter
-
-
-            _storeContext.CustomerUsers.Update(existingUser);
-            var result = await _storeContext.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public Task<bool> UpdateCustomerEmailAsync(int userId, string newEmail)
+        public Task<bool> UpdateSellerEmailAsync(int userId, string newEmail)
         {
             throw new NotImplementedException();
         }
@@ -320,10 +284,10 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
 
 
-        public async Task<bool> UpdateCustomerUserAsync(int userId, CustomerUser user)
+        public async Task<bool> UpdateSellerUserAsync(int userId, SellerUser sellerUser)
         {
             // Retrieve the user from the database by ID
-            var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);
+            var existingUser = await _storeContext.SellerUsers.FindAsync(userId);
 
             if (existingUser == null)
             {
@@ -331,17 +295,16 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             }
 
            
-            existingUser.FirstName = user.FirstName;
-            existingUser.LastName = user.LastName;  
-            existingUser.Username = user.Username;
-            existingUser.Email = user.Email;
-            existingUser.PhoneNumber = user.PhoneNumber;
-            existingUser.IsEmailVerified = user.IsEmailVerified;
+            existingUser.FirstName = sellerUser.FirstName;
+            existingUser.LastName = sellerUser.LastName;  
+            existingUser.Email = sellerUser.Email;
+            existingUser.PhoneNumber = sellerUser.PhoneNumber;
+            existingUser.IsEmailVerified = sellerUser.IsEmailVerified;
 
       
      
             // Update the user entity in the database
-            _storeContext.CustomerUsers.Update(existingUser);
+            _storeContext.SellerUsers.Update(existingUser);
 
             var result = await _storeContext.SaveChangesAsync();
 
@@ -350,7 +313,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
       
 
-        public async Task<bool> VerifyCustomerPasswordAsync(string enteredPassword, string storedHash)
+        public async Task<bool> VerifySellerPasswordAsync(string enteredPassword, string storedHash)
         {
 
             return await Task.Run(() => BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash));

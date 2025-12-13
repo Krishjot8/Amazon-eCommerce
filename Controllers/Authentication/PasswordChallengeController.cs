@@ -1,9 +1,11 @@
-﻿using Amazon_eCommerce_API.Services;
+﻿using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
+using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Amazon_eCommerce_API.Controllers
+namespace Amazon_eCommerce_API.Controllers.Authentication
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -12,13 +14,13 @@ namespace Amazon_eCommerce_API.Controllers
 
 
         private readonly IPasswordChallengeService _passwordChallengeService;
-        private readonly ICustomerUserService _userService;
+        private readonly ICustomerUserService _customerUserService;
         private readonly ITokenService _tokenService;
 
-        public PasswordChallengeController(IPasswordChallengeService passwordChallengeService, ICustomerUserService userService, ITokenService tokenService)
+        public PasswordChallengeController(IPasswordChallengeService passwordChallengeService, ICustomerUserService customerUserService, ITokenService tokenService)
         {
             _passwordChallengeService = passwordChallengeService;
-            _userService = userService;
+            _customerUserService = customerUserService;
             _tokenService = tokenService;
         }
         
@@ -28,7 +30,7 @@ namespace Amazon_eCommerce_API.Controllers
         [HttpPost("generate")]
 
         /// Generates an OTP challenge for login (email or phone)
-        public async Task<IActionResult> GenerateOtp([FromBody] BusinessUserPasswordChallengeRequestDto requestDto)
+        public async Task<IActionResult> GenerateOtp([FromBody] CustomerUserPasswordChallengeRequestDto requestDto)
 
         {
 
@@ -54,7 +56,7 @@ namespace Amazon_eCommerce_API.Controllers
 
         [HttpPost("verify")]
 
-        public async Task<IActionResult> VerifyOtp([FromBody] BusinessUserPasswordChallengeVerifyDto requestDto)
+        public async Task<IActionResult> VerifyOtp([FromBody] CustomerUserPasswordChallengeVerifyDto requestDto)
         {
 
             if (requestDto == null || string.IsNullOrEmpty(requestDto.PendingAuthId) || string.IsNullOrEmpty(requestDto.Otp))
@@ -70,8 +72,8 @@ namespace Amazon_eCommerce_API.Controllers
                 return Unauthorized("Invalid or expired OTP");
 
 
-            var user = await _userService.GetUserByEmailAsync(requestDto.PendingAuthId)
-                ?? await _userService.GetUserByPhoneNumberAsync(requestDto.PendingAuthId);
+            var user = await _customerUserService.GetCustomerUserByEmailAsync(requestDto.PendingAuthId)
+                ?? await _customerUserService.GetCustomerByPhoneNumberAsync(requestDto.PendingAuthId);
 
             if (user == null)
                 return NotFound("User not found");
@@ -80,7 +82,7 @@ namespace Amazon_eCommerce_API.Controllers
             var token = _tokenService.GenerateToken(user);
 
 
-            var userTokenResponse = new BusinessUserTokenResponseDto
+            var userTokenResponse = new CustomerUserTokenResponseDto
             {
 
                 UserId = user.Id,

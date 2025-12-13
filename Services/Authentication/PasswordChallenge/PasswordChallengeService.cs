@@ -1,39 +1,30 @@
-﻿using Amazon_eCommerce_API.Data;
-using Amazon_eCommerce_API.Models.DTO_s.Cache;
-using Amazon_eCommerce_API.Models.DTO_s.UserAccount;
+﻿using Amazon_eCommerce_API.Models.DTO_s.Cache;
 using Amazon_eCommerce_API.Services.Cache;
 using Amazon_eCommerce_API.Services.Communication.Sms;
 using Amazon_eCommerce_API.Services.Email;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using System.Security.Cryptography;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
 
 namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 {
-    public class PasswordChallengeService : IPasswordChallengeService    //For Generating One time Password
+    public class PasswordChallengeService(
+        ICustomerUserService customerUserService,
+        ICacheService cacheService,
+        IEmailService emailService,
+        ISmsService smsService)
+        : IPasswordChallengeService //For Generating One time Password
     {
-
-        private readonly ICustomerUserService _userService;
-        private readonly ICacheService _cacheService;
-        private readonly IEmailService  _emailService;
-        private readonly ISmsService  _smsService;
-
-        public PasswordChallengeService(ICustomerUserService userService, ICacheService cacheService, IEmailService emailService, ISmsService smsService)
-        {
-            _userService = userService;
-            _cacheService = cacheService;
-            _emailService = emailService;
-            _smsService = smsService;
-        }
         //
-        public async Task<BusinessUserPasswordChallengeResponseDto> GenerateOtpChallengeAsync(string identifier,
+        public async Task<CustomerUserPasswordChallengeResponseDto> GenerateOtpChallengeAsync(string identifier,
             string password)
         {
 
-            var user = await _userService.GetUserByEmailAsync(identifier) ??
-                       await _userService.GetUserByPhoneNumberAsync(identifier);
+            var user = await customerUserService.GetUserByCustomerEmailAsync(identifier) ??
+                       await customerUserService.GetUserByCustomerPhoneNumberAsync(identifier);
 
 
-            if (user == null || !await _userService.VerifyPasswordAsync(password, user.PasswordHash))
+            if (user == null || !await customerUserService.VerifyCustomerPasswordAsync(password, user.PasswordHash))
             {
 
                 //add message Password is Incorrect
@@ -56,7 +47,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
             };
 
-            await _cacheService.SetOtpAsync(identifier, otpCache);
+            await cacheService.SetOtpAsync(identifier, otpCache);
 
 
             string otpChannel;
@@ -66,18 +57,18 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
             {
                 otpChannel = "email";
                 maskedDestination = MaskEmail(identifier);
-                await _emailService.SendOtpEmailAsync(identifier, otp);
+                await emailService.SendOtpEmailAsync(identifier, otp);
             }
             else
             {
                 otpChannel = "sms";
                 maskedDestination = MaskPhone(identifier);
-                await _smsService.SendOtpSmsAsync(identifier, otp);
+                await smsService.SendOtpSmsAsync(identifier, otp);
             }
 
             //return DTO
 
-            return new BusinessUserPasswordChallengeResponseDto
+            return new CustomerUserPasswordChallengeResponseDto
             {
 
                 PendingAuthId = identifier,
@@ -88,13 +79,16 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
         }
 
-        public async Task<bool> VerifyOtpAsync(BusinessUserPasswordChallengeVerifyDto verifyDto)
+      
+        
+
+        public async Task<bool> VerifyOtpAsync(CustomerUserPasswordChallengeVerifyDto verifyDto)
         {
-           var cachedOtp =  _cacheService.ValidateOtpAsync(verifyDto.PendingAuthId, verifyDto.Otp);
+           var cachedOtp =  cacheService.ValidateOtpAsync(verifyDto.PendingAuthId, verifyDto.Otp);
 
            if (cachedOtp == null) return false;
 
-           await _cacheService.RemoveOtpAsync(verifyDto.PendingAuthId);
+           await cacheService.RemoveOtpAsync(verifyDto.PendingAuthId);
            return true;
 
         }

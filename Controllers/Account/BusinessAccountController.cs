@@ -1,5 +1,4 @@
 ﻿using Amazon_eCommerce_API.Data;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 using Amazon_eCommerce_API.Services;
@@ -7,9 +6,8 @@ using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-namespace Amazon_eCommerce_API.Controllers
+namespace Amazon_eCommerce_API.Controllers.Account
 {
     [Route("api/[controller]")]
     [ApiController]

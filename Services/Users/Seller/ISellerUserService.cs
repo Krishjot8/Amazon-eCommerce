@@ -22,18 +22,12 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
         Task<SellerUser> GetUserBySellerPhoneNumberAsync(string sellerPhoneNumber);
 
-
-        Task<CustomerUser> GetUserBySellerUsernameAsync(string sellerUsername);
-
         Task<bool> UpdateSellerUserAsync(int sellerUserId, SellerUser sellerUser);
-
-
+        
         Task<bool> DeleteSellerUserAsync(int sellerUserId);
-
         
         Task<bool> IsSellerIdentifierTakenAsync(string sellerIdentifier);
-
-     
+        
 
         Task<string> HashSellerPasswordAsync(string sellerPassword);
 
