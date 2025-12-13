@@ -1,12 +1,12 @@
 ﻿using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
@@ -38,7 +38,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
 
 
-            CustomerUsers user = null;
+            CustomerUser user = null;
 
 
             if (Regex.IsMatch(userLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
@@ -139,28 +139,28 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         }
 
-        public async Task<IEnumerable<CustomerUsers>> GetAllCustomerUsersAsync()
+        public async Task<IEnumerable<CustomerUser>> GetAllCustomerUsersAsync()
         {
 
             return await _storeContext.CustomerUsers.ToListAsync();
         }
 
-        public async Task<CustomerUsers> GetUserByCustomerEmailAsync(string email)
+        public async Task<CustomerUser> GetUserByCustomerEmailAsync(string email)
         {
           return await _storeContext.CustomerUsers.SingleOrDefaultAsync(x => x.Email == email);
         }
 
-        public Task<CustomerUsers> GetUserByCustomerIdAsync(int userId)
+        public Task<CustomerUser> GetUserByCustomerIdAsync(int userId)
         {
             return _storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<CustomerUsers> GetUserByCustomerPhoneNumberAsync(string phoneNumber)
+        public async Task<CustomerUser> GetUserByCustomerPhoneNumberAsync(string phoneNumber)
         {
             return await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
 
-        public async Task<CustomerUsers> GetUserByCustomerUsernameAsync(string username)
+        public async Task<CustomerUser> GetUserByCustomerUsernameAsync(string username)
         {
            return await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Username == username);
 
@@ -191,7 +191,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
         }
 
 
-        public async Task<CustomerUsers> RegisterCustomerUserAsync(CustomerUserRegistrationDto userRegistrationDto , string roleName)
+        public async Task<CustomerUser> RegisterCustomerUserAsync(CustomerUserRegistrationDto userRegistrationDto , string roleName)
         {
 
             // Hash password 
@@ -203,7 +203,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
 
             //create new user
-            var user = new CustomerUsers
+            var user = new CustomerUser
             {
                 FirstName = userRegistrationDto.FirstName,
                 LastName = userRegistrationDto.LastName,
@@ -329,7 +329,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
 
 
-        public async Task<bool> UpdateCustomerUserAsync(int userId, CustomerUsers user)
+        public async Task<bool> UpdateCustomerUserAsync(int userId, CustomerUser user)
         {
             // Retrieve the user from the database by ID
             var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);

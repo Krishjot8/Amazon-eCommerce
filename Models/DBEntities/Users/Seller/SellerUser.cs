@@ -1,6 +1,8 @@
-﻿namespace Amazon_eCommerce_API.Models.DBEntities.Users
+﻿using Amazon_eCommerce_API.Models.BaseEntities;
+
+namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
 {
-    public class SellerUsers : BaseModel
+    public class SellerUser : BaseModel
     {
 
         public string FirstName { get; set; }

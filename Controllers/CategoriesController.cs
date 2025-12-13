@@ -1,5 +1,6 @@
 ﻿using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models;
+using Amazon_eCommerce_API.Models.DBEntities.Products;
 using Amazon_eCommerce_API.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

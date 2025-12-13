@@ -1,8 +1,8 @@
-﻿using Amazon_eCommerce_API.Models.Users;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 
 namespace Amazon_eCommerce_API.Services
 {
@@ -25,7 +25,7 @@ namespace Amazon_eCommerce_API.Services
 
       
 
-        public string GenerateToken(CustomerUsers user)
+        public string GenerateToken(CustomerUser user)
         {
 
             var claims = new[]

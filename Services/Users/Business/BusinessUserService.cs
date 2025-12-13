@@ -2,11 +2,12 @@
 using Amazon_eCommerce_API.Models.DBEntities.Users;
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
-using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Registration;
@@ -37,7 +38,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-            CustomerUsers user = null;
+            CustomerUser user = null;
 
 
             if (Regex.IsMatch(userLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
@@ -138,28 +139,28 @@ namespace Amazon_eCommerce_API.Services.Users
 
         }
 
-        public async Task<IEnumerable<BusinessUsers>> GetAllBusinessUsersAsync()
+        public async Task<IEnumerable<BusinessUser>> GetAllBusinessUsersAsync()
         {
 
             return await _storeContext.BusinessUsers.ToListAsync();
         }
 
-        public async Task<BusinessUsers> GetUserByBusinessEmailAsync(string email)
+        public async Task<BusinessUser> GetUserByBusinessEmailAsync(string email)
         {
           return await _storeContext.BusinessUsers.SingleOrDefaultAsync(x => x.Email == email);
         }
 
-        public Task<BusinessUsers> GetUserByBusinessIdAsync(int userId)
+        public Task<BusinessUser> GetUserByBusinessIdAsync(int userId)
         {
             return _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<BusinessUsers> GetUserByBusinessPhoneNumberAsync(string phoneNumber)
+        public async Task<BusinessUser> GetUserByBusinessPhoneNumberAsync(string phoneNumber)
         {
             return await _storeContext.BusinessUsers.SingleOrDefaultAsync(u => u.BusinessPhone == phoneNumber);
         }
 
-        public async Task<BusinessUsers> GetUserByBusinessNameAsync(string businessName)
+        public async Task<BusinessUser> GetUserByBusinessNameAsync(string businessName)
         {
            return await _storeContext.BusinessUsers.SingleOrDefaultAsync(u => u.BusinessName == businessName);
 
@@ -190,7 +191,7 @@ namespace Amazon_eCommerce_API.Services.Users
         }
 
 
-        public async Task<BusinessUsers> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto)
+        public async Task<BusinessUser> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto)
         {
 
 
@@ -227,7 +228,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-            var newBusinessUser = new BusinessUsers
+            var newBusinessUser = new BusinessUser
             {
 
                 FirstName = firstName,
@@ -340,7 +341,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
 
-        public async Task<bool> UpdateBusinessUserAsync(int userId, BusinessUsers businessUser)
+        public async Task<bool> UpdateBusinessUserAsync(int userId, BusinessUser businessUser)
         {
             // Retrieve the user from the database by ID
             var existingBusinessUser = await _storeContext.BusinessUsers.FindAsync(userId);
@@ -391,7 +392,7 @@ namespace Amazon_eCommerce_API.Services.Users
             throw new NotImplementedException();
         }
 
-        public Task<BusinessUsers> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto)
+        public Task<BusinessUser> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto)
         {
             throw new NotImplementedException();
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
-
+using Amazon_eCommerce_API.Models.DBEntities.Products;
 
 
 public class DbInitializer

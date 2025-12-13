@@ -1,5 +1,6 @@
 ﻿using Amazon_eCommerce_API.Models;
 using System.Linq.Expressions;
+using Amazon_eCommerce_API.Models.DBEntities.Products;
 
 namespace Amazon_eCommerce_API.Specifications
 {

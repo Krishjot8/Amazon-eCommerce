@@ -1,10 +1,10 @@
 ﻿using Amazon_eCommerce_API.Models.DBEntities.Users;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Registration;
-using Amazon_eCommerce_API.Models.Users;
 
 namespace Amazon_eCommerce_API.Services.Users
 {
@@ -12,34 +12,34 @@ namespace Amazon_eCommerce_API.Services.Users
     {
 
 
-        Task<IEnumerable<BusinessUsers>> GetAllBusinessUsersAsync();
+        Task<IEnumerable<BusinessUser>> GetAllBusinessUsersAsync();
 
 
         Task<bool> IsBusinessEmailAvailableAsync(string email);
 
 
-        Task<BusinessUsers> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto);
+        Task<BusinessUser> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto);
 
 
-        Task<BusinessUsers> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto);
+        Task<BusinessUser> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto);
 
 
         Task<BusinessUserTokenResponseDto> BusinessAuthenticateUserAsync(BusinessUserLoginDto userLoginDto);
 
 
 
-        Task<BusinessUsers> GetUserByBusinessIdAsync(int userId);
+        Task<BusinessUser> GetUserByBusinessIdAsync(int userId);
 
-        Task<BusinessUsers> GetUserByBusinessEmailAsync(string email);
+        Task<BusinessUser> GetUserByBusinessEmailAsync(string email);
 
-        Task<BusinessUsers> GetUserByBusinessPhoneNumberAsync(string phoneNumber);
+        Task<BusinessUser> GetUserByBusinessPhoneNumberAsync(string phoneNumber);
 
-        Task<BusinessUsers> GetUserByBusinessNameAsync(string businessName);
-
-
+        Task<BusinessUser> GetUserByBusinessNameAsync(string businessName);
 
 
-        Task<bool> UpdateBusinessUserAsync(int userId, BusinessUsers user);
+
+
+        Task<bool> UpdateBusinessUserAsync(int userId, BusinessUser user);
 
 
         Task<bool> DeleteBusinessUserAsync(int userId);

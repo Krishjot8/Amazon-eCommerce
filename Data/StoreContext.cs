@@ -2,9 +2,12 @@
 
 using Amazon_eCommerce_API.Models;
 using Amazon_eCommerce_API.Models.DBEntities.Users;
-using Amazon_eCommerce_API.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Amazon_eCommerce_API.Models.DBEntities.Products;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
 
 namespace Amazon_eCommerce_API.Data
 {
@@ -24,39 +27,39 @@ namespace Amazon_eCommerce_API.Data
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<CustomerUsers> CustomerUsers { get; set; }
+        public DbSet<CustomerUser> CustomerUsers { get; set; }
 
-        public DbSet<BusinessUsers> BusinessUsers { get; set; }
+        public DbSet<BusinessUser> BusinessUsers { get; set; }
 
-        public DbSet<SellerUsers> SellerUsers { get; set; }
+        public DbSet<SellerUser> SellerUsers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<CustomerUsers>()
+            modelBuilder.Entity<CustomerUser>()
               .HasIndex(u => u.Email)
               .IsUnique();
 
 
-            modelBuilder.Entity<CustomerUsers>()
+            modelBuilder.Entity<CustomerUser>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
 
-            modelBuilder.Entity<BusinessUsers>()
+            modelBuilder.Entity<BusinessUser>()
           .HasIndex(u => u.Email)
           .IsUnique();
 
 
         
 
-            modelBuilder.Entity<SellerUsers>()
+            modelBuilder.Entity<SellerUser>()
                       .HasIndex(u => u.Email)
                       .IsUnique();
 
 
-            modelBuilder.Entity<SellerUsers>()
+            modelBuilder.Entity<SellerUser>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
 

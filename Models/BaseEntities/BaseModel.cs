@@ -1,4 +1,4 @@
-﻿namespace Amazon_eCommerce_API.Models
+﻿namespace Amazon_eCommerce_API.Models.BaseEntities
 {
     public class BaseModel
     {

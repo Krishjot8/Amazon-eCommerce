@@ -1,7 +1,8 @@
 ﻿using Amazon_eCommerce_API.Models.DBEntities.Users;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Password;
-using Amazon_eCommerce_API.Models.Users;
 
 namespace Amazon_eCommerce_API.Services.Users.Seller
 {
@@ -9,22 +10,22 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
     {
 
 
-        Task<IEnumerable<SellerUsers>> GetAllSellerUsersAsync();
+        Task<IEnumerable<SellerUser>> GetAllSellerUsersAsync();
 
         //Task<SellerUsers> RegisterSellerUserAsync(SellerUserRegistrationDto sellerUserRegistrationDto);
 
         Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto sellerUserLoginDto);
 
-        Task<SellerUsers> GetUserBySellerIdAsync(int sellerUserId);
+        Task<SellerUser> GetUserBySellerIdAsync(int sellerUserId);
 
-        Task<SellerUsers> GetUserBySellerEmailAsync(string sellerEmail);
+        Task<SellerUser> GetUserBySellerEmailAsync(string sellerEmail);
 
-        Task<SellerUsers> GetUserBySellerPhoneNumberAsync(string sellerPhoneNumber);
+        Task<SellerUser> GetUserBySellerPhoneNumberAsync(string sellerPhoneNumber);
 
 
-        Task<CustomerUsers> GetUserBySellerUsernameAsync(string sellerUsername);
+        Task<CustomerUser> GetUserBySellerUsernameAsync(string sellerUsername);
 
-        Task<bool> UpdateSellerUserAsync(int sellerUserId, SellerUsers sellerUser);
+        Task<bool> UpdateSellerUserAsync(int sellerUserId, SellerUser sellerUser);
 
 
         Task<bool> DeleteSellerUserAsync(int sellerUserId);

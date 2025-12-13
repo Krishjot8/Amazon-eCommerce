@@ -1,4 +1,5 @@
 ﻿using Amazon_eCommerce_API.Models;
+using Amazon_eCommerce_API.Models.DBEntities.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

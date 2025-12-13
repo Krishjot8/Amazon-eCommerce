@@ -1,6 +1,7 @@
 ﻿using Amazon_eCommerce_API.Models;
 using Amazon_eCommerce_API.Specifications;
 using System.Linq.Expressions;
+using Amazon_eCommerce_API.Models.BaseEntities;
 
 namespace Amazon_eCommerce_API.Repositories
 {

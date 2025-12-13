@@ -1,6 +1,5 @@
 ﻿using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;

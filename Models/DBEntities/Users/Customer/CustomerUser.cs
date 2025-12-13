@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Amazon_eCommerce_API.Models.BaseEntities;
 
-
-namespace Amazon_eCommerce_API.Models.Users
+namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
 {
-    public class CustomerUsers : BaseModel // To store user credentials to database after registering.
+    public class CustomerUser : BaseModel // To store user credentials to database after registering.
     {
         [Required(ErrorMessage = "First name is required.")]
         public string FirstName { get; set; }

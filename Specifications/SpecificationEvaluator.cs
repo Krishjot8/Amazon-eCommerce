@@ -1,4 +1,5 @@
 ﻿using Amazon_eCommerce_API.Models;
+using Amazon_eCommerce_API.Models.BaseEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Amazon_eCommerce_API.Specifications

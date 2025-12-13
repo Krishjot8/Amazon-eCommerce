@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Amazon_eCommerce_API.Models.BaseEntities;
 
-namespace Amazon_eCommerce_API.Models.DBEntities.Users
+namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
 {
-    public class BusinessUsers : BaseModel
+    public class BusinessUser : BaseModel
     {
 
         [Required]
