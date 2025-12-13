@@ -17,11 +17,11 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-
-
+        
 
         [Phone]
         [StringLength(20)]
+        [Required]
         public string BusinessPhone { get; set; }
 
 

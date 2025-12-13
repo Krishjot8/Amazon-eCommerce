@@ -22,6 +22,9 @@
 
 	<ItemGroup>
 		<Folder Include="Migrations\" />
+		<Folder Include="Models\DBEntities\Users\BusinessUsers\" />
+		<Folder Include="Models\DBEntities\Users\CustomerUsers\" />
+		<Folder Include="Models\DBEntities\Users\SellerUsers\" />
 		<Folder Include="wwwroot\" />
 	</ItemGroup>
 

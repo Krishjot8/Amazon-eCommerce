@@ -1,6 +1,5 @@
 ﻿using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.DTO_s.CustomerAccount;
 using Amazon_eCommerce_API.Models.Users;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
@@ -9,6 +8,9 @@ using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
 
 namespace Amazon_eCommerce_API.Services.Users.Customer
 {

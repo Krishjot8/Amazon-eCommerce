@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Runtime.InteropServices;
 using System.Text;
+using Amazon_eCommerce_API.Services.Users;
+using Amazon_eCommerce_API.Services.Users.Seller;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -112,6 +114,8 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IPasswordChallengeService, PasswordChallengeService>();
 builder.Services.AddScoped<ICustomerUserService, CustomerUserService>();
+builder.Services.AddScoped<IBusinessUserService, BusinessUserService>();
+builder.Services.AddScoped<ISellerUserService, SellerUserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<IEmailService, EmailService>();

@@ -32,6 +32,7 @@ namespace Amazon_eCommerce_API.Models.Users
         public string PhoneNumber { get; set; }
 
 
+        [Required]
         public string PasswordHash { get; set; }
 
 

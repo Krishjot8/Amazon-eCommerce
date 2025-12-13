@@ -1,10 +1,9 @@
 ﻿using Amazon_eCommerce_API.Models.DBEntities.Users;
-using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount;
-using Amazon_eCommerce_API.Models.DTO_s.SellerAccount;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Password;
 using Amazon_eCommerce_API.Models.Users;
 
-namespace Amazon_eCommerce_API.Services.Users
+namespace Amazon_eCommerce_API.Services.Users.Seller
 {
     public interface ISellerUserService
     {
