@@ -22,13 +22,8 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authent
         [Required(ErrorMessage = "Your Date of Birth is required")]
         [DataType(DataType.Date)]
 
-        public DateOnly DateofBirth { get; set; }
-
-
-        [Required(ErrorMessage = "Your Username is Required")]
-        [StringLength(20, MinimumLength = 5, ErrorMessage = "Username Must be between 5 and 20 characters.")]
-        public string UserName { get; set; }
-
+        public DateOnly DateOfBirth { get; set; }
+        
 
 
         [Required(ErrorMessage = "Your Email Address is Required")]

@@ -72,7 +72,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
 
     public enum PinDeliveryMethod
     {
-        SMS,
+        Sms,
         Call
     }
 

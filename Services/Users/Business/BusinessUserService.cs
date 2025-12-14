@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Registration;
 
 namespace Amazon_eCommerce_API.Services.Users
 {
@@ -75,7 +75,7 @@ namespace Amazon_eCommerce_API.Services.Users
             {
 
                 UserId = user.Id,
-                Username = user.Username,
+                DisplayName = user.Username,
                 Token = token,
 
 

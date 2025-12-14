@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Registration
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration
 {
     public class BusinessAccountEmailDto       
     {

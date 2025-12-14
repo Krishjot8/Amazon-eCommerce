@@ -65,7 +65,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             {
 
                 UserId = sellerUser.Id,
-                Username = sellerUser.Username,
+                DisplayName = sellerUser.Username,
                 Token = token,
 
 

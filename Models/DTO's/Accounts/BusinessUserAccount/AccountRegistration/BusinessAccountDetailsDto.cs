@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Registration
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration
 {
     public class BusinessAccountDetailsDto
     {
@@ -12,7 +12,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Registr
         public string BusinessPhone { get; set; }
 
 
-        public bool ReceieveUpdates { get; set; }
+        public bool ReceiveUpdates { get; set; }
 
         [Required]
         public string BusinessName { get; set; }

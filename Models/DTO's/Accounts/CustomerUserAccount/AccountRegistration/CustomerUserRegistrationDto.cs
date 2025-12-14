@@ -22,13 +22,8 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Account
         [Required(ErrorMessage = "Your Date of Birth is required")]
         [DataType(DataType.Date)]
         public DateOnly DateofBirth { get; set; }
-
-
-        [Required(ErrorMessage = "Your Username is Required")]
-        [StringLength(20, MinimumLength = 5, ErrorMessage = "Username must be between 5-20 characters long.")]
-        public string UserName { get; set; }
-
-
+        
+        
 
         [Required(ErrorMessage = "Your Email Address is Required")]
         [EmailAddress(ErrorMessage = "Invailid email format")]
@@ -51,8 +46,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Account
         [Required(ErrorMessage = "please re-enter your password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-
+        
         public bool SubscribeToNewsLetter { get; set; }
 
 

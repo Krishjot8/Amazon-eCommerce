@@ -86,7 +86,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
             {
 
                 UserId = user.Id,
-                Username = user.Username,
+                DisplayName = user.Username,
                 Token = token
 
             };
@@ -99,7 +99,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                 message = "OTP verified successfully." ,
                 token = userTokenResponse.Token,
                 userId = userTokenResponse.UserId,
-                username = userTokenResponse.Username,
+                username = userTokenResponse.DisplayName,
 
 
 

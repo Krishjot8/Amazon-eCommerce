@@ -6,14 +6,14 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount
     {
        
         public string FirstName { get; set; }
+        
         public string LastName { get; set; }
-        public string UserName { get; set; }
-
+        
         [EmailAddress]
         public string Email { get; set; }
         
 
-        public DateOnly DateofBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
         [Phone]
         public string? PhoneNumber { get; set; }

@@ -8,8 +8,6 @@ public class SellerUserDto        //Angular User Entity
     public string FirstName { get; set; }
     [Required]
     public string LastName { get; set; }
-    [Required]
-    public string UserName { get; set; }
     
     [Required]
     [EmailAddress]
@@ -17,7 +15,7 @@ public class SellerUserDto        //Angular User Entity
 
     [Required]
 
-    public DateOnly DateofBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; }
     
     [Required]
     [Phone]

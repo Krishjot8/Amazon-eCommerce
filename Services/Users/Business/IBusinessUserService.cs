@@ -2,9 +2,9 @@
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DTO_s;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Registration;
 
 namespace Amazon_eCommerce_API.Services.Users
 {
