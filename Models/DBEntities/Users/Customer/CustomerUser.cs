@@ -1,47 +1,41 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Amazon_eCommerce_API.Models.BaseEntities;
+using Amazon_eCommerce_API.Models.DBEntities.Carts.Customer;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
 {
     public class CustomerUser : BaseModel // To store user credentials to database after registering.
     {
-        [Required(ErrorMessage = "First name is required.")]
+    
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Last name is required")]
+     
         public string LastName { get; set; }
-
-        [Required(ErrorMessage = "Username is required.")]
-        [StringLength(20,MinimumLength = 5)]
-      
-        public string Username { get; set; }
-
-
-        [EmailAddress(ErrorMessage = "Invalid email format.")]
-        [Required(ErrorMessage = "Email is required.")]
-
-        public string Email { get; set; }
+        
+        
+        public DateOnly DateOfBirth { get; set; }
+        
+        public string EmailAddress { get; set; }
 
 
-        [Phone(ErrorMessage = "Invalid phone number format")]
-        [StringLength(20, ErrorMessage = "Phone Number cannot exceed 20 characters.")]
-        [RegularExpression(@"^\+?[1-9]\d{0,14}$",
-     ErrorMessage = "Invalid phone number format. Please enter a valid international phone number.")]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = null;
 
-
-        [Required]
         public string PasswordHash { get; set; }
-
-
-        public bool SubscribeToNewsLetter { get; set; } = false;
-
-
+        
         public bool IsEmailVerified { get; set; } = false;
 
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedAt {  get; set; } = DateTime.UtcNow;
+        
+        
+        public CustomerPaymentProfile PaymentProfile { get; set; }
+        
+        public CustomerCart Cart { get; set; }
+        
+        
+        
+      
     }
 }

@@ -45,7 +45,7 @@ namespace Amazon_eCommerce_API.Services.Users
             {
 
 
-                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
+                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.EmailAddress == userLoginDto.EmailOrPhone);
 
 
 
@@ -147,7 +147,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         public async Task<BusinessUser> GetUserByBusinessEmailAsync(string email)
         {
-          return await _storeContext.BusinessUsers.SingleOrDefaultAsync(x => x.Email == email);
+          return await _storeContext.BusinessUsers.SingleOrDefaultAsync(x => x.BusinessEmail == email);
         }
 
         public Task<BusinessUser> GetUserByBusinessIdAsync(int userId)
@@ -177,7 +177,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         public async Task<bool> IsBusinessIdentifierTakenAsync(string identifier)
         {
-           var existingUser = await _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.Email == identifier || u.BusinessPhone == identifier);
+           var existingUser = await _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.BusinessEmail == identifier || u.BusinessPhone == identifier);
 
             return existingUser != null;
         }
@@ -197,7 +197,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
 
             var existingUser = await _storeContext.BusinessUsers
-                .FirstOrDefaultAsync(u => u.Email == setupDto.Email);
+                .FirstOrDefaultAsync(u => u.BusinessEmail == setupDto.Email);
 
 
 
@@ -233,7 +233,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
                 FirstName = firstName,
                 LastName = lastName,
-                Email = setupDto.Email,
+                BusinessEmail = setupDto.Email,
                 PasswordHash = hashedPassword,
 
 
@@ -250,7 +250,7 @@ namespace Amazon_eCommerce_API.Services.Users
                 State = null,
 
 
-                IsEmailVerified = false,
+                IsBusinessEmailVerified = false,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
 
@@ -354,7 +354,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
             existingBusinessUser.FirstName = businessUser.FirstName;
             existingBusinessUser.LastName = businessUser.LastName;
-            existingBusinessUser.Email = businessUser.Email;
+            existingBusinessUser.BusinessEmail = businessUser.BusinessEmail;
             existingBusinessUser.BusinessPhone = businessUser.BusinessPhone;
             existingBusinessUser.RecieveTextUpdates = businessUser.RecieveTextUpdates;
             existingBusinessUser.BusinessName = businessUser.BusinessName;
@@ -364,7 +364,7 @@ namespace Amazon_eCommerce_API.Services.Users
             existingBusinessUser.ZipCode = businessUser.ZipCode;
             existingBusinessUser.City = businessUser.City;
             existingBusinessUser.State = businessUser.State;
-            existingBusinessUser.IsEmailVerified = businessUser.IsEmailVerified;
+            existingBusinessUser.IsBusinessEmailVerified = businessUser.IsBusinessEmailVerified;
             existingBusinessUser.UpdatedAt = businessUser.UpdatedAt;
 
 

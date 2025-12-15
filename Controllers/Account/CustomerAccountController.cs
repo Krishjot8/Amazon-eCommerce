@@ -87,7 +87,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
             //New User is already in database now.
 
 
-            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.Email ?? customerUser.PhoneNumber , CustomerUserRegistrationDto.Password);
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.EmailAddress ?? customerUser.PhoneNumber , CustomerUserRegistrationDto.Password);
 
             // Todo: Send OTP to user's email or phone number for verification
 
@@ -133,7 +133,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
        
               var  customerUser = await _storeContext.CustomerUsers
      
-          .SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
+          .SingleOrDefaultAsync(u => u.EmailAddress == userLoginDto.EmailOrPhone);
 
 
             if (customerUser == null) {
@@ -162,7 +162,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         
 
 
-            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.Email ?? customerUser.PhoneNumber, userLoginDto.Password);
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.EmailAddress ?? customerUser.PhoneNumber, userLoginDto.Password);
 
 
             if (otpChallenge == null)

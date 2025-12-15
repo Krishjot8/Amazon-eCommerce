@@ -35,7 +35,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             {
 
 
-                user = await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
+                user = await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.EmailAddress == userLoginDto.EmailOrPhone);
 
 
 
@@ -137,7 +137,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         public async Task<CustomerUser> GetUserByCustomerEmailAsync(string email)
         {
-          return await storeContext.CustomerUsers.SingleOrDefaultAsync(x => x.Email == email);
+          return await storeContext.CustomerUsers.SingleOrDefaultAsync(x => x.EmailAddress == email);
         }
 
         public Task<CustomerUser> GetUserByCustomerIdAsync(int userId)
@@ -167,7 +167,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         public async Task<bool> IsCustomerIdentifierTakenAsync(string identifier)
         {
-           var existingUser = await storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Email == identifier || u.PhoneNumber == identifier);
+           var existingUser = await storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.EmailAddress == identifier || u.PhoneNumber == identifier);
 
             return existingUser != null;
         }
@@ -198,7 +198,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
                 FirstName = userRegistrationDto.FirstName,
                 LastName = userRegistrationDto.LastName,
                 Username = userRegistrationDto.UserName,
-                Email = userRegistrationDto.Email,
+                EmailAddress = userRegistrationDto.Email,
                 PhoneNumber = userRegistrationDto.PhoneNumber,
                 PasswordHash = hashedPassword, 
                 SubscribeToNewsLetter = userRegistrationDto.SubscribeToNewsLetter,
@@ -327,7 +327,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             existingUser.FirstName = user.FirstName;
             existingUser.LastName = user.LastName;  
             existingUser.Username = user.Username;
-            existingUser.Email = user.Email;
+            existingUser.EmailAddress = user.EmailAddress;
             existingUser.PhoneNumber = user.PhoneNumber;
             existingUser.IsEmailVerified = user.IsEmailVerified;
 

@@ -39,7 +39,7 @@ namespace Amazon_eCommerce_API.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<CustomerUser>()
-              .HasIndex(u => u.Email)
+              .HasIndex(u => u.EmailAddress)
               .IsUnique();
 
 
@@ -48,7 +48,7 @@ namespace Amazon_eCommerce_API.Data
                 .IsUnique();
 
             modelBuilder.Entity<BusinessUser>()
-          .HasIndex(u => u.Email)
+          .HasIndex(u => u.BusinessEmail)
           .IsUnique();
 
 

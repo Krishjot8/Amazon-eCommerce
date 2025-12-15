@@ -15,8 +15,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount
 
         public DateOnly DateOfBirth { get; set; }
 
-        [Phone]
-        public string? PhoneNumber { get; set; }
+        [Phone] public string PhoneNumber { get; set; } = null;
 
         public bool SubscribeToNewsLetter { get; set; }
        
