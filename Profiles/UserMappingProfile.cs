@@ -28,7 +28,6 @@ namespace Amazon_eCommerce_API.Profiles
             CreateMap<CustomerUser, CustomerUserRegistrationDto>()
               .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.EmailAddress))
                 .ForMember(dest => dest.DateofBirth, opt => opt.Ignore()) // Ignoring DateofBirth as it's not in User
                 .ForMember(dest => dest.SubscribeToNewsLetter, opt => opt.Ignore()); // Ignore SubscribeToNewsLetter since it's not in User

@@ -4,7 +4,7 @@ using Amazon_eCommerce_API.Models.DBEntities.Products;
 
 namespace Amazon_eCommerce_API.Specifications
 {
-    public class ProductWithBrandAndTypeSpecification : BaseSpecification<Product>
+    public class ProductWithBrandAndTypeSpecification : BaseSpecification<Products>
     {
         public ProductWithBrandAndTypeSpecification() : base(null)
         {

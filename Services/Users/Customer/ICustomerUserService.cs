@@ -20,8 +20,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
         Task<CustomerUser> GetUserByCustomerEmailAsync(string email);
 
         Task<CustomerUser> GetUserByCustomerPhoneNumberAsync(string phoneNumber);
-
-        Task<CustomerUser> GetUserByCustomerUsernameAsync(string username);
+        
 
         Task<bool> UpdateCustomerUserAsync(int userId, CustomerUser user);
 

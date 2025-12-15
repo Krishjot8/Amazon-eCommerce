@@ -12,7 +12,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Carts.Customer
         
         public int ProductId { get; set; }
         
-        public Product Product { get; set; }
+        public Products.Products Products { get; set; }
         
         public int Quantity { get; set; }
         

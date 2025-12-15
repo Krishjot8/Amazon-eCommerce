@@ -1,9 +1,8 @@
-﻿using Amazon_eCommerce_API.Models;
-using Amazon_eCommerce_API.Models.DBEntities.Products;
+﻿using Amazon_eCommerce_API.Models.DBEntities.Products;
 using Amazon_eCommerce_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Amazon_eCommerce_API.Controllers
+namespace Amazon_eCommerce_API.Controllers.Product
 {
 
     [Route("api/[controller]")]

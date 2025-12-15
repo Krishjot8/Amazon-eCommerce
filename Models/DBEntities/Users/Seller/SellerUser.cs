@@ -5,7 +5,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
     public class SellerUser : BaseModel
     {
 
-        public string Email { get; set; }
+        public string SellerEmail { get; set; }
         
         public string PhoneNumber { get; set; }
 

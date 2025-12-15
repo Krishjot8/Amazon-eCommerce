@@ -3,6 +3,7 @@ using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using Amazon_eCommerce_API.Models.DBEntities.Preferences.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
@@ -65,7 +66,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             {
 
                 UserId = user.Id,
-                DisplayName = user.Username,
+                DisplayName = user.FirstName,
                 Token = token,
 
 
@@ -150,14 +151,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             return await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
 
-        public async Task<CustomerUser> GetUserByCustomerUsernameAsync(string username)
-        {
-           return await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.Username == username);
-
-
-
-        }
-
+      
         public async Task<string> HashCustomerPasswordAsync(string password)
         {
             var hashedPassword = await Task.Run(() => BCrypt.Net.BCrypt.HashPassword(password));
@@ -173,35 +167,24 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
         }
 
       
+        
 
-        public async Task<bool> IsCustomerUsernameTakenAsync(string username)
-        {
-           var existingUsername = await storeContext.CustomerUsers.FirstOrDefaultAsync(x => x.Username == username);
-            return existingUsername != null;
-        }
-
-
-        public async Task<CustomerUser> RegisterCustomerUserAsync(CustomerUserRegistrationDto userRegistrationDto , string roleName)
+        public async Task<CustomerUser> RegisterCustomerUserAsync(CustomerUserRegistrationDto userRegistrationDto)
         {
 
             // Hash password 
 
             var hashedPassword = await HashCustomerPasswordAsync(userRegistrationDto.Password);
 
-          
-
-
-
             //create new user
             var user = new CustomerUser
             {
                 FirstName = userRegistrationDto.FirstName,
                 LastName = userRegistrationDto.LastName,
-                Username = userRegistrationDto.UserName,
+                DateOfBirth = userRegistrationDto.DateofBirth,
                 EmailAddress = userRegistrationDto.Email,
                 PhoneNumber = userRegistrationDto.PhoneNumber,
                 PasswordHash = hashedPassword, 
-                SubscribeToNewsLetter = userRegistrationDto.SubscribeToNewsLetter,
                 IsEmailVerified = false
 
 
@@ -213,6 +196,18 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
                 await storeContext.CustomerUsers.AddAsync(user);
                 await storeContext.SaveChangesAsync();
 
+                var preferences = new CustomerPreferences
+                {
+                    CustomerUserId = user.Id,
+                    SubscribeToNewsletter = userRegistrationDto.SubscribeToNewsLetter,
+                    PreferredLanguage = "en",
+                    PreferredCurrency = "USD",
+                    ReceivePromotions = false
+                };
+                
+                await storeContext.CustomerPreferences.AddAsync(preferences);
+                await storeContext.SaveChangesAsync();
+                
             }
             catch (Exception ex)
 
@@ -326,7 +321,6 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
            
             existingUser.FirstName = user.FirstName;
             existingUser.LastName = user.LastName;  
-            existingUser.Username = user.Username;
             existingUser.EmailAddress = user.EmailAddress;
             existingUser.PhoneNumber = user.PhoneNumber;
             existingUser.IsEmailVerified = user.IsEmailVerified;

@@ -37,7 +37,7 @@ public class DbInitializer
 
         var productBrands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsJson);
         var productTypes = JsonSerializer.Deserialize<List<ProductType>>(typesJson);
-        var products = JsonSerializer.Deserialize<List<Product>>(productsJson);
+        var products = JsonSerializer.Deserialize<List<Products>>(productsJson);
 
            if (productBrands != null)
          {
