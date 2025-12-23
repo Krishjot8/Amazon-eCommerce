@@ -72,6 +72,8 @@ namespace Amazon_eCommerce_API.Data
         public DbSet<SellerProfile> SellerProfiles { get; set; }
         
         public DbSet<SellerStoreInformation> SellerStoreInformation { get; set; }
+        
+        public DbSet<SellerVerificationStatus> SellerVerificationStatus { get; set; }
         public DbSet<SellerUser> SellerUsers { get; set; }
 
 

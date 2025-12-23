@@ -9,40 +9,38 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
     {
 
 
-        Task<IEnumerable<CustomerUser>> GetAllCustomerUsersAsync();
+        Task<IEnumerable<CustomerUser>> GetAllCustomerUsersAsync(); //6
 
-        Task<CustomerUser> RegisterCustomerUserAsync(CustomerUserRegistrationDto userRegistrationDto ,string roleName);
+        Task<CustomerUser> RegisterCustomerUserAsync(CustomerUserRegistrationDto userRegistrationDto);
 
-        Task<CustomerUserTokenResponseDto> CustomerAuthenticateUserAsync(CustomerUserLoginDto userLoginDto);
+        Task<CustomerUserTokenResponseDto> CustomerAuthenticateUserAsync(CustomerUserLoginDto userLoginDto);// 1
 
-        Task<CustomerUser> GetUserByCustomerIdAsync(int userId);
+        Task<CustomerUser> GetUserByCustomerIdAsync(int userId); //8
 
-        Task<CustomerUser> GetUserByCustomerEmailAsync(string email);
+        Task<CustomerUser> GetUserByCustomerEmailAsync(string email); //7
 
-        Task<CustomerUser> GetUserByCustomerPhoneNumberAsync(string phoneNumber);
+        Task<CustomerUser> GetUserByCustomerPhoneNumberAsync(string phoneNumber); //9
         
 
         Task<bool> UpdateCustomerUserAsync(int userId, CustomerUser user);
 
 
-        Task<bool> DeleteCustomerUserAsync(int userId);
+        Task<bool> DeleteCustomerUserAsync(int userId); //5
 
 
         Task<bool> SubscribeToNewsLetterAsync(int userId);
 
         Task<bool> IsCustomerIdentifierTakenAsync(string identifier);
-
-        Task<bool> IsCustomerUsernameTakenAsync(string username);
-
+        
      
 
-        Task<string> HashCustomerPasswordAsync(string password);
+        Task<string> HashCustomerPasswordAsync(string password); //4
 
-        Task<bool> VerifyCustomerPasswordAsync(string enteredPassword, string storedHash);
+        Task<bool> VerifyCustomerPasswordAsync(string enteredPassword, string storedHash); //2
 
 
 
-        Task<bool> ChangeCustomerPasswordAsync(int userId, CustomerUserPasswordUpdateDto userPasswordUpdateDto);
+        Task<bool> ChangeCustomerPasswordAsync(int userId, CustomerUserPasswordUpdateDto userPasswordUpdateDto);//3
 
         Task<bool> UpdateCustomerEmailAsync(int userId, string newEmail);
 

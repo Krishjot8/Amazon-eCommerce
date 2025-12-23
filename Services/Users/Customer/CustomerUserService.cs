@@ -1,4 +1,4 @@
-﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -11,42 +11,39 @@ using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
 
 namespace Amazon_eCommerce_API.Services.Users.Customer
 {
-    public class CustomerUserService(
-        StoreContext storeContext,
-        IMapper mapper,
-        ITokenService tokenService,
-        ICacheService cacheService)
-        : ICustomerUserService
+    public class CustomerUserService : ICustomerUserService
 
     {
-        private readonly IMapper _mapper = mapper;
+        private readonly StoreContext storeContext;
+        private readonly IMapper mapper;
+        private readonly ITokenService tokenService;
+        private readonly ICacheService cacheService;
+        
+
+        public CustomerUserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService, ICacheService cacheService)
+        {
+            this.storeContext = storeContext;
+            this.mapper = mapper;
+           this.tokenService = tokenService;
+            this.cacheService = cacheService;
+        }
 
 
         public async Task<CustomerUserTokenResponseDto> CustomerAuthenticateUserAsync(CustomerUserLoginDto userLoginDto)
-
-
         {
-
-
 
             CustomerUser user = null;
 
 
             if (Regex.IsMatch(userLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-
-
                 user = await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.EmailAddress == userLoginDto.EmailOrPhone);
-
-
 
             }
 
             else
             {
-
                 user = await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
-            
             }
 
 
@@ -55,7 +52,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             if (user == null || !await VerifyCustomerPasswordAsync(userLoginDto.Password, user.PasswordHash)) 
             
             { 
-            
+                
                   return null;
             
             }
@@ -151,7 +148,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             return await storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
 
-      
+        
         public async Task<string> HashCustomerPasswordAsync(string password)
         {
             var hashedPassword = await Task.Run(() => BCrypt.Net.BCrypt.HashPassword(password));
@@ -194,7 +191,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
 
                 await storeContext.CustomerUsers.AddAsync(user);
-                await storeContext.SaveChangesAsync();
+                await storeContext.SaveChangesAsync(); 
 
                 var preferences = new CustomerPreferences
                 {
@@ -286,16 +283,16 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         public async Task<bool> SubscribeToNewsLetterAsync(int userId)
         {
-           var existingUser = await storeContext.CustomerUsers.FindAsync(userId);
+           var existingUser = await storeContext.CustomerPreferences.FindAsync(userId);
 
             if (existingUser == null)
             {
                 return false;
             }
-            existingUser.SubscribeToNewsLetter = true;   // If you want to allow unsubscribe, pass a parameter
+            existingUser.SubscribeToNewsletter = true;   // If you want to allow unsubscribe, pass a parameter
 
 
-            storeContext.CustomerUsers.Update(existingUser);
+            storeContext.CustomerPreferences.Update(existingUser);
             var result = await storeContext.SaveChangesAsync();
             return result > 0;
         }

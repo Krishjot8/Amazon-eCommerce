@@ -3,6 +3,7 @@ using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Password;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -27,24 +28,23 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
 
         public async Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto sellerUserLoginDto)
-
-
         {
             
             SellerUser sellerUser = null;
+         
 
 
             if (Regex.IsMatch(sellerUserLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
 
 
-                sellerUser = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.Email == sellerUserLoginDto.EmailOrPhone);
+                sellerUser = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.BusinessEmail == sellerUserLoginDto.EmailOrPhone);
                 
             }
             else
             {
 
-                sellerUser = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == sellerUserLoginDto.EmailOrPhone);
+                sellerUser = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == sellerUserLoginDto.EmailOrPhone);
             
             }
 
@@ -65,7 +65,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             {
 
                 UserId = sellerUser.Id,
-                DisplayName = sellerUser.Username,
+                DisplayName = sellerUser.DisplayName,
                 Token = token,
 
 
@@ -135,9 +135,9 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             return await _storeContext.SellerUsers.ToListAsync();
         }
 
-        public async Task<SellerUser> GetUserBySellerEmailAsync(string email)
+        public async Task<SellerUser> GetUserByBusinessEmailAsync(string email)
         {
-          return await _storeContext.SellerUsers.SingleOrDefaultAsync(x => x.Email == email);
+          return await _storeContext.SellerUsers.SingleOrDefaultAsync(x => x.BusinessEmail == email);
         }
 
         public Task<SellerUser> GetUserBySellerIdAsync(int userId)
@@ -147,14 +147,10 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
         public async Task<SellerUser> GetUserBySellerPhoneNumberAsync(string phoneNumber)
         {
-            return await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+            return await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == phoneNumber);
         }
 
-        public async Task<SellerUser> GetUserBySellerUsernameAsync(string username)
-        {
-           return await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.Username == username);
-           
-        }
+
 
         public async Task<string> HashSellerPasswordAsync(string password)
         {
@@ -165,55 +161,162 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
         public async Task<bool> IsSellerIdentifierTakenAsync(string identifier)
         {
-           var existingUser = await _storeContext.SellerUsers.FirstOrDefaultAsync(u => u.Email == identifier || u.PhoneNumber == identifier);
+           var existingUser = await _storeContext.SellerUsers.FirstOrDefaultAsync(u => u.BusinessEmail == identifier || u.BusinessPhoneNumber == identifier);
 
             return existingUser != null;
         }
 
         
-        public async Task<SellerUser> RegisterSellerUserAsync(SellerUserRegistrationDto userRegistrationDto)
+        public async Task<SellerUser> RegisterSellerUserAsync(
+            SellerUserAccountCreationDto  accountCreationDto,
+            SellerUserBusinessInformationDto  businessInformationDto,
+            SellerUserBusinessProfileDto  businessProfileDto,
+            SellerUserPrimaryContactInformationDto  primaryContactInformationDto,
+            SellerUserPaymentInformationDto  paymentInformationDto,
+            SellerUserStoreInformationDto  storeInformationDto,
+            SellerUserVerificationStatusDto  verificationStatusDto)
         {
 
             // Hash password 
 
-            var hashedPassword = await HashSellerPasswordAsync(userRegistrationDto.Password);
-
-          
-
-
-
-            //create new user
-            var user = new SellerUser
+            var hashedPassword = await HashSellerPasswordAsync(accountCreationDto.Password);
+            var sellerUser = new SellerUser
             {
-                FirstName = userRegistrationDto.FirstName,
-                LastName = userRegistrationDto.LastName,
-                Email = userRegistrationDto.Email,
-                PhoneNumber = userRegistrationDto.PhoneNumber,
-                PasswordHash = hashedPassword, 
-                IsEmailVerified = false
-
-
+                BusinessEmail = accountCreationDto.Email,
+                PasswordHash = hashedPassword,
+                BusinessPhoneNumber = businessInformationDto.BusinessPhoneNumber,
+                OnboardingStatus = SellerOnboardingStatus.AccountCreated,
+                IsEmailVerified = false,
+                IsPhoneNumberVerified = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                
             };
 
-            try {
+          await _storeContext.SellerUsers.AddAsync(sellerUser);
+          await _storeContext.SaveChangesAsync();
+
+    //Business Information
+   
+    await _storeContext.SellerBusinessInformation.AddAsync(new SellerBusinessInformation
+
+    {
+        SellerUserId = sellerUser.Id,
+        BusinessName = businessInformationDto.BusinessName,
+        BusinessPhoneNumber = businessInformationDto.BusinessPhoneNumber,
+        CompanyRegistrationNumber = businessInformationDto.CompanyRegistrationNumber,
+        Country = businessInformationDto.Country,
+        AddressLine1 = businessInformationDto.AddressLine1,
+        AddressLine2 = businessInformationDto.AddressLine2,
+        City = businessInformationDto.City,
+        State = businessInformationDto.State,
+        ZipCode = businessInformationDto.ZipCode
+    });
+
+    
+    //Business Profile
+    await _storeContext.SellerBusinessProfiles.AddAsync(new SellerBusinessProfile
+    {
+        SellerUserId = sellerUser.Id,
+        BusinessType = businessProfileDto.BusinessType,
+        AgreedToTerms = businessProfileDto.AgreeToTerms,
+        TermsAcceptedAt = DateTime.UtcNow
+
+    });
+    
+    //Primary Contact
+
+    var DateOfBirth = new DateOnly(
+        
+        primaryContactInformationDto.BirthYear,
+        primaryContactInformationDto.BirthMonth,
+        primaryContactInformationDto.BirthDay
+        );
+    
+    await _storeContext.SellerPrimaryContacts.AddAsync(new SellerPrimaryContact
+    {
+   SellerUserId = sellerUser.Id,
+   FirstName = primaryContactInformationDto.FirstName,
+   MiddleName = primaryContactInformationDto.MiddleName,
+   LastName = primaryContactInformationDto.LastName,
+   CountryOfBirth = primaryContactInformationDto.CountryOfBirth,
+   DateOfBirth = DateOfBirth,
+   IdentityProof = primaryContactInformationDto.IdentityProof,
+   IdentityProofNumber = primaryContactInformationDto.IdentityProofNumber,
+   IdentityProofExpirationDate = primaryContactInformationDto.IdentityProofExpirationDate,
+   CountryOfIssue =  primaryContactInformationDto.CountryOfIssue,
+    });
 
 
-                await _storeContext.SellerUsers.AddAsync(user);
-                await _storeContext.SaveChangesAsync();
+    var Last4Digits = paymentInformationDto.CardNumber.Length >= 4
+        ? paymentInformationDto.CardNumber[^4..]
+        : paymentInformationDto.CardNumber;
 
-            }
-            catch (Exception ex)
+    
+    string DetectCardBrand(string cardNumber)
+    {
+        return cardNumber switch
+        {
+            var n when n.StartsWith("34") || n.StartsWith("37") => "American Express",
+            var n when n.StartsWith("4") => "Visa",
+            var n when n.StartsWith("5") => "MasterCard",
+            var n when n.StartsWith("6") => "Discover",
+            var n when n.StartsWith("35") => "JCB",
+            _ => "Unknown"
+        };
+    }
+    
+    var PaymentProviderToken = "tok_mok" + Guid.NewGuid();  
 
+    await _storeContext.SellerPaymentProfiles.AddAsync(new SellerPaymentProfile
 
-            {
+        {
+            SellerUserId = sellerUser.Id,
+            PaymentProviderToken = PaymentProviderToken,
+            CardBrand = DetectCardBrand(paymentInformationDto.CardNumber),
+            CardHolderName = paymentInformationDto.CardHolderName,
+            Last4Digits = Last4Digits,
+            IsDefaultPaymentMethod = true,
+            ExpirationMonth = paymentInformationDto.ExpirationMonth,
+            ExpirationYear = paymentInformationDto.ExpirationYear,
+            BillingAddressLine1 = paymentInformationDto.BillingAddressLine1,
+            BillingAddressLine2 = paymentInformationDto.BillingAddressLine2,
+            BillingCity = paymentInformationDto.BillingCity,
+            BillingState = paymentInformationDto.BillingState,
+            BillingZipCode = paymentInformationDto.BillingZipCode,
+            BillingCountry = paymentInformationDto.BillingCountry,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+            
+        }
+    );
 
-                throw new Exception("An error occured while registering the user.", ex);
-                 
-            }
+    await _storeContext.SellerStoreInformation.AddAsync(new SellerStoreInformation
+    {
 
-           
+        SellerUserId = sellerUser.Id,
+        StoreName = storeInformationDto.StoreName,
+        HasUPCsForAllProducts = storeInformationDto.HasUPCsForAllProducts,
+        HasDiversityCertifications = storeInformationDto.HasDiversityCertifications,
+        BrandOwnerShip = storeInformationDto.BrandOwnerShip,
+        TrademarkStatus = storeInformationDto.TrademarkStatus
+        
+    });
 
-            return user;
+    await _storeContext.SellerVerificationStatus.AddAsync(new SellerVerificationStatus
+    {
+        SellerUserId = sellerUser.Id,
+        DocumentType = verificationStatusDto.DocumentType,
+        DocumentFrontUrl = verificationStatusDto.DocumentFrontUrl,
+        DocumentBackUrl = verificationStatusDto.DocumentBackUrl,
+        ProofOfAddress = verificationStatusDto.ProofOfAddress,
+        ProofOfAddressDocumentUrl = verificationStatusDto.ProofOfAddressDocumentUrl,
+        ScheduledVerificationType = verificationStatusDto.ScheduledVerificationType,
+        VerificationStatus = verificationStatusDto.VerificationStatus,
+        
+        
+    });
+            return sellerUser;
 
         }
       
@@ -229,7 +332,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             }
 
 
-            var user = await GetUserBySellerEmailAsync(forgotPasswordDto.Email);
+            var user = await GetUserByBusinessEmailAsync(forgotPasswordDto.Email);
 
             if (user == null)
             {
@@ -297,8 +400,8 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
            
             existingUser.FirstName = sellerUser.FirstName;
             existingUser.LastName = sellerUser.LastName;  
-            existingUser.Email = sellerUser.Email;
-            existingUser.PhoneNumber = sellerUser.PhoneNumber;
+            existingUser.SellerEmail = sellerUser.SellerEmail;
+            existingUser.PersonalPhoneNumber = sellerUser.PersonalPhoneNumber;
             existingUser.IsEmailVerified = sellerUser.IsEmailVerified;
 
       

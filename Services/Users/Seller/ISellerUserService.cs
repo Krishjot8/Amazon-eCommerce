@@ -18,7 +18,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
         Task<SellerUser> GetUserBySellerIdAsync(int sellerUserId);
 
-        Task<SellerUser> GetUserBySellerEmailAsync(string sellerEmail);
+        Task<SellerUser> GetUserByBusinessEmailAsync(string sellerEmail);
 
         Task<SellerUser> GetUserBySellerPhoneNumberAsync(string sellerPhoneNumber);
 

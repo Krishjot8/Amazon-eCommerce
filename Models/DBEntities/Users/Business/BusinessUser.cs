@@ -12,8 +12,6 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
         
         public string  PasswordHash { get; set; }
         
-        
-        public string BusinessPhoneNumber { get; set; }
 
         public bool IsBusinessEmailVerified { get; set; } = false;
 

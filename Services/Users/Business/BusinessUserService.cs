@@ -1,18 +1,15 @@
-﻿using Amazon_eCommerce_API.Data;
-using Amazon_eCommerce_API.Models.DBEntities.Users;
-using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
-using Amazon_eCommerce_API.Services.Cache;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
+using Amazon_eCommerce_API.Services.Cache;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
-namespace Amazon_eCommerce_API.Services.Users
+namespace Amazon_eCommerce_API.Services.Users.Business
 {
     public class BusinessUserService : IBusinessUserService
 
@@ -91,7 +88,7 @@ namespace Amazon_eCommerce_API.Services.Users
         {
 
             //finds the user to change password
-            var existingUser = await _storeContext.CustomerUsers.FindAsync(userId);
+            var existingUser = await _storeContext.BusinessUsers.FindAsync(userId);
 
             if (existingUser == null)
             {
@@ -107,7 +104,7 @@ namespace Amazon_eCommerce_API.Services.Users
             }
             existingUser.PasswordHash = await HashBusinessPasswordAsync(userPasswordUpdateDto.NewPassword);
 
-            _storeContext.CustomerUsers.Update(existingUser);
+            _storeContext.BusinessUsers.Update(existingUser);
             var result = await _storeContext.SaveChangesAsync();
             return result > 0;
 
@@ -120,7 +117,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         public async Task<bool> DeleteBusinessUserAsync(int userId)
         {
-           var user = await _storeContext.CustomerUsers.FindAsync(userId);
+           var user = await _storeContext.BusinessUsers.FindAsync(userId);
 
             if (user == null) 
             
@@ -129,7 +126,7 @@ namespace Amazon_eCommerce_API.Services.Users
                 
             }
 
-            _storeContext.CustomerUsers.Remove(user);
+            _storeContext.BusinessUsers.Remove(user);
 
             var result = await _storeContext.SaveChangesAsync();
 
@@ -155,14 +152,14 @@ namespace Amazon_eCommerce_API.Services.Users
             return _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<BusinessUser> GetUserByBusinessPhoneNumberAsync(string phoneNumber)
+        public async Task<BusinessStoreInformation> GetUserByBusinessPhoneNumberAsync(string phoneNumber)
         {
-            return await _storeContext.BusinessUsers.SingleOrDefaultAsync(u => u.BusinessPhone == phoneNumber);
+            return await _storeContext.BusinessStoreInformation.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == phoneNumber);
         }
 
-        public async Task<BusinessUser> GetUserByBusinessNameAsync(string businessName)
+        public async Task<BusinessStoreInformation> GetUserByBusinessNameAsync(string businessName)
         {
-           return await _storeContext.BusinessUsers.SingleOrDefaultAsync(u => u.BusinessName == businessName);
+           return await _storeContext.BusinessStoreInformation.SingleOrDefaultAsync(u => u.BusinessName == businessName);
 
 
 
@@ -177,7 +174,7 @@ namespace Amazon_eCommerce_API.Services.Users
 
         public async Task<bool> IsBusinessIdentifierTakenAsync(string identifier)
         {
-           var existingUser = await _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.BusinessEmail == identifier || u.BusinessPhone == identifier);
+           var existingUser = await _storeContext.BusinessStoreInformation.FirstOrDefaultAsync(u => u.BusinessEmail == identifier || u.BusinessPhoneNumber == identifier);
 
             return existingUser != null;
         }

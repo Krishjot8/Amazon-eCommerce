@@ -5,9 +5,12 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
     public class SellerUserPaymentInformationDto
     {
 
-        [Required]
-        public string CardNumber { get; set; }
         
+        [Required]
+        public string CardHolderName { get; set; }
+        [Required]
+        [DataType(DataType.CreditCard)]
+        public string CardNumber { get; set; }
         
         [Required]
         [Range(1,12)]
@@ -17,9 +20,9 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         [Range(2025,2100)]
         public int ExpirationYear { get; set; }
         
-        
         [Required]
-        public string CardHolderName { get; set; }
+        [RegularExpression(@"^\d{3,4}$", ErrorMessage = "Invalid CVV")]
+        public string SecurityCode { get; set; }
 
         [Required]
         public string BillingAddressLine1 { get; set; }

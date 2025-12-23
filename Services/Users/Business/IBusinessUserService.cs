@@ -1,12 +1,9 @@
-﻿using Amazon_eCommerce_API.Models.DBEntities.Users;
-using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
-using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount;
+﻿using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 
-namespace Amazon_eCommerce_API.Services.Users
+namespace Amazon_eCommerce_API.Services.Users.Business
 {
     public interface IBusinessUserService
     {
@@ -32,9 +29,9 @@ namespace Amazon_eCommerce_API.Services.Users
 
         Task<BusinessUser> GetUserByBusinessEmailAsync(string email);
 
-        Task<BusinessUser> GetUserByBusinessPhoneNumberAsync(string phoneNumber);
+        Task<BusinessStoreInformation> GetUserByBusinessPhoneNumberAsync(string phoneNumber);
 
-        Task<BusinessUser> GetUserByBusinessNameAsync(string businessName);
+        Task<BusinessStoreInformation> GetUserByBusinessNameAsync(string businessName);
 
 
 

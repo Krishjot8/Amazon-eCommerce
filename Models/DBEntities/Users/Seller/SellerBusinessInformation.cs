@@ -7,7 +7,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         
         public string BusinessName { get; set; }
         
-        public string BusinessPhone { get; set; }
+        public string BusinessPhoneNumber { get; set; }
         
         public string CompanyRegistrationNumber { get; set; }
         

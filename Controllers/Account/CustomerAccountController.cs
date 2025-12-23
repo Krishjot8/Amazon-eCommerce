@@ -72,7 +72,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
             string roleName = "Customer";
 
-            var customerUser = await _userService.RegisterCustomerUserAsync(CustomerUserRegistrationDto, roleName);
+            var customerUser = await _userService.RegisterCustomerUserAsync(CustomerUserRegistrationDto);
 
 
 

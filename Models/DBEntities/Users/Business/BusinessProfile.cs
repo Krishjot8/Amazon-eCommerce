@@ -1,6 +1,6 @@
 ﻿namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
 {
-    public class BusinessProfile
+    public class BusinessProfile   // whole business
     {
 
         public string BusinessUserId { get; set; }
