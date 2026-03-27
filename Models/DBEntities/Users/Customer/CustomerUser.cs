@@ -24,11 +24,6 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
         
         public bool IsEmailVerified { get; set; } = false;
 
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime UpdatedAt {  get; set; } = DateTime.UtcNow;
-        
         
         public CustomerPaymentProfile PaymentProfile { get; set; }
         

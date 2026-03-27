@@ -1,6 +1,8 @@
+using Amazon_eCommerce_API.Models.BaseEntities;
+
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
 {
-    public class SellerPaymentProfile
+    public class SellerPaymentProfile : BaseModel
     {
         public int SellerUserId { get; set; }
         
@@ -32,9 +34,6 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         
         public string BillingCountry { get; set; }
         
-        public DateTime CreatedAt { get; set; }
-        
-        public DateTime UpdatedAt { get; set; }
         
         public SellerUser SellerUser { get; set; }
     }

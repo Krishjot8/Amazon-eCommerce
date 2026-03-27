@@ -16,11 +16,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
         public bool IsBusinessEmailVerified { get; set; } = false;
 
         public bool IsBusinessPhoneVerified { get; set; } = false;
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
+        
         
         public BusinessProfile BusinessProfile { get; set; }
         
