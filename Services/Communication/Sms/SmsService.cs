@@ -1,16 +1,17 @@
+using Amazon_eCommerce_API.Models.DTO_s.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Cache;
-using Amazon_eCommerce_API.Models.DTO_s.UserAccount;
+
 using Amazon_eCommerce_API.Services.Cache;
 using Amazon_eCommerce_API.Services.Users.Customer;
 
 namespace Amazon_eCommerce_API.Services.Communication.Sms;
 
-public class CustomerSmsService : ISmsService
+public class SmsService : ISmsService
 {
     private readonly ICacheService _cacheService;
     private readonly ICustomerUserService _userService;
 
-    public CustomerSmsService(ICustomerUserService userService, ICacheService cacheService)
+    public SmsService(ICustomerUserService userService, ICacheService cacheService)
     {
         _userService = userService;
         _cacheService = cacheService;
@@ -35,14 +36,14 @@ public class CustomerSmsService : ISmsService
         return true;
     }
 
-    public async Task<bool> SendSmsVerificationAsync(CustomerUserVerifySmsDto dto)
+    public async Task<bool> SendSmsVerificationAsync(VerifySmsDto dto)
     {
         var otp = new Random().Next(100000,999999).ToString();
 
         return await SendOtpSmsAsync(dto.PhoneNumber, otp);
     }
 
-    public async Task<bool> VerifySmsOtpAsync(SellerUserVerifySmsDto dto)
+    public async Task<bool> VerifySmsOtpAsync(VerifySmsDto dto)
     {
         var otpCache = await _cacheService.GetOtpAsync(dto.PhoneNumber);
 
@@ -58,7 +59,7 @@ public class CustomerSmsService : ISmsService
 
     public async Task<bool> ResendSmsVerificationOtpAsync(string phoneNumber)
     {
-        var dto = new SellerUserVerifySmsDto {PhoneNumber = phoneNumber};
+        var dto = new VerifySmsDto {PhoneNumber = phoneNumber};
         return await SendSmsVerificationAsync(dto);
     }
 

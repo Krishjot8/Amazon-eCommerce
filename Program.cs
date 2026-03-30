@@ -120,8 +120,8 @@ builder.Services.AddScoped<IBusinessUserService, BusinessUserService>();
 builder.Services.AddScoped<ISellerUserService, SellerUserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
-builder.Services.AddScoped<IEmailService, CustomerEmailService>();
-builder.Services.AddScoped<ISmsService, CustomerSmsService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ISmsService, SmsService>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();

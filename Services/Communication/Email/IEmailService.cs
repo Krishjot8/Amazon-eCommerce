@@ -1,4 +1,6 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s;
+﻿
+using Amazon_eCommerce_API.Models.DTO_s;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication;
 
 namespace Amazon_eCommerce_API.Services.Email
 {
@@ -6,13 +8,13 @@ namespace Amazon_eCommerce_API.Services.Email
     {
 
         
-        Task<bool> SendOtpEmailAsync(string email, string otp,string providerName = null); // Send a one-time password (OTP) to the user via email.
+        Task<bool> SendOtpEmailAsync(string email,string otp,string providerName = null); // Send a one-time password (OTP) to the user via email.
 
-        Task<bool> SendEmailVerificationAsync(SellerUserVerifyEmailDto dto); //Initiates the email verification process for a user.
+        Task<bool> SendEmailVerificationAsync(VerifyEmailDto dto); //Initiates the email verification process for a user.
 
-        Task<bool> VerifyEmailOtpAsync(SellerUserVerifyEmailDto dto); // Checks if the OTP entered by the user matches the one stored in cache or database.
+        Task<bool> VerifyEmailOtpAsync(VerifyEmailDto dto); // Checks if the OTP entered by the user matches the one stored in cache or database.
 
-        Task<bool> ResendEmailVerificationOtpAsync(string email); // Sends a new verification OTP to the user if they request it.
+        Task<bool> ResendEmailVerificationOtpAsync(string email, AccountType accountType); // Sends a new verification OTP to the user if they request it.
 
         string GetEmailTemplate(string verificationCode); //Generates the HTML or text content of the email, including the OTP.
 
