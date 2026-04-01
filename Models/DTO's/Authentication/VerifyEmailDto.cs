@@ -12,6 +12,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Authentication
 
         public bool IsResendRequest { get; set; }
 
+
         public AccountType AccountType { get; set; } 
 
     }

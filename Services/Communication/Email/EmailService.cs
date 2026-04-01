@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using Amazon_eCommerce_API.Extensions;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Cache;
 using Amazon_eCommerce_API.Models.EmailEntities;
@@ -116,7 +118,7 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
         public async Task<bool> SendEmailVerificationAsync(VerifyEmailDto dto)
         {
 
-            var user = await GetUserByEmailAndType(dto.Email, dto.AccountType);  //get user email
+            var user = await GetUserByEmailAndType(dto.Email, (AccountType)dto.AccountType);  //get user email
 
 
             //if email is valid or registered
@@ -163,101 +165,89 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
 
         public async Task<bool> VerifyEmailOtpAsync(VerifyEmailDto dto)
         {
-
+            // -------------------------------
+            // 🔁 RESEND FLOW
+            // -------------------------------
             if (dto.IsResendRequest)
             {
-
-                var user = await GetUserByEmailAndType(dto.Email, dto.AccountType);
+                var user = await GetUserByEmailAndType(dto.Email, (AccountType)dto.AccountType);
 
                 if (user == null) return false;
-
-
-                //check if user can request a new OTP
 
                 var canRequestOtp = await _cacheService.CanRequestOtpAsync(dto.Email);
                 if (!canRequestOtp) return false;
 
-
                 var newOtp = OneTimePasswordGenerator.GenerateOtp();
 
-
-
-                //cache new otp with expirationTime
-
-              await _cacheService.SetOtpAsync (dto.Email,new OtpCacheDto
+                await _cacheService.SetOtpAsync(dto.Email, new OtpCacheDto
                 {
-
                     Identifier = dto.Email,
                     Otp = newOtp,
                     ExpirationTime = DateTime.UtcNow.AddMinutes(10)
-
-
-
                 });
-
-            
-
 
                 await _cacheService.SetOtpRequestLimitAsync(dto.Email, new OtpRequestLimitDto
                 {
                     Identifier = dto.Email,
                     LastRequestTime = DateTime.UtcNow,
                     ExpirationMinutes = 1
-
-
-
                 });
 
                 await SendOtpEmailAsync(dto.Email, newOtp);
 
-
                 return true;
-
             }
 
-
-            // Handle OTP verification
-
-
-
+            // -------------------------------
+            // ✅ VERIFY OTP
+            // -------------------------------
             var cachedOtpDto = await _cacheService.GetOtpAsync(dto.Email);
+
             if (cachedOtpDto == null || cachedOtpDto.ExpirationTime <= DateTime.UtcNow)
             {
-
                 await _cacheService.RemoveOtpAsync(dto.Email);
                 return false;
-
-
             }
-
 
             if (cachedOtpDto.Otp != dto.EmailOtp)
                 return false;
 
+            var existingUser = await GetUserByEmailAndType(dto.Email, (AccountType)dto.AccountType);
 
-            //email verified
+            if (existingUser == null)
+                return false;
 
+            // -------------------------------
+            // 🔥 FIX: CAST BEFORE USING PROPERTY
+            // -------------------------------
+            switch (dto.AccountType)
+            {
+                case (Models.DTO_s.Authentication.AccountType)AccountType.Customer:
+                    var customer = existingUser as CustomerUser;
+                    if (customer == null) return false;
 
-            var existingUser = await GetUserByEmailAndType(dto.Email, dto.AccountType);
+                    customer.IsEmailVerified = true;
+                    break;
 
+                case (Models.DTO_s.Authentication.AccountType)AccountType.Business:
+                    var business = existingUser as BusinessUser;
+                    if (business == null) return false;
 
-            if (existingUser == null) return false;
+                    business.IsEmailVerified = true;
+                    break;
 
+                default:
+                    return false;
+            }
 
-            existingUser.IsEmailVerified = true;
-
-            bool updateResult = await UpdateUserByType(existingUser, dto.AccountType);
+            bool updateResult = await UpdateUserByType(existingUser, (AccountType)dto.AccountType);
 
             if (!updateResult)
-              return false; //User Update Failed
-            
+                return false;
 
-            await _cacheService.RemoveOtpAsync(dto.Email);  //remove otp after successful verification
+            await _cacheService.RemoveOtpAsync(dto.Email);
 
             return true;
-
-
-
         }
 
 
@@ -316,15 +306,26 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
 
         private async Task<bool> UpdateUserByType(object user, AccountType type)
         
-        { 
-        
-            return type switch
-            {
-                AccountType.Customer => await _customerUserService.UpdateUserAsync((dynamic)user).Id,(dynamic)user),
-                AccountType.Business => await _businessUserService.UpdateUserAsync,(dynamic)user).Id,(dynamic)user),
-                _ => false
-            };
+        {
 
+            switch (type)
+
+            { 
+            
+                case AccountType.Customer:
+                    var customer = (CustomerUser)user;
+                    return await _customerUserService.UpdateCustomerUserAsync(customer.Id, customer);
+
+
+                case AccountType.Business:
+                    var business = (BusinessUser)user;
+                    return await _businessUserService.UpdateBusinessUserAsync(business.Id, business);
+                default:
+                    return false;
+
+
+
+            }
 
 
 
