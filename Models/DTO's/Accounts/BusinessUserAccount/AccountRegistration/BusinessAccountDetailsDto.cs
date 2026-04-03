@@ -5,11 +5,9 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Account
     public class BusinessAccountDetailsDto
     {
 
+     
         [Required]
-        public string FullName { get; set; }
-
-        [Required]
-        public string BusinessPhone { get; set; }
+        public string BusinessPhoneNumber { get; set; }
 
 
         public bool ReceiveUpdates { get; set; }

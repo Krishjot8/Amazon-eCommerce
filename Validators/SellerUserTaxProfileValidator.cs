@@ -1,4 +1,4 @@
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
+
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration.TaxProfile;
 
 namespace Amazon_eCommerce_API.Validators
@@ -25,7 +25,7 @@ namespace Amazon_eCommerce_API.Validators
                 {
                     errors.Add("Individuals must be classified as Individual / Sole Proprietor.");
                 }
-
+                
                 if (dto.LLCType != null)
                 {
                     errors.Add("Individuals cannot use an LLC Type.");

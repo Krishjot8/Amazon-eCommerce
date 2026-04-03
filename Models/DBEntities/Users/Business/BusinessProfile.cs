@@ -12,9 +12,9 @@
         
         public string LastName { get; set; }
         
-        public DateOnly DateOfBirth { get; set; }
+      //  public DateOnly DateOfBirth { get; set; }
         
-        public bool ReceiveUpdates { get; set; } = false;
+        public bool ReceiveUpdates { get; set; } 
         
         
         public BusinessUser BusinessUser { get; set; }

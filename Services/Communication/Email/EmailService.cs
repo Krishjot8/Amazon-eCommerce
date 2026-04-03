@@ -319,7 +319,7 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
 
                 case AccountType.Business:
                     var business = (BusinessUser)user;
-                    return await _businessUserService.UpdateBusinessUserAsync(business.Id, business);
+                    return await _businessUserService.UpdateBusinessUserAsync(business.Id, TODO);
                 default:
                     return false;
 

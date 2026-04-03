@@ -30,7 +30,6 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         
         public decimal? PercentageOfServicesPerformedInUS { get; set; }
         
-        
         public LimitationOfBenefits? LimitationOfBenefits { get; set; } //If Country qualifies for treaty benefits
         
         public bool IsReceivingPaymentsOnBehalfOfAnother {get; set;} //If Business Non-US Resident Or Individual Classification

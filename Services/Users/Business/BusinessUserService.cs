@@ -3,6 +3,7 @@ using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 using Amazon_eCommerce_API.Services.Cache;
@@ -29,12 +30,9 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
 
         public async Task<BusinessUserTokenResponseDto> BusinessAuthenticateUserAsync(BusinessUserLoginDto userLoginDto)
-
-
+        
         {
-
-
-
+            
             CustomerUser user = null;
 
 
@@ -72,7 +70,7 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             {
 
                 UserId = user.Id,
-                DisplayName = user.Username,
+                DisplayName = user.FirstName,
                 Token = token,
 
 
@@ -152,9 +150,9 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             return _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<BusinessStoreInformation> GetUserByBusinessPhoneNumberAsync(string phoneNumber)
+        public async Task<BusinessUser> GetUserByBusinessPhoneNumberAsync(string phoneNumber)
         {
-            return await _storeContext.BusinessStoreInformation.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == phoneNumber);
+            return await _storeContext.BusinessUsers.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == phoneNumber);
         }
 
         public async Task<BusinessStoreInformation> GetUserByBusinessNameAsync(string businessName)
@@ -174,7 +172,7 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
         public async Task<bool> IsBusinessIdentifierTakenAsync(string identifier)
         {
-           var existingUser = await _storeContext.BusinessStoreInformation.FirstOrDefaultAsync(u => u.BusinessEmail == identifier || u.BusinessPhoneNumber == identifier);
+           var existingUser = await _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.BusinessEmail == identifier || u.BusinessPhoneNumber == identifier);
 
             return existingUser != null;
         }
@@ -183,38 +181,36 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
         public async Task<bool> IsBusinessNameTakenAsync(string businessName)
         {
-           var existingUsername = await _storeContext.BusinessUsers.FirstOrDefaultAsync(x => x.BusinessName == businessName);
+           var existingUsername = await _storeContext.BusinessStoreInformation.FirstOrDefaultAsync(x => x.BusinessName == businessName);
             return existingUsername != null;
         }
 
 
-        public async Task<BusinessUser> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto)
+        public async Task<BusinessUser> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto, 
+            BusinessAccountDetailsDto accountDetailsDto)
         {
 
-
-
             var existingUser = await _storeContext.BusinessUsers
-                .FirstOrDefaultAsync(u => u.BusinessEmail == setupDto.Email);
+                .FirstOrDefaultAsync(u => u.BusinessEmail.ToLower() == setupDto.Email.ToLower());
+            
 
-
-
-
-            if (existingUser == null) {
-
+            if (existingUser != null) {
 
                 throw new Exception("A business account with this email already exists");
             
             }
-
-
+            
             if (setupDto.Password != setupDto.ConfirmPassword)
                 throw new Exception("Passwords do not match");
 
-
-
-
+            
             //split full name into first and last name
-            var nameParts = setupDto.FullName.Trim().Split(' ',2);
+          //  var nameParts = setupDto.FullName.Trim().Split(' ',2);
+            
+            
+            var fullName = setupDto.FullName?.Trim() ?? "";
+            var nameParts = fullName.Split(' ',2);
+            
             string firstName = nameParts.Length > 0 ? nameParts[0] : "";
             string lastName = nameParts.Length > 1 ? nameParts[1] : "";
 
@@ -228,32 +224,42 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             var newBusinessUser = new BusinessUser
             {
 
-                FirstName = firstName,
-                LastName = lastName,
+               
                 BusinessEmail = setupDto.Email,
+                BusinessPhoneNumber = accountDetailsDto.BusinessPhoneNumber,
                 PasswordHash = hashedPassword,
-
-
-
-
-                BusinessPhone = null,
-                RecieveTextUpdates = false,
-                BusinessName = null,
-                BusinessType = null,
-                StreetAddress = null,
-                SuiteOrUnit = null,
-                ZipCode = null,
-                City = null,
-                State = null,
-
-
                 IsBusinessEmailVerified = false,
+                IsBusinessPhoneVerified = false,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
 
 
             };
 
+            newBusinessUser.BusinessProfile = new BusinessProfile
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                ReceiveUpdates = accountDetailsDto.ReceiveUpdates
+            };
+
+
+            newBusinessUser.BusinessStoreInformation = new BusinessStoreInformation
+            {
+
+                BusinessName = accountDetailsDto.BusinessName,
+                BusinessType = accountDetailsDto.BusinessType,
+                StreetAddress = accountDetailsDto.StreetAddress,
+                SuiteUnitFloor = accountDetailsDto.SuiteUnitFloor,
+                City = accountDetailsDto.City,
+                State = accountDetailsDto.State,
+                ZipCode = accountDetailsDto.ZipCode
+                
+                
+                
+            };
+            
+            
 
          
          _storeContext.BusinessUsers.Add(newBusinessUser);
@@ -306,17 +312,16 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
             user.PasswordHash = hashedPassword;
 
-            var updateResult = await UpdateBusinessUserAsync(user.Id, user);
+            user.UpdatedAt = DateTime.UtcNow;
+          
 
-
-            if (updateResult) {
-
+           await _storeContext.SaveChangesAsync();
 
                 await _cacheService.RemoveOtpAsync(forgotPasswordDto.Email);
 
-            }
 
-            return updateResult;
+
+            return true;
 
 
 
@@ -338,37 +343,29 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
 
 
-        public async Task<bool> UpdateBusinessUserAsync(int userId, BusinessUser businessUser)
+        public async Task<bool> UpdateBusinessUserAsync(int userId, UpdateBusinessUserDto updateBusinessUserDto)
         {
             // Retrieve the user from the database by ID
             var existingBusinessUser = await _storeContext.BusinessUsers.FindAsync(userId);
 
             if (existingBusinessUser == null)
             {
-                return false; // Return false or throw an exception if the business user is not found
+                
+                throw new Exception("The business user you are trying to update does not exist");
+
+               // return false;
             }
 
-
-            existingBusinessUser.FirstName = businessUser.FirstName;
-            existingBusinessUser.LastName = businessUser.LastName;
-            existingBusinessUser.BusinessEmail = businessUser.BusinessEmail;
-            existingBusinessUser.BusinessPhone = businessUser.BusinessPhone;
-            existingBusinessUser.RecieveTextUpdates = businessUser.RecieveTextUpdates;
-            existingBusinessUser.BusinessName = businessUser.BusinessName;
-            existingBusinessUser.BusinessType = businessUser.BusinessType;
-            existingBusinessUser.StreetAddress = businessUser.StreetAddress;
-            existingBusinessUser.SuiteOrUnit = businessUser.SuiteOrUnit;
-            existingBusinessUser.ZipCode = businessUser.ZipCode;
-            existingBusinessUser.City = businessUser.City;
-            existingBusinessUser.State = businessUser.State;
-            existingBusinessUser.IsBusinessEmailVerified = businessUser.IsBusinessEmailVerified;
-            existingBusinessUser.UpdatedAt = businessUser.UpdatedAt;
-
-
-
+            
+            existingBusinessUser.BusinessEmail = updateBusinessUserDto.BusinessEmail;
+            existingBusinessUser.BusinessPhoneNumber = updateBusinessUserDto.BusinessPhoneNumber;
+            existingBusinessUser.UpdatedAt = DateTime.UtcNow;
+            
             // Update the user entity in the database
             _storeContext.BusinessUsers.Update(existingBusinessUser);
 
+            
+            
             var result = await _storeContext.SaveChangesAsync();
 
             return result > 0; // Return true if update was successful
@@ -389,6 +386,7 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             throw new NotImplementedException();
         }
 
+   
         public Task<BusinessUser> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto)
         {
             throw new NotImplementedException();

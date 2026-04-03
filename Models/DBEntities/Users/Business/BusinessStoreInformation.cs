@@ -8,9 +8,9 @@
         
         public string BusinessName { get; set; }
         
-        public string BusinessPhoneNumber { get; set; }
         
         public string BusinessType { get; set; }
+        
         
         public string StreetAddress { get; set; }
 

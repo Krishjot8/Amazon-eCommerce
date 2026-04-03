@@ -1,8 +1,4 @@
-﻿
-
-using Amazon_eCommerce_API.Models;
-using Amazon_eCommerce_API.Models.DBEntities.Users;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Amazon_eCommerce_API.Models.DBEntities.Carts.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Orders.BusinessOrders;
@@ -37,6 +33,7 @@ namespace Amazon_eCommerce_API.Data
         public DbSet<CustomerOrderItem> CustomerOrderItems { get; set; }
         
         public DbSet<CustomerPaymentProfile> CustomerPaymentProfiles { get; set; }
+        
         public DbSet<CustomerPreferences> CustomerPreferences { get; set; }
         
         public DbSet<CustomerProfile> CustomerProfiles { get; set; }
@@ -95,7 +92,7 @@ namespace Amazon_eCommerce_API.Data
         
 
             modelBuilder.Entity<SellerUser>()
-                      .HasIndex(u => u.SellerEmail)
+                      .HasIndex(u => u.BusinessEmail)
                       .IsUnique();
 
 

@@ -9,6 +9,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
 
         public string BusinessEmail { get; set; }
         
+        public string BusinessPhoneNumber { get; set; } 
         
         public string  PasswordHash { get; set; }
         
