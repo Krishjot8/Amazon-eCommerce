@@ -8,11 +8,11 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authent
 
         [Required]
         [EmailAddress]
-       public string Email { get; set; }
+       public string BusinessEmail { get; set; }
 
 
         [Phone]
-        public string? PhoneNumber { get; set; }
+        public string? BusinessPhoneNumber { get; set; }
 
 
 

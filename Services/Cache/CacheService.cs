@@ -1,4 +1,5 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s.Cache;
+﻿using Amazon_eCommerce_API.Models.CacheStates.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Cache;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Amazon_eCommerce_API.Services.Cache
@@ -125,6 +126,27 @@ namespace Amazon_eCommerce_API.Services.Cache
 
             return cachedOtp.Otp == otp ? cachedOtp: null;
 
+        }
+
+        public async Task SetBusinessRegistraionStateAsync(string email, BusinessRegistrationState state)
+        {
+            _memoryCache.Set($"business_registration_{email}", state, TimeSpan.FromMinutes(30));
+
+            await Task.CompletedTask;
+        }
+
+        public async Task<BusinessRegistrationState?> GetBusinessRegistrationStateAsync(string email)
+        {
+            _memoryCache.TryGetValue($"business_registration_{email}", out BusinessRegistrationState state);
+
+            return await Task.FromResult(state);
+        }
+
+        public async Task<bool> RemoveBusinessRegistrationStateAsync(string email)
+        {
+            _memoryCache.Remove($"business_registration_{email}");
+
+            return await Task.FromResult(true);
         }
     }
 }

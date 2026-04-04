@@ -15,12 +15,16 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         Task<CustomerUserTokenResponseDto> CustomerAuthenticateUserAsync(CustomerUserLoginDto userLoginDto);// 1
 
+
+
         Task<CustomerUser> GetUserByCustomerIdAsync(int userId); //8
 
         Task<CustomerUser> GetUserByCustomerEmailAsync(string email); //7
 
         Task<CustomerUser> GetUserByCustomerPhoneNumberAsync(string phoneNumber); //9
         
+
+
 
         Task<bool> UpdateCustomerUserAsync(int userId, CustomerUser user);
 
@@ -40,7 +44,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
 
 
-        Task<bool> ChangeCustomerPasswordAsync(int userId, CustomerUserPasswordUpdateDto userPasswordUpdateDto);//3
+        Task<bool> ChangeCustomerPasswordAsync(int userId, UpdateCustomerUserPasswordDto userPasswordUpdateDto);//3
 
         Task<bool> UpdateCustomerEmailAsync(int userId, string newEmail);
 

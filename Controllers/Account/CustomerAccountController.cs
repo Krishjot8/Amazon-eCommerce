@@ -17,15 +17,15 @@ namespace Amazon_eCommerce_API.Controllers.Account
     public class CustomerAccountController : ControllerBase
     {
 
-        private readonly ICustomerUserService _userService;
+        private readonly ICustomerUserService _customerUserService;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly IPasswordChallengeService _passwordChallengeService;
         private readonly StoreContext _storeContext;
 
-        public CustomerAccountController(ICustomerUserService userService, IMapper mapper, ITokenService tokenService, StoreContext storeContext, IPasswordChallengeService passwordChallengeService)
+        public CustomerAccountController(ICustomerUserService customerUserService, IMapper mapper, ITokenService tokenService, StoreContext storeContext, IPasswordChallengeService passwordChallengeService)
         {
-            _userService = userService;
+            _customerUserService = customerUserService;
             _mapper = mapper;
             _tokenService = tokenService;
             _storeContext = storeContext;
@@ -49,8 +49,8 @@ namespace Amazon_eCommerce_API.Controllers.Account
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var emailTaken = await _userService.IsCustomerIdentifierTakenAsync(CustomerUserRegistrationDto.Email);
-            var usernameTaken = await _userService.IsCustomerUsernameTakenAsync(CustomerUserRegistrationDto.UserName);
+            var emailTaken = await _customerUserService.IsCustomerIdentifierTakenAsync(CustomerUserRegistrationDto.Email);
+            var phoneNumberTaken = await _customerUserService.IsCustomerIdentifierTakenAsync(CustomerUserRegistrationDto.PhoneNumber);
 
 
             if (emailTaken) {
@@ -60,9 +60,9 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
             }
 
-            if (usernameTaken) {
+            if (phoneNumberTaken) {
 
-                return BadRequest($"The customer username {CustomerUserRegistrationDto.UserName} is already taken.");
+                return BadRequest($"The customer phone number {CustomerUserRegistrationDto.PhoneNumber} is already taken.");
 
             }
 
@@ -72,7 +72,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
             string roleName = "Customer";
 
-            var customerUser = await _userService.RegisterCustomerUserAsync(CustomerUserRegistrationDto);
+            var customerUser = await _customerUserService.RegisterCustomerUserAsync(CustomerUserRegistrationDto);
 
 
 
@@ -139,7 +139,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
             if (customerUser == null) {
 
                 customerUser = await _storeContext.CustomerUsers
-.SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
+            .SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
 
 
             }
@@ -148,7 +148,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
 
-            if (customerUser == null || !await _userService.VerifyCustomerPasswordAsync(userLoginDto.Password, customerUser.PasswordHash))
+            if (customerUser == null || !await _customerUserService.VerifyCustomerPasswordAsync(userLoginDto.Password, customerUser.PasswordHash))
             {
 
 
@@ -188,8 +188,6 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
 
-
-
         [HttpGet]
 
 
@@ -198,7 +196,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         {
 
 
-            var customerUsers = await _userService.GetAllCustomerUsersAsync();
+            var customerUsers = await _customerUserService.GetAllCustomerUsersAsync();
 
 
        
@@ -226,7 +224,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         {
 
 
-            var customerUser = await _userService.GetAllCustomerUsersAsync();
+            var customerUser = await _customerUserService.GetAllCustomerUsersAsync();
 
           
 
@@ -247,37 +245,13 @@ namespace Amazon_eCommerce_API.Controllers.Account
         }
 
 
-        [HttpGet("username")]
-
-        public async Task<IActionResult> GetCustomerAccountByUsername(string username)
-        
-        {
-
-
-            var customerUser = await _userService.GetUserByCustomerUsernameAsync(username);
-
-
-            if (customerUser == null)
-            {
-
-
-                return NotFound($"No Customer found with username {username}");
-
-            }
-
-            return Ok(customerUser);
-        
-        
-        }
-
-
 
         [HttpGet("email")]
 
         public async Task<IActionResult> GetCustomerAccountByEmail(string email)
         { 
         
-              var customerUser = await _userService.GetUserByCustomerEmailAsync(email);
+              var customerUser = await _customerUserService.GetUserByCustomerEmailAsync(email);
 
 
 
@@ -301,7 +275,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         public async Task<IActionResult> GetCustomerAccountbyPhoneNumber(string phoneNumber)
         { 
         
-            var customerUser = await _userService.GetUserByCustomerPhoneNumberAsync(phoneNumber);
+            var customerUser = await _customerUserService.GetUserByCustomerPhoneNumberAsync(phoneNumber);
 
 
             if (customerUser == null) { 
@@ -342,7 +316,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
             }
 
             // Fetch the user by ID from the user service
-            var customerUser = await _userService.GetUserByCustomerIdAsync(id);
+            var customerUser = await _customerUserService.GetUserByCustomerIdAsync(id);
 
             // Check if the user exists and is a customer
             if (customerUser == null)
@@ -354,7 +328,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
             _mapper.Map(userUpdateDto, customerUser);
 
             // Save changes to the database by calling UpdateUserAsync with the User entity
-            var isUpdated = await _userService.UpdateCustomerUserAsync(customerUser.Id, customerUser);
+            var isUpdated = await _customerUserService.UpdateCustomerUserAsync(customerUser.Id, customerUser);
 
             if (!isUpdated)
             {
@@ -384,7 +358,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
             
             }
 
-            var customerUser = await _userService.GetUserByCustomerIdAsync(userId);
+            var customerUser = await _customerUserService.GetUserByCustomerIdAsync(userId);
 
 
             if (customerUser == null)
@@ -398,10 +372,10 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
             _mapper.Map(userPasswordUpdateDto, customerUser);
 
-            customerUser.PasswordHash = await _userService.HashCustomerPasswordAsync(userPasswordUpdateDto.NewPassword);
+            customerUser.PasswordHash = await _customerUserService.HashCustomerPasswordAsync(userPasswordUpdateDto.NewPassword);
 
 
-            var isUpdated = await _userService.UpdateCustomerUserAsync(userId, customerUser);
+            var isUpdated = await _customerUserService.UpdateCustomerUserAsync(userId, customerUser);
 
 
 
@@ -434,7 +408,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         public async Task<IActionResult> DeleteCustomerUser(int id) 
         {
 
-            var customerUser = await _userService.GetUserByCustomerIdAsync(id);
+            var customerUser = await _customerUserService.GetUserByCustomerIdAsync(id);
 
 
             if (customerUser == null)
@@ -444,7 +418,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
             
             }
        
-            var isDeleted = await _userService.DeleteCustomerUserAsync(id);
+            var isDeleted = await _customerUserService.DeleteCustomerUserAsync(id);
 
             if (!isDeleted)
             {

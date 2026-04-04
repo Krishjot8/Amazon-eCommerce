@@ -72,8 +72,8 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                 return Unauthorized("Invalid or expired OTP");
 
 
-            var user = await _customerUserService.GetCustomerUserByEmailAsync(requestDto.PendingAuthId)
-                ?? await _customerUserService.GetCustomerByPhoneNumberAsync(requestDto.PendingAuthId);
+            var user = await _customerUserService.GetUserByCustomerEmailAsync(requestDto.PendingAuthId)
+                ?? await _customerUserService.GetUserByCustomerPhoneNumberAsync(requestDto.PendingAuthId);
 
             if (user == null)
                 return NotFound("User not found");
@@ -86,7 +86,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
             {
 
                 UserId = user.Id,
-                DisplayName = user.Username,
+                DisplayName = user.FirstName,
                 Token = token
 
             };

@@ -28,7 +28,6 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         }
 
 
-
         public async Task<BusinessUserTokenResponseDto> BusinessAuthenticateUserAsync(BusinessUserLoginDto userLoginDto)
         
         {
@@ -186,6 +185,10 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         }
 
 
+
+
+        //
+
         public async Task<BusinessUser> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto, 
             BusinessAccountDetailsDto accountDetailsDto)
         {
@@ -221,45 +224,8 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
 
 
-            var newBusinessUser = new BusinessUser
-            {
-
-               
-                BusinessEmail = setupDto.Email,
-                BusinessPhoneNumber = accountDetailsDto.BusinessPhoneNumber,
-                PasswordHash = hashedPassword,
-                IsBusinessEmailVerified = false,
-                IsBusinessPhoneVerified = false,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-
-
-            };
-
-            newBusinessUser.BusinessProfile = new BusinessProfile
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                ReceiveUpdates = accountDetailsDto.ReceiveUpdates
-            };
-
-
-            newBusinessUser.BusinessStoreInformation = new BusinessStoreInformation
-            {
-
-                BusinessName = accountDetailsDto.BusinessName,
-                BusinessType = accountDetailsDto.BusinessType,
-                StreetAddress = accountDetailsDto.StreetAddress,
-                SuiteUnitFloor = accountDetailsDto.SuiteUnitFloor,
-                City = accountDetailsDto.City,
-                State = accountDetailsDto.State,
-                ZipCode = accountDetailsDto.ZipCode
-                
-                
-                
-            };
             
-            
+            //
 
          
          _storeContext.BusinessUsers.Add(newBusinessUser);
@@ -284,7 +250,7 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             }
 
 
-            var user = await GetUserByBusinessEmailAsync(forgotPasswordDto.Email);
+            var user = await GetUserByBusinessEmailAsync(forgotPasswordDto.BusinessEmail);
 
             if (user == null)
             {
@@ -295,7 +261,7 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
 
 
-            var cachedOtp = await _cacheService.ValidateOtpAsync(forgotPasswordDto.Email,forgotPasswordDto.Otp);
+            var cachedOtp = await _cacheService.ValidateOtpAsync(forgotPasswordDto.BusinessEmail, forgotPasswordDto.Otp);
 
             if (cachedOtp == null) {
 
@@ -317,7 +283,7 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
            await _storeContext.SaveChangesAsync();
 
-                await _cacheService.RemoveOtpAsync(forgotPasswordDto.Email);
+                await _cacheService.RemoveOtpAsync(forgotPasswordDto.BusinessEmail);
 
 
 
@@ -390,6 +356,64 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         public Task<BusinessUser> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<bool> StartBusinessRegistrationAsync(BusinessAccountEmailDto emailDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SetupBusinessAccountAsync(BusinessAccountSetupDto setupDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<BusinessUser> CompleteBusinessRegistrationAsync(BusinessAccountDetailsDto accountDetailsDto)
+        {
+
+
+
+
+
+
+            var newBusinessUser = new BusinessUser
+            {
+
+
+                BusinessEmail = setupDto.Email,
+                BusinessPhoneNumber = accountDetailsDto.BusinessPhoneNumber,
+                PasswordHash = hashedPassword,
+                IsBusinessEmailVerified = false,
+                IsBusinessPhoneVerified = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+
+
+            };
+
+            newBusinessUser.BusinessProfile = new BusinessProfile
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                ReceiveUpdates = accountDetailsDto.ReceiveUpdates
+            };
+
+
+            newBusinessUser.BusinessStoreInformation = new BusinessStoreInformation
+            {
+
+                BusinessName = accountDetailsDto.BusinessName,
+                BusinessType = accountDetailsDto.BusinessType,
+                StreetAddress = accountDetailsDto.StreetAddress,
+                SuiteUnitFloor = accountDetailsDto.SuiteUnitFloor,
+                City = accountDetailsDto.City,
+                State = accountDetailsDto.State,
+                ZipCode = accountDetailsDto.ZipCode
+
+
+
+            };
+
         }
     }
 }

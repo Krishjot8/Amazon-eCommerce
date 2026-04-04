@@ -14,8 +14,15 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         
         Task<bool> IsBusinessEmailAvailableAsync(string email);
 
-        Task<BusinessUser> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto, BusinessAccountDetailsDto accountDetailsDto);
-        
+      //  Task<BusinessUser> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto, BusinessAccountDetailsDto accountDetailsDto);
+
+
+        public Task <bool> StartBusinessRegistrationAsync(BusinessAccountEmailDto emailDto);
+
+        public Task<bool> SetupBusinessAccountAsync(BusinessAccountSetupDto setupDto);
+
+        public Task<BusinessUser> CompleteBusinessRegistrationAsync(BusinessAccountDetailsDto accountDetailsDto);
+
         Task<BusinessUser> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto);
         
         Task<BusinessUserTokenResponseDto> BusinessAuthenticateUserAsync(BusinessUserLoginDto userLoginDto);

@@ -1,4 +1,5 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s.Cache;
+﻿using Amazon_eCommerce_API.Models.CacheStates.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Cache;
 
 namespace Amazon_eCommerce_API.Services.Cache
 {
@@ -32,7 +33,12 @@ namespace Amazon_eCommerce_API.Services.Cache
         Task<OtpCacheDto> ValidateOtpAsync(string email, string otp);
 
 
-      
+        Task SetBusinessRegistraionStateAsync(string email, BusinessRegistrationState state);
+
+        Task<BusinessRegistrationState?> GetBusinessRegistrationStateAsync(string email);
+
+            Task<bool> RemoveBusinessRegistrationStateAsync(string email);
+
 
 
     }

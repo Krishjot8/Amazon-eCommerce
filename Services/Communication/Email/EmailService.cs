@@ -1,8 +1,11 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Extensions;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Cache;
 using Amazon_eCommerce_API.Models.EmailEntities;
@@ -22,9 +25,10 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
         private readonly ICacheService _cacheService;
         private readonly IConfiguration _configuration;
         private readonly EmailSettings _emailSettings;
+        private readonly StoreContext _storeContext;
 
         public EmailService(ICustomerUserService customerUserService, IBusinessUserService businessUserService,
-            ISellerUserService sellerUserService, ICacheService cacheService, IConfiguration configuration)
+            ISellerUserService sellerUserService, ICacheService cacheService, IConfiguration configuration, StoreContext storeContext)
         {
             _customerUserService = customerUserService;
             _businessUserService = businessUserService;
@@ -32,6 +36,7 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             _cacheService = cacheService;
             _configuration = configuration;
             _emailSettings = _configuration.GetSection("EmailSettings").Get<EmailSettings>();
+            _storeContext = storeContext;
         }
 
         private EmailProviderSettings GetProvider(string providerName = null)
@@ -220,32 +225,29 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             // -------------------------------
             // 🔥 FIX: CAST BEFORE USING PROPERTY
             // -------------------------------
-            switch (dto.AccountType)
+            if (existingUser is CustomerUser customer)   //verfies email for customer or business user and updates the database
+
             {
-                case (Models.DTO_s.Authentication.AccountType)AccountType.Customer:
-                    var customer = existingUser as CustomerUser;
-                    if (customer == null) return false;
+            
+               customer.IsEmailVerified = true;
 
-                    customer.IsEmailVerified = true;
-                    break;
 
-                case (Models.DTO_s.Authentication.AccountType)AccountType.Business:
-                    var business = existingUser as BusinessUser;
-                    if (business == null) return false;
-
-                    business.IsEmailVerified = true;
-                    break;
-
-                default:
-                    return false;
+            }
+            else if (existingUser is BusinessUser business)
+            {
+                business.IsEmailVerified = true;
+            }
+            else
+            {
+                return false; // Unsupported user type
             }
 
-            bool updateResult = await UpdateUserByType(existingUser, (AccountType)dto.AccountType);
 
-            if (!updateResult)
-                return false;
 
             await _cacheService.RemoveOtpAsync(dto.Email);
+
+
+            await _storeContext.SaveChangesAsync();
 
             return true;
         }
@@ -304,33 +306,7 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
 
 
 
-        private async Task<bool> UpdateUserByType(object user, AccountType type)
-        
-        {
-
-            switch (type)
-
-            { 
-            
-                case AccountType.Customer:
-                    var customer = (CustomerUser)user;
-                    return await _customerUserService.UpdateCustomerUserAsync(customer.Id, customer);
-
-
-                case AccountType.Business:
-                    var business = (BusinessUser)user;
-                    return await _businessUserService.UpdateBusinessUserAsync(business.Id, TODO);
-                default:
-                    return false;
-
-
-
-            }
-
-
-
-        }
-
+     
 
 
         public string GetEmailTemplate(string verificationCode)

@@ -75,7 +75,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
        
 
    
-        public async Task<bool> ChangeCustomerPasswordAsync(int userId, CustomerUserPasswordUpdateDto userPasswordUpdateDto)
+        public async Task<bool> ChangeCustomerPasswordAsync(int userId, UpdateCustomerUserPasswordDto userPasswordUpdateDto)
         {
 
             //finds the user to change password

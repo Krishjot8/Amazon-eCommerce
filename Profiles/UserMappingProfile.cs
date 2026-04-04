@@ -17,11 +17,11 @@ namespace Amazon_eCommerce_API.Profiles
             .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
 
 
-            CreateMap<CustomerUserUpdateDto, CustomerUser>()
+            CreateMap<UpdateCustomerUserDto, CustomerUser>()
                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
                
 
-            CreateMap<CustomerUserPasswordUpdateDto, CustomerUser>()
+            CreateMap<UpdateCustomerUserPasswordDto, CustomerUser>()
          .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()); // Ignore PasswordHash initially
 
 

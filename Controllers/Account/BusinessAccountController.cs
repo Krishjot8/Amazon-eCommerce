@@ -1,8 +1,10 @@
 ﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Services.Users.Business;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -13,21 +15,22 @@ namespace Amazon_eCommerce_API.Controllers.Account
     [ApiController]
     public class BusinessAccountController : ControllerBase
     {
-//hello
-        private readonly ICustomerUserService _userService;
+        //hello
+        private readonly IBusinessUserService _businessUserService;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly IPasswordChallengeService _passwordChallengeService;
         private readonly  StoreContext _storeContext;
 
 
-        public BusinessAccountController(ICustomerUserService userService, IMapper mapper, StoreContext storeContext, ITokenService tokenService, IPasswordChallengeService passwordChallengeService)
+        public BusinessAccountController(IBusinessUserService businessUserService,IMapper mapper, StoreContext storeContext, ITokenService tokenService, IPasswordChallengeService passwordChallengeService)
         {
-            _userService = userService;
+            _businessUserService = businessUserService;
             _mapper = mapper;
             _storeContext = storeContext;
             _tokenService = tokenService;
             _passwordChallengeService = passwordChallengeService;
+           
         }
 
 
@@ -44,8 +47,8 @@ namespace Amazon_eCommerce_API.Controllers.Account
                 return BadRequest(ModelState);
 
 
-            var emailTaken = await _userService.IsIdentifierTakenAsync(userRegistrationDto.Email);
-            var usernameTaken = await _userService.IsUsernameTakenAsync(userRegistrationDto.UserName);
+            var emailTaken = await _businessUserService.IsBusinessIdentifierTakenAsync(userRegistrationDto.Email);
+            var  phoneNumberTaken = await _businessUserService.GetUserByBusinessPhoneNumberAsync(userRegistrationDto.UserName);
 
             if (emailTaken)
             {
@@ -53,17 +56,18 @@ namespace Amazon_eCommerce_API.Controllers.Account
                 return BadRequest($"The business email address {userRegistrationDto.Email} is already taken.");
             }
 
-            if (usernameTaken)
+            if (phoneNumberTaken)
             {
 
-                return BadRequest($"The business username {userRegistrationDto.UserName} is already taken.");
+                return BadRequest($"The business phone number {userRegistrationDto.PhoneNumber
+                    } is already taken.");
 
             }
 
-            string roleName = "Business";
+          
 
 
-            var user = await _userService.RegisterBusinessUserAsync(userRegistrationDto, roleName);
+            var user = await _businessUserService.RegisterBusinessAccountAsync(userRegistrationDto);
 
             if (user == null)
             {
@@ -84,6 +88,10 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
 
+
+
+
+
         [HttpPost("login")]
        
 
@@ -99,11 +107,11 @@ namespace Amazon_eCommerce_API.Controllers.Account
             }
 
 
-            var businessUser = await _storeContext.Users.Include
-                (u => u.Role).SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
+            var businessUser = await _storeContext.BusinessUsers.
+                SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
 
         
-            if(businessUser == null || !await _userService.VerifyPasswordAsync(userLoginDto.Password, businessUser.PasswordHash))
+            if(businessUser == null || !await _businessUserService.VerifyBusinessPasswordAsync(userLoginDto.Password, businessUser.PasswordHash))
             {
 
 
@@ -114,14 +122,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
             }
 
-            if(businessUser.RoleId != 2)
-            {
-
-                return Forbid("Only business users are allowed to Log in");
-
-
-            }
-
+     
 
 
             var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(businessUser.Email ?? businessUser.PhoneNumber, userLoginDto.Password);
@@ -156,11 +157,11 @@ namespace Amazon_eCommerce_API.Controllers.Account
         public async Task<IActionResult> GetAllBusinessAccounts()
         {
 
-            var users = await _userService.GetAllUsersAsync();
+            var businessUsers = await _businessUserService.GetAllBusinessUsersAsync();
 
-            var businessUsers = users.Where(u => u.RoleId == 2).ToList();
+   
 
-            if (businessUsers == null || !businessUsers.Any())
+            if (businessUsers == null)
             {
                 return NotFound("No business accounts were found.");
             }
@@ -175,44 +176,20 @@ namespace Amazon_eCommerce_API.Controllers.Account
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetBusinessAccount(int Id)
         {
-            var users = await _userService.GetAllUsersAsync();
+            var users = await _businessUserService.GetAllBusinessUsersAsync();
 
             // Find user by ID and ensure their RoleId is 2 (Admin)
-            var businessUser = users.FirstOrDefault(u => u.Id == Id && u.RoleId == 2);
+            var businessUser = users.FirstOrDefault(u => u.Id == Id);
 
             if (businessUser == null)
             {
-                return NotFound($"No admin found with user ID {Id}.");
+                return NotFound($"No business user found with user ID {Id}.");
             }
 
             return Ok(businessUser); // Return the admin user details
         }
 
 
-        [HttpGet("username")]
-
-
-
-        public async Task<IActionResult> GetBusinessAccountByUsername(string username)
-        { 
-        
-
-            var businessUser = await _userService.GetUserByUsernameAsync(username);
-
-
-            if(businessUser == null || businessUser.RoleId !=2)
-            {
-
-                return NotFound("The business account you are trying to get does not exist or is not a business user");
-
-
-            }
-
-            return Ok(businessUser);
-        }
-
-       
-        
         
         
         
@@ -222,10 +199,10 @@ namespace Amazon_eCommerce_API.Controllers.Account
         public async Task<IActionResult>GetBusinessAccountByEmail(string email)
         {
 
-            var businessUser = await _userService.GetUserByEmailAsync(email);
+            var businessUser = await _businessUserService.GetUserByBusinessEmailAsync(email);
 
 
-            if(businessUser == null || businessUser.RoleId !=2)
+            if(businessUser == null)
             {
 
 
@@ -251,10 +228,10 @@ namespace Amazon_eCommerce_API.Controllers.Account
         public async Task<IActionResult>GetBusinessAccountByPhoneNumber(string phoneNumber)
         {
 
-            var businessUser = await _userService.GetUserByPhoneNumberAsync(phoneNumber);
+            var businessUser = await _businessUserService.GetUserByBusinessPhoneNumberAsync(phoneNumber);
 
 
-            if(businessUser == null || businessUser.RoleId!=2)
+            if(businessUser == null )
             {
 
 
@@ -278,7 +255,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         [HttpPut("{id}")]
 
 
-        public async Task<IActionResult> UpdatBusinessAccountDetails(int id, SellerUserUpdateDto userUpdateDto)
+        public async Task<IActionResult> UpdatBusinessStoreInformation(int id, UpdateBusinessStoreInformationDto storeInformationDto)
         {
 
             if (!ModelState.IsValid) {
@@ -339,7 +316,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         
           var businessUser = await _userService.GetUserByIdAsync(userId);
 
-            if (businessUser == null || businessUser.RoleId != 2) {
+            if (businessUser == null ) {
 
 
                 return NotFound("The business password you are trying to update does not exist or is not an business user.");
@@ -379,23 +356,23 @@ namespace Amazon_eCommerce_API.Controllers.Account
         public async Task<IActionResult> DeleteBusinessAccount(int id)
         { 
         
-        var businessUser = await _userService.GetUserByIdAsync(id);
+        var businessUser = await _businessUserService.GetUserByBusinessIdAsync(id);
 
 
-            if (businessUser == null || businessUser.RoleId != 2) {
+            if (businessUser == null) {
             
-                return NotFound("The business account you are trying to delete does not exist or it is not a business user.");         
+                return NotFound("The business account you are trying to delete does not exist.");         
             
             }
 
 
-            var isDeleted = await _userService.DeleteUserAsync(id);
+            var isDeleted = await _businessUserService.DeleteBusinessUserAsync(id);
 
             if (!isDeleted) 
             
             {
 
-                return StatusCode(500, "Error deleting business user");
+                return StatusCode(500, "Error deleting business account");
             
             }
 
