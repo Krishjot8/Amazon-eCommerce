@@ -2,7 +2,7 @@
 
 namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration
 {
-    public class SellerUserPrimaryContactInformationDto
+    public class SellerUserPrimaryContactInformationDto  //Step 4
     {
 
         [Required]
@@ -83,13 +83,13 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         // Business ownership / roles
         
         [Required]
-        public bool PointOfContactIsBusinessOwner {  get; set; }
+        public bool PointOfContactIsBeneficialOwner {  get; set; }
         
         
         public bool PointOfContactIsLegalRepresentative { get; set; } // If not benificial Owner
         
         [Required]
-        public bool PrimaryContactIsBusinessOwner { get; set; }
+        public bool PrimaryContactIsBeneficialOwner { get; set; }
         
         [Required]
         public bool ConfirmedActingOnBehalfOfBusiness { get; set; }

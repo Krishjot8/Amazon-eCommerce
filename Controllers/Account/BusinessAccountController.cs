@@ -1,4 +1,5 @@
 ﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
@@ -8,6 +9,7 @@ using Amazon_eCommerce_API.Services.Users.Business;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Amazon_eCommerce_API.Controllers.Account
 {
@@ -32,59 +34,46 @@ namespace Amazon_eCommerce_API.Controllers.Account
             _passwordChallengeService = passwordChallengeService;
            
         }
+        
 
 
+        [HttpPost("register-email")]
 
-
-
-
-
-        [HttpPost("register")]
-
-        public async Task<IActionResult> BusinessRegister(BusinessUserRegistrationDto userRegistrationDto)
+        public async Task<IActionResult> RegisterEmail(BusinessAccountEmailDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            
+            
+            var result = await _businessUserService.StartBusinessRegistrationAsync(dto);
 
-
-            var emailTaken = await _businessUserService.IsBusinessIdentifierTakenAsync(userRegistrationDto.Email);
-            var  phoneNumberTaken = await _businessUserService.GetUserByBusinessPhoneNumberAsync(userRegistrationDto.UserName);
-
-            if (emailTaken)
-            {
-
-                return BadRequest($"The business email address {userRegistrationDto.Email} is already taken.");
-            }
-
-            if (phoneNumberTaken)
-            {
-
-                return BadRequest($"The business phone number {userRegistrationDto.PhoneNumber
-                    } is already taken.");
-
-            }
-
-          
-
-
-            var user = await _businessUserService.RegisterBusinessAccountAsync(userRegistrationDto);
-
-            if (user == null)
-            {
-
-                return BadRequest("Business Registration Failed");
-
-            }
-
-            return Ok(new
-            {
-                Message = "Business Registration Successful",
-                UserId = user.Id,  // Assuming your user model has an IdD property
-                UserName = user.Username  // Returning the username for confirmation
-            });
-
-
+            return result
+                ? Ok ("Email registered")
+                    : BadRequest ("Failed to register email");
+            
         }
+
+        [HttpPost("register-setup")]
+
+        public async Task<IActionResult> RegisterSetup([FromBody] BusinessAccountSetupDto dto)
+        {
+            
+            var result = await _businessUserService.SetupBusinessAccountAsync(dto);
+            
+            return result
+                ? Ok ("Setup complete")
+                : BadRequest ("Setup failed");
+            
+        }
+
+        [HttpPost("register-details/{email}")]
+
+        public async Task<IActionResult> RegisterDetails( string email, [FromBody] BusinessAccountDetailsDto dto)
+        {
+
+            var user = await _businessUserService.CompleteBusinessRegistrationAsync(email, dto);
+            
+            return Ok(new{ message = "Registration complete", userId = user.Id });
+        }
+
 
 
 
@@ -108,7 +97,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
             var businessUser = await _storeContext.BusinessUsers.
-                SingleOrDefaultAsync(u => u.Email == userLoginDto.EmailOrPhone);
+                SingleOrDefaultAsync(u => u.BusinessEmail == userLoginDto.EmailOrPhone);
 
         
             if(businessUser == null || !await _businessUserService.VerifyBusinessPasswordAsync(userLoginDto.Password, businessUser.PasswordHash))
@@ -125,7 +114,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
      
 
 
-            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(businessUser.Email ?? businessUser.PhoneNumber, userLoginDto.Password);
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(businessUser.BusinessEmail ?? businessUser.BusinessPhoneNumber, userLoginDto.Password);
 
 
             if (otpChallenge == null)
@@ -208,18 +197,13 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
                 return NotFound("The business account you are trying to get does not exist or is not a business user");
                 
-                
-                
-                }
+        }
 
 
             return Ok(businessUser);
 
         }
-
-
-
-
+        
 
 
         
@@ -246,50 +230,33 @@ namespace Amazon_eCommerce_API.Controllers.Account
         }
 
 
+        
 
 
 
-
-
-
-        [HttpPut("{id}")]
-
-
-        public async Task<IActionResult> UpdatBusinessStoreInformation(int id, UpdateBusinessStoreInformationDto storeInformationDto)
+        [HttpPut("{id}/store")]
+        
+        public async Task<IActionResult> UpdateBusinessStoreInformation(int id,[FromBody] UpdateBusinessStoreInformationDto storeInformationDto)
         {
-
             if (!ModelState.IsValid) {
-
                 return BadRequest(ModelState);
-
             }
 
+            var result = await _businessUserService.UpdateBusinessStoreInformationAsync(id, storeInformationDto);
+            
+        
 
-            var businessUser = await _userService.GetUserByIdAsync(id);
-
-            if (businessUser == null || businessUser.RoleId != 2) {
-
-                return NotFound("The business account you are trying to update does not exist or is not a business user");
-
-            }
+            if (!result) {
 
 
 
-            _mapper.Map(userUpdateDto, businessUser);
-
-            var isUpdated = await _userService.UpdateUserAsync(businessUser.Id, businessUser);
-
-            if (!isUpdated) {
-
-
-
-                return StatusCode(500, "Error updating the business user");
+                return StatusCode(500, "Error updating the business store information");
             }
 
             return Ok(new
             {
 
-                Message = "Business user account updated successfully."
+                Message = "Business Store Information updated successfully."
 
             }
          
@@ -301,49 +268,30 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
 
-        [HttpPut("update-password")]
-
-
-
-        public async Task<IActionResult> UpdateBusinessAccountPassword(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto)
+        [HttpPut("{id}/update-password")]
+        public async Task<IActionResult> UpdateBusinessAccountPassword(int userId, [FromBody] UpdateBusinessUserPasswordDto userPasswordDto)
         {
 
             if (!ModelState.IsValid) {
-
                 return BadRequest(ModelState);
-            
             }
-        
-          var businessUser = await _userService.GetUserByIdAsync(userId);
-
-            if (businessUser == null ) {
-
-
-                return NotFound("The business password you are trying to update does not exist or is not an business user.");
             
+            var result = await _businessUserService.UpdateBusinessPasswordAsync(userId, userPasswordDto);
+
+            if (!result) {
+
+
+                return BadRequest("Password update Failed.");
             }
-
-            _mapper.Map(userPasswordUpdateDto, businessUser);
-
-
-            businessUser.PasswordHash = await _userService.HashPasswordAsync(userPasswordUpdateDto.NewPassword);
-
-
-            var isUpdated = await _userService.UpdateUserAsync(userId, businessUser);
-
-            if (!isUpdated) {
-
-                return StatusCode(500, "Error updating the business user password.");
             
-            }
-
+            
             return Ok(new
             { 
             Message = "Business user password updated successfully."
                
             }
                 
-                );
+            );
 
         }
 

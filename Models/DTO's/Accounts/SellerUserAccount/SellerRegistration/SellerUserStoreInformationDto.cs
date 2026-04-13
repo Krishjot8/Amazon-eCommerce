@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration
 {
-    public class SellerUserStoreInformationDto
+    public class SellerUserStoreInformationDto //Step 6
     {
         
         [Required]

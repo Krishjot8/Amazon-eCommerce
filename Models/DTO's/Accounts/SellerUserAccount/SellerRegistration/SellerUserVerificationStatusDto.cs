@@ -28,13 +28,9 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         [Url(ErrorMessage = "Proof of address document URL must be a valid URL.")]
         public string ProofOfAddressDocumentUrl { get; set; } = null;
 
-        [Required]
-        public VerificationMeetingType ScheduledVerificationType { get; set; }
+    
         
-        [EnumDataType(typeof(VerificationStatus))]
-        public VerificationStatus VerificationStatus { get; set; } = VerificationStatus.Pending;
-
-        
+    
     }
 
     public enum ProofOfAddress
@@ -46,19 +42,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         
     }
 
-    public enum VerificationStatus
-    {
-        Pending,
-        Approved,
-        Rejected
-        
-    }
-
-    public enum VerificationMeetingType
-    {
-        LiveVideoCall,
-        AtLocation,
-        AmazonDesignatedSite
-    }
+   
+   
 
 }

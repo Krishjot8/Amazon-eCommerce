@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.CacheStates.Authentication;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
@@ -19,7 +20,9 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly ICacheService _cacheService;
-        public BusinessUserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService, ICacheService cacheService)
+
+        public BusinessUserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService,
+            ICacheService cacheService)
         {
             _storeContext = storeContext;
             _mapper = mapper;
@@ -28,10 +31,163 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         }
 
 
-        public async Task<BusinessUserTokenResponseDto> BusinessAuthenticateUserAsync(BusinessUserLoginDto userLoginDto)
         
+        public async Task<IEnumerable<BusinessUser>> GetAllBusinessUsersAsync()
         {
+
+            return await _storeContext.BusinessUsers.ToListAsync();
+        }
+
+        public async Task<BusinessUser> GetUserByBusinessEmailAsync(string email)
+        {
+            return await _storeContext.BusinessUsers.SingleOrDefaultAsync(x => x.BusinessEmail == email);
+        }
+
+        public Task<BusinessUser> GetUserByBusinessIdAsync(int userId)
+        {
+            return _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.Id == userId);
+        }
+
+        public async Task<BusinessUser> GetUserByBusinessPhoneNumberAsync(string phoneNumber)
+        {
+            return await _storeContext.BusinessUsers.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == phoneNumber);
+        }
+
+        public async Task<BusinessStoreInformation> GetUserByBusinessNameAsync(string businessName)
+        {
+            return await
+                _storeContext.BusinessStoreInformation.SingleOrDefaultAsync(u => u.BusinessName == businessName);
+
+
+
+        }
+
+   
+        
+
+        
+        public async Task<bool> StartBusinessRegistrationAsync(BusinessAccountEmailDto emailDto)
+        {
+            var existingUser = await _storeContext.BusinessUsers
+                .FirstOrDefaultAsync(x => x.BusinessEmail == emailDto.Email);
+
+
+            if (existingUser != null)
+            {
+                throw new Exception("A business account with this email already exists");
+            }
+
+            var state = new BusinessRegistrationState
+            {
+                Email = emailDto.Email,
+                CurrentStep = RegistrationStep.Step1_Identity
+
+
+            };
+
+            await _cacheService.SetBusinessRegistraionStateAsync(emailDto.Email, state);
+
+            return true;
+
+        }
+
+        public async Task<bool> SetupBusinessAccountAsync(BusinessAccountSetupDto setupDto)
+        {
+            var state = await _cacheService.GetBusinessRegistrationStateAsync(setupDto.Email);
+
+            if (state == null)
+            {
+                throw new Exception("The business account registration has not started");
+            }
+
+            if (state.CurrentStep != RegistrationStep.Step1_Identity)
+                return false;
+
+            if (setupDto.Password != setupDto.ConfirmPassword)
+                throw new Exception("Passwords do not match");
+
+            state.FullName = setupDto.FullName;
+            state.PasswordHash = await HashBusinessPasswordAsync(setupDto.Password);
+            state.CurrentStep = RegistrationStep.Step2_AccountSetup;
+
+            await _cacheService.SetBusinessRegistraionStateAsync(setupDto.Email, state);
+
+            return true;
+        }
+
+        public async Task<BusinessUser> CompleteBusinessRegistrationAsync(string email,
+            BusinessAccountDetailsDto accountDetailsDto)
+        {
+
+            var state = await _cacheService.GetBusinessRegistrationStateAsync(email);
+
+            if (state == null)
+                throw new Exception("The business account registration has not started");
+
+            if (state.CurrentStep != RegistrationStep.Step2_AccountSetup)
+                throw new Exception("Invalid step order");
+
+            state.BusinessDetails = new BusinessDetailsState
+            {
+
+
+
+            };
+
+
+            state.CurrentStep = RegistrationStep.Completed;
+
+
+            var nameParts = state.FullName.Split(' ', 2);
+
+
+            var newUser = new BusinessUser
+            {
+                
+                BusinessEmail = state.Email,
+                BusinessPhoneNumber = state.BusinessDetails.BusinessPhoneNumber,
+                PasswordHash = state.PasswordHash,
+                IsBusinessEmailVerified = state.IsEmailVerified,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+
+                
+                BusinessProfile = new BusinessProfile
+                {
+                    FirstName = nameParts[0],
+                    LastName = nameParts.Length > 1 ? nameParts[1] : "",
+                    ReceiveUpdates = state.BusinessDetails.ReceiveUpdates,
+                },
+
+
+                BusinessStoreInformation = new BusinessStoreInformation
+                {
+
+                    BusinessName = state.BusinessDetails.BusinessName,
+                    BusinessType = state.BusinessDetails.BusinessType,
+                    StreetAddress = state.BusinessDetails.StreetAddress,
+                    SuiteUnitFloor = state.BusinessDetails.SuiteUnitFloor,
+                    City = state.BusinessDetails.City,
+                    State = state.BusinessDetails.State,
+                    ZipCode = state.BusinessDetails.ZipCode
+                    
+                },
+            };
             
+            
+            _storeContext.BusinessUsers.Add(newUser);
+            await _storeContext.SaveChangesAsync();
+            
+            await _cacheService.RemoveBusinessRegistrationStateAsync(state.Email);
+            
+            return newUser;
+        }
+    
+        
+        public async Task<BusinessUserTokenResponseDto> BusinessAuthenticateUserAsync(BusinessUserLoginDto userLoginDto)
+
+        {
+
             CustomerUser user = null;
 
 
@@ -39,7 +195,8 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             {
 
 
-                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.EmailAddress == userLoginDto.EmailOrPhone);
+                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u =>
+                    u.EmailAddress == userLoginDto.EmailOrPhone);
 
 
 
@@ -48,19 +205,20 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             else
             {
 
-                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
-            
+                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u =>
+                    u.PhoneNumber == userLoginDto.EmailOrPhone);
+
             }
 
 
 
 
-            if (user == null || !await VerifyBusinessPasswordAsync(userLoginDto.Password, user.PasswordHash)) 
-            
-            { 
-            
-                  return null;
-            
+            if (user == null || !await VerifyBusinessPasswordAsync(userLoginDto.Password, user.PasswordHash))
+
+            {
+
+                return null;
+
             }
 
             var token = _tokenService.GenerateToken(user);
@@ -78,178 +236,160 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             return authResponse;
         }
 
-       
 
-   
-        public async Task<bool> ChangeBusinessPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto)
+
+        
+        
+        public async Task<bool> UpdateBusinessStoreInformationAsync(int userId,
+            UpdateBusinessStoreInformationDto updateBusinessStoreInformationDto)
         {
+            var businessUser = await _storeContext.BusinessUsers.Include(u => u.BusinessStoreInformation)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+            
+            if (businessUser == null)
+                throw new Exception("Business user not found");
 
-            //finds the user to change password
-            var existingUser = await _storeContext.BusinessUsers.FindAsync(userId);
-
-            if (existingUser == null)
-            {
-                return false;
-            }
-
-            //Verify Current Password
-            if (!await VerifyBusinessPasswordAsync(userPasswordUpdateDto.CurrentPassword , existingUser.PasswordHash)) 
+            if (businessUser.BusinessStoreInformation == null)
             {
 
-                throw new UnauthorizedAccessException("Current password is incorrect");       
-            
+                businessUser.BusinessStoreInformation = new BusinessStoreInformation
+                {
+
+                    BusinessUserId = businessUser.Id.ToString(),
+
+                };
+
             }
-            existingUser.PasswordHash = await HashBusinessPasswordAsync(userPasswordUpdateDto.NewPassword);
-
-            _storeContext.BusinessUsers.Update(existingUser);
-            var result = await _storeContext.SaveChangesAsync();
+            
+            
+            _mapper.Map(updateBusinessStoreInformationDto, businessUser.BusinessStoreInformation);
+            
+            businessUser.UpdatedAt = DateTime.UtcNow;
+            
+            var result =  await _storeContext.SaveChangesAsync();
+            
             return result > 0;
-
         }
 
-
-
-
-
-
-        public async Task<bool> DeleteBusinessUserAsync(int userId)
+        
+        
+        public async Task<bool> UpdateBusinessUserAsync(int userId, UpdateBusinessUserDto updateBusinessUserDto)
         {
-           var user = await _storeContext.BusinessUsers.FindAsync(userId);
+            // Retrieve the user from the database by ID
+            var existingBusinessUser = await _storeContext.BusinessUsers.FindAsync(userId);
 
-            if (user == null) 
-            
-            { 
-              return false;
-                
+            if (existingBusinessUser == null)
+            {
+
+                throw new Exception("The business user you are trying to update does not exist");
+
+                // return false;
             }
 
-            _storeContext.BusinessUsers.Remove(user);
+
+            existingBusinessUser.BusinessEmail = updateBusinessUserDto.BusinessEmail;
+            existingBusinessUser.BusinessPhoneNumber = updateBusinessUserDto.BusinessPhoneNumber;
+            existingBusinessUser.UpdatedAt = DateTime.UtcNow;
+
+            // Update the user entity in the database
+            _storeContext.BusinessUsers.Update(existingBusinessUser);
+
+
 
             var result = await _storeContext.SaveChangesAsync();
 
-            return result > 0;
-
-
-
+            return result > 0; // Return true if update was successful
         }
 
-        public async Task<IEnumerable<BusinessUser>> GetAllBusinessUsersAsync()
+        
+        public Task<bool> UpdateBusinessEmailAsync(int userId, string newEmail)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> UpdateBusinessPasswordAsync(int userId, UpdateBusinessUserPasswordDto userPasswordDto)
+        {
+           var businessUser = await _storeContext.BusinessUsers.FirstOrDefaultAsync(x => x.Id == userId);
+           
+           if (businessUser == null)
+               throw new Exception("Business user not found");
+           
+           var isValid = BCrypt.Net.BCrypt.Verify(userPasswordDto.CurrentPassword, businessUser.PasswordHash);
+           
+           if (!isValid)
+               return false;
+           
+           businessUser.UpdatedAt = DateTime.UtcNow;
+           
+           var result =  await _storeContext.SaveChangesAsync();
+           
+           return result > 0;
+               
+        }
+
+
+        public Task<bool> UpdateBusinessProfileAsync(int userId, UpdateBusinessProfileDto updateBusinessProfileDto)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public async Task<bool> VerifyBusinessPasswordAsync(string enteredPassword, string storedHash)
         {
 
-            return await _storeContext.BusinessUsers.ToListAsync();
+            return await Task.Run(() => BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash));
+
+
         }
 
-        public async Task<BusinessUser> GetUserByBusinessEmailAsync(string email)
+        public Task<bool> IsBusinessEmailAvailableAsync(string email)
         {
-          return await _storeContext.BusinessUsers.SingleOrDefaultAsync(x => x.BusinessEmail == email);
+            throw new NotImplementedException();
         }
 
-        public Task<BusinessUser> GetUserByBusinessIdAsync(int userId)
+        public async Task<bool> IsBusinessIdentifierTakenAsync(string identifier)
         {
-            return _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.Id == userId);
+            var existingUser = await _storeContext.BusinessUsers.FirstOrDefaultAsync(u =>
+                u.BusinessEmail == identifier || u.BusinessPhoneNumber == identifier);
+
+            return existingUser != null;
         }
 
-        public async Task<BusinessUser> GetUserByBusinessPhoneNumberAsync(string phoneNumber)
+
+
+        public async Task<bool> IsBusinessNameTakenAsync(string businessName)
         {
-            return await _storeContext.BusinessUsers.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == phoneNumber);
+            var existingUsername =
+                await _storeContext.BusinessStoreInformation.FirstOrDefaultAsync(x => x.BusinessName == businessName);
+            return existingUsername != null;
         }
 
-        public async Task<BusinessStoreInformation> GetUserByBusinessNameAsync(string businessName)
+
+
+      
+        public Task<BusinessUser> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto)
         {
-           return await _storeContext.BusinessStoreInformation.SingleOrDefaultAsync(u => u.BusinessName == businessName);
-
-
-
+            throw new NotImplementedException();
         }
 
+        
         public async Task<string> HashBusinessPasswordAsync(string password)
         {
             var hashedPassword = await Task.Run(() => BCrypt.Net.BCrypt.HashPassword(password));
 
             return hashedPassword;
         }
-
-        public async Task<bool> IsBusinessIdentifierTakenAsync(string identifier)
-        {
-           var existingUser = await _storeContext.BusinessUsers.FirstOrDefaultAsync(u => u.BusinessEmail == identifier || u.BusinessPhoneNumber == identifier);
-
-            return existingUser != null;
-        }
-
-      
-
-        public async Task<bool> IsBusinessNameTakenAsync(string businessName)
-        {
-           var existingUsername = await _storeContext.BusinessStoreInformation.FirstOrDefaultAsync(x => x.BusinessName == businessName);
-            return existingUsername != null;
-        }
-
-
-
-
-        //
-
-        public async Task<BusinessUser> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto, 
-            BusinessAccountDetailsDto accountDetailsDto)
-        {
-
-            var existingUser = await _storeContext.BusinessUsers
-                .FirstOrDefaultAsync(u => u.BusinessEmail.ToLower() == setupDto.Email.ToLower());
-            
-
-            if (existingUser != null) {
-
-                throw new Exception("A business account with this email already exists");
-            
-            }
-            
-            if (setupDto.Password != setupDto.ConfirmPassword)
-                throw new Exception("Passwords do not match");
-
-            
-            //split full name into first and last name
-          //  var nameParts = setupDto.FullName.Trim().Split(' ',2);
-            
-            
-            var fullName = setupDto.FullName?.Trim() ?? "";
-            var nameParts = fullName.Split(' ',2);
-            
-            string firstName = nameParts.Length > 0 ? nameParts[0] : "";
-            string lastName = nameParts.Length > 1 ? nameParts[1] : "";
-
-
-            // Hash password 
-
-            var hashedPassword = await HashBusinessPasswordAsync(setupDto.Password);
-
-
-
-            
-            //
-
-         
-         _storeContext.BusinessUsers.Add(newBusinessUser);
-            await _storeContext.SaveChangesAsync();
-
-            return newBusinessUser;
-
-        }
-
-
-
-      
-
+        
         public async Task<bool> ResetBusinessPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto)
         {
 
-            if (forgotPasswordDto.NewPassword != forgotPasswordDto.ReEnterPassword) 
-            
+            if (forgotPasswordDto.NewPassword != forgotPasswordDto.ReEnterPassword)
+
             {
                 throw new ArgumentException("The password and confirmation password do not match");
-            
+
             }
-
-
+            
             var user = await GetUserByBusinessEmailAsync(forgotPasswordDto.BusinessEmail);
 
             if (user == null)
@@ -258,12 +398,13 @@ namespace Amazon_eCommerce_API.Services.Users.Business
                 throw new Exception("The user you are looking for does not exist");
 
             }
+            
 
+            var cachedOtp =
+                await _cacheService.ValidateOtpAsync(forgotPasswordDto.BusinessEmail, forgotPasswordDto.Otp);
 
-
-            var cachedOtp = await _cacheService.ValidateOtpAsync(forgotPasswordDto.BusinessEmail, forgotPasswordDto.Otp);
-
-            if (cachedOtp == null) {
+            if (cachedOtp == null)
+            {
 
 
 
@@ -279,11 +420,11 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             user.PasswordHash = hashedPassword;
 
             user.UpdatedAt = DateTime.UtcNow;
-          
 
-           await _storeContext.SaveChangesAsync();
 
-                await _cacheService.RemoveOtpAsync(forgotPasswordDto.BusinessEmail);
+            await _storeContext.SaveChangesAsync();
+
+            await _cacheService.RemoveOtpAsync(forgotPasswordDto.BusinessEmail);
 
 
 
@@ -294,126 +435,64 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
         }
 
-      
+        
+        
 
-
-
-
-
-
-        public Task<bool> UpdateBusinessEmailAsync(int userId, string newEmail)
+        public async Task<bool> ChangeBusinessPasswordAsync(int userId,
+            UpdateBusinessUserPasswordDto userPasswordDto)
         {
-            throw new NotImplementedException();
-        }
 
+            //finds the user to change password
+            var existingUser = await _storeContext.BusinessUsers.FindAsync(userId);
 
-
-
-        public async Task<bool> UpdateBusinessUserAsync(int userId, UpdateBusinessUserDto updateBusinessUserDto)
-        {
-            // Retrieve the user from the database by ID
-            var existingBusinessUser = await _storeContext.BusinessUsers.FindAsync(userId);
-
-            if (existingBusinessUser == null)
+            if (existingUser == null)
             {
-                
-                throw new Exception("The business user you are trying to update does not exist");
-
-               // return false;
+                return false;
             }
 
-            
-            existingBusinessUser.BusinessEmail = updateBusinessUserDto.BusinessEmail;
-            existingBusinessUser.BusinessPhoneNumber = updateBusinessUserDto.BusinessPhoneNumber;
-            existingBusinessUser.UpdatedAt = DateTime.UtcNow;
-            
-            // Update the user entity in the database
-            _storeContext.BusinessUsers.Update(existingBusinessUser);
+            //Verify Current Password
+            if (!await VerifyBusinessPasswordAsync(userPasswordDto.CurrentPassword, existingUser.PasswordHash))
+            {
 
-            
-            
+                throw new UnauthorizedAccessException("Current password is incorrect");
+
+            }
+
+            existingUser.PasswordHash = await HashBusinessPasswordAsync(userPasswordDto.NewPassword);
+
+            _storeContext.BusinessUsers.Update(existingUser);
+            var result = await _storeContext.SaveChangesAsync();
+            return result > 0;
+
+        }
+
+
+        
+        
+        
+        
+        
+      
+        public async Task<bool> DeleteBusinessUserAsync(int userId)
+        {
+            var user = await _storeContext.BusinessUsers.FindAsync(userId);
+
+            if (user == null)
+
+            {
+                return false;
+
+            }
+
+            _storeContext.BusinessUsers.Remove(user);
+
             var result = await _storeContext.SaveChangesAsync();
 
-            return result > 0; // Return true if update was successful
-        }
+            return result > 0;
 
-      
-
-        public async Task<bool> VerifyBusinessPasswordAsync(string enteredPassword, string storedHash)
-        {
-
-            return await Task.Run(() => BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash));
 
 
         }
 
-        public Task<bool> IsBusinessEmailAvailableAsync(string email)
-        {
-            throw new NotImplementedException();
-        }
-
-   
-        public Task<BusinessUser> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> StartBusinessRegistrationAsync(BusinessAccountEmailDto emailDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SetupBusinessAccountAsync(BusinessAccountSetupDto setupDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<BusinessUser> CompleteBusinessRegistrationAsync(BusinessAccountDetailsDto accountDetailsDto)
-        {
-
-
-
-
-
-
-            var newBusinessUser = new BusinessUser
-            {
-
-
-                BusinessEmail = setupDto.Email,
-                BusinessPhoneNumber = accountDetailsDto.BusinessPhoneNumber,
-                PasswordHash = hashedPassword,
-                IsBusinessEmailVerified = false,
-                IsBusinessPhoneVerified = false,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-
-
-            };
-
-            newBusinessUser.BusinessProfile = new BusinessProfile
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                ReceiveUpdates = accountDetailsDto.ReceiveUpdates
-            };
-
-
-            newBusinessUser.BusinessStoreInformation = new BusinessStoreInformation
-            {
-
-                BusinessName = accountDetailsDto.BusinessName,
-                BusinessType = accountDetailsDto.BusinessType,
-                StreetAddress = accountDetailsDto.StreetAddress,
-                SuiteUnitFloor = accountDetailsDto.SuiteUnitFloor,
-                City = accountDetailsDto.City,
-                State = accountDetailsDto.State,
-                ZipCode = accountDetailsDto.ZipCode
-
-
-
-            };
-
-        }
-    }
+}
 }

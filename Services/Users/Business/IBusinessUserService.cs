@@ -13,15 +13,12 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         Task<IEnumerable<BusinessUser>> GetAllBusinessUsersAsync();
         
         Task<bool> IsBusinessEmailAvailableAsync(string email);
-
-      //  Task<BusinessUser> RegisterBusinessAccountAsync(BusinessAccountSetupDto setupDto, BusinessAccountDetailsDto accountDetailsDto);
-
-
+        
         public Task <bool> StartBusinessRegistrationAsync(BusinessAccountEmailDto emailDto);
 
         public Task<bool> SetupBusinessAccountAsync(BusinessAccountSetupDto setupDto);
 
-        public Task<BusinessUser> CompleteBusinessRegistrationAsync(BusinessAccountDetailsDto accountDetailsDto);
+        public Task<BusinessUser> CompleteBusinessRegistrationAsync(string email , BusinessAccountDetailsDto accountDetailsDto);
 
         Task<BusinessUser> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto);
         
@@ -37,9 +34,14 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         Task<BusinessStoreInformation> GetUserByBusinessNameAsync(string businessName);
 
         
+        
         Task<bool> UpdateBusinessUserAsync(int userId, UpdateBusinessUserDto updateBusinessUserDto);
 
 
+        Task<bool> UpdateBusinessProfileAsync(int userId, UpdateBusinessProfileDto updateBusinessProfileDto);
+        
+        Task<bool> UpdateBusinessStoreInformationAsync(int userId, UpdateBusinessStoreInformationDto updateBusinessStoreInformationDto);
+        
         Task<bool> DeleteBusinessUserAsync(int userId);
 
         
@@ -55,10 +57,12 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
 
 
-        Task<bool> ChangeBusinessPasswordAsync(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto);
+        Task<bool> ChangeBusinessPasswordAsync(int userId, UpdateBusinessUserPasswordDto userPasswordDto);
 
         Task<bool> UpdateBusinessEmailAsync(int userId, string newEmail);
 
+        Task<bool>UpdateBusinessPasswordAsync(int userId, UpdateBusinessUserPasswordDto userPasswordDto);
+        
         Task<bool> ResetBusinessPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto);
 
 

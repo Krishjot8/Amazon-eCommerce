@@ -5,15 +5,12 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
 
  
 
-    public class SellerUserBusinessInformationDto
+    public class SellerUserBusinessInformationDto   //Step3
     {
 
         [Required]
         public string BusinessName { get; set; }  //Prefilled
-        [Required]
-        [Phone]
-        public string BusinessPhoneNumber { get; set; } //Preselected
-
+        
         [Required]
         public string CompanyRegistrationNumber { get; set; }
 
@@ -28,6 +25,16 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         [Required]
         public string City { get; set; }
         
+      
+        [Required]
+        public ProofOfAddressType ProofOfAddress { get; set; }
+        
+        [Required]
+        public string ProofOfAddressDocumentUrl { get; set; } 
+        [Required]
+        
+        public string? RegistrationExtractUrl { get; set; }
+        
         [Required] 
         public string State { get; set; }
         
@@ -35,10 +42,13 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         public string ZipCode { get; set; }
 
 
+        
         [Required]
         public PinDeliveryMethod PinDeliveryMethod { get; set; }
 
-
+        [Required]
+        [Phone]
+        public string VerificationPhoneNumber { get; set; } 
         [Required] 
         public string VerificationLanguage { get; set; }
 
@@ -49,6 +59,17 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         
     }
 
+    public enum ProofOfAddressType
+    {
+        BankAccountStatement,
+        ElectricityBill,
+        GasBill,
+        InternetBill,
+        RentBill,
+        TelephoneBill,
+        TVBill,
+        WaterBill
+    }
 
     public enum PinDeliveryMethod
     {

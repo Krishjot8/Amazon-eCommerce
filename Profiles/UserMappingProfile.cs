@@ -1,4 +1,6 @@
-﻿using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
+﻿using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
@@ -33,7 +35,12 @@ namespace Amazon_eCommerce_API.Profiles
                 .ForMember(dest => dest.SubscribeToNewsLetter, opt => opt.Ignore()); // Ignore SubscribeToNewsLetter since it's not in User
 
 
-            
+//Business
+
+
+            CreateMap<UpdateBusinessStoreInformationDto, BusinessStoreInformation>()
+                .ForMember(dest => dest.BusinessUser.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.BusinessUser, opt => opt.Ignore());
 
         }
 

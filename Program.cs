@@ -12,7 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Runtime.InteropServices;
 using System.Text;
 using Amazon_eCommerce_API.Services.Communication.Email;
-using Amazon_eCommerce_API.Services.Users;
 using Amazon_eCommerce_API.Services.Users.Business;
 using Amazon_eCommerce_API.Services.Users.Seller;
 
@@ -122,7 +121,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ISmsService, SmsService>();
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

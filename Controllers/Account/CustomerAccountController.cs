@@ -349,7 +349,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
 
-        public async Task<IActionResult> UpdateCustomerAccountPassword(int userId, BusinessUserPasswordUpdateDto userPasswordUpdateDto)
+        public async Task<IActionResult> UpdateCustomerAccountPassword(int userId, UpdateBusinessUserPasswordDto userPasswordDto)
         {
 
             if (!ModelState.IsValid) {
@@ -370,9 +370,9 @@ namespace Amazon_eCommerce_API.Controllers.Account
             }
 
 
-            _mapper.Map(userPasswordUpdateDto, customerUser);
+            _mapper.Map(userPasswordDto, customerUser);
 
-            customerUser.PasswordHash = await _customerUserService.HashCustomerPasswordAsync(userPasswordUpdateDto.NewPassword);
+            customerUser.PasswordHash = await _customerUserService.HashCustomerPasswordAsync(userPasswordDto.NewPassword);
 
 
             var isUpdated = await _customerUserService.UpdateCustomerUserAsync(userId, customerUser);

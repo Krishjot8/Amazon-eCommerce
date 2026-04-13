@@ -16,10 +16,23 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         
         public string ProofOfAddressDocumentUrl { get; set; }
         
+        public DateTime? ScheduledDateTime { get; set; }
+        
+        public string? Notes { get; set; }
+        
         public VerificationMeetingType ScheduledVerificationType { get; set; }
 
-        public VerificationStatus VerificationStatus { get; set; } = VerificationStatus.Pending;
+        public VerificationStatus VerificationStatus { get; set; } 
+        
+      
 
         public SellerUser SellerUser { get; set; }
+    }
+    
+    public enum VerificationStatus
+    {
+        Pending,
+        Approved,
+        Rejected
     }
 }

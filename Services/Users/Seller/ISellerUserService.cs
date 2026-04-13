@@ -3,25 +3,46 @@ using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Password;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
 
 namespace Amazon_eCommerce_API.Services.Users.Seller
 {
     public interface ISellerUserService
-    {
+    {   
 
 
         Task<IEnumerable<SellerUser>> GetAllSellerUsersAsync();
 
-        //Task<SellerUsers> RegisterSellerUserAsync(SellerUserRegistrationDto sellerUserRegistrationDto);
+        
+       // Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto sellerUserLoginDto);
 
-        Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto sellerUserLoginDto);
-
+       
+       
+       
         Task<SellerUser> GetUserBySellerIdAsync(int sellerUserId);
 
         Task<SellerUser> GetUserByBusinessEmailAsync(string sellerEmail);
 
         Task<SellerUser> GetUserBySellerPhoneNumberAsync(string sellerPhoneNumber);
 
+        //SellerOnboarding
+        
+        Task<int> CreateSellerAccountAsync(SellerUserAccountCreationDto accountCreationDto);
+
+        Task<bool> CompleteBusinessInformationAsync(int sellerUserId, SellerUserBusinessInformationDto businessInformationDto);
+
+        Task<bool> CompleteBusinessProfileAsync(int sellerUserId, SellerUserBusinessProfileDto businessProfileDto);
+        
+        Task<bool> CompletePrimaryContactAsync(int sellerUserId, SellerUserPrimaryContactInformationDto contactInformationDto);
+        
+        Task<bool> AddPaymentInformationAsync(int sellerUserId, SellerUserPaymentInformationDto paymentInformationDto);
+
+        Task<bool> CompleteStoreInformationAsync(int sellerUserId, SellerUserStoreInformationDto storeInformationDto);
+        
+        Task<bool>SubmitVerificationAsync(int sellerUserId, SellerUserVerificationStatusDto status);
+        
+        Task<bool> ScheduleVerificationMeetingAsync(int sellerUserId, ScheduleVerificationMeetingDto verificationMeetingDto);
+        
         Task<bool> UpdateSellerUserAsync(int sellerUserId, SellerUser sellerUser);
         
         Task<bool> DeleteSellerUserAsync(int sellerUserId);
@@ -32,8 +53,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
         Task<string> HashSellerPasswordAsync(string sellerPassword);
 
         Task<bool> VerifySellerPasswordAsync(string sellerEnteredPassword, string sellerStoredHash);
-
-
+        
 
         Task<bool> ChangeSellerPasswordAsync(int sellerUserId, SellerUserPasswordUpdateDto sellerUserPasswordUpdateDto);
 
