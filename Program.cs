@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Runtime.InteropServices;
 using System.Text;
 using Amazon_eCommerce_API.Services.Authentication.Token;
+using Amazon_eCommerce_API.Services.Authentication.UserResolver;
 using Amazon_eCommerce_API.Services.Communication.Email;
 using Amazon_eCommerce_API.Services.Users.Business;
 using Amazon_eCommerce_API.Services.Users.Seller;
@@ -118,6 +119,7 @@ builder.Services.AddScoped<IPasswordChallengeService, PasswordChallengeService>(
 builder.Services.AddScoped<ICustomerUserService, CustomerUserService>();
 builder.Services.AddScoped<IBusinessUserService, BusinessUserService>();
 builder.Services.AddScoped<ISellerUserService, SellerUserService>();
+builder.Services.AddScoped(typeof(IUserResolverService), typeof(UserResolverService));
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
