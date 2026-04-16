@@ -9,6 +9,7 @@ using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegi
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
 using Amazon_eCommerce_API.Services.Authentication.Token;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 
 namespace Amazon_eCommerce_API.Services.Users.Customer
 {
@@ -58,7 +59,16 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             
             }
 
-            var token = tokenService.GenerateToken(user);
+
+            var tokenRequest = new TokenRequestDto
+            {
+                UserId = user.Id,
+                Email = user.EmailAddress,
+                DisplayName = user.FirstName
+            };
+
+
+            var token = tokenService.GenerateToken(tokenRequest);
 
             var authResponse = new CustomerUserTokenResponseDto
             {
