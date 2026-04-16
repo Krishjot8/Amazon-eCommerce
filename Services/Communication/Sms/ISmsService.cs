@@ -1,4 +1,5 @@
 using Amazon_eCommerce_API.Models.DTO_s.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Verification;
 
 namespace Amazon_eCommerce_API.Services.Communication.Sms;
 

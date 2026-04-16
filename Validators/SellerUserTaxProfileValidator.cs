@@ -14,27 +14,31 @@ namespace Amazon_eCommerce_API.Validators
                 errors.Add("Tax profile data is required.");
                 return errors;
             }
+            
+            if(dto.TaxIdentification == null)
+            {
+                errors.Add("TaxIdentification is required.");
+            }
+
 
             // =============================
             // INDIVIDUAL RULES
             // =============================
             if (dto.TaxClassification == TaxClassification.Individual)
             {
-                if (dto.BusinessFederalTaxClassification != 
-                    BusinessFederalTaxClassification.IndividualSoleProprietor)
-                {
-                    errors.Add("Individuals must be classified as Individual / Sole Proprietor.");
-                }
-                
-                if (dto.LLCType != null)
-                {
-                    errors.Add("Individuals cannot use an LLC Type.");
-                }
-
-                if (dto.TaxpayerIdentificationType == 
-                    TaxIdentificationType.EIN)
+                if (dto.TaxIdentification?.TaxIdentificationType == TaxIdentificationType.EIN)
                 {
                     errors.Add("Individuals cannot use an EIN.");
+                }
+                
+                if (dto.Business != null)
+                {
+                    errors.Add("Individuals cannot provide business details.");
+                }
+
+                if (dto.Individual?.IsUSPerson == false && string.IsNullOrEmpty(dto.Individual.CountryOfCitizenship))
+                {
+                    errors.Add("Non-US individuals must provide country of citizenship");
                 }
             }
 
@@ -43,25 +47,32 @@ namespace Amazon_eCommerce_API.Validators
             // =============================
             if (dto.TaxClassification == TaxClassification.Business)
             {
-                if (dto.BusinessFederalTaxClassification == null)
+                if (dto.Business == null)
+                {
+                    errors.Add("Business details are required.");
+                }
+                
+                if (dto.Business.BusinessFederalTaxClassification == null)
                 {
                     errors.Add("Business federal tax classification is required.");
                 }
+
                 
-                if (dto.BusinessFederalTaxClassification == 
-                    BusinessFederalTaxClassification.LimitedLiabilityCompany
-                    && dto.LLCType == null)
+                if (dto.Business.BusinessFederalTaxClassification == BusinessFederalTaxClassification.LimitedLiabilityCompany
+                    && dto.Business.LLCType == null)
                 {
                     errors.Add("LLC Type is required when business is LLC.");
                 }
                 
 
-                if (dto.TaxpayerIdentificationType != 
-                    TaxIdentificationType.EIN)
+                if (dto.TaxIdentification?.TaxIdentificationType != TaxIdentificationType.EIN)
+                    
                 {
                     errors.Add("Businesses must use an EIN.");
                 }
 
+                
+            
               
             }
 

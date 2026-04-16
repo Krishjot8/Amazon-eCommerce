@@ -1,6 +1,4 @@
-﻿using System.Security.Principal;
-
-namespace Amazon_eCommerce_API.Models.DTO_s.Authentication
+﻿namespace Amazon_eCommerce_API.Models.DTO_s.Authentication.Verification
 
 { 
     public class VerifyEmailDto    //Verify Email After registration

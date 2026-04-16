@@ -2,7 +2,7 @@
 
 namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Password
 {
-    public class SellerUserPasswordUpdateDto          
+    public class UpdateSellerUserPasswordDto          
     {
 
 

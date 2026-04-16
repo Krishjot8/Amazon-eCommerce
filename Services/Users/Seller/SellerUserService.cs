@@ -4,6 +4,8 @@ using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Password;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
+using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -31,53 +33,66 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
         {
             
             SellerUser sellerUser = null;
-         
 
+           
+            
 
             if (Regex.IsMatch(sellerUserLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-
-
                 sellerUser = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.BusinessEmail == sellerUserLoginDto.EmailOrPhone);
-                
             }
             else
             {
-
                 sellerUser = await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == sellerUserLoginDto.EmailOrPhone);
-            
             }
-
-
-
+            
 
             if (sellerUser == null || !await VerifySellerPasswordAsync(sellerUserLoginDto.Password, sellerUser.PasswordHash)) 
             
             { 
-            
                   return null;
-            
             }
 
-            var token = _tokenService.GenerateToken(sellerUser);
+            var store = await _storeContext.SellerStoreInformation
+                .FirstOrDefaultAsync(s=> s.SellerUserId == sellerUser.Id);
 
-            var authResponse = new SellerUserTokenResponseDto
+            
+            var primaryContact = await _storeContext.SellerPrimaryContacts
+                .FirstOrDefaultAsync(x => x.SellerUserId == sellerUser.Id);
+
+            var fullName = primaryContact == null
+                ? "Seller User" :
+             string.Join (" ",primaryContact.FirstName, primaryContact.LastName);
+            
+
+            var tokenRequest = new TokenRequestDto
             {
-
                 UserId = sellerUser.Id,
-                DisplayName = sellerUser.DisplayName,
-                Token = token,
+                Email = sellerUser.BusinessEmail,
+                Role = UserRole.Seller,
+                DisplayName = fullName,
+                StoreName = store?.StoreName
 
 
             };
+            
+            var token = _tokenService.GenerateToken(tokenRequest);
 
-            return authResponse;
+           return new SellerUserTokenResponseDto
+            {
+
+                UserId = sellerUser.Id,
+                FullName = fullName,
+                StoreName = store?.StoreName,
+                Token = token,
+            };
+           
         }
 
        
 
    
-        public async Task<bool> ChangeSellerPasswordAsync(int userId, SellerUserPasswordUpdateDto userPasswordUpdateDto)
+        public async Task<bool> ChangeSellerPasswordAsync(int userId, UpdateSellerUserPasswordDto userPasswordDto)
         {
 
             //finds the user to change password
@@ -89,13 +104,13 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             }
 
             //Verify Current Password
-            if (!await VerifySellerPasswordAsync(userPasswordUpdateDto.CurrentPassword , existingUser.PasswordHash)) 
+            if (!await VerifySellerPasswordAsync(userPasswordDto.CurrentPassword , existingUser.PasswordHash)) 
             {
 
                 throw new UnauthorizedAccessException("Current password is incorrect");       
             
             }
-            existingUser.PasswordHash = await HashSellerPasswordAsync(userPasswordUpdateDto.NewPassword);
+            existingUser.PasswordHash = await HashSellerPasswordAsync(userPasswordDto.NewPassword);
 
             _storeContext.SellerUsers.Update(existingUser);
             var result = await _storeContext.SaveChangesAsync();
@@ -136,9 +151,9 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             return await _storeContext.SellerUsers.ToListAsync();
         }
 
-        public async Task<SellerUser> GetUserByBusinessEmailAsync(string email)
+        public async Task<SellerUser> GetUserByBusinessEmailAsync(string businessEmail)
         {
-          return await _storeContext.SellerUsers.SingleOrDefaultAsync(x => x.BusinessEmail == email);
+          return await _storeContext.SellerUsers.SingleOrDefaultAsync(x => x.BusinessEmail == businessEmail);
         }
 
         public Task<SellerUser> GetUserBySellerIdAsync(int userId)
@@ -146,9 +161,9 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             return _storeContext.SellerUsers.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<SellerUser> GetUserBySellerPhoneNumberAsync(string phoneNumber)
+        public async Task<SellerUser> GetUserByBusinessPhoneNumberAsync(string businessPhoneNumber)
         {
-            return await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == phoneNumber);
+            return await _storeContext.SellerUsers.SingleOrDefaultAsync(u => u.BusinessPhoneNumber == businessPhoneNumber);
         }
 
 
@@ -180,8 +195,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
                 throw new ArgumentException("The password and confirmation password do not match");
             
             }
-
-
+            
             var user = await GetUserByBusinessEmailAsync(forgotPasswordDto.Email);
 
             if (user == null)
@@ -191,14 +205,9 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
             }
 
-
-
             var cachedOtp = await _cacheService.ValidateOtpAsync(forgotPasswordDto.Email,forgotPasswordDto.Otp);
-
             if (cachedOtp == null) {
-
-
-
+                
                 return false;
             }
 
@@ -206,23 +215,16 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
 
 
             var hashedPassword = await HashSellerPasswordAsync(forgotPasswordDto.NewPassword);
-
-
+            
             user.PasswordHash = hashedPassword;
+            user.UpdatedAt = DateTime.UtcNow;
+            
+            await _storeContext.SaveChangesAsync();
 
-            var updateResult = await CreateSellerAccountAsync(TODO);
-
-
-            if (updateResult) {
-
-
-                await _cacheService.RemoveOtpAsync(forgotPasswordDto.Email);
-
-            }
-            return updateResult;
-
-
-
+           await _cacheService.RemoveOtpAsync(forgotPasswordDto.Email);
+           
+           return true;
+           
 
         }
 

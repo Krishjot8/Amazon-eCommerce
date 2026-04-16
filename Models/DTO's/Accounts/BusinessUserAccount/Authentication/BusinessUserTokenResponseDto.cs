@@ -5,7 +5,7 @@
 
         public int UserId {  get; set; }
 
-        public string DisplayName { get; set; }
+        public string BusinessName { get; set; }
 
         public string Token { get; set; }
 

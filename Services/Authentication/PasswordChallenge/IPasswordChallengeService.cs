@@ -1,14 +1,14 @@
-﻿
-
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
+﻿using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 
 namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 {
     public interface IPasswordChallengeService
     {
 
-        Task<CustomerUserPasswordChallengeResponseDto>GenerateOtpChallengeAsync(string emailOrPhone, string password);
-        Task<bool> VerifyOtpAsync(CustomerUserPasswordChallengeVerifyDto verifyDto);
+        Task<PasswordChallengeResponseDto>GenerateOtpChallengeAsync(string identifier, string password, UserRole role);
+        Task<bool> VerifyOtpAsync(PasswordChallengeVerifyDto verifyDto);
        
 
     }

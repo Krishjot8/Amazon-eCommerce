@@ -8,6 +8,7 @@ using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
+using Amazon_eCommerce_API.Services.Authentication.Token;
 
 namespace Amazon_eCommerce_API.Services.Users.Customer
 {
@@ -63,7 +64,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
             {
 
                 UserId = user.Id,
-                DisplayName = user.FirstName,
+                FirstName = user.FirstName,
                 Token = token,
 
 

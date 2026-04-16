@@ -14,16 +14,15 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
         Task<IEnumerable<SellerUser>> GetAllSellerUsersAsync();
 
         
-       // Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto sellerUserLoginDto);
+        Task<SellerUserTokenResponseDto> SellerAuthenticateUserAsync(SellerUserLoginDto sellerUserLoginDto);
 
-       
-       
+        
        
         Task<SellerUser> GetUserBySellerIdAsync(int sellerUserId);
 
-        Task<SellerUser> GetUserByBusinessEmailAsync(string sellerEmail);
+        Task<SellerUser> GetUserByBusinessEmailAsync(string businessEmail);
 
-        Task<SellerUser> GetUserBySellerPhoneNumberAsync(string sellerPhoneNumber);
+        Task<SellerUser> GetUserByBusinessPhoneNumberAsync(string businessPhoneNumber);
 
         //SellerOnboarding
         
@@ -55,7 +54,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
         Task<bool> VerifySellerPasswordAsync(string sellerEnteredPassword, string sellerStoredHash);
         
 
-        Task<bool> ChangeSellerPasswordAsync(int sellerUserId, SellerUserPasswordUpdateDto sellerUserPasswordUpdateDto);
+        Task<bool> ChangeSellerPasswordAsync(int sellerUserId, UpdateSellerUserPasswordDto updateSellerUserPasswordDto);
 
         Task<bool> UpdateSellerEmailAsync(int sellerUserId, string sellerNewEmail);
 

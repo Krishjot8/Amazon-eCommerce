@@ -1,10 +1,14 @@
-﻿using Amazon_eCommerce_API.Data;
+﻿using System.Data.Common;
+using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -40,62 +44,53 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
         [HttpPost("register")]
 
-
-
-         public async Task<IActionResult> CustomerRegister(CustomerUserRegistrationDto CustomerUserRegistrationDto)
-
+        
+         public async Task<IActionResult> CustomerRegister(CustomerUserRegistrationDto customerUserRegistrationDto)
         {
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var emailTaken = await _customerUserService.IsCustomerIdentifierTakenAsync(CustomerUserRegistrationDto.Email);
-            var phoneNumberTaken = await _customerUserService.IsCustomerIdentifierTakenAsync(CustomerUserRegistrationDto.PhoneNumber);
+            var emailTaken = await _customerUserService.IsCustomerIdentifierTakenAsync(customerUserRegistrationDto.Email);
+            var phoneNumberTaken = await _customerUserService.IsCustomerIdentifierTakenAsync(customerUserRegistrationDto.PhoneNumber);
 
 
             if (emailTaken) {
-
-
-                return BadRequest($"The customer email address {CustomerUserRegistrationDto.Email} is already taken.");
+                
+                return BadRequest($"The customer email address {customerUserRegistrationDto.Email} is already taken.");
 
             }
 
             if (phoneNumberTaken) {
 
-                return BadRequest($"The customer phone number {CustomerUserRegistrationDto.PhoneNumber} is already taken.");
+                return BadRequest($"The customer phone number {customerUserRegistrationDto.PhoneNumber} is already taken.");
 
             }
 
-
-
-
-
-            string roleName = "Customer";
-
-            var customerUser = await _customerUserService.RegisterCustomerUserAsync(CustomerUserRegistrationDto);
+            
+            var customerUser = await _customerUserService.RegisterCustomerUserAsync(customerUserRegistrationDto);
 
 
 
             if (customerUser == null)
             {
-
                 return BadRequest("Customer Registration Failed");
-
             }
 
 
             //New User is already in database now.
+            
+            var identifier = customerUserRegistrationDto.Email ?? customerUserRegistrationDto.PhoneNumber;
 
 
-            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.EmailAddress ?? customerUser.PhoneNumber , CustomerUserRegistrationDto.Password);
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(
+                identifier,
+                customerUserRegistrationDto.Password, 
+                UserRole.Customer);
 
-            // Todo: Send OTP to user's email or phone number for verification
-
-
-
-            // add verify otp endpoint to log in and verify identity after registration
-
-
+        
+                if(otpChallenge == null)
+                return BadRequest("Failed to send OTP");
 
             return Ok(new
 
@@ -118,58 +113,20 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
         [HttpPost("login")]
        
-        public async Task<IActionResult> CustomerLogin([FromBody] BusinessUserLoginDto userLoginDto)
+        public async Task<IActionResult> CustomerLogin([FromBody] CustomerUserLoginDto customerUserLoginDto)
         {
 
             if (!ModelState.IsValid)
             {
-
-
                 return BadRequest(ModelState);
             }
-
-
-
-       
-              var  customerUser = await _storeContext.CustomerUsers
-     
-          .SingleOrDefaultAsync(u => u.EmailAddress == userLoginDto.EmailOrPhone);
-
-
-            if (customerUser == null) {
-
-                customerUser = await _storeContext.CustomerUsers
-            .SingleOrDefaultAsync(u => u.PhoneNumber == userLoginDto.EmailOrPhone);
-
-
-            }
-
-
-
-
-
-            if (customerUser == null || !await _customerUserService.VerifyCustomerPasswordAsync(userLoginDto.Password, customerUser.PasswordHash))
-            {
-
-
-                return Unauthorized(new { message = "Invalid email or password" });
-
-
-
-
-            }
-
-        
-
-
-            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(customerUser.EmailAddress ?? customerUser.PhoneNumber, userLoginDto.Password);
+            
+            
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync( customerUserLoginDto.EmailOrPhone ,customerUserLoginDto.Password,  UserRole.Customer);
 
 
             if (otpChallenge == null)
                 return StatusCode(500, new { message = "Invalid Password"});
-
-
-
 
             return Ok(new
 

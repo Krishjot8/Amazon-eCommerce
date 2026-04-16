@@ -5,7 +5,10 @@ using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authenticat
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services;
+using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Users.Seller;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -19,18 +22,19 @@ namespace Amazon_eCommerce_API.Controllers.Account
     {
         
         private readonly ISellerUserService _sellerUserService;
+        private readonly IPasswordChallengeService _passwordChallengeService;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly StoreContext _storeContext;
 
-        public SellerAccountController(ISellerUserService sellerUserService, IMapper mapper, StoreContext storeContext, ITokenService tokenService )
+        public SellerAccountController(ISellerUserService sellerUserService, IMapper mapper, StoreContext storeContext, ITokenService tokenService, IPasswordChallengeService passwordChallengeService)
         {
          
             _sellerUserService = sellerUserService;
             _mapper = mapper;
             _storeContext = storeContext;
             _tokenService = tokenService;
-         
+            _passwordChallengeService = passwordChallengeService;
         }
 
 
@@ -285,42 +289,37 @@ namespace Amazon_eCommerce_API.Controllers.Account
         
         [HttpPost("login")]
         
-        public async Task<IActionResult> SellerLogin([FromBody] BusinessUserLoginDto userLoginDto) {
+        public async Task<IActionResult> SellerLogin([FromBody] SellerUserLoginDto sellerUserLoginDto) {
 
 
             if (!ModelState.IsValid)
             {
-
                 return BadRequest(ModelState);
-
             };
+            
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(sellerUserLoginDto.EmailOrPhone ,sellerUserLoginDto.Password,  UserRole.Seller);
 
-            var sellerUser = await _storeContext.SellerUsers
-               
-                .SingleOrDefaultAsync(u => u.BusinessEmail == userLoginDto.EmailOrPhone);
 
-            if(sellerUser == null || !await _sellerUserService.VerifySellerPasswordAsync(userLoginDto.Password,sellerUser.PasswordHash))
+            if (otpChallenge == null)
+                return Unauthorized(new { message = "Invalid email or Password" });
+
+
+            
+          
+            return Ok(new
+
             {
+                message = $"OTP sent to your {otpChallenge.OtpChannel}",
+                pendingAuthID = otpChallenge.PendingAuthId,
+                destination = otpChallenge.MaskedDestination
 
-                return Unauthorized(new {message = "Invalid Username or Password"});
 
-
-            }
+            });
             
-
-            var token = _tokenService.GenerateToken(sellerUser);
-
-            var userTokenResponse = new BusinessUserTokenResponseDto
-            { 
+         
             
-                UserId = sellerUser.Id,
-                FirstName = sellerUser.FirstName,
-                Token = token
-            
-            
-            };
-            
-            return Ok(userTokenResponse);   
+               
+  
             
         }
 
@@ -409,7 +408,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         public async Task<IActionResult>GetSellerAccountByPhoneNumber(string phoneNumber)
         {
 
-            var sellerUser = await _sellerUserService.GetUserBySellerPhoneNumberAsync(phoneNumber);
+            var sellerUser = await _sellerUserService.GetUserByBusinessPhoneNumberAsync(phoneNumber);
 
             if(sellerUser == null)
             {

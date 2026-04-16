@@ -1,4 +1,5 @@
 using Amazon_eCommerce_API.Models.DTO_s.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Verification;
 using Amazon_eCommerce_API.Models.DTO_s.Cache;
 
 using Amazon_eCommerce_API.Services.Cache;

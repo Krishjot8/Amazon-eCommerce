@@ -1,7 +1,14 @@
-﻿using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
+﻿using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Services.Authentication.Token;
+using Amazon_eCommerce_API.Services.Authentication.UserResolver;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,31 +21,35 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
 
 
         private readonly IPasswordChallengeService _passwordChallengeService;
-        private readonly ICustomerUserService _customerUserService;
+        private readonly IUserResolverService _userResolverService;
         private readonly ITokenService _tokenService;
 
-        public PasswordChallengeController(IPasswordChallengeService passwordChallengeService, ICustomerUserService customerUserService, ITokenService tokenService)
+        public PasswordChallengeController(IPasswordChallengeService passwordChallengeService,
+            IUserResolverService userResolverService, ITokenService tokenService)
         {
             _passwordChallengeService = passwordChallengeService;
-            _customerUserService = customerUserService;
+            _userResolverService = userResolverService;
             _tokenService = tokenService;
         }
-        
+
         //
 
 
         [HttpPost("generate")]
 
-        /// Generates an OTP challenge for login (email or phone)
-        public async Task<IActionResult> GenerateOtp([FromBody] CustomerUserPasswordChallengeRequestDto requestDto)
+        // Generates an OTP challenge for login (email or phone)
+        
+        public async Task<IActionResult> GenerateOtp([FromBody] PasswordChallengeRequestDto requestDto)
 
         {
 
 
-            if (requestDto == null || string.IsNullOrEmpty(requestDto.Identifier) || string.IsNullOrEmpty(requestDto.Password))
+            if (requestDto == null || string.IsNullOrEmpty(requestDto.EmailOrPhone) ||
+                string.IsNullOrEmpty(requestDto.Password))
                 return BadRequest("Identifier and password are required.");
 
-            var response = await _passwordChallengeService.GenerateOtpChallengeAsync(requestDto.Identifier, requestDto.Password);
+            var response = await _passwordChallengeService.GenerateOtpChallengeAsync(requestDto.EmailOrPhone,
+                requestDto.Password, requestDto.Role);
 
             if (response == null)
                 return Unauthorized("Invalid identifier or password");
@@ -56,13 +67,13 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
 
         [HttpPost("verify")]
 
-        public async Task<IActionResult> VerifyOtp([FromBody] CustomerUserPasswordChallengeVerifyDto requestDto)
+        public async Task<IActionResult> VerifyOtp([FromBody] PasswordChallengeVerifyDto requestDto)
         {
 
-            if (requestDto == null || string.IsNullOrEmpty(requestDto.PendingAuthId) || string.IsNullOrEmpty(requestDto.Otp))
+            if (requestDto == null || string.IsNullOrEmpty(requestDto.PendingAuthId)
+                                   || string.IsNullOrEmpty(requestDto.Otp))
 
                 return BadRequest("PendingAuthId and OTP are required");
-
 
 
             var isValid = await _passwordChallengeService.VerifyOtpAsync(requestDto);
@@ -72,36 +83,63 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                 return Unauthorized("Invalid or expired OTP");
 
 
-            var user = await _customerUserService.GetUserByCustomerEmailAsync(requestDto.PendingAuthId)
-                ?? await _customerUserService.GetUserByCustomerPhoneNumberAsync(requestDto.PendingAuthId);
+            var user = await _userResolverService.ResolveUserAsync(requestDto.PendingAuthId, requestDto.Role);
 
             if (user == null)
                 return NotFound("User not found");
 
+            int userId = 0;
+            string displayName = "";
+            string? storeName = null;
 
-            var token = _tokenService.GenerateToken(user);
 
-
-            var userTokenResponse = new CustomerUserTokenResponseDto
+            switch (requestDto.Role)
             {
 
-                UserId = user.Id,
-                DisplayName = user.FirstName,
-                Token = token
+                case UserRole.Customer:
+                {
+                    var customer = (CustomerUser)user;
+                    userId = customer.Id;
+                    displayName = customer.FirstName;
+                    break;
+                }
+                case UserRole.Business:
+                {
+                    var business = (BusinessUser)user;
+                    userId = business.Id;
+                    displayName = "Business User";
+                    break;
+                }
+                case UserRole.Seller:
+                {
+                    var seller = (SellerUser)user;
+                    userId = seller.Id;
+                    displayName = "Seller User";
+                    break;
+                }
+            }
 
-            };
 
-
-
-            return Ok( new 
+            var token = _tokenService.GenerateToken(new TokenRequestDto
             {
-                
-                message = "OTP verified successfully." ,
-                token = userTokenResponse.Token,
-                userId = userTokenResponse.UserId,
-                username = userTokenResponse.DisplayName,
+                UserId = userId,
+                Email = requestDto.PendingAuthId,
+                Role = requestDto.Role,
+                DisplayName = displayName,
+                StoreName = storeName
 
 
+
+            });
+
+
+
+            return Ok(new
+            {
+                message = "OTP verified successfully.",
+                token,
+                userId,
+                username = displayName
 
             });
 

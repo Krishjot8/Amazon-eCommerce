@@ -7,6 +7,8 @@ using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegi
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
+using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Cache;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -188,15 +190,16 @@ namespace Amazon_eCommerce_API.Services.Users.Business
 
         {
 
-            CustomerUser user = null;
+            BusinessUser businessUser = null;
+
 
 
             if (Regex.IsMatch(userLoginDto.EmailOrPhone, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
 
 
-                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u =>
-                    u.EmailAddress == userLoginDto.EmailOrPhone);
+                businessUser = await _storeContext.BusinessUsers.SingleOrDefaultAsync(u =>
+                    u.BusinessEmail == userLoginDto.EmailOrPhone);
 
 
 
@@ -205,29 +208,55 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             else
             {
 
-                user = await _storeContext.CustomerUsers.SingleOrDefaultAsync(u =>
-                    u.PhoneNumber == userLoginDto.EmailOrPhone);
+                businessUser = await _storeContext.BusinessUsers.SingleOrDefaultAsync(u =>
+                    u.BusinessPhoneNumber == userLoginDto.EmailOrPhone);
 
             }
 
 
 
 
-            if (user == null || !await VerifyBusinessPasswordAsync(userLoginDto.Password, user.PasswordHash))
+            if (businessUser == null || !await VerifyBusinessPasswordAsync(userLoginDto.Password, businessUser.PasswordHash))
 
             {
 
                 return null;
 
             }
+            
+            
+            
+            var business = await _storeContext.BusinessStoreInformation
+                .FirstOrDefaultAsync(s=> s.BusinessUserId == businessUser.Id);
 
-            var token = _tokenService.GenerateToken(user);
+            
+            var businessContact = await _storeContext.BusinessProfiles.SingleOrDefaultAsync(p => p.BusinessUserId == businessUser.Id);
+              
+
+            var fullName = businessContact == null
+                ? "Business User" :
+                string.Join (" ",businessContact.FirstName, businessContact.LastName);
+
+            
+            
+            var tokenRequest = new TokenRequestDto
+            {
+                UserId = businessUser.Id,
+                Email = businessUser.BusinessEmail,
+                Role = UserRole.Business,
+                DisplayName = fullName,
+                
+
+
+            };
+
+            var token = _tokenService.GenerateToken(tokenRequest);
 
             var authResponse = new BusinessUserTokenResponseDto
             {
 
-                UserId = user.Id,
-                DisplayName = user.FirstName,
+                UserId = businessUser.Id,
+                BusinessName = business?.BusinessName,
                 Token = token,
 
 
@@ -252,10 +281,10 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             if (businessUser.BusinessStoreInformation == null)
             {
 
-                businessUser.BusinessStoreInformation = new BusinessStoreInformation
+                businessUser.BusinessStoreInformation = new BusinessStoreInformation   //Was Here
                 {
 
-                    BusinessUserId = businessUser.Id.ToString(),
+                    BusinessUserId = businessUser.Id
 
                 };
 

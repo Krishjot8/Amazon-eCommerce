@@ -1,10 +1,10 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
+using Microsoft.IdentityModel.Tokens;
 
-namespace Amazon_eCommerce_API.Services
+namespace Amazon_eCommerce_API.Services.Authentication.Token
 {
 
 
@@ -20,25 +20,30 @@ namespace Amazon_eCommerce_API.Services
             _secretKey = configuration["JwtSettings:SecretKey"];
             _issuer = configuration["JwtSettings:Issuer"];
             _audience = configuration["JwtSettings:Audience"];
-            _expirationMinutes = int.Parse(configuration["JwtSettings:ExpirationMinutes"]);
+            _expirationMinutes = int.TryParse(configuration["JwtSettings:ExpirationMinutes"], 
+                out var minutes)? minutes : 60;
         }
 
       
 
-        public string GenerateToken(CustomerUser user)
+        public string GenerateToken(TokenRequestDto request)
         {
 
-            var claims = new[]
+            var claims = new List<Claim>
 
-            {  //new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+            {  
               new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-              new Claim(ClaimTypes.Email, user.EmailAddress),
-
-
-            //  new Claim("role", user.RoleId.ToString())// Role information
-            
+              new Claim(ClaimTypes.NameIdentifier, request.UserId.ToString()),
+              new Claim(ClaimTypes.Email, request.Email),
+              new Claim(ClaimTypes.Role, request.Role.ToString()),
             };
 
+            
+            if(!string.IsNullOrEmpty(request.DisplayName))
+                claims.Add(new Claim("displayName", request.DisplayName));
+            
+            if(!string.IsNullOrEmpty(request.StoreName))
+                claims.Add(new Claim("storeName", request.StoreName));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

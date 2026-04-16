@@ -1,10 +1,13 @@
-﻿using Amazon_eCommerce_API.Data;
+﻿using System.Data.Common;
+using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Users.Business;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using AutoMapper;
@@ -89,39 +92,18 @@ namespace Amazon_eCommerce_API.Controllers.Account
         
         {
 
-            if (!ModelState.IsValid) { 
-            
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
+            }
+
+            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(userLoginDto.EmailOrPhone ,userLoginDto.Password,  UserRole.Business);
             
-            }
-
-
-            var businessUser = await _storeContext.BusinessUsers.
-                SingleOrDefaultAsync(u => u.BusinessEmail == userLoginDto.EmailOrPhone);
-
-        
-            if(businessUser == null || !await _businessUserService.VerifyBusinessPasswordAsync(userLoginDto.Password, businessUser.PasswordHash))
-            {
-
-
-                return Unauthorized(new { message = "Invalid email or password" });
-
-
-
-
-            }
-
-     
-
-
-            var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(businessUser.BusinessEmail ?? businessUser.BusinessPhoneNumber, userLoginDto.Password);
-
+      
 
             if (otpChallenge == null)
-                return StatusCode(500, new { message = "Invalid Password" });
+                return Unauthorized(new { message = "Invalid email or Password" });
 
-
-
+            
 
             return Ok(new
 

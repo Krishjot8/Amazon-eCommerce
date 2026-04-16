@@ -5,38 +5,36 @@ using Amazon_eCommerce_API.Services.Email;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using System.Security.Cryptography;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
+using Amazon_eCommerce_API.Services.Authentication.UserResolver;
 
 namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 {
     public class PasswordChallengeService(
-        ICustomerUserService customerUserService,
+        IUserResolverService  userResolverService,
         ICacheService cacheService,
         IEmailService emailService,
         ISmsService smsService)
         : IPasswordChallengeService //For Generating One time Password
     {
         //
-        public async Task<CustomerUserPasswordChallengeResponseDto> GenerateOtpChallengeAsync(string identifier,
-            string password)
+        public async Task<PasswordChallengeResponseDto> GenerateOtpChallengeAsync(string identifier, string password, UserRole role)
         {
 
-            var user = await customerUserService.GetUserByCustomerEmailAsync(identifier) ??
-                       await customerUserService.GetUserByCustomerPhoneNumberAsync(identifier);
+            var result = await userResolverService.ResolveAndValidateAsync(identifier, password, role);
 
-
-            if (user == null || !await customerUserService.VerifyCustomerPasswordAsync(password, user.PasswordHash))
-            {
-
-                //add message Password is Incorrect
-
+            
+            if(result.User == null || !result.IsPasswordValid)
                 return null;
+            
 
-            }
+         
 
             var otp =  RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
 
-
-
+            
+            
             var otpCache = new OtpCacheDto
             {
 
@@ -50,25 +48,25 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
             await cacheService.SetOtpAsync(identifier, otpCache);
 
 
-            string otpChannel;
+            OtpChannel otpChannel;
             string maskedDestination;
 
             if (IsValidEmail(identifier))
             {
-                otpChannel = "email";
+                otpChannel = OtpChannel.Email;
                 maskedDestination = MaskEmail(identifier);
                 await emailService.SendOtpEmailAsync(identifier, otp);
             }
             else
             {
-                otpChannel = "sms";
+                otpChannel = OtpChannel.SMS;
                 maskedDestination = MaskPhone(identifier);
                 await smsService.SendOtpSmsAsync(identifier, otp);
             }
 
             //return DTO
 
-            return new CustomerUserPasswordChallengeResponseDto
+            return new PasswordChallengeResponseDto
             {
 
                 PendingAuthId = identifier,
@@ -82,7 +80,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
       
         
 
-        public async Task<bool> VerifyOtpAsync(CustomerUserPasswordChallengeVerifyDto verifyDto)
+        public async Task<bool> VerifyOtpAsync(PasswordChallengeVerifyDto verifyDto)
         {
            var cachedOtp =  cacheService.ValidateOtpAsync(verifyDto.PendingAuthId, verifyDto.Otp);
 

@@ -3,7 +3,7 @@
     public class BusinessProfile   // whole business
     {
 
-        public string BusinessUserId { get; set; }
+        public int BusinessUserId { get; set; }
         
         
         public string FirstName { get; set; }

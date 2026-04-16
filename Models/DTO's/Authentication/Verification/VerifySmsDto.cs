@@ -1,4 +1,4 @@
-namespace Amazon_eCommerce_API.Models.DTO_s.Authentication
+namespace Amazon_eCommerce_API.Models.DTO_s.Authentication.Verification
 
 {
     public class VerifySmsDto
@@ -9,7 +9,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Authentication
 
          //   public bool IsResendRequest { get; set; }
     
-            public AccountType AccountType { get; set; }
+            public Verification.AccountType AccountType { get; set; }
     }
 
   
