@@ -8,9 +8,9 @@ namespace Amazon_eCommerce_API.Controllers.Product
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IGenericRepository<Products> _productsRepository;
+        private readonly IGenericRepository<Models.DBEntities.Products.Product> _productsRepository;
 
-        public ProductsController(IGenericRepository<Products> productsRepository)
+        public ProductsController(IGenericRepository<Models.DBEntities.Products.Product> productsRepository)
         {
             _productsRepository = productsRepository;
         }
@@ -19,7 +19,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
         
         // GET: api/products
         [HttpGet]
-        public async Task<ActionResult<List<Products>>> GetProducts()
+        public async Task<ActionResult<List<Models.DBEntities.Products.Product>>> GetProducts()
         {
             var products = await _productsRepository.GetAllIncludingAsync(
                 p => p.ProductBrand,
@@ -32,7 +32,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
         // GET: api/products/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Products>> GetProduct(int id)
+        public async Task<ActionResult<Models.DBEntities.Products.Product>> GetProduct(int id)
         {
             var product = await _productsRepository.GetByIdAsync(id);
 
@@ -44,7 +44,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
         // POST: api/products
         [HttpPost]
-        public async Task<ActionResult<Products>> AddProduct(Products product)
+        public async Task<ActionResult<Models.DBEntities.Products.Product>> AddProduct(Models.DBEntities.Products.Product product)
         {
             if (product == null)
                 return BadRequest("The product doesn't exist.");
@@ -59,7 +59,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
         // PUT: api/products/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateProduct(int id, Products product)
+        public async Task<ActionResult> UpdateProduct(int id, Models.DBEntities.Products.Product product)
         {
             if (id != product.Id)
                 return BadRequest("Product ID mismatch.");

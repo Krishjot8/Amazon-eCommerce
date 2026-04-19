@@ -8,7 +8,7 @@
         
         public string FirstName { get; set; }
 
-        public string MiddleName { get; set; } = null;
+        public string? MiddleName { get; set; } 
         
         public string LastName { get; set; }
         
@@ -16,6 +16,9 @@
         
         public bool ReceiveUpdates { get; set; } 
         
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
         
         public BusinessUser BusinessUser { get; set; }
 

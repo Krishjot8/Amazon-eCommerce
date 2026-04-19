@@ -15,7 +15,7 @@
         public string StreetAddress { get; set; }
 
 
-        public string SuiteUnitFloor { get; set; } = null;
+        public string? SuiteUnitFloor { get; set; } = null;
 
 
         public string City { get; set; }
@@ -24,7 +24,13 @@
         public string State { get; set; }
         
         
+        public string CountryCode { get; set; }
+        
         public string ZipCode { get; set; }
+        
+        public DateTime CreatedAt { get; set; }
+        
+        public DateTime? UpdatedAt { get; set; }
         
         
         public BusinessUser BusinessUser { get; set; }

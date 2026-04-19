@@ -1,13 +1,15 @@
-﻿namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
+﻿using Amazon_eCommerce_API.Models.BaseEntities;
+
+namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
 {
-    public class BusinessPaymentProfile
+    public class BusinessPaymentProfile : BaseModel
     {
 
         public int BusinessUserId { get; set; }
         
-        public int BankName { get; set; }
+        public string BankName { get; set; }
         
-        public int AccountNumber { get; set; }
+        public string AccountNumber { get; set; }
         
         public string RoutingNumber { get; set; }
         

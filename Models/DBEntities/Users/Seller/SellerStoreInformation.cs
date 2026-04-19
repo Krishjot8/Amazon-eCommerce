@@ -1,8 +1,9 @@
+using Amazon_eCommerce_API.Models.BaseEntities;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
 {
-    public class SellerStoreInformation
+    public class SellerStoreInformation : BaseModel
     {
         public int SellerUserId { get; set; }
         
@@ -11,7 +12,8 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         public bool HasUPCsForAllProducts { get; set; }
         
         public bool HasDiversityCertifications { get; set; }
-        public BrandOwnerShipStatus BrandOwnerShip { get; set; }
+        
+        public BrandOwnershipStatus BrandOwnership { get; set; }
         
         public TrademarkStatus TrademarkStatus { get; set; }
         

@@ -296,7 +296,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
                 BusinessName = businessInformationDto.BusinessName,
                 BusinessPhoneNumber = businessInformationDto.VerificationPhoneNumber,
                 CompanyRegistrationNumber = businessInformationDto.CompanyRegistrationNumber,
-                Country = businessInformationDto.Country,
+                CountryCode = businessInformationDto.Country,
                 AddressLine1 = businessInformationDto.AddressLine1,
                 AddressLine2 = businessInformationDto.AddressLine2,
                 City = businessInformationDto.City,
@@ -382,7 +382,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
                 FirstName = contactInformationDto.FirstName,
                 MiddleName = contactInformationDto.MiddleName,
                 LastName = contactInformationDto.LastName,
-                Country = contactInformationDto.Country,
+                CountryCode = contactInformationDto.Country,
                 DateOfBirth = dateOfBirth,
                 IdentityProof = contactInformationDto.IdentityProof,
                 IdentityProofNumber = contactInformationDto.IdentityProofNumber,
@@ -488,7 +488,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
                StoreName = storeInformationDto.StoreName,
                HasUPCsForAllProducts = storeInformationDto.HasUPCsForAllProducts,
                HasDiversityCertifications = storeInformationDto.HasDiversityCertifications,
-               BrandOwnerShip = storeInformationDto.BrandOwnerShip,
+               BrandOwnership = storeInformationDto.BrandOwnership,
                TrademarkStatus = storeInformationDto.TrademarkStatus,
                
             };
@@ -557,7 +557,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
            if (verification == null)
                throw new Exception("verification record not found");
 
-           verification.ScheduledVerificationType = verificationMeetingDto.MeetingType;
+           verification.VerificationMethod = verificationMeetingDto.MeetingType;
            
           verification.ScheduledDateTime = verificationMeetingDto.ScheduledDateTime;
            verification.Notes = verificationMeetingDto.Notes;

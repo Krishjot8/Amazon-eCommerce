@@ -236,7 +236,7 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             }
             else if (existingUser is BusinessUser business)
             {
-                business.IsEmailVerified = true;
+                business.IsBusinessEmailVerified = true;
             }
             else
             {

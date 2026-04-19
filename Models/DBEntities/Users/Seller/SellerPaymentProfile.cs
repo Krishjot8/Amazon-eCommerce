@@ -23,7 +23,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         
         public string BillingAddressLine1 { get; set; }
         
-        public string BillingAddressLine2 { get; set; } = null;
+        public string? BillingAddressLine2 { get; set; } 
         
         
         public string BillingCity { get; set; }

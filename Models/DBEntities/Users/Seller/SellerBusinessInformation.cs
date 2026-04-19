@@ -1,6 +1,8 @@
+using Amazon_eCommerce_API.Models.BaseEntities;
+
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
 {
-    public class SellerBusinessInformation
+    public class SellerBusinessInformation : BaseModel
     {
         
         public int SellerUserId { get; set; }
@@ -11,8 +13,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         
         public string CompanyRegistrationNumber { get; set; }
         
-        public string Country {get; set;}
-        
+        public string CountryCode {get; set;}
         
         public string AddressLine1 {get; set;}
         

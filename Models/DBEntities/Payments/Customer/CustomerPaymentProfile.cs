@@ -16,6 +16,11 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
         
         public DateTime ExpiryDate { get; set; }
         
+        public bool IsDefault { get; set; }   
+
+        public DateTime CreatedAt { get; set; } 
+        
+        public DateTime? UpdatedAt { get; set; }
         
         
         

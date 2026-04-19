@@ -17,9 +17,6 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller.TaxProfile
         
         public Status Status { get; set; }
         
-        
-        //
-        
         public bool? IsUSPerson { get; set; }
         
         public bool? IsUSResidentEntity { get; set; }
@@ -36,12 +33,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller.TaxProfile
         
         public string TaxpayerIdentificationNumber { get; set; }
         
-        public string AddressCountry { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
-        public string AddressCity { get; set; }
-        public string AddressState { get; set; }
-        public string AddressZipCode { get; set; }
+        public List<TaxAddress> TaxAddresses { get; set; }
         
         public SellerUser SellerUser { get; set; }
       

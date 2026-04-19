@@ -7,5 +7,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Products
     {
 
         public string Name { get; set; }
+        
+        public List<Product> Products { get; set; }
     }
 }

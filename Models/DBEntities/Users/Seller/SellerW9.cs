@@ -1,9 +1,10 @@
+using Amazon_eCommerce_API.Models.BaseEntities;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration.TaxProfile;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
 {
-    public class SellerW9
+    public class SellerW9 : BaseModel
     {
         public int SellerUserId { get; set; }
         
@@ -23,18 +24,24 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         public string? FATCAExemptionCode { get; set; }
         
         
-        public string AddressCountry { get; set; }
+        public string AddressCountryCode { get; set; }
+        
         public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
+        
+        public string? AddressLine2 { get; set; }
+        
         public string AddressCity { get; set; }
+        
         public string AddressState { get; set; }
+        
         public string AddressZipCode { get; set; }
         
         public string? RequesterNameAddress {get; set;}
         public string? AccountNumbers {get; set;}
         
         public TaxIdentificationType? TaxpayerIdentificationType { get; set; }
-        public string TIN { get; set; }
+        
+        public string TaxpayerIdentificationNumber { get; set; }
         
         public string SignedBy { get; set; }
         public DateTime SignedDate { get; set; }

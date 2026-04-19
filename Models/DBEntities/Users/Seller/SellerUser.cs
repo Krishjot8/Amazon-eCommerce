@@ -1,4 +1,5 @@
 ﻿using Amazon_eCommerce_API.Models.BaseEntities;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Seller.TaxProfile;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
 {
@@ -23,7 +24,19 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         public DateTime UpdatedAt { get; set; }
 
 
+        public SellerBusinessInformation SellerBusinessInformation { get; set; }
         
+        public SellerBusinessProfile SellerBusinessProfile { get; set; }
+
+        public SellerPrimaryContact SellerPrimaryContact { get; set; }
+        
+        public SellerStoreInformation SellerStoreInformation { get; set; }
+        public List<SellerPaymentProfile> SellerPaymentProfiles { get; set; } = new();
+        public SellerTaxProfile SellerTaxProfile { get; set; }
+        
+        public SellerVerificationStatus SellerVerificationStatus { get; set; }
+        
+        public SellerW9 SellerW9 { get; set; }
 
     }
 

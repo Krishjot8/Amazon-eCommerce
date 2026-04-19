@@ -15,14 +15,14 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         public bool HasDiversityCertifications { get; set; }
         
         [Required]
-        public BrandOwnerShipStatus BrandOwnerShip { get; set; }
+        public BrandOwnershipStatus BrandOwnership { get; set; }
         [Required]
         
         public  TrademarkStatus TrademarkStatus { get; set; }
         
     }
 
-    public enum BrandOwnerShipStatus
+    public enum BrandOwnershipStatus
     {
         Yes,
         No,

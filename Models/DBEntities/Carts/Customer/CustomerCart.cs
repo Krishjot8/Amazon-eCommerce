@@ -10,10 +10,26 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Carts.Customer
         public int CustomerUserId { get; set; }
         
         public CustomerUser CustomerUser { get; set; }
+   
+        public List <CustomerCartItem> Items{ get; set; } = new();
         
-        public List <CustomerCartItem> Items{ get; set; }
+        
+        public CartStatus CartStatus { get; set; }
+        
+        public DateTime CreatedAt { get; set; }
+        
+        public DateTime UpdatedAt { get; set; }
         
         
         
+        
+    }
+
+    public enum CartStatus
+    {
+        Active,
+        Saved,
+        Abandoned,
+        CheckedOut
     }
 }

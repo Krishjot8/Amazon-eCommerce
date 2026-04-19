@@ -1,25 +1,26 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Amazon_eCommerce_API.Models.BaseEntities;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
 {
-    public class CustomerProfile
+    public class CustomerProfile : BaseModel
     {
         public int CustomerUserId { get; set; }
         
         public string FirstName { get; set; }
 
-        public string MiddleName { get; set; } = null;
+        public string? MiddleName { get; set; } 
         
         public string LastName { get; set; }
         
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         
         
-        public string ProfilePictureUrl { get; set; }
+        public string? ProfilePictureUrl { get; set; }
 
-        public string DefaultShippingAddress { get; set; } = null;
+        public string? DefaultShippingAddress { get; set; } 
         
-        [ForeignKey("CustomerUserId")]
+      
         public CustomerUser CustomerUser { get; set; }
     }
 }

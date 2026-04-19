@@ -13,18 +13,18 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
         
         public string  PasswordHash { get; set; }
         
-
         public bool IsBusinessEmailVerified { get; set; } = false;
 
         public bool IsBusinessPhoneVerified { get; set; } = false;
-
-        public bool IsEmailVerified { get; set; }
-
-        public BusinessProfile BusinessProfile { get; set; }
         
-        public BusinessStoreInformation BusinessStoreInformation { get; set; }
+        public bool IsDeleted { get; set; } 
         
-        BusinessPaymentProfile BusinessPaymentProfile { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public BusinessProfile? BusinessProfile { get; set; }
+        
+        public BusinessStoreInformation? BusinessStoreInformation { get; set; }
+        
+        public List<BusinessPaymentProfile> BusinessPaymentProfiles { get; set; }  = new();
         
         
         
