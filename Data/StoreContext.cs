@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Amazon_eCommerce_API.Models.DBEntities.Carts.Customer;
-using Amazon_eCommerce_API.Models.DBEntities.Orders.BusinessOrders;
-using Amazon_eCommerce_API.Models.DBEntities.Orders.CustomerOrders;
-using Amazon_eCommerce_API.Models.DBEntities.Orders.SellerOrders;
+using Amazon_eCommerce_API.Models.DBEntities.Orders;
 using Amazon_eCommerce_API.Models.DBEntities.Preferences.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Products;
+using Amazon_eCommerce_API.Models.DBEntities.Subscriptions;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
@@ -20,10 +19,7 @@ namespace Amazon_eCommerce_API.Data
         
         public DbSet<BusinessUser> BusinessUsers { get; set; }
         
-        public DbSet<BusinessOrder> BusinessOrders { get; set; }
-        
-        public DbSet<BusinessOrderItem> BusinessOrderItems { get; set; }
-        
+       
         public DbSet<BusinessPaymentProfile> BusinessPaymentProfiles { get; set; }
         
         public DbSet<BusinessProfile> BusinessProfiles { get; set; }
@@ -41,10 +37,7 @@ namespace Amazon_eCommerce_API.Data
         
         public DbSet<CustomerCartItem> CustomerCartItems { get; set; }
         
-        public DbSet<CustomerOrder> CustomerOrders { get; set; }
-        
-        public DbSet<CustomerOrderItem> CustomerOrderItems { get; set; }
-        
+      
         public DbSet<CustomerPaymentProfile> CustomerPaymentProfiles { get; set; }
         
         public DbSet<CustomerPreferences> CustomerPreferences { get; set; }
@@ -52,23 +45,26 @@ namespace Amazon_eCommerce_API.Data
         public DbSet<CustomerProfile> CustomerProfiles { get; set; }
 
 
+        
+        public DbSet<Order> Orders { get; set; }
+        
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<ProductBrand> ProductBrands { get; set; }
         
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet <ProductType> ProductTypes { get; set; }
-
-      
+        
+        public DbSet<ProductReview> ProductReviews { get; set; }
+        
+        public DbSet<ProductVariant> ProductVariants { get; set; }
         
        
         //Seller Users
 
         public DbSet<SellerUser> SellerUsers { get; set; }
-        
-        public DbSet<SellerOrder> SellerOrders { get; set; }
-        
-        public DbSet<SellerOrderItem> SellerOrderItems { get; set; }
         
         public DbSet<SellerBusinessInformation> SellerBusinessInformation { get; set; }
         
@@ -88,7 +84,7 @@ namespace Amazon_eCommerce_API.Data
         
         public DbSet<TaxAddress> TaxAddresses { get; set; }
         
-        
+        public DbSet<UserSubscription> UserSubscriptions { get; set; }
         
 
 
@@ -196,7 +192,11 @@ namespace Amazon_eCommerce_API.Data
                  .IsUnique();
              
            
-       
+       modelBuilder.Entity<Order>()
+           .HasMany(o => o.OrderItems)
+           .WithOne(o => o.Order)
+           .HasForeignKey(o => o.OrderId)
+           .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.ProductBrand)
@@ -224,10 +224,27 @@ namespace Amazon_eCommerce_API.Data
                .OnDelete(DeleteBehavior.Cascade);
            
            modelBuilder.Entity<ProductImage>()
-               .HasIndex(pi => new { pi.ProductId, pi.isPrimary })
+               .HasIndex(pi => new { pi.ProductId, isPrimary = pi.IsPrimary })
                .HasFilter("[isPrimary] = 1")
                .IsUnique();
 
+           modelBuilder.Entity<ProductReview>()
+               .HasOne(r => r.Product)
+               .WithMany()
+               .HasForeignKey(r => r.ProductId)
+               .OnDelete(DeleteBehavior.Cascade);
+           
+           modelBuilder.Entity<ProductReview>()
+               .HasOne(r => r.CustomerUser)
+               .WithMany()
+               .HasForeignKey(r => r.CustomerUserId)
+               .OnDelete(DeleteBehavior.Restrict);
+           
+           modelBuilder.Entity<ProductVariant>()
+               .HasOne(p => p.Product)
+               .WithMany(p => p.Variants)
+               .HasForeignKey(p => p.ProductId)
+               .OnDelete(DeleteBehavior.Cascade);
            
            modelBuilder.Entity<SellerBusinessInformation>()
                .HasOne(b=> b.SellerUser)
@@ -290,6 +307,11 @@ namespace Amazon_eCommerce_API.Data
                .HasForeignKey(a => a.SellerTaxProfileId)
                .OnDelete(DeleteBehavior.Cascade);
            
+           modelBuilder.Entity<UserSubscription>()
+               .HasOne(s => s.CustomerUser)
+               .WithOne(u => u.Subscription)
+               .HasForeignKey<UserSubscription>(s => s.CustomerUserId)
+               .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             

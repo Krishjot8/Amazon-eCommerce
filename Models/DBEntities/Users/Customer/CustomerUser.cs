@@ -2,6 +2,7 @@
 using Amazon_eCommerce_API.Models.BaseEntities;
 using Amazon_eCommerce_API.Models.DBEntities.Carts.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Preferences.Customer;
+using Amazon_eCommerce_API.Models.DBEntities.Subscriptions;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
 {
@@ -26,6 +27,8 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
 
         public CustomerProfile CustomerProfile { get; set; }
         public CustomerPreferences CustomerPreferences { get; set; }
+        
+        public UserSubscription? Subscription { get; set; }
         
         public List<CustomerPaymentProfile> PaymentProfiles { get; set; } = new();
         
