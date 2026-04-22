@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ProductBrand } from 'src/app/models/product-brands/product-brands.model';
+import { ProductBrand } from 'src/app/models/products/product-brands.model';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'top-brands-carousel',

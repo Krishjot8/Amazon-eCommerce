@@ -1,9 +1,9 @@
 export interface ProductBrand {
 
-    id?: number;
+    id: number;
     name: string;
 
-  pictureUrl: string;
+ logoUrl: string;
 
 
   }
