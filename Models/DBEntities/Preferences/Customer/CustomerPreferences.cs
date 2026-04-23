@@ -1,14 +1,14 @@
+using Amazon_eCommerce_API.Models.BaseEntities;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Preferences.Customer
 {
-    public class CustomerPreferences
+    public class CustomerPreferences : BaseModel
     {
-        public int CustomerPreferencesId { get; set; }
         
         public int CustomerUserId { get; set; }
-        
-        public CustomerUser CustomerUser { get; set; }
+
+        public CustomerUser CustomerUser { get; set; } = null!;
         
         public bool SubscribeToNewsletter { get; set; }
         
@@ -17,9 +17,6 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Preferences.Customer
         public Currency PreferredCurrency { get; set; } 
         
         public bool ReceivePromotions { get; set; }
-        
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
         
     }
 

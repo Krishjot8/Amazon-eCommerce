@@ -384,7 +384,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
                 LastName = contactInformationDto.LastName,
                 CountryCode = contactInformationDto.Country,
                 DateOfBirth = dateOfBirth,
-                IdentityProof = contactInformationDto.IdentityProof,
+                IdentityDocumentType = contactInformationDto.IdentityDocumentType,
                 IdentityProofNumber = contactInformationDto.IdentityProofNumber,
                 IdentityProofExpirationDate = contactInformationDto.IdentityProofExpirationDate,
                 CountryOfIssue = contactInformationDto.CountryOfIssue,
@@ -513,7 +513,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
             if (sellerUser.OnboardingStep != SellerOnboardingStep.StoreInformation)
                 throw new Exception("You must complete the StoreInformation step first");
 
-            var verification = new SellerVerificationStatus
+            var verification = new SellerVerification
             {
 
                 SellerUserId = sellerUserId,
@@ -523,7 +523,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
                 ProofOfAddress = verificationStatus.ProofOfAddress,
                 ProofOfAddressDocumentUrl = verificationStatus.ProofOfAddressDocumentUrl,
                 
-                VerificationStatus = VerificationStatus.Pending
+                VerificationStatus = VerificationState.Pending
 
             };
             

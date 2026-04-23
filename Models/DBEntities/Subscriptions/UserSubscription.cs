@@ -8,9 +8,11 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Subscriptions
     {
         public int CustomerUserId { get; set; }
         
-        public CustomerUser CustomerUser { get; set; }
-        
-        public SubscriptionType SubscriptionType { get; set; }
+        public CustomerUser CustomerUser { get; set; } = null!;
+
+        public int SubscriptionPlanId { get; set; }
+
+        public UserSubscriptionPlan SubscriptionPlan { get; set; } = null!;
         
         public bool IsActive { get; set; }
         

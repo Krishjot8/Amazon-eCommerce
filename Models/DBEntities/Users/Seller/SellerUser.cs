@@ -6,12 +6,12 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
     public class SellerUser : BaseModel
     {
 
-        public string BusinessEmail { get; set; }
-        
-        public string BusinessPhoneNumber { get; set; }
+        public string BusinessEmail { get; set; } = null!;
 
-        public string PasswordHash { get; set; }
-        
+        public string BusinessPhoneNumber { get; set; } = null!;
+
+        public string PasswordHash { get; set; } = null!;
+
         public bool IsEmailVerified { get; set; }
         
         public bool IsPhoneNumberVerified { get; set; }
@@ -19,24 +19,22 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         public SellerOnboardingStep OnboardingStep { get; set; }
         
         public SellerAccountStatus AccountStatus { get; set; }
-        public DateTime CreatedAt { get; set; }
-        
-        public DateTime UpdatedAt { get; set; }
+
+        public SellerVerification SellerVerificationStatus { get; set; } = null!;
+
+        public SellerBusinessProfile? SellerBusinessProfile { get; set; }
+
+        public SellerPrimaryContact? SellerPrimaryContact { get; set; } 
+
+        public SellerStoreInformation? SellerStoreInformation { get; set; } 
+
+        public SellerTaxProfile? SellerTaxProfile { get; set; } 
 
 
-        public SellerBusinessInformation SellerBusinessInformation { get; set; }
-        
-        public SellerBusinessProfile SellerBusinessProfile { get; set; }
+        public SellerW9? SellerW9 { get; set; } 
 
-        public SellerPrimaryContact SellerPrimaryContact { get; set; }
-        
-        public SellerStoreInformation SellerStoreInformation { get; set; }
+
         public List<SellerPaymentProfile> SellerPaymentProfiles { get; set; } = new();
-        public SellerTaxProfile SellerTaxProfile { get; set; }
-        
-        public SellerVerificationStatus SellerVerificationStatus { get; set; }
-        
-        public SellerW9 SellerW9 { get; set; }
 
     }
 

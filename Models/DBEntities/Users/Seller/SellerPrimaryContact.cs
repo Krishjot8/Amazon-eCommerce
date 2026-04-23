@@ -8,40 +8,41 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         public int SellerUserId { get; set; }
         
         
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = null!;
         public string? MiddleName { get; set; } 
-        public string LastName { get; set; }
+        public string LastName { get; set; } = null!;
 
-        
-        
-        public string CountryOfCitizenship { get; set; }
-        
-        public string CountryOfBirth { get; set; }
-        
+
+
+
         public DateOnly DateOfBirth { get; set; }
-        public IdentityProof IdentityProof { get; set; }
-        public string IdentityProofNumber { get; set; }
+        public string CountryOfCitizenship { get; set; } = null!;
+
+        public string CountryOfBirth { get; set; } = null!;
+        
+        public IdentityDocumentType IdentityDocumentType { get; set; }
+        public string IdentityProofNumber { get; set; } = null!;
         public DateTime? IdentityProofExpirationDate { get; set; }
-        public string CountryOfIssue {get; set;}
-        
-        
+        public string CountryOfIssue {get; set;} = null!;
+
+
         // Primary Address
-        
-        public string AddressLine1 { get; set; }
-        
+
+        public string AddressLine1 { get; set; } = null!;
+
         public string? AddressLine2 { get; set; } 
         
-        public string City { get; set; }
+        public string City { get; set; } = null!;
+
+        public string State { get; set; } = null!;
         
-        public string State { get; set; }
+        public string ZipCode { get; set; } = null!;
         
-        public string ZipCode { get; set; }
-        
-        public string CountryCode { get;set;}
+        public string CountryCode { get; set;} = null!;
         
         
         
-        public string PersonalPhoneNumber { get; set; }
+        public string PersonalPhoneNumber { get; set; } = null!;
         
         
         
@@ -53,7 +54,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         
         
         
-        public SellerUser SellerUser { get; set; }
-        
+        public SellerUser SellerUser { get; set; } = null!;
+
     }
 }

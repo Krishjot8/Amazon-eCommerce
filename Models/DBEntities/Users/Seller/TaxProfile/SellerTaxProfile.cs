@@ -9,13 +9,13 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller.TaxProfile
         
         public int SellerUserId { get; set; }
         
-        public TaxClassification TaxClassification { get; set; }
+        public TaxClassification TaxClassification { get; set; } 
         
-        public string TaxCountryCode { get; set; }
+        public string TaxCountryCode { get; set; } = null!;
         
         public DateTime SubmittedAt { get; set; }
         
-        public Status Status { get; set; }
+        public TaxProfileStatus Status { get; set; }
         
         public bool? IsUSPerson { get; set; }
         
@@ -25,21 +25,21 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller.TaxProfile
         
         public LLCType? LLCType { get; set; }
         
-        public string FullName {get; set;}
-        
-        public string? DBAName {get; set;}
+        public string FullName {get; set;} = null!;
+
+        public string? DBAName {get; set;} 
         
         public TaxIdentificationType TaxpayerIdentificationType { get; set; }
         
-        public string TaxpayerIdentificationNumber { get; set; }
-        
-        public List<TaxAddress> TaxAddresses { get; set; }
-        
-        public SellerUser SellerUser { get; set; }
-      
+        public string TaxpayerIdentificationNumber { get; set; } = null!;
+
+        public List<TaxAddress> TaxAddresses { get; set; } = new();
+
+        public SellerUser SellerUser { get; set; } = null!;
+
     }
     
-    public enum Status
+    public enum TaxProfileStatus
     {
         Pending,
         Approved,

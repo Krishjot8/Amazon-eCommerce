@@ -7,15 +7,15 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
 
         public int BusinessUserId { get; set; }
         
-        public string BankName { get; set; }
-        
-        public string AccountNumber { get; set; }
-        
-        public string RoutingNumber { get; set; }
-        
-        public string TaxId { get; set; }
-        
-        public BusinessUser BusinessUser { get; set; }
+        public string BankName { get; set; } = null!;
+
+        public string AccountNumber { get; set; } = null!;
+
+        public string RoutingNumber { get; set; } = null!;
+
+        public string TaxId { get; set; } = null!;
+
+        public BusinessUser BusinessUser { get; set; } = null!;
 
     }
 }

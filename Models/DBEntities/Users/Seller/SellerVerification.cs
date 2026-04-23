@@ -3,11 +3,11 @@ using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistr
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
 {
-    public class SellerVerificationStatus : BaseModel
+    public class SellerVerification : BaseModel
     {
         public int SellerUserId { get; set; }
         
-        public IdentityProof DocumentType{ get; set; }
+        public IdentityDocumentType DocumentType { get; set; }
 
         public string? DocumentFrontUrl { get; set; } 
         
@@ -16,21 +16,22 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         public ProofOfAddress? ProofOfAddress { get; set; }
         
         public string? ProofOfAddressDocumentUrl { get; set; }
-        
+
+        public VerificationMeetingType VerificationMethod { get; set; }
+
         public DateTime? ScheduledDateTime { get; set; }
         
         public string? Notes { get; set; }
         
-        public VerificationMeetingType VerificationMethod { get; set; }
 
-        public VerificationStatus VerificationStatus { get; set; } 
+        public VerificationState VerificationStatus { get; set; } 
         
       
 
-        public SellerUser SellerUser { get; set; }
+        public SellerUser SellerUser { get; set; } = null!;
     }
     
-    public enum VerificationStatus
+    public enum VerificationState
     {
         Pending,
         Approved,

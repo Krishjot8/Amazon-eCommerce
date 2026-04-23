@@ -209,7 +209,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
                     CustomerUserId = user.Id,
                     SubscribeToNewsletter = userRegistrationDto.SubscribeToNewsLetter,
                     PreferredLanguage = "en",
-                    PreferredCurrency = "USD",
+                    PreferredCurrency = Currency.USD,
                     ReceivePromotions = false
                 };
                 

@@ -1,4 +1,5 @@
 using Amazon_eCommerce_API.Models.BaseEntities;
+using Amazon_eCommerce_API.Models.DBEntities.Shipments;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Orders
 {
@@ -17,6 +18,8 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Orders
         
         public OrderType OrderType { get; set; }
         public List<OrderItem> OrderItems { get; set; } = new();
+
+        public List<Shipment> Shipments { get; set; } = new();
 
     }
 

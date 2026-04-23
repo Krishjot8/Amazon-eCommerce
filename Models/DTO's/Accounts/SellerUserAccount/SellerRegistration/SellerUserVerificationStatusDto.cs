@@ -6,8 +6,8 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
     {
         
         [Required]
-        [EnumDataType(typeof(IdentityProof),ErrorMessage = "Invalid document type.")]
-        public IdentityProof DocumentType { get; set; }
+        [EnumDataType(typeof(IdentityDocumentType),ErrorMessage = "Invalid document type.")]
+        public IdentityDocumentType DocumentType { get; set; }
         
      
         [StringLength(500, ErrorMessage = "Document front URL cannot exceed 500 characters.")]

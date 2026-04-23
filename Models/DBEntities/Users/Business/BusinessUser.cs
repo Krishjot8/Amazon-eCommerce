@@ -7,12 +7,12 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
     {
         
 
-        public string BusinessEmail { get; set; }
-        
-        public string BusinessPhoneNumber { get; set; } 
-        
-        public string  PasswordHash { get; set; }
-        
+        public string BusinessEmail { get; set; } = null!;
+
+        public string BusinessPhoneNumber { get; set; } = null!;
+
+        public string  PasswordHash { get; set; } = null!;
+
         public bool IsBusinessEmailVerified { get; set; } = false;
 
         public bool IsBusinessPhoneVerified { get; set; } = false;

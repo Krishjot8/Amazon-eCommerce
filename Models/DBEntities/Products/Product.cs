@@ -6,36 +6,36 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Products;
 
     public class Product : BaseModel
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        
+        public string Name { get; set; } = null!;
+         public string Description { get; set; } = null!;
+
         public decimal Price { get; set; }  // temporary
         public int StockQuantity { get; set; }  // temporary
         
-        public string ImageUrl { get; set; } // Main Image
+        public string ImageUrl { get; set; } = null!; // Main Image
 
         public int SellerUserId { get; set; }
         
-        public SellerUser SellerUser { get; set; }
+        public SellerUser SellerUser { get; set; } = null!;
 
-        
-        public int ProductTypeId { get; set; }
-        public ProductType ProductType { get; set; }
-     
 
-        public int ProductBrandId { get; set; }
+    public int ProductTypeId { get; set; }
+        public ProductType ProductType { get; set; } = null!;
 
-        public ProductBrand ProductBrand { get; set; }
-     
 
-        public int CategoryId { get; set; }
+    public int ProductBrandId { get; set; }
 
-        public Category Category { get; set; } 
-     
-        public bool IsActive { get; set; } = true;
+        public ProductBrand ProductBrand { get; set; } = null!;
 
-        public List<ProductImage> Images { get; set; } = new();
 
-        public List<ProductVariant> Variants { get; set; } = new();
-    }
+    public int CategoryId { get; set; }
+
+        public Category Category { get; set; } = null!;
+
+    public bool IsActive { get; set; } = true;
+
+    public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
+    public ICollection<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
+    public ICollection<ProductReview> Reviews { get; set; } = new List<ProductReview>();
+}
 

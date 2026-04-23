@@ -9,27 +9,28 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
     public class CustomerUser : BaseModel // To store user credentials to database after registering.
     {
     
-        public string FirstName { get; set; }
-        
-        public string LastName { get; set; }
-        
-        
+        public string FirstName { get; set; } = null!;
+
+        public string LastName { get; set; } = null!;
+
+
         public DateOnly DateOfBirth { get; set; }
         
-        public string EmailAddress { get; set; }
+        public string EmailAddress { get; set; } = null!;
 
 
         public string? PhoneNumber { get; set; }
 
-        public string PasswordHash { get; set; }
-        
+        public string PasswordHash { get; set; } = null!;
+
         public bool IsEmailVerified { get; set; } = false;
 
-        public CustomerProfile CustomerProfile { get; set; }
-        public CustomerPreferences CustomerPreferences { get; set; }
-        
-        public UserSubscription? Subscription { get; set; }
-        
+        public CustomerProfile CustomerProfile { get; set; } = null!;
+
+        public CustomerPreferences CustomerPreferences { get; set; } = null!;
+
+        public UserSubscription Subscription { get; set; } = null!;
+
         public List<CustomerPaymentProfile> PaymentProfiles { get; set; } = new();
         
         public List<CustomerCart> Carts { get; set; } = new();

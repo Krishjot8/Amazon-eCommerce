@@ -1,25 +1,20 @@
+using Amazon_eCommerce_API.Models.BaseEntities;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Carts.Customer
 {
-    public class CustomerCart
+    public class CustomerCart : BaseModel
     {
         
-        public int CartId { get; set; }
         
         public int CustomerUserId { get; set; }
         
-        public CustomerUser CustomerUser { get; set; }
-   
+        public CustomerUser CustomerUser { get; set; } = null!;
+
         public List <CustomerCartItem> Items{ get; set; } = new();
         
         
         public CartStatus CartStatus { get; set; }
-        
-        public DateTime CreatedAt { get; set; }
-        
-        public DateTime UpdatedAt { get; set; }
-        
         
         
         

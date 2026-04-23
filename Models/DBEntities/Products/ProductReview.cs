@@ -8,13 +8,13 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Products
         
         public int ProductId { get; set; }
         
-        public Product Product { get; set; }
-        
+        public Product Product { get; set; } = null!;
+
         public int CustomerUserId { get; set; }
         
-        public CustomerUser CustomerUser { get; set; }
-        
-        public int Rating { get; set; }
+        public CustomerUser CustomerUser { get; set; } = null!;
+
+        public int Rating { get; set; }  
         
         public string? Comment { get; set; }
         

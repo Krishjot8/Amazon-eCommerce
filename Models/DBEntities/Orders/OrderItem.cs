@@ -7,7 +7,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Orders
         
         public int OrderId { get; set; }
         
-        public Order Order { get; set; }
+        public Order Order { get; set; } = null!;
         
         public int ProductId { get; set; }
         

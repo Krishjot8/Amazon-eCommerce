@@ -7,8 +7,8 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
     {
         public int SellerUserId { get; set; }
         
-        public string StoreName { get; set; }
-        
+        public string StoreName { get; set; } = null!;
+
         public bool HasUPCsForAllProducts { get; set; }
         
         public bool HasDiversityCertifications { get; set; }
@@ -17,6 +17,6 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         
         public TrademarkStatus TrademarkStatus { get; set; }
         
-        public SellerUser SellerUser { get; set; }
+        public SellerUser SellerUser { get; set; } = null!;
     }
 }

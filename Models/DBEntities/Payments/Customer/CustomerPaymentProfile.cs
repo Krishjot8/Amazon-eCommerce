@@ -1,12 +1,13 @@
+using Amazon_eCommerce_API.Models.BaseEntities;
+
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
 {
-    public class CustomerPaymentProfile
+    public class CustomerPaymentProfile : BaseModel
     {
-        public string PaymentId { get; set; }
         
         public int CustomerUserId { get; set; }
         
-        public CustomerUser CustomerUser { get; set; }
+        public CustomerUser CustomerUser { get; set; } = null!;
         
         public string PaymentToken { get; set; }
         
@@ -18,9 +19,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
         
         public bool IsDefault { get; set; }   
 
-        public DateTime CreatedAt { get; set; } 
-        
-        public DateTime? UpdatedAt { get; set; }
+       
         
         
         

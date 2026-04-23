@@ -38,8 +38,8 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         public int BirthYear { get; set; }
         
         [Required]
-        [EnumDataType(typeof(IdentityProof), ErrorMessage = "Invalid identity proof type.")]
-        public IdentityProof IdentityProof { get; set; }
+        [EnumDataType(typeof(IdentityDocumentType), ErrorMessage = "Invalid identity document type.")]
+        public IdentityDocumentType IdentityDocumentType { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -98,7 +98,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
        
     }
 
-    public enum IdentityProof
+    public enum IdentityDocumentType
     {
         
         Passport = 1,

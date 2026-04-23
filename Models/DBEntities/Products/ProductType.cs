@@ -6,8 +6,8 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Products
 
     {
 
-        public string Name { get; set; }
-        
-        public List<Product> Products { get; set; }
+        public string Name { get; set; } = null!;
+
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

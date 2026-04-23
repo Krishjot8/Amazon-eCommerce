@@ -7,12 +7,12 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
     {
         public int CustomerUserId { get; set; }
         
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = null!;
 
         public string? MiddleName { get; set; } 
         
-        public string LastName { get; set; }
-        
+        public string LastName { get; set; } = null!;
+
         public string? PhoneNumber { get; set; }
         
         
@@ -21,6 +21,6 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
         public string? DefaultShippingAddress { get; set; } 
         
       
-        public CustomerUser CustomerUser { get; set; }
+        public CustomerUser CustomerUser { get; set; } = null!;
     }
 }
