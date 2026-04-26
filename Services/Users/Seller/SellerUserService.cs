@@ -1,9 +1,13 @@
 ﻿using System.Text.RegularExpressions;
 using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountRegistration;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountRegistration.SellerOnboarding;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountUpdate;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountVerification.Address;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountVerification.Documents;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountVerification.Meeting;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Password;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Cache;
@@ -189,7 +193,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
         public async Task<bool> ResetSellerPasswordAsync(SellerUserForgotPasswordDto forgotPasswordDto)
         {
 
-            if (forgotPasswordDto.NewPassword != forgotPasswordDto.ReEnterPassword) 
+            if (forgotPasswordDto.NewPassword != forgotPasswordDto.ConfirmNewPassword) 
             
             {
                 throw new ArgumentException("The password and confirmation password do not match");
@@ -472,7 +476,7 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
         
         
         
-        public async Task<bool> CompleteStoreInformationAsync(int sellerUserId, SellerUserStoreInformationDto storeInformationDto)
+        public async Task<bool> CompleteStoreInformationAsync(int sellerUserId, SellerUserStoreProductInformationDto storeInformationDto)
         {
             var sellerUser = await _storeContext.SellerUsers.FirstOrDefaultAsync(x => x.Id == sellerUserId);
 
@@ -520,8 +524,8 @@ namespace Amazon_eCommerce_API.Services.Users.Seller
                 DocumentType =  verificationStatus.DocumentType,
                 DocumentFrontUrl = verificationStatus.DocumentFrontUrl,
                 DocumentBackUrl = verificationStatus.DocumentBackUrl,
-                ProofOfAddress = verificationStatus.ProofOfAddress,
-                ProofOfAddressDocumentUrl = verificationStatus.ProofOfAddressDocumentUrl,
+                ProofOfAddress = verificationStatus.ResidentialAddressProofType,
+                ProofOfAddressDocumentUrl = verificationStatus.ResidentialAddressProofUrl,
                 
                 VerificationStatus = VerificationState.Pending
 

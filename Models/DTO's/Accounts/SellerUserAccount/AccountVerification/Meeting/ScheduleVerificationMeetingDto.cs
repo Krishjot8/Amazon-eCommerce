@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountVerification.Meeting
 {
     public class ScheduleVerificationMeetingDto
     {
@@ -12,6 +12,10 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
 
         [Required]
         public DateTime ScheduledDateTime { get; set; }
+        
+        [Required]
+        [StringLength(50)]
+        public string PreferredLanguage { get; set; } = "English"; // Amazon requirement
 
         [StringLength(500)]
         public string? Notes { get; set; }

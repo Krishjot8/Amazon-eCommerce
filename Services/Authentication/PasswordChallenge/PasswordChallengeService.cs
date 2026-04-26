@@ -4,7 +4,6 @@ using Amazon_eCommerce_API.Services.Communication.Sms;
 using Amazon_eCommerce_API.Services.Email;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using System.Security.Cryptography;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.UserResolver;

@@ -6,7 +6,6 @@ using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Cache;

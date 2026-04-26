@@ -2,7 +2,6 @@
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services;

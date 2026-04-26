@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration.TaxProfile;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountRegistration.TaxProfile
 {
     public class SellerUserW9Dto
     {

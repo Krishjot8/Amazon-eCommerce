@@ -71,11 +71,18 @@ namespace Amazon_eCommerce_API.Data
         
         public DbSet<SellerPaymentProfile> SellerPaymentProfiles { get; set; }
         
+        
+        public DbSet<SellerPayoutAccount> SellerPayoutAccounts { get; set; } //to Add ModelBuilder
+        
         public DbSet<SellerPrimaryContact> SellerPrimaryContacts { get; set; }
         
         public DbSet<SellerStoreInformation> SellerStoreInformation { get; set; }
         
+        
+        public DbSet<SellerVerificationDocument> SellerVerificationDocuments { get; set; } //to Add ModelBuilder
         public DbSet<SellerVerification> SellerVerificationStatus { get; set; }
+        
+        public DbSet<SellerVerificationOverview> SellerVerificationOverviews { get; set; }
        
         public DbSet<SellerW9>  SellerW9 { get; set; }
         

@@ -35,6 +35,9 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
 
 
         public List<SellerPaymentProfile> SellerPaymentProfiles { get; set; } = new();
+        
+        public ICollection<SellerPayoutAccount> SellerPayoutAccounts { get; set; }
+            = new List<SellerPayoutAccount>();
 
     }
 

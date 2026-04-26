@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountUpdate
 {
     public class UpdateCustomerUserPasswordDto          
     {

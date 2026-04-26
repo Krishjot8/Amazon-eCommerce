@@ -7,9 +7,9 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Authentication.Verification
 
         public string SmsOtpCode { get; set; }
 
-         //   public bool IsResendRequest { get; set; }
+        public bool IsResendRequest { get; set; }
     
-            public Verification.AccountType AccountType { get; set; }
+        public AccountType AccountType { get; set; }
     }
 
   

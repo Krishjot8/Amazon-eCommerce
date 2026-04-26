@@ -2,8 +2,8 @@
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Password;
 using AutoMapper;
 
 namespace Amazon_eCommerce_API.Profiles

@@ -14,9 +14,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentic
         [Phone]
         public string? PhoneNumber { get; set; }
 
-
-
-
+        
         [Required]
         public string? Otp { get; set; }
 
@@ -28,7 +26,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentic
 
         [Required]
         [Compare("NewPassword", ErrorMessage = "Passwords must match")]
-        public string ReEnterPassword { get; set; }
+        public string ConfirmNewPassword { get; set; }
 
     }
 }

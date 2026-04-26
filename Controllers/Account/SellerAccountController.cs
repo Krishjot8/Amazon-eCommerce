@@ -1,18 +1,19 @@
 ﻿using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountRegistration;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountRegistration.SellerOnboarding;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountUpdate;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountVerification.Address;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountVerification.Documents;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountVerification.Meeting;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
-using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Users.Seller;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Amazon_eCommerce_API.Controllers.Account
 {
@@ -190,7 +191,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         [HttpPost("register/{sellerUserId}/store-information")]
 
         public async Task<IActionResult> CompleteStoreInformation(int sellerUserId,
-            [FromBody] SellerUserStoreInformationDto storeInformationDto)
+            [FromBody] SellerUserStoreProductInformationDto storeInformationDto)
         {
              if(!ModelState.IsValid)
                  return BadRequest(ModelState);
@@ -427,7 +428,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         [HttpPut("{id}")]
 
 
-        public async Task<IActionResult> UpdateSellerAccountDetails(int id, SellerUserUpdateDto userUpdateDto) 
+        public async Task<IActionResult> UpdateSellerAccountDetails(int id, UpdateSellerUserDto userDto) 
         {
 
             if (!ModelState.IsValid) {
@@ -447,7 +448,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
             
             }
 
-            _mapper.Map(userUpdateDto, selleruser);
+            _mapper.Map(userDto, selleruser);
 
 
             var isUpdated = await _sellerUserService.UpdateSellerUserAsync(selleruser.Id, selleruser);

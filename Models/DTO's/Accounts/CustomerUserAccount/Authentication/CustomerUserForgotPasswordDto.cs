@@ -28,7 +28,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authent
 
         [Required]
         [Compare("NewPassword", ErrorMessage = "Passwords must match")]
-        public string ReEnterPassword { get; set; }
+        public string ConfirmPassword { get; set; }
 
     }
 }

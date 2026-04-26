@@ -1,6 +1,6 @@
 using Amazon_eCommerce_API.Models.BaseEntities;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration.TaxProfile;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountRegistration;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountRegistration.TaxProfile;
 
 namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
 {

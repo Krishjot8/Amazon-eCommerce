@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountRegistration.SellerOnboarding
 {
     public class SellerUserPaymentInformationDto  //Step 5
     {
@@ -17,7 +17,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         public int ExpirationMonth { get; set; }
         
         [Required]
-        [Range(2025,2100)]
+        [Range(2026,2100)]
         public int ExpirationYear { get; set; }
         
         [Required]

@@ -1,9 +1,10 @@
 ﻿using System.Data.Common;
 using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Password;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services;
@@ -264,7 +265,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCustomerAccountDetails(int id, [FromBody] SellerUserUpdateDto userUpdateDto)
+        public async Task<IActionResult> UpdateCustomerAccountDetails(int id, [FromBody] UpdateSellerUserDto userDto)
         {
             // Validate the model
             if (!ModelState.IsValid)
@@ -282,7 +283,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
             }
 
             // Map the properties from UserUpdateDto to the customerUser entity
-            _mapper.Map(userUpdateDto, customerUser);
+            _mapper.Map(userDto, customerUser);
 
             // Save changes to the database by calling UpdateUserAsync with the User entity
             var isUpdated = await _customerUserService.UpdateCustomerUserAsync(customerUser.Id, customerUser);

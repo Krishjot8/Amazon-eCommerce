@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#nullable enable
+using System.ComponentModel.DataAnnotations;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerRegistration
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountRegistration.SellerOnboarding
 {
 
  
@@ -25,23 +26,26 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         [Required]
         public string City { get; set; }
         
+        [Required] 
+        public string State { get; set; }
+        
+        
+        [Required]
+        [DataType(DataType.PostalCode)]
+        public string ZipCode { get; set; }
+
+
       
         [Required]
         public ProofOfAddressType ProofOfAddress { get; set; }
         
         [Required]
+        [Url]
         public string ProofOfAddressDocumentUrl { get; set; } 
-        [Required]
-        
+     
+        [Url]
         public string? RegistrationExtractUrl { get; set; }
         
-        [Required] 
-        public string State { get; set; }
-        
-        [Required]
-        public string ZipCode { get; set; }
-
-
         
         [Required]
         public PinDeliveryMethod PinDeliveryMethod { get; set; }
@@ -56,19 +60,41 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.SellerReg
         [Required]
         public string CaptchaInput { get; set; }
 
+        [Required]
+        public string CaptchaKey { get; set; }
+
         
     }
 
     public enum ProofOfAddressType
     {
+        // Financial Statements
         BankAccountStatement,
+        CreditCardStatement,
+        BuildingSocietyStatement,
+        MortgageStatement,
+        LoanStatement,
+        PayoneerStatement, // Very common for Amazon sellers
+        HyperWalletStatement,
+
+        // Utility Bills (The most common category)
         ElectricityBill,
+        WaterBill,
         GasBill,
         InternetBill,
+        TvBill,
+        TelephoneBill, // Landline
+        MobilePhoneBill,
+
+        // Housing/Rent
         RentBill,
-        TelephoneBill,
-        TVBill,
-        WaterBill
+        LeaseAgreement,
+        PropertyTaxReceipt,
+    
+        // Government/Other
+        TaxIdentityDocument,
+        CouncilTaxBill, // Common in UK/EU regions
+        Other
     }
 
     public enum PinDeliveryMethod

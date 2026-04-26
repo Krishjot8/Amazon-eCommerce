@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
+namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountUpdate;
 
 
-    public class SellerUserUpdateDto            //Angular User Update Entity without Password after logging in
+    public class UpdateSellerUserDto            //Angular User Update Entity without Password after logging in
     {
 
 
