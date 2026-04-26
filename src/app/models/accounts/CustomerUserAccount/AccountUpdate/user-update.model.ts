@@ -2,8 +2,7 @@ export interface CustomerUserUpdate{
 
   firstName: string;
   lastName : string;
-  DateofBirth: Date;
-  userName: string;
+  dateOfBirth: Date;
   email : string;
   phoneNumber?: string;
   subscribeToNewsletter: boolean;

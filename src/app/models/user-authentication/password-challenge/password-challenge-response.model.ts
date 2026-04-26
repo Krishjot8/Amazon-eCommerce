@@ -1,5 +1,10 @@
+import { OtpChannel } from "./otp-channel-enum";
+
+
 export interface PasswordChallengeResponse {
+  
   pendingAuthId: string;
-  otpChannel: 'sms' | 'email';
+  otpChannel: OtpChannel;
   maskedDestination: string;
+  message: string;
 }

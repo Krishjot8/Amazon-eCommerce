@@ -1,7 +1,7 @@
-export interface CustomerRegistration {
+export interface CustomerRegister {
+  
   firstName: string;
   lastName: string;
-  username: string;
   email: string;
   dateOfBirth: Date;
   phoneNumber?: string;

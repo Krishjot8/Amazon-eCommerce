@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerAuthenticationService } from '../customer-authentication.service';
-import { CustomerOtpVerification } from 'src/app/models/accounts/customer/customer-otp-verification.model';
+import { CustomerOtpVerification } from 'src/app/models/accounts/CustomerUserAccount/customer-otp-verification.model';
 
 @Component({
   selector: 'app-customer-verification',

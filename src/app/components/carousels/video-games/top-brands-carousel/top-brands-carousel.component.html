@@ -4,7 +4,7 @@
 [style.transform]="'translateX(-' + currentIndex * (itemWidth + gap) + 'px)'"
   >
     <div class="carousel-item" *ngFor="let brand of brands; trackBy: trackByBrandId">
-      <img [src]="brand.pictureUrl" alt="{{brand.name}}" />
+      <img [src]="brand.logoUrl" alt="{{brand.name}}" />
       <h4 style="font-family: Amazon;">{{brand.name}}</h4>
     </div>
   </div>

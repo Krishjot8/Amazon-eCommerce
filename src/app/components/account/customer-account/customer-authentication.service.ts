@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { CustomerLogin } from 'src/app/models/accounts/customer/customer-login.model';
-import { CustomerOtpVerification } from 'src/app/models/accounts/customer/customer-otp-verification.model';
-import { PasswordChallengeResponse } from 'src/app/models/accounts/customer/customer-password-challenge-response';
+import { CustomerLogin } from 'src/app/models/accounts/CustomerUserAccount/Authentication/customer-login.model';
+import { CustomerOtpVerification } from 'src/app/models/accounts/CustomerUserAccount/customer-otp-verification.model';
+import { PasswordChallengeResponse } from 'src/app/models/accounts/CustomerUserAccount/customer-password-challenge-response';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

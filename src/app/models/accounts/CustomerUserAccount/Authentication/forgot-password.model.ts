@@ -5,6 +5,6 @@ export interface CustomerForgotPassword{
     phoneNumber?:string;
     otp:string;
     newPassword: string;
-    reEnterPassword: string;
+    confirmNewPassword: string;
 
 }

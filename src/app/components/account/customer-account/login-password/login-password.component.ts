@@ -8,9 +8,9 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerAuthenticationService } from '../customer-authentication.service';
-import { CustomerLogin } from 'src/app/models/accounts/customer/customer-login.model';
-import { PasswordChallengeResponse } from 'src/app/models/accounts/customer/customer-password-challenge-response';
-import { CustomerOtpVerification } from 'src/app/models/accounts/customer/customer-otp-verification.model';
+import { CustomerLogin } from 'src/app/models/accounts/CustomerUserAccount/Authentication/customer-login.model';
+import { PasswordChallengeResponse } from 'src/app/models/accounts/CustomerUserAccount/customer-password-challenge-response';
+import { CustomerOtpVerification } from 'src/app/models/accounts/CustomerUserAccount/customer-otp-verification.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

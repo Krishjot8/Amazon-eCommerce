@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ProductBrand } from 'src/app/models/products/product-brands.model';
+import { ProductBrand } from 'src/app/models/products/product-brand.model';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'top-brands-carousel',
@@ -27,7 +27,7 @@ this.getBrands();
 // If backend does not have ID, assign temporary frontend ID
         id: brand.id ?? index + 1,
         name: brand.name,
-        pictureUrl: `${environment.apiUrl.replace('/api', '')}${brand.pictureUrl}`
+        logoUrl: `${environment.apiUrl.replace('/api', '')}${brand.logoUrl}`
       }))
     })
   }

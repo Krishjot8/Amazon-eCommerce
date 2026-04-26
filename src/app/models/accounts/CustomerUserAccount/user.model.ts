@@ -1,7 +1,6 @@
-export interface Customer {
+export interface CustomerUser {
   firstName: string;
   lastName: string;
-  userName: string;
   email: string;
   dateOfBirth: Date;
   phoneNumber?: string;

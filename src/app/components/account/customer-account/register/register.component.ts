@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterService } from './register.service';
-import { CustomerRegistration } from 'src/app/models/accounts/customer/customer-register.model';
+import { CustomerRegistration } from 'src/app/models/accounts/CustomerUserAccount/customer-register.model';
 
 @Component({
   selector: 'app-register',
