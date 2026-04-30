@@ -12,7 +12,6 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Products
         
         public int StockQuantity {get; set;}
         
-        
         public string Brand {get; set;}
         
         public string Type {get; set;}

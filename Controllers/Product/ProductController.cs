@@ -26,6 +26,13 @@ namespace Amazon_eCommerce_API.Controllers.Product
                 p => p.ProductType,
                 p => p.Category
             );
+            
+            if (products == null || !products.Any())
+            {
+                return NotFound("No products found");
+
+            }
+
 
             return Ok(products);
         }

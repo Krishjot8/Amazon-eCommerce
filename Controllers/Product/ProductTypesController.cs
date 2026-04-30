@@ -14,15 +14,12 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
     {
        
-        private readonly IGenericRepository<ProductType> _producttyperepository;
+        private readonly IGenericRepository<ProductType> _productTypeRepository;
 
-        public ProductTypesController( IGenericRepository<ProductType> producttyperepository)       //assigning repositories
-
-
-        {
-          
+        public ProductTypesController( IGenericRepository<ProductType> productTypeRepository)       //assigning repositories
         
-            _producttyperepository = producttyperepository;
+        {
+            _productTypeRepository = productTypeRepository;
         }
 
 
@@ -35,9 +32,15 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
         {
 
-            var producttypes = await _producttyperepository.GetAllAsync();
+            var productTypes = await _productTypeRepository.GetAllAsync();
+            
+            if (productTypes == null || !productTypes.Any())
+            {
+                return NotFound("No product types found");
 
-            return Ok(producttypes);
+            }
+
+            return Ok(productTypes);
 
         }
 
@@ -52,7 +55,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
 
 
-            return await _producttyperepository.GetByIdAsync(id);
+            return await _productTypeRepository.GetByIdAsync(id);
 
         }
 
@@ -77,7 +80,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
             }
 
-            var createdProducttype = await _producttyperepository.AddAsync(producttype);
+            var createdProducttype = await _productTypeRepository.AddAsync(producttype);
 
             return CreatedAtAction(nameof(GetProductType), new { id = createdProducttype.Id }, createdProducttype);
 
@@ -103,7 +106,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
             }
 
-            await _producttyperepository.UpdateAsync(producttype);
+            await _productTypeRepository.UpdateAsync(producttype);
 
             return NoContent();
 
@@ -115,14 +118,14 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
         public async Task<ActionResult> DeleteProductType(int id)
         {
-            var productType = await _producttyperepository.GetByIdAsync(id);
+            var productType = await _productTypeRepository.GetByIdAsync(id);
 
             if (productType == null)
             {
                 return NotFound();
             }
 
-            await _producttyperepository.DeleteAsync(productType.Id);
+            await _productTypeRepository.DeleteAsync(productType.Id);
 
             return NoContent();
 

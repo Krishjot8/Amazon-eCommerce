@@ -11,7 +11,6 @@ using Amazon_eCommerce_API.Models.DTO_s.Authentication.Verification;
 using Amazon_eCommerce_API.Models.DTO_s.Cache;
 using Amazon_eCommerce_API.Models.EmailEntities;
 using Amazon_eCommerce_API.Services.Cache;
-using Amazon_eCommerce_API.Services.Email;
 using Amazon_eCommerce_API.Services.Users.Business;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using Amazon_eCommerce_API.Services.Users.Seller;

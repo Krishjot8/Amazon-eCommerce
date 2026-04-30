@@ -350,10 +350,22 @@ namespace Amazon_eCommerce_API.Data
                 .HasIndex(p => new { p.SellerUserId, p.Last4Digits, p.CardBrand })
                 .IsUnique();
 
+            modelBuilder.Entity<SellerPayoutAccount>()
+                .HasOne(p => p.SellerUser)
+                .WithMany(u => u.SellerPayoutAccounts)
+                .HasForeignKey(p => p.SellerUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
             modelBuilder.Entity<SellerVerification>()
                 .HasOne(v => v.SellerUser)
                 .WithOne(u => u.SellerVerificationStatus)
                 .HasForeignKey<SellerVerification>(v => v.SellerUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<SellerVerificationDocument>()
+                .HasOne(v => v.SellerUser)
+                .WithMany(u => u.VerificationDocuments)
+                .HasForeignKey(v => v.SellerUserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SellerW9>()

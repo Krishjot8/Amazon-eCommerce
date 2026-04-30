@@ -2,20 +2,20 @@
 
 namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount
 {
-    public class CustomerUserDto        //Angular User Entity
+    public class CustomerUserDto        
     {
-       
-        public string FirstName { get; set; }
         
-        public string LastName { get; set; }
-        
-        [EmailAddress]
-        public string Email { get; set; }
-        
+        public int Id { get; set; }
 
-        public DateOnly DateOfBirth { get; set; }
-
-        [Phone] public string PhoneNumber { get; set; } = null;
+        public string FirstName { get; set; } = null!;
+        
+        public string LastName { get; set; }  = null!;
+        
+        public string Email { get; set; }  = null!;
+        
+        public string? PhoneNumber { get; set; } 
+        
+        public bool IsEmailVerified { get; set; }
 
         public bool SubscribeToNewsLetter { get; set; }
        

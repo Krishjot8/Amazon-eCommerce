@@ -29,6 +29,13 @@ namespace Amazon_eCommerce_API.Controllers.Product
         {
 
             var categories = await _categoryRepository.GetAllAsync();
+            
+            if (categories == null || !categories.Any())
+            {
+                return NotFound("No categories found");
+
+            }
+
 
             return Ok(categories);
 

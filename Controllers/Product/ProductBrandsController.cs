@@ -14,14 +14,14 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
     {
 
-        private readonly IGenericRepository<ProductBrand> _productbrandrepository;
+        private readonly IGenericRepository<ProductBrand> _productbBrandRepository;
      
 
-        public ProductBrandsController( IGenericRepository<ProductBrand> productbrandrepository)
+        public ProductBrandsController( IGenericRepository<ProductBrand> ProductbBrandRepository)
 
         {
           
-            _productbrandrepository = productbrandrepository;
+            _productbBrandRepository = ProductbBrandRepository;
          
         }
 
@@ -40,9 +40,16 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
         {
 
-            var productbrands = await _productbrandrepository.GetAllAsync();
+            var productBrands = await _productbBrandRepository.GetAllAsync();
+            
+            if (productBrands == null || !productBrands.Any())
+            {
+                return NotFound("No product brands found");
 
-            return Ok(productbrands);
+            }
+
+
+            return Ok(productBrands);
 
         }
 
@@ -57,7 +64,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
         {
 
 
-            return await _productbrandrepository.GetByIdAsync(id);
+            return await _productbBrandRepository.GetByIdAsync(id);
 
         }
 
@@ -80,7 +87,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
             }
 
-            var createdProductbrand = await _productbrandrepository.AddAsync(productbrand);
+            var createdProductbrand = await _productbBrandRepository.AddAsync(productbrand);
 
             return CreatedAtAction(nameof(GetProductBrand), new { id = createdProductbrand.Id }, createdProductbrand);
 
@@ -102,7 +109,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
             }
 
-            await _productbrandrepository.UpdateAsync(productbrand);
+            await _productbBrandRepository.UpdateAsync(productbrand);
 
             return NoContent();
 
@@ -114,14 +121,14 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
         public async Task<ActionResult> DeleteProductBrand(int id)
         {
-            var productbrand = await _productbrandrepository.GetByIdAsync(id);
+            var productbrand = await _productbBrandRepository.GetByIdAsync(id);
 
             if (productbrand == null)
             {
                 return NotFound();
             }
 
-            await _productbrandrepository.DeleteAsync(productbrand.Id);
+            await _productbBrandRepository.DeleteAsync(productbrand.Id);
 
             return NoContent();
 

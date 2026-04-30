@@ -4,7 +4,6 @@ using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Cache;
 using Amazon_eCommerce_API.Services.Communication.Sms;
-using Amazon_eCommerce_API.Services.Email;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

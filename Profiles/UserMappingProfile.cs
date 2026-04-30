@@ -1,6 +1,7 @@
 ﻿using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
+using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
@@ -12,34 +13,58 @@ namespace Amazon_eCommerce_API.Profiles
     {
 
 
-        public UserMappingProfile() {
+        public UserMappingProfile()
+        {
 
+            // ======================
+            // CUSTOMER - REGISTER
+            // ======================
 
             CreateMap<CustomerUserRegistrationDto, CustomerUser>()
-            .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
-
-
+                .ForMember(dest => dest.EmailAddress,
+                    opt
+                        => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.PasswordHash,
+                    opt => opt.Ignore())
+                .ForMember(dest => dest.IsEmailVerified,
+                    opt => opt.MapFrom(_ => false));
+            
+            
+            // ======================
+            // CUSTOMER - UPDATE
+            // ======================
             CreateMap<UpdateCustomerUserDto, CustomerUser>()
-               .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
+                .ForMember(dest => dest.PasswordHash, opt
+                    => opt.Ignore());
                
 
             CreateMap<UpdateCustomerUserPasswordDto, CustomerUser>()
-         .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()); // Ignore PasswordHash initially
+                .ForMember(dest => dest.PasswordHash, opt 
+                    => opt.Ignore()); // Ignore PasswordHash initially
 
-
-            CreateMap<CustomerUser, CustomerUserRegistrationDto>()
-              .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.EmailAddress))
-                .ForMember(dest => dest.DateofBirth, opt => opt.Ignore()) // Ignoring DateofBirth as it's not in User
-                .ForMember(dest => dest.SubscribeToNewsLetter, opt => opt.Ignore()); // Ignore SubscribeToNewsLetter since it's not in User
-
+            
+            
+            // ======================
+            // CUSTOMER - RESPONSE DTO (IMPORTANT)
+            // ======================
+            
+            CreateMap<CustomerUser, CustomerUserDto>()
+                .ForMember(dest => dest.Email,
+                    opt
+                        => opt.MapFrom(src => src.EmailAddress))
+                .ForMember(dest => dest.PhoneNumber,
+                    opt
+                        => opt.MapFrom(src => src.MobileNumber))
+                .ForMember(dest => dest.SubscribeToNewsLetter,
+                    opt
+                        => opt.MapFrom(src => src.CustomerPreferences.SubscribeToNewsletter));
+                        
+                
 
 //Business
 
 
             CreateMap<UpdateBusinessStoreInformationDto, BusinessStoreInformation>()
-                .ForMember(dest => dest.BusinessUser.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.BusinessUser, opt => opt.Ignore());
 
         }

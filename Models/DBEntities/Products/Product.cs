@@ -7,6 +7,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Products;
     public class Product : BaseModel
     {
         public string Name { get; set; } = null!;
+        
          public string Description { get; set; } = null!;
 
         public decimal Price { get; set; }  // temporary

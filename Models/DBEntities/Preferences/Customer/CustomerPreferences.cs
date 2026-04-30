@@ -10,13 +10,13 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Preferences.Customer
 
         public CustomerUser CustomerUser { get; set; } = null!;
         
-        public bool SubscribeToNewsletter { get; set; }
+        public bool SubscribeToNewsletter { get; set; } //News Updates
         
         public string PreferredLanguage { get; set; } = "en-US";
         
         public Currency PreferredCurrency { get; set; } 
         
-        public bool ReceivePromotions { get; set; }
+        public bool ReceivePromotions { get; set; } //Discounts, Offers
         
     }
 

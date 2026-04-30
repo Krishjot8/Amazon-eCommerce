@@ -12,14 +12,11 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Customer
         public string FirstName { get; set; } = null!;
 
         public string LastName { get; set; } = null!;
-
-
-        public DateOnly DateOfBirth { get; set; }
         
         public string EmailAddress { get; set; } = null!;
 
 
-        public string? PhoneNumber { get; set; }
+        public string? MobileNumber { get; set; }
 
         public string PasswordHash { get; set; } = null!;
 

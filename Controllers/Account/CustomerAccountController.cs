@@ -36,25 +36,19 @@ namespace Amazon_eCommerce_API.Controllers.Account
             _storeContext = storeContext;
             _passwordChallengeService = passwordChallengeService;
         }
-
-
-
-
-
-
+        
 
         [HttpPost("register")]
 
         
          public async Task<IActionResult> CustomerRegister(CustomerUserRegistrationDto customerUserRegistrationDto)
         {
-
+            
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var emailTaken = await _customerUserService.IsCustomerIdentifierTakenAsync(customerUserRegistrationDto.Email);
-            var phoneNumberTaken = await _customerUserService.IsCustomerIdentifierTakenAsync(customerUserRegistrationDto.PhoneNumber);
-
+         
 
             if (emailTaken) {
                 
@@ -62,27 +56,27 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
             }
 
-            if (phoneNumberTaken) {
-
-                return BadRequest($"The customer phone number {customerUserRegistrationDto.PhoneNumber} is already taken.");
-
+            if (!string.IsNullOrEmpty(customerUserRegistrationDto.MobileNumber))
+            {
+                
+                var phoneNumberTaken = await _customerUserService.IsCustomerIdentifierTakenAsync(customerUserRegistrationDto.MobileNumber);
+                
+                if (phoneNumberTaken) 
+                    return BadRequest($"The customer phone number {customerUserRegistrationDto.MobileNumber} is already taken.");
+                
             }
-
+           
             
             var customerUser = await _customerUserService.RegisterCustomerUserAsync(customerUserRegistrationDto);
-
-
-
+            
             if (customerUser == null)
-            {
                 return BadRequest("Customer Registration Failed");
-            }
-
-
+            
             //New User is already in database now.
             
-            var identifier = customerUserRegistrationDto.Email ?? customerUserRegistrationDto.PhoneNumber;
+            var identifier = customerUserRegistrationDto.Email  ?? customerUserRegistrationDto.MobileNumber;
 
+            
 
             var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(
                 identifier,
@@ -98,8 +92,8 @@ namespace Amazon_eCommerce_API.Controllers.Account
             {
                 message = $"OTP sent to your {otpChallenge.OtpChannel}",
                 pendingAuthID = otpChallenge.PendingAuthId,
-                destination = otpChallenge.MaskedDestination
-
+                destination = otpChallenge.MaskedDestination,
+                requiresVerification = true
 
             });
 
@@ -147,30 +141,23 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
         [HttpGet]
-
-
+        
 
         public async Task<IActionResult> GetAllCustomerAccounts()
         {
 
-
             var customerUsers = await _customerUserService.GetAllCustomerUsersAsync();
-
-
-       
+            
 
             if (customerUsers == null || !customerUsers.Any())
             {
-
-
                 return NotFound("No customer accounts found");
 
             }
 
 
             return Ok(customerUsers);
-
-
+            
 
         }
 

@@ -19,12 +19,6 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Account
         public string LastName { get; set; }
 
 
-        [Required(ErrorMessage = "Your Date of Birth is required")]
-        [DataType(DataType.Date)]
-
-        public DateOnly DateOfBirth { get; set; }
-        
-
 
         [Required(ErrorMessage = "Your Email Address is Required")]
         [EmailAddress(ErrorMessage = "Invailid email format")]

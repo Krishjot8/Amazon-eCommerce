@@ -1,9 +1,6 @@
-﻿
-using Amazon_eCommerce_API.Models.DTO_s;
-using Amazon_eCommerce_API.Models.DTO_s.Authentication;
-using Amazon_eCommerce_API.Models.DTO_s.Authentication.Verification;
+﻿using Amazon_eCommerce_API.Models.DTO_s.Authentication.Verification;
 
-namespace Amazon_eCommerce_API.Services.Email
+namespace Amazon_eCommerce_API.Services.Communication.Email
 {
     public interface IEmailService
     {

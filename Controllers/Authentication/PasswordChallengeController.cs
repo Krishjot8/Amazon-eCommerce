@@ -1,10 +1,9 @@
-﻿using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
+﻿using Amazon_eCommerce_API.Data;
+using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
-using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
-using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.UserResolver;
@@ -21,14 +20,18 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
 
         private readonly IPasswordChallengeService _passwordChallengeService;
         private readonly IUserResolverService _userResolverService;
+        private readonly ICustomerUserService _customerUserService;
         private readonly ITokenService _tokenService;
+        private readonly StoreContext _storeContext;
 
         public PasswordChallengeController(IPasswordChallengeService passwordChallengeService,
-            IUserResolverService userResolverService, ITokenService tokenService)
+            IUserResolverService userResolverService, ITokenService tokenService, ICustomerUserService customerUserService, StoreContext storeContext)
         {
             _passwordChallengeService = passwordChallengeService;
             _userResolverService = userResolverService;
             _tokenService = tokenService;
+            _customerUserService = customerUserService;
+            _storeContext = storeContext;
         }
 
         //
@@ -77,12 +80,15 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
 
             var isValid = await _passwordChallengeService.VerifyOtpAsync(requestDto);
 
-
             if (!isValid)
                 return Unauthorized("Invalid or expired OTP");
 
+            
+           
 
-            var user = await _userResolverService.ResolveUserAsync(requestDto.PendingAuthId, requestDto.Role);
+            var user = await _userResolverService.ResolveUserAsync
+                (requestDto.PendingAuthId, 
+                    requestDto.Role);
 
             if (user == null)
                 return NotFound("User not found");
@@ -98,8 +104,13 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                 case UserRole.Customer:
                 {
                     var customer = (CustomerUser)user;
+                    
+                    customer.IsEmailVerified = true;
+                    
                     userId = customer.Id;
                     displayName = customer.FirstName;
+                    
+               
                     break;
                 }
                 case UserRole.Business:
@@ -118,6 +129,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                 }
             }
 
+            await _storeContext.SaveChangesAsync();
 
             var token = _tokenService.GenerateToken(new TokenRequestDto
             {

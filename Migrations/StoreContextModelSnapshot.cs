@@ -829,9 +829,6 @@ namespace Amazon_eCommerce_API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("date");
-
                     b.Property<string>("EmailAddress")
                         .HasColumnType("nvarchar(450)");
 
@@ -844,10 +841,10 @@ namespace Amazon_eCommerce_API.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("MobileNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -1010,6 +1007,51 @@ namespace Amazon_eCommerce_API.Migrations
                         .HasFilter("[Last4Digits] IS NOT NULL AND [CardBrand] IS NOT NULL");
 
                     b.ToTable("SellerPaymentProfiles");
+                });
+
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerPayoutAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccountHolderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Last4Digits")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoutingNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SellerUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SellerUserId");
+
+                    b.ToTable("SellerPayoutAccounts");
                 });
 
             modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerPrimaryContact", b =>
@@ -1231,6 +1273,102 @@ namespace Amazon_eCommerce_API.Migrations
                         .IsUnique();
 
                     b.ToTable("SellerVerificationStatus");
+                });
+
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerVerificationDocument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DocumentUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("IssuanceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SellerUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SellerVerificationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("VerifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SellerUserId");
+
+                    b.HasIndex("SellerVerificationId");
+
+                    b.ToTable("SellerVerificationDocuments");
+                });
+
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerVerificationOverview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("BusinessAddressPostcardVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrentState")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("FinalApprovalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IdentityDocsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PayoutMethodCleared")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SellerUserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TaxInterviewValidated")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("VideoMeetingCompleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SellerVerificationOverviews");
                 });
 
             modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerW9", b =>
@@ -1670,6 +1808,17 @@ namespace Amazon_eCommerce_API.Migrations
                     b.Navigation("SellerUser");
                 });
 
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerPayoutAccount", b =>
+                {
+                    b.HasOne("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerUser", "SellerUser")
+                        .WithMany("SellerPayoutAccounts")
+                        .HasForeignKey("SellerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SellerUser");
+                });
+
             modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerPrimaryContact", b =>
                 {
                     b.HasOne("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerUser", "SellerUser")
@@ -1701,6 +1850,23 @@ namespace Amazon_eCommerce_API.Migrations
                         .IsRequired();
 
                     b.Navigation("SellerUser");
+                });
+
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerVerificationDocument", b =>
+                {
+                    b.HasOne("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerUser", "SellerUser")
+                        .WithMany("VerificationDocuments")
+                        .HasForeignKey("SellerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerVerification", "SellerVerification")
+                        .WithMany("Documents")
+                        .HasForeignKey("SellerVerificationId");
+
+                    b.Navigation("SellerUser");
+
+                    b.Navigation("SellerVerification");
                 });
 
             modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerW9", b =>
@@ -1800,6 +1966,8 @@ namespace Amazon_eCommerce_API.Migrations
 
                     b.Navigation("SellerPaymentProfiles");
 
+                    b.Navigation("SellerPayoutAccounts");
+
                     b.Navigation("SellerPrimaryContact");
 
                     b.Navigation("SellerStoreInformation");
@@ -1809,6 +1977,13 @@ namespace Amazon_eCommerce_API.Migrations
                     b.Navigation("SellerVerificationStatus");
 
                     b.Navigation("SellerW9");
+
+                    b.Navigation("VerificationDocuments");
+                });
+
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerVerification", b =>
+                {
+                    b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.TaxProfile.SellerTaxProfile", b =>

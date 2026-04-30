@@ -23,6 +23,8 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Seller
         public DateTime? VerifiedAt { get; set; }
 
         public virtual SellerVerification SellerVerification { get; set; } = null!;
+        
+        public SellerUser SellerUser { get; set; } = null!;
     }
             
             
