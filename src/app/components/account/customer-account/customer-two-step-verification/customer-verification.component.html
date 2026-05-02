@@ -16,15 +16,24 @@
    formControlName="otp"
   maxlength="6"/>
 
+  <div class="span-resend-one-time-password">
+    <span> <a (click)="onResendOtp()">Resend Code</a></span>
+  </div>
+
+<div class="span-resend-one-time-password-duration">
+  <img src="assets/logo-images/information-icon.png">
+ <h6>Please wait  seconds before requesting a new code. </h6>
+</div>
+
+
  <div class="error-message"
 *ngIf="verifyForm.get('otp')?.invalid && verifyForm.get('otp')?.touched">
 
-Invalid OTP. Please check your code and try again.
+ <img src="assets/logo-images/errors-icon.svg">
+  The code you entered is not valid. Please check the code and try again.
 </div>
 
-<div class="span-resend-one-time-password">
-  <span> <a (click)="onResendOtp()">Resend Code</a></span>
-</div>
+
 
 <div class="submit-account-verification">
   <button type="submit">Submit Code</button>

@@ -1,5 +1,9 @@
 //Top Navigation
 
+
+
+
+
 .topbar {
   position: relative;
   z-index: 1;
@@ -121,7 +125,6 @@ body.mat-drawer-opened {
 
 //Amazon Search Bar
 input {
-  height: 39px;
 
   width: 700px;
   font-family: Amazon;
@@ -134,9 +137,9 @@ input:active {
 
 .search-bar-wrapper {
   display: flex;
-  align-items: center;
-  width: 700px;
-  overflow: hidden;
+  
+  width: 100%;
+
   background-color: white;
 
   border-radius: 5px;
@@ -145,6 +148,8 @@ input:active {
 .search-icon {
   background-color: #ffbe1a;
   border: 1px solid #ffbe1a;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   width: 50px;
   height: 39px;
   border: none;
@@ -174,12 +179,12 @@ input:active {
 
 .search-dropdown {
   width: 100%;
-  height: 100%;
+height: 100%;
 
-  padding: 0 35px 0 10px;
+  padding: 0px 25px 0px 10px;
   font-family: Amazon;
   font-size: 14px;
-
+border: none;
   background-color: #d3d3d3;
   appearance: none;
   cursor: pointer;
@@ -225,7 +230,7 @@ input:active {
 
 .nav-sign-account-wrapper {
   display: inline-block;
-  margin-left: 85px;
+  margin-left: 95px;
   margin-top: 35px;
   font-family: Amazon;
   font-size: 13px;
@@ -266,9 +271,6 @@ input:active {
   border-color: #fff;
 }
 
-.nav-sign-account-wrapper .account-dropdown-content {
-  transform: translate(110px, -20px);
-}
 
 .account-arrow-dropdown {
   color: #ccc;
@@ -285,7 +287,7 @@ input:active {
   pointer-events: auto;
 
   height: 590px;           /* Adjust width as needed */
-  transform: translate(850px, 65px); /* Align under the button */
+  transform: translate(1010px, 65px); /* Align under the button */
 }
 
 ::ng-deep .mat-menu-panel.account-lists-menu.account-lists-menu-panel h4{
@@ -369,6 +371,38 @@ text-decoration: underline;
 margin-left: 175px;
 margin-top: 4px;
 
+}
+
+.account-options{
+
+  display: flex;
+  justify-content: center;
+  background-color: rgba(184, 233, 233, 0.3);
+  height: 60px;
+  border-radius: 5px;
+
+  margin-left: 20px;
+  margin-right: 20px;
+
+}
+.account-options .options ul{
+
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.account-options .options ul a{
+
+ 
+  justify-content: center;
+  gap: 20px;
+  font-size: 14px;
+  font-family: Amazon;
+  color: #2162a1;;
 }
 
 .sections{

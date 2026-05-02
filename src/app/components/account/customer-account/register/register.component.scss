@@ -20,43 +20,47 @@ cursor: pointer;
 }
 
 label {
-  font-weight: bold;
+  font-weight: 500;
 margin-top: 20px;
+font-family: Amazon;
+margin-right: 200px;
 
 
 }
 .registration-container {
   position: relative;
 text-align: center;
-margin: 20px 260px;
-  width: 57%;
+margin: 0 35% 0;
+  width: 450px;
   border-radius: 10px;
   border: 1px solid rgb(219, 217, 217);
 }
 
 
 .register-field-row{
-  display: flex;
-  margin: -30px 300px;
-justify-content: center;
+
 margin-top: 5px;
 }
 
 .register-field-row .register-field{
-  margin-top: 35px;
- margin-left: 10%;
- margin-right: 10%;
+display: flex;
+  flex-direction: column;
+  align-items: center;
 
 }
 
 .register-field-row .register-field .register-input{
-   height: 10px;
-  min-height: 28px;
+  position: relative;
+  height: 30px;
+
   border: 1px solid rgb(136, 136, 138);
   border-radius: 3px;
 width: 300px;
-margin-top: 2px;
+
   font-family: Amazon;
+  font-size: 12px;
+
+ 
 
 }
 
@@ -67,16 +71,16 @@ hr {
 }
 
 #newsletter-checkbox {
-width: 40px;
-height: 20px;
+scale: 1.5;
 display: flex;
+
 
 }
 
 .subscription-information {
 font-size: 12px;
 font-family: Amazon;
-transform: translate(5px,-5px);
+transform: translate(18px,-28px);
 line-height: 18px;
 }
 
@@ -120,15 +124,14 @@ font-style: italic;
 .newsletter-section
 {
 
-  background-color: aliceblue;
-width: 55%;
-margin: 4% 21.5%;
-border: 1px solid rgb(170, 170, 170);
-border-radius: 5px;
+background-color: aliceblue;
+width: 100%;
+
 
 }
 .terms-conditions{
-  margin:20px 2px
+margin:20px 2px;
+
 
 }
 .terms-conditions p{
@@ -204,19 +207,19 @@ justify-content: center;
  .register-errors
 {
  font-family: Amazon;
-  color:#Ba0933;
-margin-left: 4px;
-transform: translateY(-2px);
+  color:#c10015;
+margin-bottom: -25px;
+transform: translateY(-7px);
 
 
 }
 
 .register-errors img
 {
-transform: translate(-3px,7px);
+transform: translate(-2px,8px);
 
 }
 
 .error-border{
-  border: 2.5px solid #Ba0933;
+  border: 2.5px solid #c10015;
 }

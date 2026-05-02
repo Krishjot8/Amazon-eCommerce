@@ -22,14 +22,21 @@ isMenuHovered = false;
   searchTerm: string = '';
   selectedCategory: string = 'all';
   showDepartments: boolean = false;
-  username: string | null = null;
+  fullName: string = '';
+  isLoggedIn: boolean = false;
 
   constructor(private router: Router) {}
 
   showNavbar = true;
 
+
+  
   ngOnInit(): void {
-    this.username = localStorage.getItem('username');
+const token = localStorage.getItem('authToken');
+
+this.isLoggedIn = !!token;
+
+this.fullName = localStorage.getItem('fullName') || '';
   }
 
   //departments
@@ -196,8 +203,12 @@ closeMenu() {
 
   logout(){
 
-    localStorage.removeItem('username');
-    localStorage.removeItem('Token');
+    localStorage.clear();
+
+    this.fullName = '';
+  
+    this.isLoggedIn = false;
+  
     this.router.navigate(['/signin']);
   }
 }

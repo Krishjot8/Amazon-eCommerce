@@ -30,19 +30,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
 
 import { RegisterComponent } from './components/account/customer-account/register/register.component';
-import { CustomerLoginComponent } from './components/account/customer-account/login/login.component';
+import { CustomerLoginComponent } from './components/account/customer-account/customer-login-identifier/login.component';
 import { BusinessRegisterComponent } from './components/account/business-account/business-register/business-register.component';
 import { BusinessVerifyEmailComponent } from './components/account/business-account/business-verify-email/business-verify-email.component';
 import { SellerLoginComponent } from './components/account/seller-account/seller-login/seller-login.component';
 import { SellerRegisterComponent } from './components/account/seller-account/seller-register/seller-register.component';
 import { SellerVerifyEmailComponent } from './components/account/seller-account/seller-verify-email/seller-verify-email.component';
 import { BusinessLoginComponent } from './components/account/business-account/business-login/business-login.component';
-import { LoginPasswordComponent } from './components/account/customer-account/login-password/login-password.component';
-import { CustomerVerificationComponent } from './components/account/customer-account/customer-verification/customer-verification.component';
+import { LoginPasswordComponent } from './components/account/customer-account/customer-login-password/login-password.component';
+import { CustomerVerificationComponent } from './components/account/customer-account/customer-two-step-verification/customer-verification.component';
 import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
 import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
 import { TopBrandsCarouselComponent } from './components/carousels/video-games/top-brands-carousel/top-brands-carousel.component';
 import { ExploreGamingCarouselComponent } from './components/carousels/video-games/explore-gaming-carousel/explore-gaming-carousel.component';
+import { CustomerVerifyEmailComponent } from './components/account/customer-account/customer-verify-email/customer-verify-email.component';
 
 
 @NgModule({
@@ -79,7 +80,8 @@ import { ExploreGamingCarouselComponent } from './components/carousels/video-gam
     NewCustomerAccountComponent,
     AmazonHaulComponent,
  TopBrandsCarouselComponent,
- ExploreGamingCarouselComponent
+ ExploreGamingCarouselComponent,
+ CustomerVerifyEmailComponent
   ],
   imports: [
     AppRoutingModule,

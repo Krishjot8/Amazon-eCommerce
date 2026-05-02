@@ -1,0 +1,209 @@
+
+.span-verify-email-address {
+    font-size: 170%;
+    margin-bottom: 10px;
+    font-family: Amazon;
+    transform: translateY(-9px);
+  }
+  
+  
+  .amazon-authentication-logo {
+    width: 10%;
+    position: relative;
+    margin-left:50%;
+    margin-right: 50%;
+    margin-top: 1%;
+    cursor: pointer;
+  }
+  
+  .otp-information p{
+  font-family: Amazon;
+  font-size: 13px;
+  
+  margin-right: 15px;
+  
+  }
+  
+  .otp-information a{
+    font-family: Amazon;
+    font-size: 13px;
+    color: #007185;
+    margin-left: 15px;
+    text-decoration: none;
+  
+    }
+  
+    .otp-information a:hover{
+  
+      color: #093f48;
+   text-decoration: underline;
+  
+  
+      }
+
+       .otp-information span{
+
+        font-family: Amazon Ember;
+        
+      
+        }
+      
+         .otp-information span:hover{
+      
+          color: #093f48;
+
+      }
+  
+  .input-verification-code {
+    border-radius: 3px;
+    width: 90%;
+    height: 100%;
+    min-height: 26px;
+    font-family: Amazon;
+    border: 1px solid rgb(128, 128, 128);
+  
+    box-shadow: 2px #007185;
+    background-color: rgb(248, 248, 248);
+  }
+  
+  .input-verification-code:focus {
+    outline: none;
+    box-shadow: 0 0 0.2px 3px rgb(181, 237, 255);
+  }
+  
+  
+  .verify-account-container {
+    position: relative;
+    margin-left: 40%;
+    margin-right: 40%;
+    margin-top: 5%;
+    border: 1px solid rgb(218, 217, 217);
+    border-radius: 12px;
+    padding-left: 30px;
+    padding-top: 25px;
+    height: 100%;
+    min-height: 300px;
+    width: 360px;
+    max-width: 350px;
+  }
+  
+  .verify-account-conditions-privacy {
+    font-family: Amazon;
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 15px;
+    margin-right: 20%;
+    line-height: 120%;
+  }
+  
+  .verify-account-conditions-privacy a:hover {
+    color: rgb(209, 66, 0);
+  }
+  
+  .verify-account-conditions-privacy a {
+    color: #007185;
+  }
+  
+  .span-resend-one-time-password {
+    font-family: Amazon;
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: 10px;
+  }
+  .span-resend-one-time-password a{
+    color: #007185;
+    text-decoration: none;
+  
+  }
+  
+  .span-resend-one-time-password a:hover{
+    color: #07424d;
+    text-decoration: underline;
+  }
+  
+  .span-resend-one-time-password-to-email h6 {
+  
+  font-family: Amazon;
+  font-size: 12.5px;
+  transform: translate(30px,-23px);
+  color: green;
+  }
+  .span-resend-one-time-password-to-email img{
+    width: 20px;
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+  
+  .submit-account-verification button {
+  
+    cursor: pointer;
+    font-family: Amazon;
+  
+    padding: 7px;
+    width: 90%;
+    height: 100%;
+    background-color: #ffd814;
+   
+    border-radius: 20px;
+    border: none;
+  }
+  .submit-account-verification button:hover {
+    background-color: #d1b931fa;
+  }
+  
+  .submit-account-verification button:active {
+    background-color: #e8b621fa;
+    border: 3px solid turquoise;
+  }
+  
+  .h4-new-member h4 {
+    margin: 10px;
+    padding: 0 10px; /* Space between the line and text */
+    position: relative;
+  }
+  
+  .h4-new-member {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+  }
+  
+  .h4-new-member h4::before,
+  .h4-new-member h4::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 150%;
+    border-top: 1px solid #ccc; /* Line color */
+  }
+  
+  .create-amazon-account-link-button {
+    text-align: center;
+  }
+  
+  .create-amazon-account-link-button button {
+    width: 30%;
+    height: 100%;
+    min-height: 30px;
+    border-radius: 15px;
+    background-color: white;
+    border: 1px solid gray;
+    font-family: Amazon;
+    cursor: pointer;
+  }
+  
+  .create-amazon-account-link-button button:hover {
+    background-color: rgb(246, 246, 246);
+  }
+  
+  .create-amazon-account-link-button button:active {
+    background-color: rgb(232, 251, 255);
+    border: 3px solid #007185;
+  }
+  
+  .error-message{
+    color:#c10015;
+    font-family: Amazon;
+    font-size: 12.5px;
+  }

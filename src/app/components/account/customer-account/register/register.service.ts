@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CustomerRegistration } from 'src/app/models/accounts/CustomerUserAccount/customer-register.model';
+import { CustomerRegister } from 'src/app/models/accounts/CustomerUserAccount/AccountRegistration/register.model';
+
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class RegisterService {
 
   constructor(private http: HttpClient) {}
 
-  registerUser(userData: CustomerRegistration): Observable<any> {
+  registerUser(userData: CustomerRegister): Observable<any> {
     return this.http.post<any>(this.apiUrl, userData);
   }
 }

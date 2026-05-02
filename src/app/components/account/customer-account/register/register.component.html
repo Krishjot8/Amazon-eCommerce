@@ -6,54 +6,26 @@
 
       <div class="register-field-row">
         <div class="register-field">
-          <label for="firstName">First Name</label>
-          <input class="register-input" type="text" name="firstName" formControlName="firstName" autocomplete="off"
-            [class.error-border]="submitted   && registrationForm.get('firstName')?.invalid" placeholder="First Name" />
-          <div class="register-errors" *ngIf="submitted  && registrationForm.get('firstName')?.hasError('required')">
+          <label for="fullName">Full Name</label>
+          <input class="register-input" type="text" name="fullName" formControlName="fullName" autocomplete="off"
+            [class.error-border]="submitted   && registrationForm.get('fullName')?.invalid" placeholder="first and last name" />
+          <div class="register-errors" *ngIf="submitted  && registrationForm.get('fullName')?.hasError('required')">
             <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Your first name is required</small>
+            <small>Your first and last name is required</small>
           </div>
-          <div class="register-errors" *ngIf=" submitted  && registrationForm.get('firstName')?.hasError('pattern')">
+          <div class="register-errors" *ngIf=" submitted  && registrationForm.get('fullName')?.hasError('pattern')">
             <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Invalid first name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV'
+            <small>Invalid full name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV'
               or
               'XII'.</small>
           </div>
         </div>
-        <div class="register-field">
-          <label for="lastName">Last Name</label>
-          <input class="register-input" type="text" name="lastName" formControlName="lastName" autocomplete="off"
-            [class.error-border]="submitted && registrationForm.get('lastName')?.invalid" placeholder="Last Name" />
-          <div class="register-errors" *ngIf="submitted  && registrationForm.get('lastName')?.hasError('required')">
-            <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Your last name is required</small>
-          </div>
-          <div class="register-errors" *ngIf="submitted && registrationForm.get('lastName')?.hasError('pattern')">
-            <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Invalid last name format. Use letters, spaces, apostrophes, hyphens, and optional titles like 'IV' or
-              'XII'.</small>
-          </div>
-        </div>
-
+     
       </div>
 
 
       <div class="register-field-row">
-        <div class="register-field">
-          <label for="username">Username</label>
-          <input class="register-input" type="text" name="username" formControlName="username" autocomplete="off"
-            [class.error-border]="submitted  && registrationForm.get('username')?.invalid" placeholder="Username" />
-          <div class="register-errors" *ngIf="submitted  && registrationForm.get('username')?.hasError('required')">
-            <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Your username is required</small>
-          </div>
-          <div class="register-errors"
-            *ngIf="submitted  && !registrationForm.get('username')?.hasError('required') && registrationForm.get('username')?.invalid">
-            <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Username must be between 5-20 characters long</small>
-          </div>
-        </div>
-
+     
         <div class="register-field">
           <label for="email">Email Address</label>
           <input class="register-input" type="email" name="email" formControlName="email"
@@ -77,16 +49,8 @@
       </div>
 
       <div class="register-field-row">
-        <div class="register-field">
-          <label for="dateOfBirth">Date of Birth</label>
-          <input class="register-input" type="date" name="dateOfBirth" formControlName="dateOfBirth" autocomplete="off"
-            [class.error-border]="submitted && registrationForm.get('dateOfBirth')?.hasError('required')"
-            placeholder="Date of Birth" />
-          <div class="register-errors" *ngIf="submitted && registrationForm.get('dateOfBirth')?.hasError('required')">
-            <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Please select your date of birth</small>
-          </div>
-        </div>
+
+      
 
         <div class="register-field">
           <label for="phoneNumber">Phone Number</label>

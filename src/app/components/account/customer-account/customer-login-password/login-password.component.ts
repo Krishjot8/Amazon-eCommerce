@@ -8,9 +8,8 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerAuthenticationService } from '../customer-authentication.service';
-import { CustomerLogin } from 'src/app/models/accounts/CustomerUserAccount/Authentication/customer-login.model';
-import { PasswordChallengeResponse } from 'src/app/models/accounts/CustomerUserAccount/customer-password-challenge-response';
-import { CustomerOtpVerification } from 'src/app/models/accounts/CustomerUserAccount/customer-otp-verification.model';
+import { CustomerLogin } from 'src/app/models/accounts/CustomerUserAccount/Authentication/login.model';
+import { PasswordChallengeResponse } from 'src/app/models/user-authentication/password-challenge/password-challenge-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -32,7 +31,7 @@ export class LoginPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      password: ['', [Validators.required, this.passwordValidator]],
+      password: ['', [Validators.required]],
     });
 
     // clear backend error when typing
@@ -41,11 +40,6 @@ export class LoginPasswordComponent implements OnInit {
       if (this.submitted) this.validateInput();
     });
 
-    this.loginForm.get('emailOrPhone')?.valueChanges.subscribe(() => {
-      if (this.submitted) {
-        this.submitted = false; // hide errors as soon as the user types
-      }
-    });
   }
 
   passwordValidator(control: AbstractControl): ValidationErrors | null {
@@ -53,6 +47,7 @@ export class LoginPasswordComponent implements OnInit {
     if (!value) return { required: true };
 
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
+
     if (!passwordRegex.test(value)) return { invalidPassword: true };
 
     return null;
@@ -97,10 +92,10 @@ onSubmit() {
   }
 
   const password = this.loginForm.get('password')?.value.trim();
-  const emailOrPhone = localStorage.getItem('emailOrPhone');
+  const emailOrPhone = localStorage.getItem('loginIdentifier'); // get email/phone from local storage
 
   if (!emailOrPhone) {
-    this.router.navigate(['signin']);
+    this.router.navigate(['/signin']);
     return;
   }
 
@@ -109,19 +104,37 @@ onSubmit() {
   this.authService.startPasswordChallenge(loginPayload).subscribe({
     next: (response: PasswordChallengeResponse) => {
       // success: move to OTP verification
-      const otpPayload: CustomerOtpVerification = {
-        PendingAuthId: emailOrPhone,
-        Otp: '',
-     //   isResendRequest: false,
-      };
 
-      localStorage.setItem('pendingAuthId', response.pendingAuthId);
-      localStorage.setItem('otpChannel', response.otpChannel);
+      console.log('Generate OTP response:', response); 
+
+     
+
+      if(response?.pendingAuthId){
+        localStorage.setItem('pendingAuthId', response.pendingAuthId);
+
+      }else{
+
+        console.error('Missing pendingAuthId', response);
+        return
+      }
+    
+if(response?.otpChannel !== null && response?.otpChannel !== undefined){
+
+   localStorage.setItem('otpChannel', response.otpChannel.toString());
+}
+
+if(response?.maskedDestination){
       localStorage.setItem('otpMasked', response.maskedDestination);
-      localStorage.setItem('otpPayload', JSON.stringify(otpPayload));
+}
 
-      this.router.navigate(['customer-verification']);
+
+
+      localStorage.removeItem('loginIdentifier'); // clear email/phone from storage for security
+     
+      this.router.navigate(['/customer-verification']);
     },
+
+    
     error: (err: HttpErrorResponse) => {
       console.log('Login failed', err);
 

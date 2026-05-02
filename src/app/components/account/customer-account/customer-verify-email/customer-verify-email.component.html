@@ -1,0 +1,58 @@
+<div class="verify-account-page">
+    <img class="amazon-authentication-logo" src="assets/logo-images/amazon-authentication-logo.jpg"  a routerLink="" alt="">
+    <div class="verify-account-container">
+      <div class="span-verify-email-address">
+      <span>Verify email address</span>
+      </div>
+      <div class="otp-information">
+        <p>For your security, we've sent the code to your
+          email {{maskedEmail}}.
+        </p>
+        <span>Enter security code</span>
+      </div>
+  
+  <form  [formGroup]="verifyForm" class="form-verify-email" (ngSubmit)="onSubmit()" autocomplete ="off">
+    <input class="input-verification-code" autocomplete="off" type="text"
+     required
+     formControlName="otp"
+    maxlength="6"/>
+  
+    <div class="span-resend-one-time-password-to-email">
+        <img src="assets/logo-images/check-icon.png">
+       <h6>A new code has been sent to your email.</h6>
+      </div>
+  
+  
+  <div class="submit-account-verification">
+    <button type="submit">Create your Amazon account</button>
+  </div>
+  </form>
+  <div class="verify-account-conditions-privacy">
+    <p>By creating an account, you agree to Amazon's <a href="">Conditions
+      of Use</a> and <a href="">Privacy Notice</a></p>
+  </div>
+  <div class="span-resend-one-time-password">
+    <span> <a (click)="onResendOtp()">Resend Code</a></span>
+  </div>
+
+
+
+
+ <div class="error-message"
+*ngIf="verifyForm.get('otp')?.invalid && verifyForm.get('otp')?.touched">
+
+ <img src="assets/logo-images/errors-icon.svg">
+  The code you entered is not valid. Please check the code and try again.
+</div>
+
+  
+  
+    </div>
+  
+  
+  </div>
+  
+  
+  
+  
+  

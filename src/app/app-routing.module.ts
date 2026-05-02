@@ -15,11 +15,12 @@ import { RegistryComponent } from './pages/registry/registry.component';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
 import { RegisterComponent } from './components/account/customer-account/register/register.component';
-import { CustomerLoginComponent } from './components/account/customer-account/login/login.component';
-import { LoginPasswordComponent } from './components/account/customer-account/login-password/login-password.component';
-import { CustomerVerificationComponent } from './components/account/customer-account/customer-verification/customer-verification.component';
+import { CustomerLoginComponent } from './components/account/customer-account/customer-login-identifier/login.component';
+import { LoginPasswordComponent } from './components/account/customer-account/customer-login-password/login-password.component';
+import { CustomerVerificationComponent } from './components/account/customer-account/customer-two-step-verification/customer-verification.component';
 import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
 import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
+import { CustomerVerifyEmailComponent } from './components/account/customer-account/customer-verify-email/customer-verify-email.component';
 
 const routes: Routes = [
   {
@@ -123,6 +124,10 @@ const routes: Routes = [
     {
     path: 'new-customer-account',
     component: NewCustomerAccountComponent,
+  },
+  {
+    path: 'customer-verify-email',
+    component: CustomerVerifyEmailComponent,
   },
 ];
 

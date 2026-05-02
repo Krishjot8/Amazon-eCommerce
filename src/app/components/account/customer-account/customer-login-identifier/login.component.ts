@@ -89,8 +89,10 @@ export class CustomerLoginComponent implements OnInit {
       return;
     }
 
-    const emailOrPhoneValue = this.loginForm.get('emailOrPhone')?.value;
-    localStorage.setItem('emailOrPhone', emailOrPhoneValue);
-    this.router.navigate(['login-password']);
+    const emailOrPhoneValue = control.value.trim();
+
+    localStorage.setItem('loginIdentifier', emailOrPhoneValue);
+
+    this.router.navigate(['/login-password']);
   }
 }
