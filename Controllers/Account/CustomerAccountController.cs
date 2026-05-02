@@ -91,7 +91,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
             {
                 message = $"OTP sent to your {otpChallenge.OtpChannel}",
-                pendingAuthID = otpChallenge.PendingAuthId,
+                pendingAuthId = otpChallenge.PendingAuthId, 
                 destination = otpChallenge.MaskedDestination,
                 requiresVerification = true
 
@@ -121,13 +121,13 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
             if (otpChallenge == null)
-                return StatusCode(500, new { message = "Invalid Password"});
+                return StatusCode(401, new { message = "Invalid Password"});
 
             return Ok(new
 
             {
                 message = $"OTP sent to your {otpChallenge.OtpChannel}",
-                pendingAuthID = otpChallenge.PendingAuthId,
+                pendingAuthId = otpChallenge.PendingAuthId,
                 destination = otpChallenge.MaskedDestination
 
 

@@ -97,7 +97,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
             string displayName = "";
             string? storeName = null;
 
-
+            string email = "";
             switch (requestDto.Role)
             {
 
@@ -109,7 +109,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                     
                     userId = customer.Id;
                     displayName = customer.FirstName;
-                    
+                    email = customer.EmailAddress;
                
                     break;
                 }
@@ -134,7 +134,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
             var token = _tokenService.GenerateToken(new TokenRequestDto
             {
                 UserId = userId,
-                Email = requestDto.PendingAuthId,
+                Email = email,
                 Role = requestDto.Role,
                 DisplayName = displayName,
                 StoreName = storeName
@@ -147,10 +147,19 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
 
             return Ok(new
             {
+                success = true,
                 message = "OTP verified successfully.",
-                token,
-                userId,
-                username = displayName
+                
+                auth = new
+                {
+                    token = token
+                },
+               user = new
+               {
+                   id = userId,
+                    displayName,
+                   role = requestDto.Role.ToString()
+               }
 
             });
 

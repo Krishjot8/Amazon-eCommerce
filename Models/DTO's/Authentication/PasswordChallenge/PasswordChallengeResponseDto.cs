@@ -1,8 +1,11 @@
+using System.Text.Json.Serialization;
+
 namespace Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge
 {
     public class PasswordChallengeResponseDto
     {
         
+      
         public string PendingAuthId { get; set; }
         
         public OtpChannel OtpChannel { get; set; }

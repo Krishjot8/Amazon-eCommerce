@@ -108,7 +108,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
             {
                 message = $"OTP sent to your {otpChallenge.OtpChannel}",
-                pendingAuthID = otpChallenge.PendingAuthId,
+                pendingAuthId = otpChallenge.PendingAuthId,
                 destination = otpChallenge.MaskedDestination
 
 

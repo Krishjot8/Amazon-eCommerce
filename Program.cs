@@ -23,6 +23,7 @@ builder.Services.AddControllers()
       .AddJsonOptions(options =>
       {
           options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+          options.JsonSerializerOptions.PropertyNamingPolicy = null;
       });
 
 // Swagger / OpenAPI
