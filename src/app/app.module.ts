@@ -44,6 +44,7 @@ import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
 import { TopBrandsCarouselComponent } from './components/carousels/video-games/top-brands-carousel/top-brands-carousel.component';
 import { ExploreGamingCarouselComponent } from './components/carousels/video-games/explore-gaming-carousel/explore-gaming-carousel.component';
 import { CustomerVerifyEmailComponent } from './components/account/customer-account/customer-verify-email/customer-verify-email.component';
+import { AuthFooterComponent } from './components/footer/auth-footer/auth-footer.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { CustomerVerifyEmailComponent } from './components/account/customer-acco
     AmazonHaulComponent,
  TopBrandsCarouselComponent,
  ExploreGamingCarouselComponent,
- CustomerVerifyEmailComponent
+ CustomerVerifyEmailComponent,
+ AuthFooterComponent
   ],
   imports: [
     AppRoutingModule,

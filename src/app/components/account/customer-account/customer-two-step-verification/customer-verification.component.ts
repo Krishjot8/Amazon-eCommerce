@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerAuthenticationService } from '../customer-authentication.service';
-import { VerifyEmail } from 'src/app/models/user-authentication/verification/verify-email.model';
+
 import { AccountType } from 'src/app/models/user-authentication/verification/account-type-enum';
 import { VerifySms } from 'src/app/models/user-authentication/verification/verify-sms.model';
 import { PasswordChallengeVerify } from 'src/app/models/user-authentication/password-challenge/password-challenge-verify.model';
 import { UserRole } from 'src/app/models/user-authentication/token/user-role-enum';
+import { ResendOtpRequest } from 'src/app/models/user-authentication/password-challenge/resend-otp-request.model';
 
 @Component({
   selector: 'app-customer-verification',
@@ -20,6 +21,15 @@ maskedEmail: string = '';
 phoneNumber: string = '';
 verificationType: 'email' | 'sms' = 'email';
   isSubmitting = false;
+
+  // resend code
+
+  resendCooldown = 60; //seconds
+  canResend = false;
+  resendAttempts = 0;
+  interval: any;
+
+
 
   constructor(
   private fb: FormBuilder,
@@ -72,7 +82,10 @@ this.maskedEmail = this.maskEmail(this.email);
 }
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    this.startCooldown();
+  }
 
   private maskEmail(email: string): string {
     const [name, domain] = email.split('@');
@@ -130,42 +143,59 @@ this.maskedEmail = this.maskEmail(this.email);
 
   onResendOtp() {
 
+if(!this.canResend) return;
 
+      const payload: ResendOtpRequest = {
 
-    if(this.verificationType === 'email'){
-
-   
-      const payload: VerifyEmail = {
-
-        email: this.email,
-        emailOtp: '',
-        isResendRequest: true,
-        accountType: AccountType.Customer
+        pendingAuthId: localStorage.getItem('pendingAuthId') || '',
+        role: 0 
       };
   
       this.authService.resendEmailOtp(payload).subscribe({
-next: (res) =>  console.log('Email OTP resent ', res),
+next: (res) =>  {console.log('Email OTP resent ', res);
+
+this.resendAttempts++;
+
+this.resendCooldown = res.cooldownSeconds;
+
+this.startCooldown();
+
+      },
+
 error: (err) => console.error('Failed to resend OTP', err),
 
     });
 
 
-  } else{
-
-    const payload: VerifySms = {
-
-      phoneNumber: this.phoneNumber,
-     smsOtpCode: '',
-      isResendRequest: true,
-      accountType: AccountType.Customer
-    };
-
-this.authService.resendSmsOtp(payload).subscribe({
-  next: (res) => console.log('SMS OTP resent ', res),
-  error: (err) => console.error('Failed to resend OTP', err),
-    });
-    }
   }
+
+
+
+
+
+  startCooldown() {
+
+    this.canResend = false;
+
+    if(this.resendAttempts === 0){
+this.resendCooldown = 60;
+    }else{
+      this.resendCooldown = 90;
+    }
+
+
+    clearInterval(this.interval);
+
+    this.interval = setInterval(() => {
+      this.resendCooldown--;
+
+      if (this.resendCooldown <= 0) {
+        this.canResend = true;
+        clearInterval(this.interval);
+      }
+    }, 1000);
+  }
+
 
   private handleSuccess(response: any) {
     console.log('OTP verified successfully', response);

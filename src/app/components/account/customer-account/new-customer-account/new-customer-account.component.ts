@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewCustomerAccountComponent implements OnInit {
 
+  emailOrPhone: string | null = null;
+
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(){
+
+    this.emailOrPhone = localStorage.getItem('signupIdentifier') ?? '';
   }
 
 }

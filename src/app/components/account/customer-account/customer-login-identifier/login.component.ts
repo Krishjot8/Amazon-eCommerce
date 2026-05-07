@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { AbstractConstructor } from '@angular/material/core/common-behaviors/constructor';
 import { Router } from '@angular/router';
+import { CustomerAuthenticationService } from '../customer-authentication.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -17,15 +19,28 @@ import { Router } from '@angular/router';
 export class CustomerLoginComponent implements OnInit {
   emailOrPhone: string = '';
   errorMessage: string = '';
+  
   loginForm!: FormGroup;
-
+  
   submitted: boolean = false; //track if input was touched
 
-  constructor(public router: Router, private fb: FormBuilder) {}
+  constructor(public router: Router,
+     private fb: FormBuilder,
+     private authService: CustomerAuthenticationService,
+     private titleService: Title
+    ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      emailOrPhone: ['', [Validators.required, this.emailOrPhoneValidator]],
+      emailOrPhone: [
+        '', [
+          Validators.required,
+          this.emailOrPhoneValidator,
+          Validators.pattern(
+             /^(\+?\d{10,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/
+          )
+         ]
+      ],
     });
     
   this.loginForm.get('emailOrPhone')?.valueChanges.subscribe(() => {
@@ -34,7 +49,46 @@ export class CustomerLoginComponent implements OnInit {
     }
   });
   
+  this.titleService.setTitle('Amazon Sign-in');
   }
+
+
+onContinue(){
+
+if(this.loginForm.invalid) {
+  this.loginForm.markAllAsTouched(); // Show validation errors
+  return;
+}
+
+  const identifier = this.loginForm.get('emailOrPhone')?.value.trim();
+
+  if(!identifier) return;
+
+  this.authService.checkIdentifier(identifier).subscribe({
+
+next: (res) => {
+
+if(res.exists){
+
+  localStorage.setItem('loginIdentifier', identifier);
+  this.router.navigate(['/login-password']);
+
+}else{
+
+localStorage.setItem('signupIdentifier', identifier);
+this.router.navigate(['/new-customer-account']);
+
+ }
+},
+
+error: (err) => {
+
+  console.error('Identifier check failed', err);
+   }
+  });
+
+}
+
 
   emailOrPhoneValidator(control: AbstractControl): ValidationErrors | null {
     //control: AbstractControl; input control must return null - meaning no error or someError:true;

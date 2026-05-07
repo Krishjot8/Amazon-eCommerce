@@ -5,7 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { CustomerLogin } from 'src/app/models/accounts/CustomerUserAccount/Authentication/login.model';
 import { PasswordChallengeResponse } from 'src/app/models/user-authentication/password-challenge/password-challenge-response.model';
 import { PasswordChallengeVerify } from 'src/app/models/user-authentication/password-challenge/password-challenge-verify.model';
-import { VerifyEmail } from 'src/app/models/user-authentication/verification/verify-email.model';
+import { ResendOtpRequest } from 'src/app/models/user-authentication/password-challenge/resend-otp-request.model';
 import { VerifySms } from 'src/app/models/user-authentication/verification/verify-sms.model';
 import { environment } from 'src/environments/environment';
 
@@ -28,6 +28,19 @@ setCurrentUser(firstName: string | null) {
 
   this.currentUserSubject.next(firstName);
 }
+
+
+
+
+checkIdentifier(identifier: string) {
+
+return this.http.post<{exists: boolean}>
+(`${this.apiUrl}/passwordchallenge/check-identifier`, 
+  { identifier });
+
+}
+
+
 
   storeIdentifier(data: CustomerLogin) {
     //saves the email/phone to local storage
@@ -85,11 +98,10 @@ setCurrentUser(firstName: string | null) {
   }
 
 
-  resendEmailOtp(payload: VerifyEmail){
+  resendEmailOtp(payload:ResendOtpRequest){
 
-return this.http.post<any>(`${this.apiUrl}/verification/resend-email-otp`,payload);
+return this.http.post<any>(`${this.apiUrl}/passwordchallenge/resend`,payload);
   }
-
 
 
 

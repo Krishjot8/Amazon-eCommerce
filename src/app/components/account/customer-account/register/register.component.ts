@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterService } from './register.service';
 import { CustomerRegister } from 'src/app/models/accounts/CustomerUserAccount/AccountRegistration/register.model';
-
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -16,7 +16,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private registerService: RegisterService
+    private registerService: RegisterService,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +59,8 @@ export class RegisterComponent implements OnInit {
       },
       { validators: this.passwordMatchValidator }
     );
+
+    this.titleService.setTitle('Amazon Registration');
   }
 
   ngOnDestroy(): void {}

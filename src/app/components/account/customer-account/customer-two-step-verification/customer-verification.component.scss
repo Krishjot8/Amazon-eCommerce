@@ -24,6 +24,15 @@ margin-right: 15px;
 
 }
 
+.disabled {
+
+  color: gray;
+
+  cursor: not-allowed;
+
+  text-decoration: none;
+
+}
 .otp-information a{
   font-family: Amazon;
   font-size: 13px;
@@ -100,7 +109,7 @@ margin-right: 15px;
 .span-resend-one-time-password a{
   color: #007185;
   text-decoration: none;
-
+cursor: pointer;
 }
 
 .span-resend-one-time-password a:hover{

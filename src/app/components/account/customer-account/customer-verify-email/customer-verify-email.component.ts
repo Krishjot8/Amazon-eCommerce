@@ -131,44 +131,44 @@ this.maskedEmail = this.maskEmail(this.email);
 
 
 
-  onResendOtp() {
+//   resendVerificationOtp() {
 
 
 
-    if(this.verificationType === 'email'){
+//     if(this.verificationType === 'email'){
 
    
-      const payload: VerifyEmail = {
+//       const payload: VerifyEmail = {
 
-        email: this.email,
-        emailOtp: '',
-        isResendRequest: true,
-        accountType: AccountType.Customer
-      };
+//         email: this.email,
+//         emailOtp: '',
+//         isResendRequest: true,
+//         accountType: AccountType.Customer
+//       };
   
-      this.authService.resendEmailOtp(payload).subscribe({
-next: (res) =>  console.log('Email OTP resent ', res),
-error: (err) => console.error('Failed to resend OTP', err),
+//       this.authService.resendEmailOtp(payload).subscribe({
+// next: (res) =>  console.log('Email OTP resent ', res),
+// error: (err) => console.error('Failed to resend OTP', err),
 
-    });
+//     });
 
 
-  } else{
+//   } else{
 
-    const payload: VerifySms = {
+//     const payload: VerifySms = {
 
-      phoneNumber: this.phoneNumber,
-     smsOtpCode: '',
-      isResendRequest: true,
-      accountType: AccountType.Customer
-    };
+//       phoneNumber: this.phoneNumber,
+//      smsOtpCode: '',
+//       isResendRequest: true,
+//       accountType: AccountType.Customer
+//     };
 
-this.authService.resendSmsOtp(payload).subscribe({
-  next: (res) => console.log('SMS OTP resent ', res),
-  error: (err) => console.error('Failed to resend OTP', err),
-    });
-    }
-  }
+// this.authService.resendSmsOtp(payload).subscribe({
+//   next: (res) => console.log('SMS OTP resent ', res),
+//   error: (err) => console.error('Failed to resend OTP', err),
+//     });
+//     }
+//   }
 
   private handleSuccess(response: any) {
     console.log('OTP verified successfully', response);

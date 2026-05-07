@@ -11,6 +11,7 @@ import { CustomerAuthenticationService } from '../customer-authentication.servic
 import { CustomerLogin } from 'src/app/models/accounts/CustomerUserAccount/Authentication/login.model';
 import { PasswordChallengeResponse } from 'src/app/models/user-authentication/password-challenge/password-challenge-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login-password',
@@ -22,11 +23,13 @@ export class LoginPasswordComponent implements OnInit {
   errorMessage: string = ''; // frontend validation
   authErrorMessage: string = ''; // backend auth error
   submitted: boolean = false; // track if user clicked submit
+  emailOrPhone: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: CustomerAuthenticationService
+    private authService: CustomerAuthenticationService,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +43,8 @@ export class LoginPasswordComponent implements OnInit {
       if (this.submitted) this.validateInput();
     });
 
+     this.emailOrPhone = localStorage.getItem('loginIdentifier') ?? '',
+     this.titleService.setTitle('Amazon Sign-in');
   }
 
   passwordValidator(control: AbstractControl): ValidationErrors | null {

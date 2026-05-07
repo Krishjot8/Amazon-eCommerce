@@ -6,7 +6,7 @@
       <span>Sign in or create account</span>
     </div>
     <div class="span-email-mobile">
-      <span>Enter mobile phone number or email</span>
+      <span>Enter mobile number or email</span>
     </div>
 
 
@@ -20,7 +20,7 @@
 
 
         <div class="continue-sign-in">
-          <button type="submit">Continue</button>
+          <button (click)="onContinue()" type="submit">Continue</button>
         </div>
       </div>
     </form>
@@ -36,19 +36,13 @@
     </div>
     <hr>
     <div class="business-sign-in">
-      <span>Buying For Work?</span>
+      <span>Buying for work?</span>
       <div class="business-sign-in-link">
         <a href="">Create a free business account</a>
       </div>
     </div>
   </div>
 
-  <div class="create-account-link">
-    <div class="h4-new-member">
-      <h4>New to Amazon?</h4>
-    </div>
-    <div>
-      <button class="create-amazon-account-button" routerLink="/register">Create your Amazon Account</button>
-    </div>
-  </div>
+
+  <app-auth-footer></app-auth-footer>
 </div>

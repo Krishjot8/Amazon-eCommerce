@@ -16,13 +16,18 @@
    formControlName="otp"
   maxlength="6"/>
 
+
   <div class="span-resend-one-time-password">
-    <span> <a (click)="onResendOtp()">Resend Code</a></span>
+    <span> <a (click)="onResendOtp()"
+      [class.disabled]="!canResend"
+      [style.pointerEvents]="canResend ? 'auto' : 'none'">Resend Code</a></span>
   </div>
 
-<div class="span-resend-one-time-password-duration">
+<div class="span-resend-one-time-password-duration"
+*ngIf="!canResend">
+  
   <img src="assets/logo-images/information-icon.png">
- <h6>Please wait  seconds before requesting a new code. </h6>
+ <h6>Please wait {{resendCooldown}} seconds before requesting a new code. </h6>
 </div>
 
 
@@ -49,6 +54,7 @@
   </div>
 
 
+<app-auth-footer></app-auth-footer>
 </div>
 
 
