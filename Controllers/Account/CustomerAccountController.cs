@@ -135,13 +135,9 @@ namespace Amazon_eCommerce_API.Controllers.Account
 
 
         }
-
-
-
-
+        
 
         [HttpGet]
-        
 
         public async Task<IActionResult> GetAllCustomerAccounts()
         {
@@ -236,18 +232,6 @@ namespace Amazon_eCommerce_API.Controllers.Account
         
         
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -384,9 +368,13 @@ namespace Amazon_eCommerce_API.Controllers.Account
                 );
         
         }
-
+        
+        
+     
     }
 
+    
+  
 }
 
 

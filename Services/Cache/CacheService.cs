@@ -110,9 +110,9 @@ namespace Amazon_eCommerce_API.Services.Cache
 
 
 
-        public async Task<OtpCacheDto> ValidateOtpAsync(string email, string otp)
+        public async Task<OtpCacheDto> ValidateOtpAsync(string identifier, string otp)
         {
-            var cachedOtp = await GetOtpAsync(email);
+            var cachedOtp = await GetOtpAsync(identifier);
           
 
             if(cachedOtp == null || cachedOtp.ExpirationTime < DateTime.UtcNow)

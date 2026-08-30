@@ -2,6 +2,7 @@
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge.ForgotPassword;
 
 namespace Amazon_eCommerce_API.Services.Users.Customer
 {
@@ -49,7 +50,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
 
         Task<bool> UpdateCustomerEmailAsync(int userId, string newEmail);
 
-        Task<bool> ResetCustomerPasswordAsync(CustomerUserForgotPasswordDto forgotPasswordDto);
+        Task<bool> ResetCustomerPasswordAsync(ResetForgotPasswordDto request);
 
 
         

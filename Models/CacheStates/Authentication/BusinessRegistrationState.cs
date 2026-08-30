@@ -1,4 +1,5 @@
-﻿namespace Amazon_eCommerce_API.Models.CacheStates.Authentication
+﻿#nullable enable
+namespace Amazon_eCommerce_API.Models.CacheStates.Authentication
 {
     public class BusinessRegistrationState
     {
@@ -12,10 +13,11 @@
 
 
         // Account Setup
-        public string? FullName { get; set; }
+        public string FullName { get; set; } = String.Empty;
 
 
-        public string? PasswordHash { get; set; }
+
+        public string PasswordHash { get; set; } = String.Empty;
 
 
         //Business Details

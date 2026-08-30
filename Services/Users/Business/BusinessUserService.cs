@@ -1,10 +1,13 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text.RegularExpressions;
 using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.CacheStates.Authentication;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge.ForgotPassword;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Cache;
@@ -407,93 +410,43 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             return hashedPassword;
         }
         
-        public async Task<bool> ResetBusinessPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto)
+        public async Task<bool> ResetBusinessPasswordAsync(ResetForgotPasswordDto forgotPasswordDto)
         {
 
-            if (forgotPasswordDto.NewPassword != forgotPasswordDto.ReEnterPassword)
-
-            {
-                throw new ArgumentException("The password and confirmation password do not match");
-
-            }
+            var handler = new JwtSecurityTokenHandler();
+            if (!handler.CanReadToken(forgotPasswordDto.ResetToken))
+                return false;
             
-            var user = await GetUserByBusinessEmailAsync(forgotPasswordDto.BusinessEmail);
+            var jwtToken = handler.ReadJwtToken(forgotPasswordDto.ResetToken);
 
+            var purposeClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "purpose")?.Value;
+            if(purposeClaim != "PasswordReset")
+                return false;
+            
+            var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+             if(string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                 return false;
+
+            var user = await _storeContext.BusinessUsers.FindAsync(userId);
+            
             if (user == null)
             {
-
                 throw new Exception("The user you are looking for does not exist");
-
             }
             
-
-            var cachedOtp =
-                await _cacheService.ValidateOtpAsync(forgotPasswordDto.BusinessEmail, forgotPasswordDto.Otp);
-
-            if (cachedOtp == null)
-            {
-
-
-
-                return false;
-            }
-
-            //Hash new password before updating
-
-
-            var hashedPassword = await HashBusinessPasswordAsync(forgotPasswordDto.NewPassword);
-
-
-            user.PasswordHash = hashedPassword;
-
+            user.PasswordHash = await HashBusinessPasswordAsync(forgotPasswordDto.NewPassword);
             user.UpdatedAt = DateTime.UtcNow;
-
-
+            
             await _storeContext.SaveChangesAsync();
-
-            await _cacheService.RemoveOtpAsync(forgotPasswordDto.BusinessEmail);
-
-
+            
 
             return true;
-
-
-
+            
 
         }
 
         
         
-
-        public async Task<bool> ChangeBusinessPasswordAsync(int userId,
-            UpdateBusinessUserPasswordDto userPasswordDto)
-        {
-
-            //finds the user to change password
-            var existingUser = await _storeContext.BusinessUsers.FindAsync(userId);
-
-            if (existingUser == null)
-            {
-                return false;
-            }
-
-            //Verify Current Password
-            if (!await VerifyBusinessPasswordAsync(userPasswordDto.CurrentPassword, existingUser.PasswordHash))
-            {
-
-                throw new UnauthorizedAccessException("Current password is incorrect");
-
-            }
-
-            existingUser.PasswordHash = await HashBusinessPasswordAsync(userPasswordDto.NewPassword);
-
-            _storeContext.BusinessUsers.Update(existingUser);
-            var result = await _storeContext.SaveChangesAsync();
-            return result > 0;
-
-        }
-
-
         
         
         

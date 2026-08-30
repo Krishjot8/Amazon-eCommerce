@@ -8,7 +8,14 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
         Task<PasswordChallengeResponseDto>GenerateOtpChallengeAsync(string identifier, string password, UserRole role);
         Task<bool> VerifyOtpAsync(PasswordChallengeVerifyDto verifyDto);
+        
+        Task<ResendOtpResponseDto> ResendOtpAsync(ResendOtpRequestDto request);
        
+        
+        // password reset methods
+        
+        Task GeneratePasswordResetOtpAsync(string identifier, AccountType accountType);
+        Task<bool> VerifyPasswordResetOtpAsync(string pendingAuthId, string otp, AccountType accountType);
 
     }
 }

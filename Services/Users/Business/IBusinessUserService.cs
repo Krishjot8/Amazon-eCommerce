@@ -2,6 +2,7 @@
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.BusinessUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge.ForgotPassword;
 
 namespace Amazon_eCommerce_API.Services.Users.Business
 {
@@ -53,16 +54,13 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         Task<string> HashBusinessPasswordAsync(string password);
 
         Task<bool> VerifyBusinessPasswordAsync(string enteredPassword, string storedHash);
-
-
-
-        Task<bool> ChangeBusinessPasswordAsync(int userId, UpdateBusinessUserPasswordDto userPasswordDto);
+        
 
         Task<bool> UpdateBusinessEmailAsync(int userId, string newEmail);
 
         Task<bool>UpdateBusinessPasswordAsync(int userId, UpdateBusinessUserPasswordDto userPasswordDto);
         
-        Task<bool> ResetBusinessPasswordAsync(BusinessUserForgotPasswordDto forgotPasswordDto);
+        Task<bool> ResetBusinessPasswordAsync(ResetForgotPasswordDto forgotPasswordDto);
 
 
         

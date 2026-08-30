@@ -34,26 +34,35 @@ namespace Amazon_eCommerce_API.Services.Authentication.Token
             {  
               new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
               new Claim(ClaimTypes.NameIdentifier, request.UserId.ToString()),
-              new Claim(ClaimTypes.Email, request.Email),
               new Claim(ClaimTypes.Role, request.Role.ToString()),
             };
 
+            if(!string.IsNullOrEmpty(request.Email))
+                claims.Add(new Claim("email", request.Email));
             
             if(!string.IsNullOrEmpty(request.DisplayName))
                 claims.Add(new Claim("displayName", request.DisplayName));
             
             if(!string.IsNullOrEmpty(request.StoreName))
                 claims.Add(new Claim("storeName", request.StoreName));
-
+            
+            if(!string.IsNullOrEmpty(request.Purpose))
+                claims.Add(new Claim("purpose", request.Purpose));
+            
+          //  if(request.ExpirationInMinutes.HasValue)
+             //   claims.Add(new Claim("expiration", request.ExpirationInMinutes.Value.ToString()));
+                
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 
+            int lifetime = request.ExpirationInMinutes ?? _expirationMinutes;
+            
             var token = new JwtSecurityToken(
                 issuer: _issuer,
                 audience: _audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(_expirationMinutes),
+                expires: DateTime.Now.AddMinutes(lifetime),
                 signingCredentials: creds);
 
 

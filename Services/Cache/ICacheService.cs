@@ -30,7 +30,7 @@ namespace Amazon_eCommerce_API.Services.Cache
         Task<bool> CanRequestOtpAsync(string email);
 
 
-        Task<OtpCacheDto> ValidateOtpAsync(string email, string otp);
+        Task<OtpCacheDto> ValidateOtpAsync(string identifier, string otp);
 
 
         Task SetBusinessRegistraionStateAsync(string email, BusinessRegistrationState state);

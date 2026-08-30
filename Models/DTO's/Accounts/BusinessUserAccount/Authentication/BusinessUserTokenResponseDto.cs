@@ -5,9 +5,10 @@
 
         public int UserId {  get; set; }
 
-        public string BusinessName { get; set; }
+        public string BusinessName { get; set; } = String.Empty;
+        
 
-        public string Token { get; set; }
+        public string Token { get; set; } 
 
 
 

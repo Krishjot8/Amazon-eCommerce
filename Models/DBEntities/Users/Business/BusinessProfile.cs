@@ -13,10 +13,8 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Users.Business
         public string? MiddleName { get; set; } 
         
         public string LastName { get; set; } = null!;
-
-
-        public bool ReceiveUpdates { get; set; } 
         
+        public bool ReceiveUpdates { get; set; } 
         
         public BusinessUser BusinessUser { get; set; } = null!;
 

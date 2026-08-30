@@ -18,6 +18,9 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Authentication.Token
         
         public string? StoreName { get; set; }  //For Seller Account
         
+        public string? Purpose { get; set; }
+        
+        public int? ExpirationInMinutes { get; set; }
         
     }
 

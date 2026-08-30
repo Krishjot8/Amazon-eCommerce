@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 using Amazon_eCommerce_API.Data;
 using Amazon_eCommerce_API.Models.DBEntities.Preferences.Customer;
@@ -5,6 +7,7 @@ using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountRegistration;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authentication;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge.ForgotPassword;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Cache;
@@ -13,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Amazon_eCommerce_API.Services.Users.Customer
 {
-    public class CustomerUserService : ICustomerUserService
+    public class CustomerUserServicee : ICustomerUserService
 
     {
         private readonly ICacheService cacheService;
@@ -22,7 +25,7 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
         private readonly ITokenService tokenService;
 
 
-        public CustomerUserService(StoreContext storeContext, IMapper mapper, ITokenService tokenService,
+        public CustomerUserServicee(StoreContext storeContext, IMapper mapper, ITokenService tokenService,
             ICacheService cacheService)
         {
             this.storeContext = storeContext;
@@ -216,47 +219,46 @@ namespace Amazon_eCommerce_API.Services.Users.Customer
         }
 
 
-        public async Task<bool> ResetCustomerPasswordAsync(CustomerUserForgotPasswordDto forgotPasswordDto)
+        public async Task<bool> ResetCustomerPasswordAsync(ResetForgotPasswordDto request)
         {
-            if (forgotPasswordDto.NewPassword != forgotPasswordDto.ConfirmPassword)
-
-            {
-                throw new ArgumentException("The password and confirmation password do not match");
-            }
-
-
-            var user = await GetUserByCustomerEmailAsync(forgotPasswordDto.Email);
-
+            var handler = new JwtSecurityTokenHandler();
+            if(!handler.CanReadToken(request.ResetToken))
+                return false;
+            
+            var jwtToken = handler.ReadJwtToken(request.ResetToken); 
+            
+            var purposeClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "purpose")?.Value;
+            
+            if (purposeClaim != "PasswordReset")
+                return false;
+            
+            var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if(string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                return false;
+            
+            var user = await storeContext.CustomerUsers.FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null)
             {
-                throw new Exception("The user you are looking for does not exist");
+                
+                throw new Exception("The customer does not exist");
             }
-
-
-            var cachedOtp = await cacheService.ValidateOtpAsync(forgotPasswordDto.Email, forgotPasswordDto.Otp);
-
-            if (cachedOtp == null)
-            {
-                return false;
-            }
-
-            //Hash new password before updating
-
-
-            var hashedPassword = await HashCustomerPasswordAsync(forgotPasswordDto.NewPassword);
-
-
+            
+            var hashedPassword = await HashCustomerPasswordAsync(request.NewPassword);
             user.PasswordHash = hashedPassword;
+            
+            var updatedResult = await UpdateCustomerUserAsync(user.Id, user);
 
-            var updateResult = await UpdateCustomerUserAsync(user.Id, user);
-
-
-            if (updateResult)
+            if (updatedResult)
             {
-                await cacheService.RemoveOtpAsync(forgotPasswordDto.Email);
+                
+                
+                await cacheService.RemoveOtpAsync(request.Identifier);
+                
             }
 
-            return updateResult;
+                
+            return updatedResult;
+
         }
 
 

@@ -3,10 +3,12 @@ using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge.ForgotPassword;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.UserResolver;
+using Amazon_eCommerce_API.Services.Users.Business;
 using Amazon_eCommerce_API.Services.Users.Customer;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,16 +22,20 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
 
         private readonly IPasswordChallengeService _passwordChallengeService;
         private readonly IUserResolverService _userResolverService;
+        private readonly IBusinessUserService _businessUserService;
         private readonly ICustomerUserService _customerUserService;
         private readonly ITokenService _tokenService;
         private readonly StoreContext _storeContext;
 
         public PasswordChallengeController(IPasswordChallengeService passwordChallengeService,
-            IUserResolverService userResolverService, ITokenService tokenService, ICustomerUserService customerUserService, StoreContext storeContext)
+            IUserResolverService userResolverService, ITokenService tokenService,
+            IBusinessUserService businessUserService,
+            ICustomerUserService customerUserService, StoreContext storeContext)
         {
             _passwordChallengeService = passwordChallengeService;
             _userResolverService = userResolverService;
             _tokenService = tokenService;
+            _businessUserService = businessUserService;
             _customerUserService = customerUserService;
             _storeContext = storeContext;
         }
@@ -40,12 +46,11 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
         [HttpPost("generate")]
 
         // Generates an OTP challenge for login (email or phone)
-        
+
         public async Task<IActionResult> GenerateOtp([FromBody] PasswordChallengeRequestDto requestDto)
 
         {
-
-
+            
             if (requestDto == null || string.IsNullOrEmpty(requestDto.EmailOrPhone) ||
                 string.IsNullOrEmpty(requestDto.Password))
                 return BadRequest("Identifier and password are required.");
@@ -59,10 +64,6 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
 
 
             return Ok(response);
-
-
-
-
 
         }
 
@@ -83,12 +84,12 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
             if (!isValid)
                 return Unauthorized("Invalid or expired OTP");
 
-            
-           
+
+
 
             var user = await _userResolverService.ResolveUserAsync
-                (requestDto.PendingAuthId, 
-                    requestDto.Role);
+            (requestDto.PendingAuthId,
+                requestDto.Role);
 
             if (user == null)
                 return NotFound("User not found");
@@ -104,13 +105,13 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                 case UserRole.Customer:
                 {
                     var customer = (CustomerUser)user;
-                    
+
                     customer.IsEmailVerified = true;
-                    
+
                     userId = customer.Id;
                     displayName = customer.FirstName;
                     email = customer.EmailAddress;
-               
+
                     break;
                 }
                 case UserRole.Business:
@@ -149,23 +150,158 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
             {
                 success = true,
                 message = "OTP verified successfully.",
-                
+
                 auth = new
                 {
                     token = token
                 },
-               user = new
-               {
-                   id = userId,
+                user = new
+                {
+                    id = userId,
                     displayName,
-                   role = requestDto.Role.ToString()
-               }
+                    role = requestDto.Role.ToString()
+                }
 
             });
 
         }
 
 
-    }
 
+        [HttpPost("resend")]
+
+        public async Task<IActionResult> ResendOtp([FromBody] ResendOtpRequestDto requestDto)
+        {
+
+            if (requestDto == null || string.IsNullOrEmpty(requestDto.PendingAuthId))
+                return BadRequest("PendingAuthId is required");
+
+            var result = await _passwordChallengeService.ResendOtpAsync(requestDto);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
+
+        }
+
+
+        [HttpPost("validate-identifier")]
+
+        public async Task<IActionResult> ValidatePasswordResetIdentifier([FromBody] PasswordResetIdentifierDto request)
+        {
+
+            if (request == null || string.IsNullOrWhiteSpace(request.Identifier))
+                return BadRequest("Identifier is required");
+
+            var identifier = request.Identifier.Trim();
+
+            var user = await _userResolverService.ResolveUserAsync(identifier, (UserRole)request.AccountType);
+            bool exists = user != null;
+
+            return Ok(new { exists });
+
+        }
+
+
+
+        [HttpPost("forgot-password")]
+
+        public async Task<IActionResult> ResetPassword([FromBody] ResetForgotPasswordDto request)
+        {
+            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { success = false, message = "Failed to reset password." });
+            }
+
+            var isResetSuccessful = await _customerUserService.ResetCustomerPasswordAsync(request);
+
+            if (!isResetSuccessful)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "invalid expired reset token. Please request a new OTP to reset your password"
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                message = "Password reset successfully."
+            });
+        }
+
+
+
+        [HttpPost("forgot-password/generate-reset-otp")]
+        public async Task<IActionResult> GeneratePasswordResetOtp([FromBody] PasswordResetGenerateDto requestDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _passwordChallengeService.GeneratePasswordResetOtpAsync(requestDto.Identifier, requestDto.AccountType);
+
+            return Ok(new { success = true, message = "OTP sent successfully." });
+        }
+
+
+        [HttpPost("forgot-password/verify-reset-otp")]
+
+        public async Task<IActionResult> VerifyPasswordResetOtp([FromBody] PasswordResetVerifyDto requestDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            
+            var isValid = await _passwordChallengeService.VerifyPasswordResetOtpAsync
+                (requestDto.PendingAuthId,
+                    requestDto.Otp,
+                    requestDto.AccountType);
+
+            if (!isValid)
+                return Unauthorized("Invalid or expired OTP");
+            
+            int numericUserId = 0;
+
+            if (requestDto.AccountType == AccountType.Customer)
+            {
+                
+                var customer = await _customerUserService.GetUserByCustomerEmailAsync(requestDto.PendingAuthId);
+                if (customer == null) return NotFound("Customer account not found");
+                numericUserId = customer.Id;
+            }
+            else if (requestDto.AccountType == AccountType.Business)
+            {
+                var business = await _businessUserService.GetUserByBusinessEmailAsync(requestDto.PendingAuthId);
+                if (business == null) return NotFound("Business account not found");
+                numericUserId = business.Id;
+                
+            }
+            else
+            {
+                return BadRequest("Invalid account type");
+            }
+
+            var role = Enum.Parse<UserRole>(requestDto.AccountType.ToString());
+            
+            var resetToken = _tokenService.GenerateToken(new TokenRequestDto
+            {
+                UserId = numericUserId, // pending auth ID is not in correct format
+                Email = requestDto.PendingAuthId,
+                Role = role,
+                Purpose = "PasswordReset",
+                ExpirationInMinutes = 15
+            });
+
+            return Ok(new 
+                { success = true, 
+                    message = "OTP verified successfully.",
+                    resetToken = resetToken
+                });
+        }
+
+
+    }
 }

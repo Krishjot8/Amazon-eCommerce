@@ -116,7 +116,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IPasswordChallengeService, PasswordChallengeService>();
-builder.Services.AddScoped<ICustomerUserService, CustomerUserService>();
+builder.Services.AddScoped<ICustomerUserService, CustomerUserServicee>();
 builder.Services.AddScoped<IBusinessUserService, BusinessUserService>();
 builder.Services.AddScoped<ISellerUserService, SellerUserService>();
 builder.Services.AddScoped(typeof(IUserResolverService), typeof(UserResolverService));
