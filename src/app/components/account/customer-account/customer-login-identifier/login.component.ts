@@ -64,11 +64,10 @@ if(this.loginForm.invalid) {
 
   if(!identifier) return;
 
-  this.authService.checkIdentifier(identifier).subscribe({
+  this.authService.checkIdentifier(identifier, 0).subscribe({
 
 next: (res) => {
-
-if(res.exists){
+if(res && res.exists){
 
   localStorage.setItem('loginIdentifier', identifier);
   this.router.navigate(['/login-password']);

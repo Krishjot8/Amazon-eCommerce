@@ -32,12 +32,13 @@ setCurrentUser(firstName: string | null) {
 
 
 
-checkIdentifier(identifier: string) {
-
+checkIdentifier(identifier: string, accountType: number = 0): Observable<{exists: boolean}> {
 return this.http.post<{exists: boolean}>
-(`${this.apiUrl}/passwordchallenge/check-identifier`, 
-  { identifier });
-
+(`${this.apiUrl}/authentication/check-identifier`, 
+  { 
+    identifier,
+    accountType 
+  });
 }
 
 

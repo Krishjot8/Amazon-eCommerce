@@ -21,6 +21,7 @@ import { CustomerVerificationComponent } from './components/account/customer-acc
 import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
 import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
 import { CustomerVerifyEmailComponent } from './components/account/customer-account/customer-verify-email/customer-verify-email.component';
+import { CustomerForgotPasswordComponent } from './components/account/customer-account/customer-forgot-password/customer-forgot-password.component';
 
 const routes: Routes = [
   {
@@ -128,6 +129,10 @@ const routes: Routes = [
   {
     path: 'customer-verify-email',
     component: CustomerVerifyEmailComponent,
+  },
+  {
+    path: 'customer-forgot-password',
+    component: CustomerForgotPasswordComponent,
   },
 ];
 

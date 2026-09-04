@@ -46,26 +46,32 @@ margin-right: 15px;
 
     color: #093f48;
  text-decoration: underline;
-
-
     }
 
-.input-verification-code {
-  border-radius: 3px;
-  width: 90%;
-  height: 100%;
-  min-height: 26px;
-  font-family: Amazon;
-  border: 1px solid rgb(128, 128, 128);
-
-  box-shadow: 2px #007185;
-  background-color: rgb(248, 248, 248);
-}
-
-.input-verification-code:focus {
-  outline: none;
-  box-shadow: 0 0 0.2px 3px rgb(181, 237, 255);
-}
+    .input-verification-code {
+      width: 90%;
+      height: 30px;
+      border-radius: 6px;
+      border: 1px solid #888;          /* Unfocused border */
+      background-color: #fff;
+      font-family: Amazon, sans-serif;
+      letter-spacing: 0.5em; 
+      font-size: 0.8rem;     
+      font-weight: 500;      
+      padding-left: 0.5em;   
+      outline: none;                   
+      box-sizing: border-box;
+    }
+    
+    /* Amazon focus state with proper layer offsets */
+    .input-verification-code:focus {
+      border: 1px solid #0066c0; /* Inner blue border */
+      /* 
+         1st shadow (0 0 0 1.5px #fff): White spacer pushing outward
+         2nd shadow (0 0 0 3px #535c68): Crisp gray ring wrapping around the white gap
+      */
+      box-shadow: 0 0 0 1.5px #ffffff, 0 0 0 3px #818589;
+    }
 
 
 .verify-account-container {
@@ -202,3 +208,4 @@ transform: translate(30px,-23px);
   font-family: Amazon;
   font-size: 12.5px;
 }
+

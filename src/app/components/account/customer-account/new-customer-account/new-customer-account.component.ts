@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-customer-account',
@@ -7,13 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewCustomerAccountComponent implements OnInit {
 
-  emailOrPhone: string | null = null;
 
-  constructor() { }
+  emailOrPhone: string = ''
 
-  ngOnInit(){
+  constructor(private router: Router) { }
+
+  ngOnInit() : void{
 
     this.emailOrPhone = localStorage.getItem('signupIdentifier') ?? '';
+
+    if(!this.emailOrPhone) {
+      this.router.navigate(['/signin']);
+    }
+  }
+
+  goToRegister():void{
+
+    this.router.navigate(['/register']);
   }
 
 }

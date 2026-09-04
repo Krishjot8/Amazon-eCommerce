@@ -4,6 +4,16 @@
     <form class="registration-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()" >
       <span>Create Account</span>
 
+
+
+<div class="chosen-identifier">
+
+
+
+
+</div>
+
+
       <div class="register-field-row">
         <div class="register-field">
           <label for="fullName">Your name</label>
@@ -20,48 +30,12 @@
               'XII'.</small>
           </div>
         </div>
+      </div>
+
+
      
-      </div>
 
-
-      <div class="register-field-row">
      
-        <div class="register-field">
-          <label for="email">Email address</label>
-          <input class="register-input" type="email" name="email" formControlName="email"
-            [class.error-border]="submitted  && registrationForm.get('email')?.invalid" placeholder="" autocomplete="off" />
-          <div class="register-errors" *ngIf="submitted  && registrationForm.get('email')?.hasError('required')">
-            <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Your email address is required</small>
-          </div>
-          <div class="register-errors"
-            *ngIf="submitted && !registrationForm.get('email')?.hasError('required') && registrationForm.get('email')?.invalid">
-            <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Invalid email format</small>
-          </div>
-          <div class="register-errors" *ngIf="submitted && registrationForm.get('email')?.hasError('duplicateEmail') ">
-            <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>There's already an account with this email. <a routerLink="/signin">Sign in</a> or learn
-              more.</small>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="register-field-row">
-
-      
-
-        <div class="register-field">
-          <label for="phoneNumber">Mobile number</label>
-          <input class="register-input"  autocomplete="off" type="tel" name="phoneNumber" [class.error-border]="submitted && registrationForm.get('phoneNumber')?.invalid
-          " formControlName="phoneNumber" placeholder="ex: 123-456-7890" />
-          <div class="register-errors" *ngIf="submitted && registrationForm.get('phoneNumber')?.hasError('pattern')">
-            <img src="assets/logo-images/errors-icon.svg" alt="">
-            <small>Invalid phone number format</small>
-          </div>
-        </div>
-      </div>
 
       <div class="register-field-row">
         <div class="register-field">
