@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { AbstractConstructor } from '@angular/material/core/common-behaviors/constructor';
 import { Router } from '@angular/router';
 import { CustomerAuthenticationService } from '../customer-authentication.service';
 import { Title } from '@angular/platform-browser';
+import { parsePhoneNumberWithError, CountryCode as LibCountryCode } from 'libphonenumber-js';
+import { countryCodes, CountryCode } from 'src/app/models/user-authentication/country-code/country-code.model';
 
 @Component({
   selector: 'app-login',
@@ -17,135 +16,100 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./login.component.scss'],
 })
 export class CustomerLoginComponent implements OnInit {
-  emailOrPhone: string = '';
+  loginForm!: FormGroup;
+  submitted: boolean = false;
   errorMessage: string = '';
   
-  loginForm!: FormGroup;
-  
-  submitted: boolean = false; //track if input was touched
+  countryList: CountryCode[] = countryCodes;
+  isPhoneInput: boolean = false;
 
-  constructor(public router: Router,
-     private fb: FormBuilder,
-     private authService: CustomerAuthenticationService,
-     private titleService: Title
-    ) {}
+  constructor(
+    public router: Router,
+    private fb: FormBuilder,
+    private authService: CustomerAuthenticationService,
+    private titleService: Title
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      emailOrPhone: [
-        '', [
-          Validators.required,
-          this.emailOrPhoneValidator,
-          Validators.pattern(
-             /^(\+?\d{10,15}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/
-          )
-         ]
-      ],
+      selectedCountry: ['US'], // Default country
+      emailOrPhone: ['', [Validators.required]],
     });
-    
-  this.loginForm.get('emailOrPhone')?.valueChanges.subscribe(() => {
-    if (this.submitted) {
-      this.submitted = false; // hide errors as soon as the user types
-    }
-  });
-  
-  this.titleService.setTitle('Amazon Sign-in');
-  }
 
-
-onContinue(){
-
-if(this.loginForm.invalid) {
-  this.loginForm.markAllAsTouched(); // Show validation errors
-  return;
-}
-
-  const identifier = this.loginForm.get('emailOrPhone')?.value.trim();
-
-  if(!identifier) return;
-
-  this.authService.checkIdentifier(identifier, 0).subscribe({
-
-next: (res) => {
-if(res && res.exists){
-
-  localStorage.setItem('loginIdentifier', identifier);
-  this.router.navigate(['/login-password']);
-
-}else{
-
-localStorage.setItem('signupIdentifier', identifier);
-this.router.navigate(['/new-customer-account']);
-
- }
-},
-
-error: (err) => {
-
-  console.error('Identifier check failed', err);
-   }
-  });
-
-}
-
-
-  emailOrPhoneValidator(control: AbstractControl): ValidationErrors | null {
-    //control: AbstractControl; input control must return null - meaning no error or someError:true;
-    const value = control.value?.trim() ?? ''; // control.value gets actual input value; ?.trim()- trims whitespace if the value is not null or undefined
-
-    if (!value) {
-      //if input is empty return error of required field
-      return { required: true };
-    }
-
-    const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-    const phoneRegex = /^[\d\-]{10,20}$/;
-
-    if (emailRegex.test(value)) return null; //If the input value matches the emailRegex and is valid - return null (no errors)
-
-    if (phoneRegex.test(value)) return null;
-
-    if (value.includes('@')) return { invalidEmail: true }; // if input contains @ but did not pass email regex, it will be an invalid email, therefore return invalidEmail error.
-
-    if (/[a-zA-Z]/.test(value)) return { invalidEmail: true }; // if input contains letters but was not a valid email, then it is not a phone it will be an invalid email, therefore return invalidEmail error.
-
-    return { invalidPhone: true }; // if nothing above is matched its assumed it is a phone number but didnt match, return invalidPhone: true;
-  }
-
-  validateInput() {
-    const control = this.loginForm.get('emailOrPhone');
-    if (!control) return;
-
-    const value = control.value?.trim() ?? '';
-
-    if (control.errors) {
-      if (control.errors['required']) {
-        this.errorMessage = 'Enter Your Mobile Number or Email Address';
-      } else if (control.errors['invalidEmail']) {
-        this.errorMessage = 'Invalid Email Address';
-      } else if (control.errors['invalidPhone']) {
-        this.errorMessage = 'Invalid Mobile Phone Number';
-      } else {
+    // Detect if input starts with digits or '+' to toggle country dropdown
+    this.loginForm.get('emailOrPhone')?.valueChanges.subscribe((value: string) => {
+      if (this.submitted) {
+        this.submitted = false;
         this.errorMessage = '';
       }
-    } else {
-      this.errorMessage = '';
-    }
+
+      const trimmed = value?.trim() ?? '';
+      this.isPhoneInput = /^\+?\d/.test(trimmed);
+    });
+
+    this.titleService.setTitle('Amazon Sign-in');
   }
 
-  onSubmit() {
-    this.submitted = true;
-    this.validateInput();
+  clearInput(): void {
+    this.loginForm.patchValue({ emailOrPhone: '' });
+    this.errorMessage = '';
+    this.isPhoneInput = false;
+  }
 
-    const control = this.loginForm.get('emailOrPhone');
-    if (!control || control.invalid) {
+  onContinue(): void {
+    this.submitted = true;
+    const rawValue = this.loginForm.get('emailOrPhone')?.value?.trim() ?? '';
+
+    if (!rawValue) {
+      this.errorMessage = 'Enter your mobile number or email address';
       return;
     }
 
-    const emailOrPhoneValue = control.value.trim();
+    let finalIdentifier = rawValue;
 
-    localStorage.setItem('loginIdentifier', emailOrPhoneValue);
+    if (this.isPhoneInput) {
+      const selectedCountryCode = this.loginForm.get('selectedCountry')?.value as LibCountryCode;
 
-    this.router.navigate(['/login-password']);
+      try {
+        // Strict ITU phone validation using libphonenumber-js
+        const phoneNumber = parsePhoneNumberWithError(rawValue, selectedCountryCode);
+
+        if (!phoneNumber.isValid()) {
+          this.errorMessage = 'Invalid mobile number';
+          return;
+        }
+
+        // Format to full international E.164 standard (e.g., +17135550199)
+        finalIdentifier = phoneNumber.number;
+      } catch (err) {
+        this.errorMessage = 'Invalid mobile number';
+        return;
+      }
+    } else {
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(rawValue)) {
+        this.errorMessage = 'Invalid email address';
+        return;
+      }
+    }
+
+    this.errorMessage = '';
+
+    // Check backend for existing account
+    this.authService.checkIdentifier(finalIdentifier, 0).subscribe({
+      next: (res) => {
+        if (res && res.exists) {
+          localStorage.setItem('loginIdentifier', finalIdentifier);
+          this.router.navigate(['/login-password']);
+        } else {
+          localStorage.setItem('signupIdentifier', finalIdentifier);
+          this.router.navigate(['/new-customer-account']);
+        }
+      },
+      error: (err) => {
+        console.error('Identifier check failed', err);
+      },
+    });
   }
 }
