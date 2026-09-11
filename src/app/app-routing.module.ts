@@ -22,6 +22,7 @@ import { NewCustomerAccountComponent } from './components/account/customer-accou
 import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
 import { CustomerVerifyEmailComponent } from './components/account/customer-account/customer-verify-email/customer-verify-email.component';
 import { CustomerForgotPasswordComponent } from './components/account/customer-account/customer-forgot-password/customer-forgot-password.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -133,6 +134,14 @@ const routes: Routes = [
   {
     path: 'customer-forgot-password',
     component: CustomerForgotPasswordComponent,
+  },
+   {
+    path: '404',
+    component: NotFoundComponent,
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];
 

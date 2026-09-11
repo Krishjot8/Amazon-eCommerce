@@ -1,0 +1,101 @@
+.not-found-page{
+ 
+  
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+//Top Navigation
+
+
+.top-nav {
+  background-color: rgb(35, 47, 62);
+}
+
+//Amazon Logo
+
+.logo {
+  height: 55px;
+  cursor: pointer;
+ 
+  padding: 0px 8px;
+}
+
+
+
+//Delivering to Address
+
+
+//Amazon Search Bar
+input {
+
+  
+  font-size: 15px;
+  border-radius: 10px;
+  height: 5px;
+}
+
+input:active {
+  color: #ffbe1a;
+}
+
+.search-bar-wrapper {
+  display: flex;
+  
+  width: 50%;
+  
+  background-color: white;
+
+  border-radius: 5px;
+  margin-left: 50px;
+}
+
+.search-icon {
+  background-color: #febd69;
+  border: 1px solid #ffbe1a;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  width: 50px;
+  height: 35px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+
+
+
+
+
+
+
+
+.search-bar-wrapper input[type="search"] {
+  flex: 1;
+  height: 35px;
+  border: none;
+  outline: none;
+  padding: 0 10px;
+  font-size: 15px;
+}
+
+.dropdown-button button:active {
+  border: 1.5px solid rgb(255, 153, 0);
+}
+
+
+
+
+.message img{
+
+  margin-top: 35px;
+  cursor: pointer;
+}

@@ -46,6 +46,7 @@ import { ExploreGamingCarouselComponent } from './components/carousels/video-gam
 import { CustomerVerifyEmailComponent } from './components/account/customer-account/customer-verify-email/customer-verify-email.component';
 import { AuthFooterComponent } from './components/footer/auth-footer/auth-footer.component';
 import { CustomerForgotPasswordComponent } from './components/account/customer-account/customer-forgot-password/customer-forgot-password.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import { CustomerForgotPasswordComponent } from './components/account/customer-a
  ExploreGamingCarouselComponent,
  CustomerVerifyEmailComponent,
  AuthFooterComponent,
- CustomerForgotPasswordComponent
+ CustomerForgotPasswordComponent,
+ NotFoundComponent
   ],
   imports: [
     AppRoutingModule,

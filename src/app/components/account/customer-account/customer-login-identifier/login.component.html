@@ -18,15 +18,15 @@
     <form [formGroup]="loginForm" (ngSubmit)="onContinue()" class="form-sign-in" novalidate>
       <div class="input-container" [class.has-error]="submitted && errorMessage">
         <!-- Country Code Selector (Appears when phone entry detected) -->
+         <div *ngIf="isPhoneInput" class="custom-select-wrapper">
         <select 
-          *ngIf="isPhoneInput" 
           formControlName="selectedCountry" 
-          class="country-select"
-        >
+          class="country-select">
           <option *ngFor="let country of countryList" [value]="country.code">
             {{ country.code }} {{ country.dialCode }}
           </option>
         </select>
+          </div>
         <!-- Main Input -->
       <input 
   id="emailOrPhone"

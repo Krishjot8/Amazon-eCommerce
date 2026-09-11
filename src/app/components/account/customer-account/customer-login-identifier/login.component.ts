@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -19,15 +19,19 @@ export class CustomerLoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted: boolean = false;
   errorMessage: string = '';
+
+  isDropdownOpen = false;
   
   countryList: CountryCode[] = countryCodes;
   isPhoneInput: boolean = false;
+  selectedCountry: CountryCode = this.countryList[0];
 
   constructor(
     public router: Router,
     private fb: FormBuilder,
     private authService: CustomerAuthenticationService,
-    private titleService: Title
+    private titleService: Title,
+    private eRef: ElementRef
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +52,25 @@ export class CustomerLoginComponent implements OnInit {
     });
 
     this.titleService.setTitle('Amazon Sign-in');
+  }
+
+
+
+toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  selectCountry(country: CountryCode): void {
+    this.selectedCountry = country;
+    this.loginForm.patchValue({ selectedCountry: country.code });
+    this.isDropdownOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event: Event): void {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.isDropdownOpen = false;
+    }
   }
 
   clearInput(): void {

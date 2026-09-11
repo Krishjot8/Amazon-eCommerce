@@ -48,6 +48,7 @@
   border-radius: 3px;
   background-color: #fff;
   box-sizing: border-box;
+  overflow: hidden;
 
   &:focus-within {
    border: 1px solid #0066c0; /* Inner blue border */
@@ -56,6 +57,7 @@
      2nd shadow (0 0 0 3px #535c68): Crisp gray ring wrapping around the white gap
   */
   box-shadow: 0 0 0 1.5px #ffffff, 0 0 0 3px #818589;
+
   }
  
 
@@ -66,9 +68,11 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     border: none !important; /* Removes the inner border causing the middle line */
+    border-right: 1px solid #d5d9d9;
     background-color: transparent; /* Blends seamlessly into the input background */
     height: 100%;
     padding: 0 10px 0 8px;
+    //padding: 0 22px 0 8px;
     font-size: 13px;
     font-family: Amazon;
     cursor: pointer;
@@ -80,8 +84,14 @@
     /* Custom arrow icon positioned right next to the dial code */
     background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%226%22%20viewBox%3D%220%200%2010%206%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23333333%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M1%201l4%204%204-4%22%2F%3E%3C%2Fsvg%3E");
   background-repeat: no-repeat;
-     background-position: right 6px center;
+     background-position: right 12px center;
   }
+
+  option{
+
+    background-color: white;
+  }
+
 
   /* 2. Text Input: Completely borderless, shares space inside container */
   .inputlogin {
@@ -91,26 +101,30 @@
     outline: none !important;
     box-shadow: none !important;
     padding: 0 28px 0 6px; /* Right padding preserves space for internal X button */
+    padding: 0 8px;
     font-size: 13px;
     background: transparent;
+    font-family: Amazon;
     color: #0f1111;
     min-width: 0;
   }
 
   /* 3. Clear Button: Locked inside the right edge of the container */
-  .btn-clear {
-    position: absolute;
+
+
+   .btn-clear {
+    position: static;
     right: 8px; /* Forces X inside the border box */
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-10%);
     background: transparent;
     border: none;
     font-size: 24px;
-    color: #555;
+    color: black;
     cursor: pointer;
-    padding: 0;
+    padding: 0 10px;
     line-height: 1;
-    z-index: 2;
+    flex-shrink: 0;
 
     &:hover {
       color: #111;
@@ -290,3 +304,9 @@ font-size: 14px;
 
 
 
+
+
+////
+/// 
+/// 
+/// 
