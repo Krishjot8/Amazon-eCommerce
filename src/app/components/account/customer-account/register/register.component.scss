@@ -27,7 +27,42 @@ display: block;
 margin-left: -190px;
 
 }
+.change-identifier {
+  margin-top: 2px;
+  font-family: Amazon;
+  margin-left: -125px;
+}
 
+
+.change-identifier span {
+  
+  margin-top: 20px;
+  font-size: 14px;
+margin-left: 1px;
+  font-family: Amazon;
+}
+
+
+.change-identifier a {
+  margin-top: 20px;
+  font-size: 14px;
+  font-family: Amazon;
+  color: #216281;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.change-identifier a:hover {
+  color: #123546;
+  text-decoration: underline;
+}
+
+.identifier-label{
+font-family: Amazon Ember;
+margin-right: 200px;
+margin-top: 20px;
+
+}
 
 .registration-container {
   position: relative;

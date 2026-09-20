@@ -19,6 +19,7 @@ export class CustomerVerificationComponent implements OnInit {
   email: string = '';
 maskedEmail: string = '';
 phoneNumber: string = '';
+serverError: string = '';
 verificationType: 'email' | 'sms' = 'email';
   isSubmitting = false;
 
@@ -96,10 +97,15 @@ this.maskedEmail = this.maskEmail(this.email);
   // verify OTP
 
   onSubmit() {
+
+
+
     if (this.verifyForm.invalid) {
       this.verifyForm.markAllAsTouched();
       return;
     }
+
+    this.serverError = '';
 
     this.isSubmitting = true;
     const otpValue = this.verifyForm.value.otp.trim();
@@ -196,7 +202,17 @@ this.resendCooldown = 60;
     }, 1000);
   }
 
+  onInputChange() {
+    if (this.serverError) {
+      this.serverError = '';
+    }
+  }
 
+  onInputFocus() {
+    if (this.serverError) {
+      this.serverError = '';
+    }
+  }
   private handleSuccess(response: any) {
     console.log('OTP verified successfully', response);
     this.isSubmitting = false;
@@ -225,6 +241,14 @@ localStorage.clear();
   private handleError(error: any) {
     console.error('OTP verification failed', error);
     this.isSubmitting = false;
+
+    if(typeof error.error === 'string'){
+      this.serverError = error.error;
+    }else if(error.error?.message){
+      this.serverError = error.error.message;
+    }else{
+      this.serverError = 'The code you entered is invalid or has expired. Please check the code and try again.';
+    }
     // You can also set an error message here to display in the template
 
   }

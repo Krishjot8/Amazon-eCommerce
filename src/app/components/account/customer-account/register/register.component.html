@@ -7,11 +7,19 @@
 
 
 <div class="chosen-identifier">
-
-
-
-
+  <div class="identifier-label">
+    {{ isPhoneRegistration ? 'Mobile number' : 'Email' }}
+  </div>
+  <div class="change-identifier">
+    <span class="identifier-value">
+      {{ isPhoneRegistration && countryIsoCode ? (countryIsoCode + ' ') : '' }}{{ formattedIdentifier }}
+    </span>
+    <a (click)="onChangeIdentifier()" class="change-link">Change</a>
+  </div>
 </div>
+
+
+
 
 
       <div class="register-field-row">

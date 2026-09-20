@@ -10,11 +10,12 @@
       </p>
     </div>
 
-<form  [formGroup]="verifyForm" class="form-verify-email" (ngSubmit)="onSubmit()" autocomplete ="off">
-  <input class="input-verification-code" autocomplete="off" type="text"
+<form  [formGroup]="verifyForm" class="form-verify-email" (ngSubmit)="onSubmit()"
+   autocomplete ="off">
+  <input class="input-verification-code" (input)="onInputChange()" (focus)="onInputFocus()" autocomplete="off" type="text"
    required
    formControlName="otp"
-  maxlength="6"/>
+  maxlength="6" />
 
 
   <div class="span-resend-one-time-password">
@@ -32,10 +33,9 @@
 
 
  <div class="error-message"
-*ngIf="verifyForm.get('otp')?.invalid && verifyForm.get('otp')?.touched">
-
+*ngIf="serverError || verifyForm.get('otp')?.invalid && verifyForm.get('otp')?.touched">
  <img src="assets/logo-images/errors-icon.svg">
-  The code you entered is not valid. Please check the code and try again.
+ <span>{{ serverError || 'The code you entered is invalid or has expired. Please check the code and try again.' }}</span>
 </div>
 
 

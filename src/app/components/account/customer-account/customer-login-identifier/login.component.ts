@@ -56,22 +56,29 @@ export class CustomerLoginComponent implements OnInit {
 
 
 
-toggleDropdown(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
+toggleDropdown(event: Event): void {
+  event.stopPropagation();
+  this.isDropdownOpen = !this.isDropdownOpen;
+}
 
-  selectCountry(country: CountryCode): void {
-    this.selectedCountry = country;
-    this.loginForm.patchValue({ selectedCountry: country.code });
-    this.isDropdownOpen = false;
-  }
+ selectCountry(country: any): void {
+  this.loginForm.get('selectedCountry')?.setValue(country.code);
+  this.isDropdownOpen = false;
+}
 
-  @HostListener('document:click', ['$event'])
-  clickout(event: Event): void {
-    if (!this.eRef.nativeElement.contains(event.target)) {
-      this.isDropdownOpen = false;
-    }
-  }
+getSelectedCountryLabel(): string {
+  const currentCode = this.loginForm.get('selectedCountry')?.value;
+  const currentCountry = this.countryList.find(c => c.code === currentCode);
+  
+  // Custom display fallback if no country matches or is selected yet
+  return currentCountry ? `${currentCountry.name} ${currentCountry.dialCode}` : 'Select Code';
+}
+
+ @HostListener('document:click', ['$event'])
+clickout(event: Event) {
+  this.isDropdownOpen = false;
+}
+  
 
   clearInput(): void {
     this.loginForm.patchValue({ emailOrPhone: '' });

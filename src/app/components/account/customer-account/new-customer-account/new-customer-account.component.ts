@@ -8,8 +8,9 @@ import { Router } from '@angular/router';
 })
 export class NewCustomerAccountComponent implements OnInit {
 
-
+isPhoneInput: boolean = false;
   emailOrPhone: string = ''
+  
 
   constructor(private router: Router) { }
 
@@ -20,6 +21,8 @@ export class NewCustomerAccountComponent implements OnInit {
     if(!this.emailOrPhone) {
       this.router.navigate(['/signin']);
     }
+
+    this.isPhoneInput = !this.emailOrPhone.includes('@');
   }
 
   goToRegister():void{

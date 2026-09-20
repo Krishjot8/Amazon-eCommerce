@@ -5,6 +5,8 @@ import { RegisterService } from './register.service';
 import { CustomerRegister } from 'src/app/models/accounts/CustomerUserAccount/AccountRegistration/register.model';
 import { Title } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
+import { CountryCode } from 'src/app/models/user-authentication/country-code/country-code.model';
+import { parsePhoneNumberWithError } from 'libphonenumber-js';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +18,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   submitted = false;
   detectedIdentifier: string = '';
   isPhoneRegistration: boolean = false;
+  countryCode: CountryCode | undefined;
+  countryIsoCode: string = '';
+  formattedIdentifier: string = '';
 
   constructor(
     private router: Router,
@@ -25,15 +30,39 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // 1. Fetch identifier saved during sign-in
     this.detectedIdentifier = localStorage.getItem('signupIdentifier') ?? '';
 
+    // If no identifier found, send user back to signin
     if (!this.detectedIdentifier) {
       this.router.navigate(['/signin']);
       return;
     }
 
-    this.isPhoneRegistration = this.checkIfPhoneNumber(this.detectedIdentifier);
+    // 2. Determine if identifier is phone number or email
+    this.isPhoneRegistration = !this.detectedIdentifier.includes('@');
 
+    if (this.isPhoneRegistration) {
+      try {
+        const parsed = parsePhoneNumberWithError(this.detectedIdentifier);
+        if (parsed) {
+          // Dynamic ISO code (e.g. "US", "IN", "GB")
+          this.countryIsoCode = parsed.country ?? '';
+
+          // Format with space right after dial code: "+1 8322023129"
+          const callingCode = '+' + parsed.countryCallingCode;
+          const nationalNumber = parsed.nationalNumber;
+          this.formattedIdentifier = `${callingCode} ${nationalNumber}`;
+        }
+      } catch (e) {
+        this.countryIsoCode = '';
+        this.formattedIdentifier = this.detectedIdentifier;
+      }
+    } else {
+      this.formattedIdentifier = this.detectedIdentifier;
+    }
+
+    // 3. Initialize reactive form controls
     this.registrationForm = this.fb.group(
       {
         fullName: [
@@ -64,10 +93,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
-
-  private checkIfPhoneNumber(identifier: string): boolean {
-    return !identifier.includes('@');
-  }
 
   onChangeIdentifier(): void {
     localStorage.removeItem('signupIdentifier');
@@ -143,9 +168,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
       // Clean up signup state and store the verified identifier (email or phone)
       localStorage.removeItem('signupIdentifier');
-      localStorage.setItem('verificationEmail', this.detectedIdentifier);
 
-      this.router.navigate(['customer-verify-email']);
+      if (this.isPhoneRegistration) {
+        localStorage.setItem('verificationPhone', this.detectedIdentifier);
+        localStorage.removeItem('verificationEmail');
+        this.router.navigate(['/customer-verify-email'], {
+          state: { phoneNumber: this.detectedIdentifier },
+        });
+      } else {
+        localStorage.setItem('verificationEmail', this.detectedIdentifier);
+        localStorage.removeItem('verificationPhone');
+        this.router.navigate(['/customer-verify-email'], {
+          state: { email: this.detectedIdentifier },
+        });
+      }
     } catch (error: any) {
       console.error('Registration failed', error);
     }

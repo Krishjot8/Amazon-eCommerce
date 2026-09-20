@@ -7,6 +7,7 @@ import { UserRole } from 'src/app/models/user-authentication/token/user-role-enu
 import { VerifySms } from 'src/app/models/user-authentication/verification/verify-sms.model';
 import { AccountType } from 'src/app/models/user-authentication/verification/account-type-enum';
 import { VerifyEmail } from 'src/app/models/user-authentication/verification/verify-email.model';
+import { ResendOtpRequest } from 'src/app/models/user-authentication/password-challenge/resend-otp-request.model';
 
 @Component({
   selector: 'app-customer-verify-email',
@@ -15,14 +16,22 @@ import { VerifyEmail } from 'src/app/models/user-authentication/verification/ver
 })
 export class CustomerVerifyEmailComponent implements OnInit {
 
-  
-
 verifyForm: FormGroup;
   email: string = '';
-maskedEmail: string = '';
 phoneNumber: string = '';
 verificationType: 'email' | 'sms' = 'email';
   isSubmitting = false;
+
+  codeResent = false;
+  errorMessage: string | null = null;
+  resendCooldown = 60; //seconds
+  canResend = true;
+  resendAttempts = 0;
+  interval: any;
+
+
+
+
 
   constructor(
   private fb: FormBuilder,
@@ -45,7 +54,6 @@ this.verificationType = 'email';
   } else if(state?.phoneNumber) {
     localStorage.setItem('verificationPhone', this.phoneNumber);
   }else{
-
 this.email = localStorage.getItem('verificationEmail') ||
 localStorage.getItem('pendingAuthId') || ''; // Fallback to loginIdentifier if verificationEmail is not set
   this.phoneNumber = localStorage.getItem('verificationPhone') || '';
@@ -60,14 +68,6 @@ localStorage.getItem('pendingAuthId') || ''; // Fallback to loginIdentifier if v
   }
 }
 
-
-if(this.email){
-
-this.maskedEmail = this.maskEmail(this.email);
-
-}
-
-
   // Initialize the OTP form
   this.verifyForm = this.fb.group({
     otp: ['', [Validators.required, Validators.pattern(/^[0-9]{6}$/)]],
@@ -77,17 +77,18 @@ this.maskedEmail = this.maskEmail(this.email);
 
   ngOnInit(): void {}
 
-  private maskEmail(email: string): string {
-    const [name, domain] = email.split('@');
-    const maskedName = name.substring(0, 2) + '******';
-    return `${maskedName}@${domain}`;
+  ngOnDestroy(): void {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   }
 
-  // verify OTP
-
   onSubmit() {
+    this.errorMessage = null; // Reset error message on new submission
+
     if (this.verifyForm.invalid) {
       this.verifyForm.markAllAsTouched();
+      this.errorMessage = 'Invalid OTP. Please check your code and try again.';
       return;
     }
 
@@ -97,9 +98,8 @@ this.maskedEmail = this.maskEmail(this.email);
     if(this.verificationType === 'email'){
 
       const payload: PasswordChallengeVerify = {
-
         pendingAuthId: this.email,
-        otp: this.verifyForm.value.otp,
+        otp: otpValue,  //this.verifyForm.value.otp
         role: UserRole.Customer
       };
 
@@ -108,13 +108,10 @@ this.maskedEmail = this.maskEmail(this.email);
       this.authService.verifyOtp(payload).subscribe({
     next: (response) => this.handleSuccess(response),
       error: (error) => this.handleError(error),
-
       });
-
     } else{
 
       const payload: VerifySms = {
-
         phoneNumber: this.phoneNumber,
        smsOtpCode: otpValue,
         isResendRequest: false,
@@ -129,46 +126,52 @@ this.maskedEmail = this.maskEmail(this.email);
     }
   }
 
+  onResendOtp() {
 
+if(!this.canResend) return;
 
-//   resendVerificationOtp() {
-
-
-
-//     if(this.verificationType === 'email'){
-
-   
-//       const payload: VerifyEmail = {
-
-//         email: this.email,
-//         emailOtp: '',
-//         isResendRequest: true,
-//         accountType: AccountType.Customer
-//       };
+      const payload: ResendOtpRequest = {
+      pendingAuthId: localStorage.getItem('pendingAuthId') || this.email,
+      role: 0,
+    };
   
-//       this.authService.resendEmailOtp(payload).subscribe({
-// next: (res) =>  console.log('Email OTP resent ', res),
-// error: (err) => console.error('Failed to resend OTP', err),
+      this.authService.resendEmailOtp(payload).subscribe({
+next: (res) =>  {console.log('Email OTP resent ', res);
+  this.codeResent = true;
+  this.errorMessage = null; // Clear any previous error messages
+this.resendAttempts++;
 
-//     });
 
 
-//   } else{
+this.resendCooldown = this.resendAttempts === 1 ? 60 : 90; // Set cooldown based on attempts
+this.startCooldown();
+},
 
-//     const payload: VerifySms = {
+error: (err) => {
+  console.error('Failed to resend OTP', err);
+this.errorMessage = 'Failed to resend verification code. Please try again later.';
+  }
+});
+}
 
-//       phoneNumber: this.phoneNumber,
-//      smsOtpCode: '',
-//       isResendRequest: true,
-//       accountType: AccountType.Customer
-//     };
+  startCooldown() {
 
-// this.authService.resendSmsOtp(payload).subscribe({
-//   next: (res) => console.log('SMS OTP resent ', res),
-//   error: (err) => console.error('Failed to resend OTP', err),
-//     });
-//     }
-//   }
+    this.canResend = false;
+
+
+    clearInterval(this.interval);
+    this.interval = setInterval(() => {
+      this.resendCooldown--;
+
+      if (this.resendCooldown <= 0) {
+        this.canResend = true;
+        this.codeResent = false;
+        clearInterval(this.interval);
+      }
+    }, 1000);
+  }
+
+  
 
   private handleSuccess(response: any) {
     console.log('OTP verified successfully', response);
@@ -188,7 +191,6 @@ localStorage.clear();
     localStorage.setItem('fullName', fullName);
 
 
-
     this.router.navigateByUrl('/').then(() => {
       window.location.reload();
     });
@@ -198,8 +200,7 @@ localStorage.clear();
   private handleError(error: any) {
     console.error('OTP verification failed', error);
     this.isSubmitting = false;
-    // You can also set an error message here to display in the template
-
+   this.errorMessage = 'Invalid OTP. Please check your code and try again.';
   }
 
 }
