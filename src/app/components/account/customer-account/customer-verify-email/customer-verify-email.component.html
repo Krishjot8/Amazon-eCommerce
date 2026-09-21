@@ -1,59 +1,55 @@
 <div class="verify-account-page">
-    <img class="amazon-authentication-logo" src="assets/logo-images/amazon-authentication-logo.jpg"  a routerLink="" alt="">
-   
-    <div class="verify-account-container">
-      <div class="span-verify-email-address">
-      <span>Verify email address</span>
-      </div>
+<img class="amazon-authentication-logo" src="assets/logo-images/amazon-authentication-logo.jpg" a routerLink="" alt="">
+<div class="verify-account-container">
+<div class="span-verify-email-address">
+<span>Verify email address</span>
+</div>
 
-      <div class="otp-information">
-        <p>To verify your email, we've sent a One Time Password (OTP) to {{email}} <a routerLink="signin"> (Change)</a></p>
-        <label for="otpInput" class="security-code-label">Enter security code</label>
-      </div>
-  
+<div class="otp-information">
+<p>To verify your email, we've sent a One Time Password (OTP) to {{email}} <a routerLink="signin"> (Change)</a></p>
+<label for="otpInput" class="security-code-label">Enter security code</label>
+</div>
 
 
-      
 
-  <form  [formGroup]="verifyForm" class="form-verify-email" (ngSubmit)="onSubmit()" autocomplete ="off">
-    <input class="input-verification-code" autocomplete="off" type="text"
-     required
-     id="otpInput"
-     formControlName="otp"
-    maxlength="6"
-    [class.has-error]="errorMessage">
-  
-    <div class="resend-success-message" *ngIf="codeResent">
-        <img src="assets/logo-images/check-icon.png" alt="Success Icon">
-       <h6>A new code has been sent to your email.</h6>
-      </div>  
+<form [formGroup]="verifyForm" class="form-verify-email" (ngSubmit)="onSubmit()" autocomplete ="off">
+<input class="input-verification-code" autocomplete="off" type="text"
+required
+id="otpInput"
+(input)="onInputChange()"
+(focus)="onInputFocus()"
+formControlName="otp"
+maxlength="6"
+[class.has-error]="errorMessage">
+<div class="resend-success-message" *ngIf="codeResent">
+<img src="assets/logo-images/check-icon.png" alt="Success Icon">
+<h6>A new code has been sent to your email.</h6>
+</div>
 
 <div class="error-message" *ngIf="errorMessage">
-    <img src="assets/logo-images/errors-icon.svg" alt="Error Icon" />
-    <div class="error-text">{{ errorMessage }}</div>
-  </div>
+<span><img src="assets/logo-images/errors-icon.svg" alt="Error Icon" /> <div class="error-text">{{ errorMessage }}</div></span>
+</div>
 
-  <div class="submit-account-verification">
-    <button type="submit">Create your Amazon account</button>
-  </div>
-  </form>
-  <div class="verify-account-conditions-privacy">
-    <p>By creating an account, you agree to Amazon's <a href="">Conditions
-      of Use</a> and <a href="">Privacy Notice.</a></p>
-  </div>
- 
+<div class="submit-account-verification">
+<button type="submit">Create your Amazon account</button>
+</div>
+</form>
+<div class="verify-account-conditions-privacy">
+<p>By creating an account, you agree to Amazon's <a href="">Conditions
+of Use</a> and <a href="">Privacy Notice.</a></p>
+</div>
 
-  <div class="span-resend-one-time-password-duration" *ngIf="!canResend">
-      <img src="assets/logo-images/information-icon.png" alt="Info Icon" />
-      <h6>Please wait {{ resendCooldown }} seconds before requesting a new code.</h6>
-    </div>
+<div class="span-resend-one-time-password-duration" *ngIf="!canResend">
+<img src="assets/logo-images/information-icon.png" alt="Info Icon" />
+<h6>Please wait {{ resendCooldown }} seconds before requesting a new code.</h6>
+</div>
 
 
-  <div class="resend-one-time-password">
-  <a (click)="onResendOtp()" 
-     [class.enabled]="!canResend">
-    Resend Code
-  </a>
+<div class="resend-one-time-password">
+<a (click)="onResendOtp()"
+[class.enabled]="!canResend">
+Resend Code
+</a>
 </div>
 
 
@@ -61,22 +57,14 @@
 <div class="verification-email-note" *ngIf="codeResent">
 <p>Note: If you didn't recieve our verification email:</p>
 <ul>
-  <li>Make sure you entered the correct email address</li>
-  <li>Check your spam or junk folder</li>
-  <li>Wait a few minutes and try again</li>
+<li>Make sure you entered the correct email address</li>
+<li>Check your spam or junk folder</li>
+<li>Wait a few minutes and try again</li>
 </ul>
 </div>
 
 
 
-  
-  
-    </div>
-  
-    <app-auth-footer></app-auth-footer>
-  </div>
-  
-  
-  
-  
-  
+</div>
+<app-auth-footer></app-auth-footer>
+</div>

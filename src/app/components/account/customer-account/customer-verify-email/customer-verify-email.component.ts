@@ -28,7 +28,8 @@ verificationType: 'email' | 'sms' = 'email';
   canResend = true;
   resendAttempts = 0;
   interval: any;
-
+serverError: string = '';
+  resendSuccessMessage: string | null = ''; // Tracks the green success notification
 
 
 
@@ -83,94 +84,139 @@ localStorage.getItem('pendingAuthId') || ''; // Fallback to loginIdentifier if v
     }
   }
 
-  onSubmit() {
-    this.errorMessage = null; // Reset error message on new submission
 
-    if (this.verifyForm.invalid) {
-      this.verifyForm.markAllAsTouched();
-      this.errorMessage = 'Invalid OTP. Please check your code and try again.';
-      return;
-    }
+ 
+ onSubmit() {
+  this.errorMessage = null;
 
-    this.isSubmitting = true;
-    const otpValue = this.verifyForm.value.otp.trim();
-    
-    if(this.verificationType === 'email'){
-
-      const payload: PasswordChallengeVerify = {
-        pendingAuthId: this.email,
-        otp: otpValue,  //this.verifyForm.value.otp
-        role: UserRole.Customer
-      };
-
-      console.log('VERIFY PAYLOAD:', payload);
-
-      this.authService.verifyOtp(payload).subscribe({
-    next: (response) => this.handleSuccess(response),
-      error: (error) => this.handleError(error),
-      });
-    } else{
-
-      const payload: VerifySms = {
-        phoneNumber: this.phoneNumber,
-       smsOtpCode: otpValue,
-        isResendRequest: false,
-        accountType: AccountType.Customer
-      };
-
-
-      this.authService.verifySms(payload).subscribe({
-        next: (response) => this.handleSuccess(response),
-        error: (error) => this.handleError(error),
-      })
-    }
+  if (this.verifyForm.invalid) {
+    this.verifyForm.markAllAsTouched();
+    this.errorMessage = 'Invalid OTP. Please check your code and try again.';
+    return;
   }
 
-  onResendOtp() {
-
-if(!this.canResend) return;
-
-      const payload: ResendOtpRequest = {
-      pendingAuthId: localStorage.getItem('pendingAuthId') || this.email,
-      role: 0,
-    };
+  this.isSubmitting = true;
+  const otpValue = this.verifyForm.value.otp.trim();
   
-      this.authService.resendEmailOtp(payload).subscribe({
-next: (res) =>  {console.log('Email OTP resent ', res);
-  this.codeResent = true;
-  this.errorMessage = null; // Clear any previous error messages
-this.resendAttempts++;
+  if (this.verificationType === 'email') {
+    // Get stored pendingAuthId session key, fallback to email if not present
+    const authId = localStorage.getItem('pendingAuthId') || this.email;
 
+    const payload: PasswordChallengeVerify = {
+      pendingAuthId: authId,
+      otp: otpValue,
+      role: UserRole.Customer
+    };
 
+    console.log('VERIFY PAYLOAD:', payload);
 
-this.resendCooldown = this.resendAttempts === 1 ? 60 : 90; // Set cooldown based on attempts
-this.startCooldown();
-},
+    this.authService.verifyOtp(payload).subscribe({
+      next: (response) => this.handleSuccess(response),
+      error: (error) => this.handleError(error),
+    });
+  } else {
+    const payload: VerifySms = {
+      phoneNumber: this.phoneNumber,
+      smsOtpCode: otpValue,
+      isResendRequest: false,
+      accountType: AccountType.Customer
+    };
 
-error: (err) => {
-  console.error('Failed to resend OTP', err);
-this.errorMessage = 'Failed to resend verification code. Please try again later.';
+    this.authService.verifySms(payload).subscribe({
+      next: (response) => this.handleSuccess(response),
+      error: (error) => this.handleError(error),
+    });
   }
-});
 }
+
+
+ onResendOtp() {
+  if (!this.canResend) return;
+
+  const authId = localStorage.getItem('pendingAuthId') || 
+                 localStorage.getItem('verificationEmail') || 
+                 this.email;
+
+  if (!authId) {
+    this.errorMessage = 'Session expired. Please start registration again.';
+    return;
+  }
+
+  const payload: ResendOtpRequest = {
+    pendingAuthId: authId,
+    role: UserRole.Customer
+  };
+
+  console.log('Sending Resend OTP Payload:', payload);
+
+  this.authService.resendEmailOtp(payload).subscribe({
+    next: (res) => {
+      console.log('Email OTP resent successfully', res);
+      this.resendSuccessMessage = 'A new code has been sent to your email.';
+      this.errorMessage = null;
+      this.resendAttempts++;
+      this.codeResent = true;
+
+      this.resendCooldown = res?.cooldownSeconds || (this.resendAttempts === 1 ? 60 : 90);
+      this.startCooldown();
+    },
+    error: (err) => {
+      console.error('Failed to resend OTP', err);
+      this.resendSuccessMessage = null;
+
+      const errorResponse = err?.error;
+
+      // Check if backend returned remaining cooldown in error payload
+      if (errorResponse?.cooldownSeconds) {
+        this.resendCooldown = errorResponse.cooldownSeconds;
+        this.startCooldown();
+      }
+
+      // Display backend error message or fallback
+      this.errorMessage = errorResponse?.message || 
+                          (typeof errorResponse === 'string' ? errorResponse : 'Session expired or invalid. Please try signing up again.');
+    }
+  });
+}
+
+
+
+
 
   startCooldown() {
 
     this.canResend = false;
 
+    if(this.resendAttempts === 0){
+this.resendCooldown = 60;
+    }else{
+      this.resendCooldown = 90;
+    }
+
 
     clearInterval(this.interval);
+
     this.interval = setInterval(() => {
       this.resendCooldown--;
 
       if (this.resendCooldown <= 0) {
         this.canResend = true;
-        this.codeResent = false;
         clearInterval(this.interval);
       }
     }, 1000);
   }
 
+
+onInputChange(): void {
+  this.errorMessage = null;
+  this.codeResent = false;
+}
+
+onInputFocus(): void {
+  this.errorMessage = null;
+  this.codeResent = false;
+}
+ 
   
 
   private handleSuccess(response: any) {

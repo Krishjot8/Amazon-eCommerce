@@ -163,6 +163,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
       );
       console.log('Registration successful', response);
 
+////
+if (response?.pendingAuthId) {
+      localStorage.setItem('pendingAuthId', response.pendingAuthId);
+    }
+
+    localStorage.setItem('verificationEmail', response.email);
+
+    this.router.navigate(['/verify-email'], { state: { email: response.email } });
+//////
+
       this.registrationForm.reset();
       this.submitted = false;
 
