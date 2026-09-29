@@ -22,8 +22,6 @@ namespace Amazon_eCommerce_API.Models.CacheStates.Authentication
 
         //Business Details
         public BusinessDetailsState? BusinessDetails { get; set; } 
-
-
         // Tracking
 
         public RegistrationStep CurrentStep { get; set; }  = RegistrationStep.Step1_Identity;

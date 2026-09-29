@@ -6,9 +6,11 @@ using System.Security.Cryptography;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge.ForgotPassword;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.UserResolver;
 using Amazon_eCommerce_API.Services.Communication.Email;
+using Amazon_eCommerce_API.Services.Users.Business;
 
 namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 {
@@ -16,7 +18,10 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
         IUserResolverService  userResolverService,
         ICacheService cacheService,
         IEmailService emailService,
-        ISmsService smsService)
+        ISmsService smsService,
+        ICustomerUserService customerUserService,
+        IBusinessUserService businessUserService
+            )
         : IPasswordChallengeService //For Generating One time Password
     {
         //
@@ -84,7 +89,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
         public async Task<bool> VerifyOtpAsync(PasswordChallengeVerifyDto verifyDto)
         {
-           var cachedOtp =  cacheService.ValidateOtpAsync(verifyDto.PendingAuthId, verifyDto.Otp);
+           var cachedOtp = await cacheService.ValidateOtpAsync(verifyDto.PendingAuthId, verifyDto.Otp);
 
            if (cachedOtp == null) return false;
 
@@ -222,9 +227,20 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
          return true;
         }
 
+        public async Task<bool> ResetForgotPasswordAsync(ResetForgotPasswordDto request)
+        {
+            return request.AccountType switch
+            {
+                AccountType.Customer => await customerUserService.ResetCustomerPasswordAsync(request),
+                AccountType.Business => await businessUserService.ResetBusinessPasswordAsync(request),
+                _ => false
+            };
+        }
+
         
         
         
+
         private bool IsValidEmail(string email)
         {
             try

@@ -394,8 +394,7 @@ namespace Amazon_eCommerce_API.Services.Users.Business
             return existingUsername != null;
         }
 
-
-
+        
       
         public Task<BusinessUser> AddBusinessDetailsAsync(int userId, BusinessAccountDetailsDto detailsDto)
         {

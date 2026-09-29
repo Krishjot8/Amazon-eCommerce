@@ -2,6 +2,7 @@
 using Amazon_eCommerce_API.Models.DBEntities.Users.Business;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DBEntities.Users.Seller;
+using Amazon_eCommerce_API.Models.DTO_s.Authentication.CheckIdentifier;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge.ForgotPassword;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
@@ -82,10 +83,8 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
             var isValid = await _passwordChallengeService.VerifyOtpAsync(requestDto);
 
             if (!isValid)
-                return Unauthorized("Invalid or expired OTP");
-
-
-
+                return Unauthorized("The code you entered is invalid or has expired. Please check the code and try again.");
+            
 
             var user = await _userResolverService.ResolveUserAsync
             (requestDto.PendingAuthId,
@@ -188,7 +187,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
 
         [HttpPost("validate-identifier")]
 
-        public async Task<IActionResult> ValidatePasswordResetIdentifier([FromBody] PasswordResetIdentifierDto request)
+        public async Task<IActionResult> ValidatePasswordResetIdentifier([FromBody] CheckIdentifierDto request)
         {
 
             if (request == null || string.IsNullOrWhiteSpace(request.Identifier))
@@ -205,7 +204,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
 
 
 
-        [HttpPost("forgot-password")]
+        [HttpPost("reset-password")]
 
         public async Task<IActionResult> ResetPassword([FromBody] ResetForgotPasswordDto request)
         {
@@ -215,14 +214,14 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                 return BadRequest(new { success = false, message = "Failed to reset password." });
             }
 
-            var isResetSuccessful = await _customerUserService.ResetCustomerPasswordAsync(request);
+            var result = await _passwordChallengeService.ResetForgotPasswordAsync(request);
 
-            if (!isResetSuccessful)
+            if (!result)
             {
                 return BadRequest(new
                 {
                     success = false,
-                    message = "invalid expired reset token. Please request a new OTP to reset your password"
+                    message = "Failed to reset password. Please ensure the reset token is valid and not expired."
                 });
             }
 

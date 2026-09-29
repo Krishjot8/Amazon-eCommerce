@@ -1,6 +1,6 @@
-namespace Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge
+namespace Amazon_eCommerce_API.Models.DTO_s.Authentication.CheckIdentifier
 {
-    public class PasswordResetIdentifierDto
+    public class CheckIdentifierDto
     {
         
         public string Identifier { get; set; }
