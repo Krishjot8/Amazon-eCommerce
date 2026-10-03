@@ -7,6 +7,7 @@ using Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Authenticat
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.AccountUpdate;
 using Amazon_eCommerce_API.Models.DTO_s.Accounts.SellerUserAccount.Authentication;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
+using Amazon_eCommerce_API.Models.Enums;
 using Amazon_eCommerce_API.Services;
 using Amazon_eCommerce_API.Services.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Services.Authentication.Token;
@@ -81,7 +82,9 @@ namespace Amazon_eCommerce_API.Controllers.Account
             var otpChallenge = await _passwordChallengeService.GenerateOtpChallengeAsync(
                 identifier,
                 customerUserRegistrationDto.Password, 
-                UserRole.Customer);
+                UserRole.Customer,
+                OtpPurpose.Registration
+                );
 
         
                 if(otpChallenge == null)

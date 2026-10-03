@@ -65,15 +65,31 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             };
         }
 
-        public async Task<bool> SendOtpEmailAsync(string email, string otp, string providerName = null)
+        public async Task<bool> SendRegistrationOtpEmailAsync(string email, string otp, string providerName = null)
         {
-            string subject = "amazon.com: Sign-in attempt";
-            string body = GetEmailTemplate(otp);
+            string subject = "amazon.com: Verify your new Amazon account";
+            string body = GetRegistrationEmailTemplate(otp);
 
             return await SendEmailInternalAsync(email, subject, body, providerName);
         }
 
-      
+        public async Task<bool> SendSignInAttemptOtpEmailAsync(string email, string otp, string timestamp, string userName = "Customer",
+            string deviceDetails = "generic web browser", string locationDetails = "Texas, United States", string denyLink = "https://www.amazon.com", string providerName = null)
+        {
+            var subject = "amazon.com: Sign-in attempt";
+
+            var htmlContent = GetSignInAttemptEmailTemplate(
+                verificationCode: otp,
+                timestamp: timestamp,
+                userName: userName,
+                deviceDetails: deviceDetails,
+                locationDetails: locationDetails,
+                denyLink: denyLink);
+
+            return await SendEmailInternalAsync(email, subject, htmlContent, providerName);
+        }
+
+
         public async Task<bool> SendPasswordResetOtpEmailAsync(
             string email,
             string otp,
@@ -81,6 +97,7 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             string userName = "Customer",
             string deviceDetails = "generic web browser",
             string locationDetails = "United States",
+            string denyLink = "https://www.amazon.com",
             string providerName = null)
         {
             var subject = "amazon.com: Password Recovery";
@@ -117,9 +134,10 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
                 ExpirationMinutes = 10
             });
 
-            return await SendOtpEmailAsync(dto.Email, otp);
+            return await SendRegistrationOtpEmailAsync(dto.Email, otp);
         }
 
+       
         public async Task<bool> VerifyEmailOtpAsync(VerifyEmailDto dto)
         {
             // Resend flow
@@ -147,7 +165,7 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
                     ExpirationMinutes = 1
                 });
 
-                await SendOtpEmailAsync(dto.Email, newOtp);
+                await SendRegistrationOtpEmailAsync(dto.Email, newOtp);
                 return true;
             }
 
@@ -221,7 +239,7 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
                 ExpirationMinutes = 10
             });
 
-            return await SendOtpEmailAsync(email, otp);
+            return await SendRegistrationOtpEmailAsync(email, otp);
         }
 
         private async Task<bool> SendEmailInternalAsync(string email, string subject, string htmlContent,
@@ -258,34 +276,219 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             }
         }
 
-        public string GetEmailTemplate(string verificationCode)
+        public string GetRegistrationEmailTemplate(string verificationCode)
         {
-            return $@"
-<html>
+         return $@"
+<!DOCTYPE html>
+<html lang='en'>
 <head>
-    <meta name='color-scheme' content='light'>
-    <meta name='supported-color-schemes' content='light'>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='color-scheme' content='light' />
+    <meta name='supported-color-schemes' content='light' />
     <style>
-        body {{ margin: 0; padding: 0; }}
-        .email-container {{ font-family: Arial, sans-serif; background-color: #FFFFFF !important; color: #000000 !important; text-align: center; padding: 20px; border-radius: 10px; max-width: 500px; margin: 20px auto; border: 1px solid #e0e0e0; }}
-        .otp {{ font-size: 32px; font-weight: bold; margin: 20px 0; color: #000000 !important; }}
-        p {{ color: #000000 !important; line-height: 1.5; }}
-        .footer {{ margin-top: 20px; font-size: 12px; color: #555555 !important; }}
+        body, table, td, div {{
+            font-family: Arial, sans-serif !important;
+        }}
     </style>
 </head>
-<body style='background-color:#FFFFFF !important; color:#000000 !important;'>
-    <div class='email-container' style='background-color:#FFFFFF !important; color:#000000 !important;'>
-        <div class='logo' style='text-align:center;'>
-            <img src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' alt='Amazon' style='width:120px; height:auto; display:block; margin:0 auto 20px auto;'>
-        </div>
-        <p style='color:#000000;'>Your One-Time Password (OTP) is:</p>
-        <div class='otp' style='color:#000000;'>{verificationCode}</div>
-        <p style='color:#000000;'>
-            Don't share this OTP with anyone. Amazon takes your account security very seriously.
-        </p>
-        <p style='color:#000000;'>Thank you,</p>
-        <div class='footer' style='color:#555555;'>&copy; {DateTime.UtcNow.Year} Amazon.com, Inc. or its affiliates. All rights reserved.</div>
-    </div>
+<body bgcolor='#ffffff' style='margin: 0; padding: 0; background-color: #ffffff !important; color: #111111 !important;'>
+    <!-- Outer Container -->
+    <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#ffffff' style='background-color: #ffffff !important; width: 100%;'>
+        <tr>
+            <td align='center' bgcolor='#ffffff' style='padding: 24px; background-color: #ffffff !important;'>
+                
+                <!-- Main Email Card -->
+                <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0' style='max-width: 540px; background-color: #ffffff !important;'>
+                    
+                    <!-- Top Black Amazon Logo -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; padding-bottom: 24px;'>
+                            <img src='https://www.thriftysigns.com/wp-content/uploads/2020/12/Amazon-Logo.jpg.webp' 
+                                 alt='Amazon' 
+                                 width='115' 
+                                 style='width: 115px; height: auto; display: block; border: 0;'>
+                        </td>
+                    </tr>
+
+                    <!-- Title -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; font-size: 17px; font-weight: bold; color: #111111 !important; padding-bottom: 6px;'>
+                            Verify your new Amazon account
+                        </td>
+                    </tr>
+
+                    <!-- Subtext -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; font-size: 14px; color: #222222 !important; line-height: 1.4; padding-bottom: 18px;'>
+                            To verify your email address, please use the following One Time Password (OTP):
+                        </td>
+                    </tr>
+
+                    <!-- OTP Code -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; font-size: 32px; font-weight: bold; letter-spacing: 0.5px; color: #111111 !important; padding-bottom: 24px;'>
+                            {verificationCode}
+                        </td>
+                    </tr>
+
+                    <!-- Disclaimer -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; font-size: 13.5px; color: #111111 !important; line-height: 1.45; padding-bottom: 24px;'>
+                            Don't share this OTP with anyone. Amazon takes your account security very seriously. Amazon Customer Service will never ask you to disclose or verify your Amazon password, OTP, credit card, or banking account number. If you receive a suspicious email with a link to update your account information, do not click on the link—instead, report the email to Amazon for investigation.
+                        </td>
+                    </tr>
+
+                    <!-- Closing -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; font-size: 14px; color: #111111 !important; padding-bottom: 28px;'>
+                            Thank you
+                        </td>
+                    </tr>
+
+                    <!-- Footer Container -->
+                    <tr>
+                        <td align='left' bgcolor='#f0f2f2' style='background-color: #f0f2f2 !important; padding: 20px; border-radius: 2px;'>
+                            <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                    <td style='font-size: 11.5px; color: #555555 !important; line-height: 1.5;'>
+                                        &copy;{DateTime.UtcNow.Year} Amazon.com, Inc. or its affiliates. Amazon and all related marks are trademarks of Amazon.com, Inc. or its affiliates, Amazon.com, Inc. 410 Terry Avenue N., Seattle, WA 98109.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style='padding-top: 16px;'>
+                                        <!-- Bottom Black Amazon Logo (Arrow/Smile) -->
+                                        <img src='https://vectorseek.com/wp-content/uploads/2023/09/Amazon-shopping-smile-Logo-Vector.svg-.png' 
+                                             alt='Amazon' 
+                                             width='60' 
+                                             style='width: 60px; height: auto; display: block; border: 0;'>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>";
+        }
+        
+
+        public string GetSignInAttemptEmailTemplate(string verificationCode, string timestamp, string userName, string deviceDetails,
+            string locationDetails , string denyLink = "https://www.amazon.com")
+        {
+          return $@"
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='color-scheme' content='dark' />
+    <meta name='supported-color-schemes' content='dark' />
+    <style>
+        body, table, td, div {{
+            font-family: Arial, sans-serif !important;
+        }}
+    </style>
+</head>
+<body bgcolor='#0f1111' style='margin: 0; padding: 0; background-color: #0f1111 !important;'>
+    <!-- Outer Table Container -->
+    <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#0f1111' style='background-color: #0f1111 !important; width: 100%;'>
+        <tr>
+            <td align='center' bgcolor='#0f1111' style='padding: 24px; background-color: #0f1111 !important;'>
+                
+                <!-- Main Email Card -->
+                <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0' style='max-width: 580px; background-color: #0f1111 !important;'>
+                    
+                    <!-- White Header Logo PNG -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; padding-bottom: 28px;'>
+                            <img src='https://cdn.freebiesupply.com/images/large/2x/amazon-logo-white.png' 
+                                 alt='Amazon' 
+                                 width='115' 
+                                 style='width: 115px; height: auto; display: block; border: 0;'>
+                        </td>
+                    </tr>
+
+                    <!-- Greeting -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 18px; font-weight: 600; color: #ffffff !important; padding-bottom: 20px; letter-spacing: -0.2px;'>
+                            {userName ?? "Customer"},
+                        </td>
+                    </tr>
+
+                    <!-- Intro -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 15px; color: #ffffff !important; line-height: 1.4; padding-bottom: 20px;'>
+                            Someone who knows your password is attempting to sign-in to your account.
+                        </td>
+                    </tr>
+
+                    <!-- Details -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 15px; color: #ffffff !important; line-height: 1.6; padding-bottom: 28px;'>
+                            <strong>When:</strong> {timestamp}<br>
+                            <strong>Device:</strong> {deviceDetails}<br>
+                            <strong>Near:</strong> {locationDetails}
+                        </td>
+                    </tr>
+
+                    <!-- Code Label -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 15px; font-weight: bold; color: #ffffff !important; padding-bottom: 10px;'>
+                            If this was you, your verification code is:
+                        </td>
+                    </tr>
+
+                    <!-- OTP Code -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 26px; font-weight: bold; letter-spacing: 0.5px; color: #ffffff !important; padding-bottom: 28px;'>
+                            {verificationCode}
+                        </td>
+                    </tr>
+
+                    <!-- Security Notice -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 15px; color: #ffffff !important; line-height: 1.5; padding-bottom: 28px;'>
+                            If you didn't request it: <a href='{denyLink}' style='color: #55b5d9; text-decoration: none;'>click here to deny</a>.<br>
+                            Don't share it with others.
+                        </td>
+                    </tr>
+
+                    <!-- Dark Footer Container -->
+                    <tr>
+                        <td align='left' bgcolor='#1e293b' style='background-color: #1e293b !important; padding: 20px; border-radius: 4px;'>
+                            <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                    <td style='font-size: 12px; color: #cccccc !important; line-height: 1.5;'>
+                                        &copy;{DateTime.UtcNow.Year} <a href='https://www.amazon.com' style='color: #55b5d9; text-decoration: none;'>Amazon.com</a>, Inc. or its affiliates. Amazon and all related marks are trademarks of <a href='https://www.amazon.com' style='color: #55b5d9; text-decoration: none;'>Amazon.com</a>, Inc. or its affiliates, <a href='https://www.amazon.com' style='color: #55b5d9; text-decoration: none;'>Amazon.com</a>, Inc. 410 Terry Avenue N., Seattle, WA 98109.<br><br>
+                                        Is it safe to follow this link?<br>
+                                        The link provided in this email starts with <strong>'https://www.amazon.com'</strong>. If you prefer, copy the following link and paste it into a browser to view.<br><br>
+                                        <a href='{denyLink}' style='color: #55b5d9; text-decoration: none; word-break: break-all;'>{denyLink}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style='padding-top: 15px;'>
+                                        <!-- Footer White Amazon Logo PNG -->
+                                        <img src='https://upload.wikimedia.org/wikipedia/commons/e/eb/Amazon_shopping_smile_logo-app.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original' 
+                                             alt='Amazon' 
+                                             width='50' 
+                                             style='width: 50px; height: auto; display: block; border: 0;'>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
 </body>
 </html>";
         }
@@ -298,138 +501,114 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             string locationDetails,
             string denyLink = "https://www.amazon.com")
         {
-            return $@"
+          return $@"
 <!DOCTYPE html>
-<html>
+<html lang='en'>
 <head>
     <meta charset='utf-8' />
-    <meta name='color-scheme' content='dark'>
-    <meta name='supported-color-schemes' content='dark'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='color-scheme' content='dark' />
+    <meta name='supported-color-schemes' content='dark' />
     <style>
-        body {{ 
-            background-color: #111414; 
-            color: #ffffff; 
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            margin: 0; 
-            padding: 24px; 
-            -webkit-font-smoothing: antialiased;
-        }}
-        .email-container {{ 
-            max-width: 580px; 
-            margin: 0 auto; 
-            background-color: #111414; 
-            text-align: left;
-        }}
-        .logo {{ margin-bottom: 28px; }}
-        /* Forces any logo image to render 100% pure white */
-        .white-logo {{ 
-            width: 115px; 
-            height: auto; 
-            display: block; 
-            filter: brightness(0) invert(1); 
-            -webkit-filter: brightness(0) invert(1);
-        }}
-        .greeting {{ 
-            font-size: 18px; 
-            font-weight: 600; 
-            margin-bottom: 20px; 
-            color: #ffffff; 
-            letter-spacing: -0.2px;
-        }}
-        .intro {{ 
-            font-size: 15px; 
-            color: #ffffff; 
-            margin-bottom: 20px; 
-            font-weight: 400;
-            line-height: 1.4;
-        }}
-        .details {{ 
-            font-size: 15px; 
-            color: #ffffff; 
-            line-height: 1.6; 
-            margin-bottom: 28px; 
-            font-weight: 400;
-        }}
-        .code-label {{ 
-            font-size: 15px; 
-            font-weight: 700; 
-            color: #ffffff; 
-            margin-bottom: 10px; 
-        }}
-        .otp {{ 
-            font-size: 34px; 
-            font-weight: 700; 
-            letter-spacing: 1px; 
-            color: #ffffff; 
-            margin-bottom: 28px; 
-        }}
-        .security-notice {{ 
-            font-size: 15px; 
-            color: #ffffff; 
-            line-height: 1.5; 
-            margin-bottom: 28px; 
-            font-weight: 400;
-        }}
-        .security-notice a {{ 
-            color: #55b5d9; 
-            text-decoration: none; 
-        }}
-        .footer-box {{ 
-            background-color: #232f3e; 
-            padding: 20px; 
-            font-size: 12px; 
-            color: #cccccc; 
-            line-height: 1.5; 
-            border-radius: 4px; 
-        }}
-        .footer-box a {{ 
-            color: #55b5d9; 
-            text-decoration: none; 
-            word-break: break-all; 
-        }}
-        .footer-logo {{ 
-            width: 38px; 
-            margin-top: 15px; 
-            display: block; 
-            filter: brightness(0) invert(1);
-            -webkit-filter: brightness(0) invert(1);
+        body, table, td, div {{
+            font-family: Arial, sans-serif !important;
         }}
     </style>
 </head>
-<body>
-    <div class='email-container'>
-        <div class='logo'>
-            <!-- Pure White Amazon Logo -->
-            <img src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' alt='Amazon' class='white-logo'>
-        </div>
+<body bgcolor='#0f1111' style='margin: 0; padding: 0; background-color: #0f1111 !important;'>
+    <!-- Outer Table Container -->
+    <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#0f1111' style='background-color: #0f1111 !important; width: 100%;'>
+        <tr>
+            <td align='center' bgcolor='#0f1111' style='padding: 24px; background-color: #0f1111 !important;'>
+                
+                <!-- Main Email Card -->
+                <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0' style='max-width: 580px; background-color: #0f1111 !important;'>
+                    
+                    <!-- White Header Logo PNG -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; padding-bottom: 28px;'>
+                            <img src='https://cdn.freebiesupply.com/images/large/2x/amazon-logo-white.png' 
+                                 alt='Amazon' 
+                                 width='115' 
+                                 style='width: 115px; height: auto; display: block; border: 0;'>
+                        </td>
+                    </tr>
 
-        <div class='greeting'>{userName ?? "Customer"},</div>
+                    <!-- Greeting -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 18px; font-weight: 600; color: #ffffff !important; padding-bottom: 20px; letter-spacing: -0.2px;'>
+                            {userName ?? "Customer"},
+                        </td>
+                    </tr>
 
-        <div class='intro'>Someone is attempting to reset the password of your account.</div>
+                    <!-- Intro -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 15px; color: #ffffff !important; line-height: 1.4; padding-bottom: 20px;'>
+                            Someone is attempting to reset the password of your account.
+                        </td>
+                    </tr>
 
-        <div class='details'>
-            <strong>When:</strong> {timestamp}<br>
-            <strong>Device:</strong> {deviceDetails}<br>
-            <strong>Near:</strong> {locationDetails}
-        </div>
+                    <!-- Details -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 15px; color: #ffffff !important; line-height: 1.6; padding-bottom: 28px;'>
+                            <strong>When:</strong> {timestamp}<br>
+                            <strong>Device:</strong> {deviceDetails}<br>
+                            <strong>Near:</strong> {locationDetails}
+                        </td>
+                    </tr>
 
-        <div class='code-label'>If this was you, your verification code is:</div>
-        <div class='otp'>{verificationCode}</div>
+                    <!-- Code Label -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 15px; font-weight: bold; color: #ffffff !important; padding-bottom: 10px;'>
+                            If this was you, your verification code is:
+                        </td>
+                    </tr>
 
-        <div class='security-notice'>
-            If you didn't request it: <a href='{denyLink}'>click here to deny</a>.<br>
-            Don't share it with others.
-        </div>
+                    <!-- OTP Code -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 26px; font-weight: bold; letter-spacing: 0.5px; color: #ffffff !important; padding-bottom: 28px;'>
+                            {verificationCode}
+                        </td>
+                    </tr>
 
-        <div class='footer-box'>
-            &copy;{DateTime.UtcNow.Year} <a href='https://www.amazon.com'>Amazon.com</a>, Inc. or its affiliates. Amazon and all related marks are trademarks of <a href='https://www.amazon.com'>Amazon.com</a>, Inc. or its affiliates, <a href='https://www.amazon.com'>Amazon.com</a>, Inc. 410 Terry Avenue N., Seattle, WA 98109.<br><br>
-            Is it safe to follow this link?<br>
-            The link provided in this email starts with <strong>'https://www.amazon.com'</strong>. If you prefer, copy the following link and paste it into a browser to view.<br><br>
-            <a href='{denyLink}'>{denyLink}</a>
+                    <!-- Security Notice -->
+                    <tr>
+                        <td align='left' bgcolor='#0f1111' style='background-color: #0f1111 !important; font-size: 15px; color: #ffffff !important; line-height: 1.5; padding-bottom: 28px;'>
+                            If you didn't request it: <a href='{denyLink}' style='color: #55b5d9; text-decoration: none;'>click here to deny</a>.<br>
+                            Don't share it with others.
+                        </td>
+                    </tr>
 
-            <img src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' alt='Amazon' class='footer-logo'>
-        </div>
-    </div>
+                    <!-- Dark Footer Container -->
+                    <tr>
+                        <td align='left' bgcolor='#1e293b' style='background-color: #1e293b !important; padding: 20px; border-radius: 4px;'>
+                            <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                    <td style='font-size: 12px; color: #cccccc !important; line-height: 1.5;'>
+                                        &copy;{DateTime.UtcNow.Year} <a href='https://www.amazon.com' style='color: #55b5d9; text-decoration: none;'>Amazon.com</a>, Inc. or its affiliates. Amazon and all related marks are trademarks of <a href='https://www.amazon.com' style='color: #55b5d9; text-decoration: none;'>Amazon.com</a>, Inc. or its affiliates, <a href='https://www.amazon.com' style='color: #55b5d9; text-decoration: none;'>Amazon.com</a>, Inc. 410 Terry Avenue N., Seattle, WA 98109.<br><br>
+                                        Is it safe to follow this link?<br>
+                                        The link provided in this email starts with <strong>'https://www.amazon.com'</strong>. If you prefer, copy the following link and paste it into a browser to view.<br><br>
+                                        <a href='{denyLink}' style='color: #55b5d9; text-decoration: none; word-break: break-all;'>{denyLink}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style='padding-top: 15px;'>
+                                        <!-- Footer White Amazon Logo PNG -->
+                                        <img src='https://upload.wikimedia.org/wikipedia/commons/e/eb/Amazon_shopping_smile_logo-app.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original' 
+                                             alt='Amazon' 
+                                             width='50' 
+                                             style='width: 50px; height: auto; display: block; border: 0;'>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
 </body>
 </html>";
 

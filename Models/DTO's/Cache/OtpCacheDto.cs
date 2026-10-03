@@ -1,4 +1,5 @@
 ﻿using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
+using Amazon_eCommerce_API.Models.Enums;
 
 namespace Amazon_eCommerce_API.Models.DTO_s.Cache
 {
@@ -20,6 +21,8 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Cache
         public OtpChannel OtpChannel { get; set; }
         public string MaskedDestination { get; set; }
 
-
+        public OtpPurpose OtpPurpose { get; set; }
+        
+        public string UserName { get; set; } = string.Empty;
     }
 }

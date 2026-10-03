@@ -16,7 +16,17 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57879d55-2416-48a8-b2fe-8f9208f9fbdb" name="Changes" comment="" />
+    <list default="true" id="57879d55-2416-48a8-b2fe-8f9208f9fbdb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Models/Enums/OtpPurpose.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Amazon-eCommerce API/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Amazon-eCommerce API/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/DTO's/Cache/OtpCacheDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/DTO's/Cache/OtpCacheDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/IPasswordChallengeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/IPasswordChallengeService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Communication/Email/IEmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Communication/Email/IEmailService.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,13 +115,16 @@
     <setting file="file://$PROJECT_DIR$/Models/DTO's/Products/ProductReviewDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DTO's/Products/ProductTypeDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DTO's/Products/ProductVariantDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Models/Enums/OtpPurpose.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Authentication/UserResolver/IUserResolverService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Authentication/UserResolver/UserResolverService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Communication/Sms/ISmsService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Users/Business/BusinessUserService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Users/Customer/ICustomerUserService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Validators/SellerUserTaxProfileValidator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ac2a88a1b8c442bf847475a5a257846a5a00/9e/c02380c5/BCrypt.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/db7395f4add94e6d10e515b3e55373f2821f8323de7dc8e314d78feefacf5584/ActionMethodExecutor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Immediate Window" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -125,64 +138,64 @@
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
       <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0000000000000004" />
-      <entry key="S2" value="1.0001529742718618" />
-      <entry key="S5" value="1.031799449268741" />
-      <entry key="S10" value="1.3155412974712675" />
-      <entry key="S30" value="4.229278953691516" />
-      <entry key="S60" value="7.395448394924298" />
-      <entry key="M2" value="10.390011586948193" />
-      <entry key="M5" value="15.532554206209989" />
-      <entry key="M10" value="20.474066632324742" />
-      <entry key="M15" value="23.719261418174003" />
-      <entry key="M30" value="31.910049535721832" />
-      <entry key="H1" value="43.23383716735574" />
-      <entry key="H2" value="53.67938888622775" />
-      <entry key="H4" value="60.91999754998257" />
-      <entry key="D1" value="68.33926781659767" />
-      <entry key="W1" value="69.75885452908352" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0000000000007347" />
+      <entry key="S10" value="1.0000008571196852" />
+      <entry key="S30" value="1.009517997369659" />
+      <entry key="S60" value="1.1055056184384888" />
+      <entry key="M2" value="1.5308062024102336" />
+      <entry key="M5" value="3.3501388712778626" />
+      <entry key="M10" value="5.256979667763581" />
+      <entry key="M15" value="6.23696297866211" />
+      <entry key="M30" value="7.528242356112438" />
+      <entry key="H1" value="8.908068800633593" />
+      <entry key="H2" value="15.50783031204037" />
+      <entry key="H4" value="44.653256042703205" />
+      <entry key="D1" value="185.75507911236912" />
+      <entry key="W1" value="245.20711324912648" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="0.0" />
-      <entry key="S5" value="5.273827713066173E-258" />
-      <entry key="S10" value="2.2991572034181562E-129" />
-      <entry key="S30" value="1.4581864645236417E-43" />
-      <entry key="S60" value="4.810701305962579E-22" />
-      <entry key="M2" value="3.007583577717131E-11" />
-      <entry key="M5" value="1.1194210560493949E-4" />
-      <entry key="M10" value="0.02334813504779139" />
-      <entry key="M15" value="0.14970241870897358" />
-      <entry key="M30" value="1.0026766468719897" />
-      <entry key="H1" value="2.636287998457165" />
-      <entry key="H2" value="4.290712651142241" />
-      <entry key="H4" value="5.47882201074544" />
-      <entry key="D1" value="6.719632773815706" />
-      <entry key="W1" value="6.959235709023211" />
+      <entry key="MS500" value="3.646E-321" />
+      <entry key="S2" value="7.768713381298552E-81" />
+      <entry key="S5" value="9.039400726287063E-33" />
+      <entry key="S10" value="9.507576308548388E-17" />
+      <entry key="S30" value="4.564123487529352E-6" />
+      <entry key="S60" value="0.002140425675387415" />
+      <entry key="M2" value="0.049065607683156605" />
+      <entry key="M5" value="0.43765633705566176" />
+      <entry key="M10" value="1.0797567518566573" />
+      <entry key="M15" value="1.4982077029113596" />
+      <entry key="M30" value="2.1068792116451216" />
+      <entry key="H1" value="2.60040585124673" />
+      <entry key="H2" value="4.554393407154151" />
+      <entry key="H4" value="11.698667615614768" />
+      <entry key="D1" value="38.81413285163932" />
+      <entry key="W1" value="49.02112980775532" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.9726549474122855" />
-      <entry key="MS500" value="0.9944701686732148" />
-      <entry key="S2" value="0.998767322566462" />
-      <entry key="S5" value="1.0312151803129006" />
-      <entry key="S10" value="1.3150114069044552" />
-      <entry key="S30" value="4.227978096055797" />
-      <entry key="S60" value="7.394139857600387" />
-      <entry key="M2" value="10.388725555071474" />
-      <entry key="M5" value="15.530636375769802" />
-      <entry key="M10" value="20.495305107992902" />
-      <entry key="M15" value="23.86678595174762" />
-      <entry key="M30" value="32.9100869650872" />
-      <entry key="H1" value="45.86751707678182" />
-      <entry key="H2" value="57.968172247810536" />
-      <entry key="H4" value="66.39763420382585" />
-      <entry key="D1" value="75.05866497488982" />
-      <entry key="W1" value="76.71805553376359" />
+      <entry key="MS100" value="0.9012504626108302" />
+      <entry key="MS500" value="0.9794202975869268" />
+      <entry key="S2" value="0.9948148855014217" />
+      <entry key="S5" value="0.9979227189997836" />
+      <entry key="S10" value="0.9989616757211593" />
+      <entry key="S30" value="1.0091723876179401" />
+      <entry key="S60" value="1.10739757589168" />
+      <entry key="M2" value="1.5788330463158609" />
+      <entry key="M5" value="3.7843726609744395" />
+      <entry key="M10" value="6.332968655020405" />
+      <entry key="M15" value="7.73185787473865" />
+      <entry key="M30" value="9.63289085913638" />
+      <entry key="H1" value="11.507047046253978" />
+      <entry key="H2" value="20.0607251909068" />
+      <entry key="H4" value="56.34969694452389" />
+      <entry key="D1" value="224.5678847855928" />
+      <entry key="W1" value="294.2280016725938" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="Toolset" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -401,7 +414,11 @@
       <workItem from="1790649296047" duration="219000" />
       <workItem from="1790649521012" duration="22000" />
       <workItem from="1790649546749" duration="981000" />
-      <workItem from="1790669433115" duration="409000" />
+      <workItem from="1790669433115" duration="1801000" />
+      <workItem from="1790742455999" duration="5657000" />
+      <workItem from="1790752700790" duration="592000" />
+      <workItem from="1790980268825" duration="11029000" />
+      <workItem from="1791046745909" duration="5641000" />
     </task>
     <task id="LOCAL-00001" summary="updated things">
       <option name="closed" value="true" />
@@ -667,7 +684,15 @@
       <option name="project" value="LOCAL" />
       <updated>1790669646932</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="added comment">
+      <option name="closed" value="true" />
+      <created>1790669895316</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1790669895316</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -694,7 +719,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Updated launchnsettings.Json file to correct application URL" />
     <MESSAGE value="Updated name spaces" />
     <MESSAGE value="Updated namespaces and moving DTOs into separate folders." />
     <MESSAGE value="More changes for folders" />
@@ -719,7 +743,8 @@
     <MESSAGE value="Fix .NET SDK version pinning and .csproj package dependencies" />
     <MESSAGE value="fixed" />
     <MESSAGE value="good fix: updated code" />
-    <option name="LAST_COMMIT_MESSAGE" value="good fix: updated code" />
+    <MESSAGE value="added comment" />
+    <option name="LAST_COMMIT_MESSAGE" value="added comment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1362,29 +1387,16 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>44</line>
+          <line>45</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="2040" />
+              <option value="2081" />
             </startOffsets>
             <endOffsets>
-              <option value="2041" />
+              <option value="2082" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="98" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>46</line>
-          <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
-            <startOffsets>
-              <option value="2067" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2091" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
@@ -1394,137 +1406,137 @@
               <option value="2108" />
             </startOffsets>
             <endOffsets>
-              <option value="2138" />
+              <option value="2132" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="99" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
+          <line>48</line>
+          <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
+            <startOffsets>
+              <option value="2149" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2179" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>54</line>
+          <line>55</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="2337" />
+              <option value="2378" />
             </startOffsets>
             <endOffsets>
-              <option value="2440" />
+              <option value="2481" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="101" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>56</line>
+          <line>57</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="2454" />
+              <option value="2495" />
             </startOffsets>
             <endOffsets>
-              <option value="2455" />
+              <option value="2496" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="102" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>64</line>
+          <line>65</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="2785" />
+              <option value="2826" />
             </startOffsets>
             <endOffsets>
-              <option value="2894" />
+              <option value="2935" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>61</line>
+          <line>62</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="2585" />
+              <option value="2626" />
             </startOffsets>
             <endOffsets>
-              <option value="2708" />
+              <option value="2749" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>58</line>
+          <line>59</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="2469" />
+              <option value="2510" />
             </startOffsets>
             <endOffsets>
-              <option value="2537" />
+              <option value="2578" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>71</line>
+          <line>72</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="3090" />
+              <option value="3131" />
             </startOffsets>
             <endOffsets>
-              <option value="3115" />
+              <option value="3156" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="106" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>69</line>
+          <line>70</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="2963" />
+              <option value="3004" />
             </startOffsets>
             <endOffsets>
-              <option value="3064" />
+              <option value="3105" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>80</line>
+          <line>92</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="3396" />
+              <option value="3813" />
             </startOffsets>
             <endOffsets>
-              <option value="3592" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>89</line>
-          <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
-            <startOffsets>
-              <option value="3714" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3999" />
+              <option value="4098" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>86</line>
+          <line>89</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerRegister'">
             <startOffsets>
-              <option value="3619" />
+              <option value="3718" />
             </startOffsets>
             <endOffsets>
-              <option value="3643" />
+              <option value="3742" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="110" />
@@ -1596,117 +1608,117 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>261</line>
+          <line>279</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'GetEmailTemplate'">
             <startOffsets>
-              <option value="9568" />
+              <option value="10508" />
             </startOffsets>
             <endOffsets>
-              <option value="9569" />
+              <option value="10509" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="116" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>290</line>
+          <line>378</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'GetEmailTemplate'">
             <startOffsets>
-              <option value="11228" />
+              <option value="-1" />
             </startOffsets>
             <endOffsets>
-              <option value="11229" />
+              <option value="-1" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>111</line>
+          <line>114</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerLogin'">
             <startOffsets>
-              <option value="4172" />
+              <option value="4271" />
             </startOffsets>
             <endOffsets>
-              <option value="4173" />
+              <option value="4272" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>113</line>
+          <line>116</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerLogin'">
             <startOffsets>
-              <option value="4187" />
+              <option value="4286" />
             </startOffsets>
             <endOffsets>
-              <option value="4211" />
+              <option value="4310" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>115</line>
+          <line>118</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerLogin'">
             <startOffsets>
-              <option value="4242" />
+              <option value="4341" />
             </startOffsets>
             <endOffsets>
-              <option value="4272" />
+              <option value="4371" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="121" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>119</line>
+          <line>122</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerLogin'">
             <startOffsets>
-              <option value="4325" />
+              <option value="4424" />
             </startOffsets>
             <endOffsets>
-              <option value="4489" />
+              <option value="4588" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>122</line>
+          <line>125</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerLogin'">
             <startOffsets>
-              <option value="4504" />
+              <option value="4603" />
             </startOffsets>
             <endOffsets>
-              <option value="4529" />
+              <option value="4628" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>123</line>
+          <line>126</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerLogin'">
             <startOffsets>
-              <option value="4546" />
+              <option value="4645" />
             </startOffsets>
             <endOffsets>
-              <option value="4606" />
+              <option value="4705" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="124" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs</url>
-          <line>125</line>
+          <line>128</line>
           <properties documentPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" containingFunctionPresentation="Method 'CustomerLogin'">
             <startOffsets>
-              <option value="4620" />
+              <option value="4719" />
             </startOffsets>
             <endOffsets>
-              <option value="4860" />
+              <option value="4959" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="125" />
@@ -1898,10 +1910,10 @@
           <line>68</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendOtpEmailAsync'">
             <startOffsets>
-              <option value="2899" />
+              <option value="2911" />
             </startOffsets>
             <endOffsets>
-              <option value="2900" />
+              <option value="2912" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="140" />
@@ -1911,10 +1923,10 @@
           <line>72</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendOtpEmailAsync'">
             <startOffsets>
-              <option value="3023" />
+              <option value="3062" />
             </startOffsets>
             <endOffsets>
-              <option value="3095" />
+              <option value="3134" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="141" />
@@ -1924,10 +1936,10 @@
           <line>69</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendOtpEmailAsync'">
             <startOffsets>
-              <option value="2913" />
+              <option value="2925" />
             </startOffsets>
             <endOffsets>
-              <option value="2960" />
+              <option value="2987" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="142" />
@@ -1937,416 +1949,702 @@
           <line>70</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendOtpEmailAsync'">
             <startOffsets>
-              <option value="2973" />
+              <option value="3000" />
             </startOffsets>
             <endOffsets>
-              <option value="3009" />
+              <option value="3048" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="143" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>87</line>
+          <line>104</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendPasswordResetOtpEmailAsync'">
             <startOffsets>
-              <option value="3546" />
+              <option value="4430" />
             </startOffsets>
             <endOffsets>
-              <option value="3809" />
+              <option value="4693" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="144" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>101</line>
+          <line>118</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailVerificationAsync'">
             <startOffsets>
-              <option value="4109" />
+              <option value="4993" />
             </startOffsets>
             <endOffsets>
-              <option value="4126" />
+              <option value="5010" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="145" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>105</line>
+          <line>122</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailVerificationAsync'">
             <startOffsets>
-              <option value="4217" />
+              <option value="5101" />
             </startOffsets>
             <endOffsets>
-              <option value="4436" />
+              <option value="5320" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="146" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>112</line>
+          <line>129</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailVerificationAsync'">
             <startOffsets>
-              <option value="4450" />
+              <option value="5334" />
             </startOffsets>
             <endOffsets>
-              <option value="4687" />
+              <option value="5571" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="147" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>123</line>
+          <line>141</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="4840" />
+              <option value="5744" />
             </startOffsets>
             <endOffsets>
-              <option value="4841" />
+              <option value="5745" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="148" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>125</line>
+          <line>143</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="4881" />
+              <option value="5785" />
             </startOffsets>
             <endOffsets>
-              <option value="4905" />
+              <option value="5809" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>130</line>
+          <line>148</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="5082" />
+              <option value="5986" />
             </startOffsets>
             <endOffsets>
-              <option value="5152" />
+              <option value="6056" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="150" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>126</line>
+          <line>144</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="4918" />
+              <option value="5822" />
             </startOffsets>
             <endOffsets>
-              <option value="4919" />
+              <option value="5823" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="151" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>128</line>
+          <line>146</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="5033" />
+              <option value="5937" />
             </startOffsets>
             <endOffsets>
-              <option value="5050" />
+              <option value="5954" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="152" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>135</line>
+          <line>153</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="5290" />
+              <option value="6194" />
             </startOffsets>
             <endOffsets>
-              <option value="5532" />
+              <option value="6436" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="153" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>142</line>
+          <line>160</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="5550" />
+              <option value="6454" />
             </startOffsets>
             <endOffsets>
-              <option value="5806" />
+              <option value="6710" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="154" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>149</line>
+          <line>167</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="5824" />
+              <option value="6728" />
             </startOffsets>
             <endOffsets>
-              <option value="5867" />
+              <option value="6783" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="155" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>157</line>
+          <line>175</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="6121" />
+              <option value="7037" />
             </startOffsets>
             <endOffsets>
-              <option value="6122" />
+              <option value="7038" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="156" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>160</line>
+          <line>178</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="6228" />
+              <option value="7144" />
             </startOffsets>
             <endOffsets>
-              <option value="6229" />
+              <option value="7145" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="157" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>163</line>
+          <line>181</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="6297" />
+              <option value="7213" />
             </startOffsets>
             <endOffsets>
-              <option value="6310" />
+              <option value="7226" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>162</line>
+          <line>180</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="6243" />
+              <option value="7159" />
             </startOffsets>
             <endOffsets>
-              <option value="6280" />
+              <option value="7196" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="159" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>167</line>
+          <line>185</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="6426" />
+              <option value="7342" />
             </startOffsets>
             <endOffsets>
-              <option value="6451" />
+              <option value="7367" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="160" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>171</line>
+          <line>189</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="6588" />
+              <option value="7504" />
             </startOffsets>
             <endOffsets>
-              <option value="6630" />
+              <option value="7546" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="161" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>176</line>
+          <line>194</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="6773" />
+              <option value="7689" />
             </startOffsets>
             <endOffsets>
-              <option value="6815" />
+              <option value="7731" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="162" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>178</line>
+          <line>196</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'VerifyEmailOtpAsync'">
             <startOffsets>
-              <option value="6846" />
+              <option value="7762" />
             </startOffsets>
             <endOffsets>
-              <option value="6886" />
+              <option value="7802" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="163" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>228</line>
+          <line>246</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailInternalAsync'">
             <startOffsets>
-              <option value="8502" />
+              <option value="9430" />
             </startOffsets>
             <endOffsets>
-              <option value="8503" />
+              <option value="9431" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="164" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>229</line>
+          <line>247</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailInternalAsync'">
             <startOffsets>
-              <option value="8516" />
+              <option value="9444" />
             </startOffsets>
             <endOffsets>
-              <option value="8557" />
+              <option value="9485" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="165" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>231</line>
+          <line>249</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailInternalAsync'">
             <startOffsets>
-              <option value="8571" />
+              <option value="9499" />
             </startOffsets>
             <endOffsets>
-              <option value="8804" />
+              <option value="9732" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="166" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>237</line>
+          <line>255</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailInternalAsync'">
             <startOffsets>
-              <option value="8818" />
+              <option value="9746" />
             </startOffsets>
             <endOffsets>
-              <option value="9068" />
+              <option value="9996" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="167" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>245</line>
+          <line>263</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailInternalAsync'">
             <startOffsets>
-              <option value="9082" />
+              <option value="10010" />
             </startOffsets>
             <endOffsets>
-              <option value="9108" />
+              <option value="10036" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="168" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>248</line>
+          <line>266</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailInternalAsync'">
             <startOffsets>
-              <option value="9138" />
+              <option value="10066" />
             </startOffsets>
             <endOffsets>
-              <option value="9139" />
+              <option value="10067" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="169" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>251</line>
+          <line>269</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailInternalAsync'">
             <startOffsets>
-              <option value="9238" />
+              <option value="10166" />
             </startOffsets>
             <endOffsets>
-              <option value="9239" />
+              <option value="10167" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="170" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>255</line>
+          <line>273</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailInternalAsync'">
             <startOffsets>
-              <option value="9377" />
+              <option value="10305" />
             </startOffsets>
             <endOffsets>
-              <option value="9440" />
+              <option value="10368" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="171" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>256</line>
+          <line>274</line>
           <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'SendEmailInternalAsync'">
             <startOffsets>
-              <option value="9457" />
+              <option value="10385" />
             </startOffsets>
             <endOffsets>
-              <option value="9470" />
+              <option value="10398" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="172" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>262</line>
-          <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'GetEmailTemplate'">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>160</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
             <startOffsets>
-              <option value="9582" />
+              <option value="6232" />
             </startOffsets>
             <endOffsets>
-              <option value="11219" />
+              <option value="6233" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="173" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Services/Communication/Email/EmailService.cs</url>
-          <line>300</line>
-          <properties documentPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" containingFunctionPresentation="Method 'GetPasswordResetEmailTemplate'">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>159</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
             <startOffsets>
-              <option value="11528" />
+              <option value="6201" />
             </startOffsets>
             <endOffsets>
-              <option value="16084" />
+              <option value="6219" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="174" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>157</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="6109" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6175" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="175" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>168</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="6452" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6504" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>170</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="6518" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6590" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="177" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>173</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="6655" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6656" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="178" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>172</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="6604" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6642" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="179" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>176</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="6767" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7018" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="180" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>186</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="7072" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7144" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="181" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>189</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="7202" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7255" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="182" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>190</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="7268" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7308" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="183" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>191</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="7321" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7338" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="184" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>188</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="7170" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7189" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="185" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>193</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="7364" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7425" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="186" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>198</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="7538" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7604" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="187" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>196</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="7464" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7505" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="188" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>209</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="8071" />
+            </startOffsets>
+            <endOffsets>
+              <option value="8146" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="192" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>206</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="7953" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7978" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="193" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>215</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="8301" />
+            </startOffsets>
+            <endOffsets>
+              <option value="8785" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="194" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>227</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="8920" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9402" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>240</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="9495" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9496" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="196" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>241</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="9513" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9572" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="197" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>242</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="9585" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9586" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="198" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs</url>
+          <line>244</line>
+          <properties documentPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" containingFunctionPresentation="Method 'ResendOtpAsync'">
+            <startOffsets>
+              <option value="9600" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9976" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="199" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

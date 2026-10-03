@@ -8,6 +8,7 @@ using Amazon_eCommerce_API.Models.DBEntities.Users.Customer;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge.ForgotPassword;
 using Amazon_eCommerce_API.Models.DTO_s.Authentication.Token;
+using Amazon_eCommerce_API.Models.Enums;
 using Amazon_eCommerce_API.Services.Authentication.UserResolver;
 using Amazon_eCommerce_API.Services.Communication.Email;
 using Amazon_eCommerce_API.Services.Users.Business;
@@ -25,7 +26,14 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
         : IPasswordChallengeService //For Generating One time Password
     {
         //
-        public async Task<PasswordChallengeResponseDto> GenerateOtpChallengeAsync(string identifier, string password, UserRole role)
+        public async Task<PasswordChallengeResponseDto> GenerateOtpChallengeAsync
+            (string identifier,
+                string password,
+                UserRole role,
+                OtpPurpose otpPurpose = OtpPurpose.SignIn,
+                string deviceDetails = "generic web browser",
+                string locationDetails = "Texas, United States",
+                string denyLink = "https://www.amazon.com")
         {
 
             var result = await userResolverService.ResolveAndValidateAsync(identifier, password, role);
@@ -34,12 +42,17 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
             if(result.User == null || !result.IsPasswordValid)
                 return null;
             
-
-         
-
+            
             var otp =  RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
 
-            
+            string userName = result.User switch
+            {
+                CustomerUser customer => $"{customer.FirstName} {customer.LastName}".Trim(),
+                BusinessUser business => business.BusinessProfile != null
+                    ? $"{business.BusinessProfile.FirstName} {business.BusinessProfile.LastName}".Trim()
+                    : "Business Partner",
+                _ => "Valued User"
+            };
             
             var otpCache = new OtpCacheDto
             {
@@ -48,8 +61,11 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
                 Otp = otp,
                 ExpirationTime = DateTime.UtcNow.AddMinutes(5),
                 Attempts = 0,
-                LastRequestTime = DateTime.UtcNow
-
+                LastRequestTime = DateTime.UtcNow,
+                OtpChannel = IsValidEmail(identifier) ? OtpChannel.Email : OtpChannel.SMS,
+                MaskedDestination = IsValidEmail(identifier) ? MaskEmail(identifier) : MaskPhone(identifier),
+                OtpPurpose = otpPurpose,
+                UserName = userName
             };
 
             await cacheService.SetOtpAsync(identifier, otpCache);
@@ -62,7 +78,46 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
             {
                 otpChannel = OtpChannel.Email;
                 maskedDestination = MaskEmail(identifier);
-                await emailService.SendOtpEmailAsync(identifier, otp);
+                
+              //  string timestamp = DateTime.Now.ToString("MMM dd, yyyy hh:mm tt");
+                
+                var centralZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+                var centralTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, centralZone);
+                string formattedTimestamp = $"{centralTime:MMM dd, yyyy hh:mm tt} Central Daylight Time";
+
+
+                switch (otpPurpose)
+                {
+                    case OtpPurpose.Registration:
+                        await emailService.SendRegistrationOtpEmailAsync(identifier, otp);
+                        break;
+                    
+                
+                
+                    case OtpPurpose.SignIn:
+                        await emailService.SendSignInAttemptOtpEmailAsync( 
+                        email: identifier,
+                         otp: otp,
+                         timestamp: formattedTimestamp, 
+                        userName: userName,
+                         deviceDetails: deviceDetails,
+                         locationDetails: locationDetails,
+                         denyLink: denyLink
+                        );
+                        break;
+                    
+             case OtpPurpose.PasswordReset:       
+                        await emailService.SendPasswordResetOtpEmailAsync(
+                            email: identifier,
+                            otp: otp,
+                            timestamp: formattedTimestamp,
+                           userName: userName,
+                            deviceDetails: deviceDetails,
+                            locationDetails: locationDetails,
+                            denyLink: denyLink
+                        );
+                        break;
+                }
             }
             else
             {
@@ -102,7 +157,6 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
         {
             var cache = await cacheService.GetOtpAsync(request.PendingAuthId);
             
-
             if (cache == null)
             {
                 return new ResendOtpResponseDto
@@ -142,7 +196,46 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
             
             if (cache.OtpChannel == OtpChannel.Email)
             {
-                await emailService.SendOtpEmailAsync(cache.Identifier, newOtp);
+               // string timestamp = DateTime.Now.ToString("MMM dd, yyyy hh:mm tt");
+               
+               var centralZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+               var centralTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, centralZone);
+                
+                string formattedTimestamp = $"{centralTime:MMM dd, yyyy hh:mm tt} Central Daylight Time";
+
+
+                switch (cache.OtpPurpose)
+                {
+                    case OtpPurpose.Registration:
+                        await emailService.SendRegistrationOtpEmailAsync(cache.Identifier, newOtp);
+                        break;
+                    
+                
+                
+                    case OtpPurpose.SignIn:
+                        await emailService.SendSignInAttemptOtpEmailAsync( 
+                            email: cache.Identifier,
+                            otp: newOtp,
+                            timestamp: formattedTimestamp, 
+                            userName: cache.UserName,
+                            deviceDetails: "generic web browser",
+                            locationDetails: "Texas, United States",
+                            denyLink: "https://www.amazon.com"
+                        );
+                        break;
+                    
+                    case OtpPurpose.PasswordReset:       
+                        await emailService.SendPasswordResetOtpEmailAsync(
+                            email: cache.Identifier,
+                            otp: newOtp,
+                            timestamp: formattedTimestamp,
+                            userName: cache.UserName,
+                            deviceDetails: "generic web browser",
+                            locationDetails: "Texas, United States",
+                            denyLink: "https://www.amazon.com"
+                        );
+                        break;
+                }
             }
             else
             {
