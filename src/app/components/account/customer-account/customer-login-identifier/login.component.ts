@@ -51,7 +51,7 @@ export class CustomerLoginComponent implements OnInit {
       this.isPhoneInput = /^\+?\d/.test(trimmed);
     });
 
-    this.titleService.setTitle('Amazon Sign-in');
+    this.titleService.setTitle('Sign-in');
   }
 
 

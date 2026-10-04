@@ -23,6 +23,7 @@ export class AppComponent {
           '/new-customer-account',
           '/customer-verify-email',
           '/customer-forgot-password',
+          '/customer-reset-password',
           '/404'
         ];
 

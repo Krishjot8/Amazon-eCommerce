@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerAuthenticationService } from '../customer-authentication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-customer-forgot-password',
@@ -16,14 +17,17 @@ export class CustomerForgotPasswordComponent implements OnInit {
 
   constructor( private fb: FormBuilder,
     private router: Router,
+    private titleService: Title,
     private authService: CustomerAuthenticationService,) 
     { }
+
 
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       emailOrPhone: ['',[Validators.required]]
     });
+    this.titleService.setTitle('Amazon Password Assistance');
   }
 
   validateInput() {

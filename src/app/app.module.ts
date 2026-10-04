@@ -47,6 +47,7 @@ import { CustomerVerifyEmailComponent } from './components/account/customer-acco
 import { AuthFooterComponent } from './components/footer/auth-footer/auth-footer.component';
 import { CustomerForgotPasswordComponent } from './components/account/customer-account/customer-forgot-password/customer-forgot-password.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { CustomerResetPasswordComponent } from './components/account/customer-account/customer-reset-password/customer-reset-password.component';
 
 
 @NgModule({
@@ -87,7 +88,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
  CustomerVerifyEmailComponent,
  AuthFooterComponent,
  CustomerForgotPasswordComponent,
- NotFoundComponent
+ NotFoundComponent,
+ CustomerResetPasswordComponent
   ],
   imports: [
     AppRoutingModule,
