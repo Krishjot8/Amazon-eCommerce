@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerAuthenticationService } from '../customer-authentication.service';
 import { Title } from '@angular/platform-browser';
 import { parsePhoneNumberWithError, CountryCode as LibCountryCode } from 'libphonenumber-js';
@@ -19,6 +19,7 @@ export class CustomerLoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted: boolean = false;
   errorMessage: string = '';
+  isPasswordReset: boolean = false;
 
   isDropdownOpen = false;
   
@@ -29,6 +30,7 @@ export class CustomerLoginComponent implements OnInit {
   constructor(
     public router: Router,
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private authService: CustomerAuthenticationService,
     private titleService: Title,
     private eRef: ElementRef
@@ -37,7 +39,13 @@ export class CustomerLoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       selectedCountry: ['US'], // Default country
-      emailOrPhone: ['', [Validators.required]],
+      emailOrPhone: ['', [Validators.required]]
+    });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['passwordResetSuccess'] === 'true') {
+        this.isPasswordReset = true;
+      }
     });
 
     // Detect if input starts with digits or '+' to toggle country dropdown
@@ -95,6 +103,9 @@ clickout(event: Event) {
       return;
     }
 
+
+   
+
     let finalIdentifier = rawValue;
 
     if (this.isPhoneInput) {
@@ -142,4 +153,11 @@ clickout(event: Event) {
       },
     });
   }
+
+   passwordResetSuccess(): boolean {
+
+return this.isPasswordReset;
+    }
+
+    
 }

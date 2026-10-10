@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerAuthenticationService } from '../customer-authentication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ResetForgotPassword } from 'src/app/models/accounts/CustomerUserAccount/Authentication/reset-forgot-password.model';
 
 @Component({
   selector: 'app-customer-reset-password',
@@ -10,9 +11,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CustomerResetPasswordComponent implements OnInit {
 
+  authErrorMessage: string = '';
   errorMessage: string = '';
-  loginForm!: FormGroup;
+  passwordResetForm!: FormGroup;
   submitted: boolean = false; 
+
 
   constructor( private fb: FormBuilder,
     private router: Router,
@@ -20,18 +23,26 @@ export class CustomerResetPasswordComponent implements OnInit {
     { }
 
 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      passwordReset: ['',[Validators.required]]
-    });
-  }
+ ngOnInit(): void {
+  this.passwordResetForm = this.fb.group({
+    newPassword: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/),
+      ]
+    ],
+    confirmNewPassword: ['', [Validators.required]]
+  }, { validators: this.passwordMatchValidator });
+}
 
   validateInput() {
-    const control = this.loginForm.get('emailOrPhone');
+    const control = this.passwordResetForm.get('newPassword');
     if (!control) return;
 
     if(control.errors && control.errors['required']) {
-      this.errorMessage = 'Enter your Mobile Number or Email Address';
+      this.errorMessage = 'Enter your new password';
     } else{
 
       this.errorMessage = '';
@@ -41,7 +52,7 @@ export class CustomerResetPasswordComponent implements OnInit {
 
   onInputChange() {
 
-    const control = this.loginForm.get('emailOrPhone');
+    const control = this.passwordResetForm.get('newPassword');
     if(control && control.value.trim().length > 0) {
       this.errorMessage = '';
     }
@@ -55,40 +66,77 @@ this.submitted = false;
 
   onContinue(){
 
-   // this.onSubmit();
+    this.onSubmit();
     }
     
 
-//     onSubmit() {
-//       this.submitted = true;
-//       this.validateInput();
-  
-//       const control = this.loginForm.get('emailOrPhone');
-//       if (!control || control.invalid) {
-//         return;
-//       }
-  
-//       const emailOrPhoneValue = control.value.trim();
-  
-//       this.authService.checkIdentifier(emailOrPhoneValue).subscribe({
-//         next:(response) => {
-//    if(response.exists){
+    onSubmit() {
+
+this.submitted = true;
+
+      if(this.passwordResetForm.invalid) {
+        this.passwordResetForm.markAllAsTouched();
+        return;
+      }
+
+const token = localStorage.getItem('resetToken') || '';
+const identifier = localStorage.getItem('loginIdentifier') || '';
 
 
-// this.authService.storeIdentifier({ passwordReset: emailOrPhoneValue } as any);
-// this.router.navigate(['/customer-verification']);
-//    }else{
+const payload: ResetForgotPassword = {
+identifier: identifier,
+resetToken: token,
+newPassword: this.passwordResetForm.value.newPassword,
+confirmNewPassword: this.passwordResetForm.value.confirmNewPassword,
+accountType: 0 
+};
 
-//     this.errorMessage = 'No account found with this Mobile Number or Email Address';
-//    }
-// },
+      this.authService.resetPassword(payload).subscribe({
+        next:(response) => {
 
-// error: (err) => {
-//   // Handle errors from the API
-//   this.errorMessage = err?.error?.message || 'An error occurred. Please try again.';
-// }
-// })
-  
-//  } 
+
+        this.submitted = false;
+
+
+          localStorage.removeItem('resetToken');
+          localStorage.removeItem('loginIdentifier');
+      localStorage.removeItem('pendingAuthId');
+      localStorage.removeItem('otpPurpose');
+          
+
+          this.router.navigate(['/signin'], {
+        queryParams: { passwordResetSuccess: 'true' }
+      });
+        },
+        error: (err) => {
+          this.authErrorMessage = err?.error?.message || 'An error occurred during password reset. Please try again.';
+        }
+      });
+    } 
+
+
+    
+
+  private passwordMatchValidator(formGroup: FormGroup) {
+  const newPasswordControl = formGroup.get('newPassword');
+  const confirmNewPasswordControl = formGroup.get('confirmNewPassword');
+
+  if (!newPasswordControl || !confirmNewPasswordControl) {
+    return null;
+  }
+
+  if (newPasswordControl.value !== confirmNewPasswordControl.value) {
+    confirmNewPasswordControl.setErrors({ mismatch: true });
+  } else {
+    // If they match, clear the mismatch error
+    if (confirmNewPasswordControl.hasError('mismatch')) {
+      confirmNewPasswordControl.setErrors(null);
+    }
+  }
+
+  // Ensure every code path returns a value (null when no group-level error)
+  return null;
+}
+
 }
 

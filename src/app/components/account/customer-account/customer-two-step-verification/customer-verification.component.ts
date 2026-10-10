@@ -97,84 +97,117 @@ this.maskedEmail = this.maskEmail(this.email);
   // verify OTP
 
   onSubmit() {
-
-
-
-    if (this.verifyForm.invalid) {
-      this.verifyForm.markAllAsTouched();
-      return;
-    }
-
-    this.serverError = '';
-
-    this.isSubmitting = true;
-    const otpValue = this.verifyForm.value.otp.trim();
-    
-    if(this.verificationType === 'email'){
-
-      const payload: PasswordChallengeVerify = {
-
-        pendingAuthId: this.email,
-        otp: this.verifyForm.value.otp,
-        role: UserRole.Customer
-      };
-
-      console.log('VERIFY PAYLOAD:', payload);
-
-      this.authService.verifyOtp(payload).subscribe({
-    next: (response) => this.handleSuccess(response),
-      error: (error) => this.handleError(error),
-
-      });
-
-    } else{
-
-      const payload: VerifySms = {
-
-        phoneNumber: this.phoneNumber,
-       smsOtpCode: otpValue,
-        isResendRequest: false,
-        accountType: AccountType.Customer
-      };
-
-
-      this.authService.verifySms(payload).subscribe({
-        next: (response) => this.handleSuccess(response),
-        error: (error) => this.handleError(error),
-      })
-    }
+  if (this.verifyForm.invalid) {
+    this.verifyForm.markAllAsTouched();
+    return;
   }
+
+  this.serverError = '';
+  this.isSubmitting = true;
+
+  const otpValue = this.verifyForm.value.otp.trim();
+  const otpPurpose = localStorage.getItem('otpPurpose');
+  const pendingAuthId = localStorage.getItem('pendingAuthId') || this.email;
+
+  // --- 1. PASSWORD RESET FLOW ---
+
+  
+  if (otpPurpose === 'PasswordReset') {
+    this.authService.verifyPasswordResetOtp(pendingAuthId, otpValue, AccountType.Customer).subscribe({
+      next: (response) => {
+        this.isSubmitting = false;
+
+        if (response?.success && response?.resetToken) {
+          // Store resetToken for the 'Create New Password' page
+          localStorage.setItem('resetToken', response.resetToken);
+
+          // Clean up temporary OTP storage keys
+          localStorage.removeItem('pendingAuthId');
+          localStorage.removeItem('otpPurpose');
+
+          // Navigate to the reset password component
+          this.router.navigate(['/customer-reset-password']);
+        } else {
+          this.serverError = 'Verification failed. Please try again.';
+        }
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        this.handleError(error);
+      }
+    });
+
+    return; // Exit early so standard login flow isn't executed
+  }
+
+  // --- 2. STANDARD LOGIN FLOW ---
+  if (this.verificationType === 'email') {
+    const payload: PasswordChallengeVerify = {
+      pendingAuthId: this.email,
+      otp: otpValue,
+      role: UserRole.Customer
+    };
+
+    console.log('VERIFY PAYLOAD:', payload);
+
+    this.authService.verifyOtp(payload).subscribe({
+      next: (response) => this.handleSuccess(response),
+      error: (error) => this.handleError(error)
+    });
+
+  } else {
+    const payload: VerifySms = {
+      phoneNumber: this.phoneNumber,
+      smsOtpCode: otpValue,
+      isResendRequest: false,
+      accountType: AccountType.Customer
+    };
+
+    this.authService.verifySms(payload).subscribe({
+      next: (response) => this.handleSuccess(response),
+      error: (error) => this.handleError(error)
+    });
+  }
+}
 
 
 
   onResendOtp() {
+  if (!this.canResend) return;
 
-if(!this.canResend) return;
+  const otpPurpose = localStorage.getItem('otpPurpose');
+  const pendingAuthId = localStorage.getItem('pendingAuthId') || '';
 
-      const payload: ResendOtpRequest = {
-
-        pendingAuthId: localStorage.getItem('pendingAuthId') || '',
-        role: 0 
-      };
-  
-      this.authService.resendEmailOtp(payload).subscribe({
-next: (res) =>  {console.log('Email OTP resent ', res);
-
-this.resendAttempts++;
-
-this.resendCooldown = res.cooldownSeconds;
-
-this.startCooldown();
-
+  // --- PASSWORD RESET RESEND ---
+  if (otpPurpose === 'PasswordReset') {
+    this.authService.generatePasswordResetOtp(pendingAuthId, 0).subscribe({
+      next: (res) => {
+        console.log('Password reset OTP resent', res);
+        this.resendAttempts++;
+        this.resendCooldown = res.cooldownSeconds || 30;
+        this.startCooldown();
       },
-
-error: (err) => console.error('Failed to resend OTP', err),
-
+      error: (err) => console.error('Failed to resend password reset OTP', err)
     });
-
-
+    return;
   }
 
+  // --- STANDARD LOGIN / REGISTRATION RESEND ---
+  const payload: ResendOtpRequest = {
+    pendingAuthId: pendingAuthId,
+    role: 0 
+  };
+
+  this.authService.resendEmailOtp(payload).subscribe({
+    next: (res) => {
+      console.log('Email OTP resent ', res);
+      this.resendAttempts++;
+      this.resendCooldown = res.cooldownSeconds;
+      this.startCooldown();
+    },
+    error: (err) => console.error('Failed to resend OTP', err)
+  });
+}
 
 
 

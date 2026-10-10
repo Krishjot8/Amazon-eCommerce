@@ -298,11 +298,49 @@ font-size: 14px;
 }
 
 
+// password reset success
+
+.password-reset-success-block{
+  transform:translate(-12px,-15px);
+
+ 
+}
+.password-reset-success-border {
+  color: black;
+  border: 2px solid green;
+  border-left: 15px solid green;
+  border-radius: 8px;
+  max-width: 350px;
+  height: 100px;
+  
+}
 
 
+.success-message .success-icon{
+  transform: translate(2px, -12px);
+scale: 0.5;
+}
+
+.success-message .success-text-one{
+
+  font-family: Amazon Ember;
+  font-size: 16px;
+  display:flex;
+  
+}
 
 
-////
-/// 
-/// 
-/// 
+.password-reset-success-border .success-text-two {
+ color: black;
+  display: flex;
+font-family: Amazon;
+  font-size: 12px;
+ margin-left: 20%;
+  transform: translateX(-30px);
+
+}
+
+.success-message {
+ transform: translate(5px, 8px);
+ margin-top: 8px;
+}

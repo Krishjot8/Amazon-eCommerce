@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { CustomerLogin } from 'src/app/models/accounts/CustomerUserAccount/Authentication/login.model';
+import { ResetForgotPassword } from 'src/app/models/accounts/CustomerUserAccount/Authentication/reset-forgot-password.model';
 import { PasswordChallengeResponse } from 'src/app/models/user-authentication/password-challenge/password-challenge-response.model';
 import { PasswordChallengeVerify } from 'src/app/models/user-authentication/password-challenge/password-challenge-verify.model';
 import { ResendOtpRequest } from 'src/app/models/user-authentication/password-challenge/resend-otp-request.model';
@@ -14,6 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 
 export class CustomerAuthenticationService {
+
   private apiUrl = environment.apiUrl;
 
 private currentUserSubject = new BehaviorSubject<string | null>(localStorage.getItem('firstName')); // Initialize with firstName from localStorage if available
@@ -106,6 +108,9 @@ return this.http.post<any>(`${this.apiUrl}/passwordchallenge/resend`,payload);
 
 
 
+ 
+
+
   verifySms(payload: VerifySms){
     return this.http.post<any>(
       `${this.apiUrl}/verification/verify-sms`,
@@ -116,15 +121,43 @@ return this.http.post<any>(`${this.apiUrl}/passwordchallenge/resend`,payload);
 
   }
 
-
-
-
   resendSmsOtp(payload: VerifySms){
 
     return this.http.post<any>(`${this.apiUrl}/verification/resend-sms-otp`,payload);
       }
+
+
+      //Password Reset
+
+
+      generatePasswordResetOtp(identifier: string, accountType: number = 0): Observable<any> { // generates one time password to identifier for security to enable password reset
+        return this.http.post<any>
+        (`${this.apiUrl}/PasswordChallenge/forgot-password/generate-reset-otp`, 
+          { identifier : identifier,
+             accountType: accountType 
+            });
+      }
     
-    
+
+       verifyPasswordResetOtp(pendingAuthId: string, otp: string, accountType: number = 0): Observable<any> { //verifies OTP from Identifier for security to enable password reset
+
+    return this.http.post<any>(`${this.apiUrl}/passwordchallenge/forgot-password/verify-reset-otp`, {
+      pendingAuthId : pendingAuthId,
+      otp : otp,
+      accountType : accountType
+    });
+  }
+
+
+
+
+  resetPassword(payload: ResetForgotPassword): Observable<any> { //resets password for identifier after OTP verification
+
+    return this.http.post<any>(`${this.apiUrl}/PasswordChallenge/reset-password`, payload);
+  }
+
+
+
       private handleAuthSuccess(response: any) {
 
         const fullName = `${response.firstName ?? ''} ${response.lastName ?? ''}`.trim();

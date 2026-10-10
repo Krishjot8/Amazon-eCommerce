@@ -6,7 +6,19 @@
     alt="Amazon Logo" 
   />
 
+ 
   <div class="sign-in-container">
+
+     <div class="password-reset-success-block">
+  <div class="password-reset-success-border" *ngIf="passwordResetSuccess()">
+    <div class="success-message">
+      
+      <span class="success-text-one"><img class="success-icon" src="assets/logo-images/check-icon.png"/>Success</span>
+      <span class="success-text-two">Your password has been changed. Try signing in with it here.</span>
+    </div>
+  </div>
+</div>
+
     <div class="span-signin">
       <span>Sign in or create account</span>
     </div>

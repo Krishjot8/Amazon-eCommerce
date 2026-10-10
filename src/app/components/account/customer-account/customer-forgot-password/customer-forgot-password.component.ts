@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { CustomerAuthenticationService } from '../customer-authentication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { CustomerLogin } from 'src/app/models/accounts/CustomerUserAccount/Authentication/login.model';
+import { PasswordChallengeResponse } from 'src/app/models/user-authentication/password-challenge/password-challenge-response.model';
 
 @Component({
   selector: 'app-customer-forgot-password',
@@ -10,9 +12,9 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./customer-forgot-password.component.scss']
 })
 export class CustomerForgotPasswordComponent implements OnInit {
-
+authErrorMessage: string = '';
   errorMessage: string = '';
-  loginForm!: FormGroup;
+  PasswordAssistanceForm!: FormGroup;
   submitted: boolean = false; 
 
   constructor( private fb: FormBuilder,
@@ -24,18 +26,18 @@ export class CustomerForgotPasswordComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
+    this.PasswordAssistanceForm = this.fb.group({
       emailOrPhone: ['',[Validators.required]]
     });
     this.titleService.setTitle('Amazon Password Assistance');
   }
 
   validateInput() {
-    const control = this.loginForm.get('emailOrPhone');
+    const control = this.PasswordAssistanceForm.get('emailOrPhone');
     if (!control) return;
 
     if(control.errors && control.errors['required']) {
-      this.errorMessage = 'Enter your Mobile Number or Email Address';
+      this.errorMessage = 'Enter your email or mobile phone number';
     } else{
 
       this.errorMessage = '';
@@ -45,7 +47,7 @@ export class CustomerForgotPasswordComponent implements OnInit {
 
   onInputChange() {
 
-    const control = this.loginForm.get('emailOrPhone');
+    const control = this.PasswordAssistanceForm.get('emailOrPhone');
     if(control && control.value.trim().length > 0) {
       this.errorMessage = '';
     }
@@ -61,38 +63,48 @@ this.submitted = false;
 
     this.onSubmit();
     }
-    
+
+  
 
     onSubmit() {
       this.submitted = true;
       this.validateInput();
   
-      const control = this.loginForm.get('emailOrPhone');
+      const control = this.PasswordAssistanceForm.get('emailOrPhone');
       if (!control || control.invalid) {
         return;
       }
   
+      this.authErrorMessage = '';
       const emailOrPhoneValue = control.value.trim();
   
       this.authService.checkIdentifier(emailOrPhoneValue).subscribe({
-        next:(response) => {
-   if(response.exists){
+        next:(checkResponse) => {
+   if(checkResponse.exists){
 
 
-this.authService.storeIdentifier({ emailOrPhone: emailOrPhoneValue } as any);
-this.router.navigate(['/customer-verification']);
-   }else{
+ this.authService.generatePasswordResetOtp(emailOrPhoneValue, 0).subscribe({
+  next: (response: PasswordChallengeResponse) => {
 
-    this.errorMessage = 'No account found with this Mobile Number or Email Address';
-   }
-},
+  localStorage.setItem('pendingAuthId', emailOrPhoneValue);
+      localStorage.setItem('otpPurpose', 'PasswordReset');
 
-error: (err) => {
-  // Handle errors from the API
-  this.errorMessage = err?.error?.message || 'An error occurred. Please try again.';
-}
-})
+  this.router.navigate(['/customer-verification']);
+     },
+    
   
- } 
-}
+  error: (challengeErr) => {
+    this.authErrorMessage = challengeErr?.error?.message || 'An error occurred while sending the OTP. Please try again.';
+   }
+  });
+  }else{
+    this.authErrorMessage = 'I\'m sorry, we couldn\'t identify your account.';
+  }
+},   
+ })
+   }
+   };
+  
+  
+  
 
