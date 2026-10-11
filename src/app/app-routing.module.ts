@@ -14,16 +14,17 @@ import { PrimeComponent } from './pages/prime/prime.component';
 import { RegistryComponent } from './pages/registry/registry.component';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
-import { RegisterComponent } from './components/account/customer-account/register/register.component';
-import { CustomerLoginComponent } from './components/account/customer-account/customer-login-identifier/login.component';
-import { LoginPasswordComponent } from './components/account/customer-account/customer-login-password/login-password.component';
-import { CustomerVerificationComponent } from './components/account/customer-account/customer-two-step-verification/customer-verification.component';
-import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
+import { RegisterComponent } from './components/account/customer-account/authentication/register/register.component';
+import { CustomerLoginComponent } from './components/account/customer-account/authentication/customer-login-identifier/login.component';
+import { LoginPasswordComponent } from './components/account/customer-account/authentication/customer-login-password/login-password.component';
+import { CustomerVerificationComponent } from './components/account/customer-account/authentication/customer-two-step-verification/customer-verification.component';
+import { NewCustomerAccountComponent } from './components/account/customer-account/authentication/new-customer-account/new-customer-account.component';
 import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
-import { CustomerVerifyEmailComponent } from './components/account/customer-account/customer-verify-email/customer-verify-email.component';
-import { CustomerForgotPasswordComponent } from './components/account/customer-account/customer-forgot-password/customer-forgot-password.component';
+import { CustomerVerifyEmailComponent } from './components/account/customer-account/authentication/customer-verify-email/customer-verify-email.component';
+import { CustomerForgotPasswordComponent } from './components/account/customer-account/authentication/customer-forgot-password/customer-forgot-password.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { CustomerResetPasswordComponent } from './components/account/customer-account/customer-reset-password/customer-reset-password.component';
+import { CustomerResetPasswordComponent } from './components/account/customer-account/authentication/customer-reset-password/customer-reset-password.component';
+import { YourAccountComponent } from './components/account/customer-account/your-account/your-account.component';
 
 const routes: Routes = [
   {
@@ -140,6 +141,12 @@ const routes: Routes = [
     path: 'customer-reset-password',
     component: CustomerResetPasswordComponent,
   },
+{
+    path: 'your-account',
+    component: YourAccountComponent,
+  },
+
+
    {
     path: '404',
     component: NotFoundComponent,

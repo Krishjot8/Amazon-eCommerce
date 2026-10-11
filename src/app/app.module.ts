@@ -29,26 +29,26 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VideoGamesComponent } from './pages/video-games/video-games.component';
 
-import { RegisterComponent } from './components/account/customer-account/register/register.component';
-import { CustomerLoginComponent } from './components/account/customer-account/customer-login-identifier/login.component';
+import { RegisterComponent } from './components/account/customer-account/authentication/register/register.component';
+import { CustomerLoginComponent } from './components/account/customer-account/authentication/customer-login-identifier/login.component';
 import { BusinessRegisterComponent } from './components/account/business-account/business-register/business-register.component';
 import { BusinessVerifyEmailComponent } from './components/account/business-account/business-verify-email/business-verify-email.component';
 import { SellerLoginComponent } from './components/account/seller-account/seller-login/seller-login.component';
 import { SellerRegisterComponent } from './components/account/seller-account/seller-register/seller-register.component';
 import { SellerVerifyEmailComponent } from './components/account/seller-account/seller-verify-email/seller-verify-email.component';
 import { BusinessLoginComponent } from './components/account/business-account/business-login/business-login.component';
-import { LoginPasswordComponent } from './components/account/customer-account/customer-login-password/login-password.component';
-import { CustomerVerificationComponent } from './components/account/customer-account/customer-two-step-verification/customer-verification.component';
-import { NewCustomerAccountComponent } from './components/account/customer-account/new-customer-account/new-customer-account.component';
+import { LoginPasswordComponent } from './components/account/customer-account/authentication/customer-login-password/login-password.component';
+import { CustomerVerificationComponent } from './components/account/customer-account/authentication/customer-two-step-verification/customer-verification.component';
+import { NewCustomerAccountComponent } from './components/account/customer-account/authentication/new-customer-account/new-customer-account.component';
 import { AmazonHaulComponent } from './pages/amazon-haul/amazon-haul.component';
 import { TopBrandsCarouselComponent } from './components/carousels/video-games/top-brands-carousel/top-brands-carousel.component';
 import { ExploreGamingCarouselComponent } from './components/carousels/video-games/explore-gaming-carousel/explore-gaming-carousel.component';
-import { CustomerVerifyEmailComponent } from './components/account/customer-account/customer-verify-email/customer-verify-email.component';
+import { CustomerVerifyEmailComponent } from './components/account/customer-account/authentication/customer-verify-email/customer-verify-email.component';
 import { AuthFooterComponent } from './components/footer/auth-footer/auth-footer.component';
-import { CustomerForgotPasswordComponent } from './components/account/customer-account/customer-forgot-password/customer-forgot-password.component';
+import { CustomerForgotPasswordComponent } from './components/account/customer-account/authentication/customer-forgot-password/customer-forgot-password.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { CustomerResetPasswordComponent } from './components/account/customer-account/customer-reset-password/customer-reset-password.component';
-
+import { CustomerResetPasswordComponent } from './components/account/customer-account/authentication/customer-reset-password/customer-reset-password.component';
+import { YourAccountComponent } from './components/account/customer-account/your-account/your-account.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +72,6 @@ import { CustomerResetPasswordComponent } from './components/account/customer-ac
     CartComponent,
     MoversShakersComponent,
     VideoGamesComponent,
-
     BusinessLoginComponent,
     BusinessRegisterComponent,
     BusinessVerifyEmailComponent,
@@ -89,7 +88,8 @@ import { CustomerResetPasswordComponent } from './components/account/customer-ac
  AuthFooterComponent,
  CustomerForgotPasswordComponent,
  NotFoundComponent,
- CustomerResetPasswordComponent
+ CustomerResetPasswordComponent,
+ YourAccountComponent
   ],
   imports: [
     AppRoutingModule,

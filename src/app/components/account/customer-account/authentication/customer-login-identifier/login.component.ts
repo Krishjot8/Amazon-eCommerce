@@ -154,10 +154,13 @@ clickout(event: Event) {
     });
   }
 
+
+
    passwordResetSuccess(): boolean {
 
 return this.isPasswordReset;
+
     }
 
-    
+
 }

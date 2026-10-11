@@ -30,6 +30,13 @@ authErrorMessage: string = '';
       emailOrPhone: ['',[Validators.required]]
     });
     this.titleService.setTitle('Amazon Password Assistance');
+
+    const savedIdentifier = localStorage.getItem('loginIdentifier');
+  if (savedIdentifier) {
+    this.PasswordAssistanceForm.patchValue({
+      emailOrPhone: savedIdentifier
+    });
+  }
   }
 
   validateInput() {
