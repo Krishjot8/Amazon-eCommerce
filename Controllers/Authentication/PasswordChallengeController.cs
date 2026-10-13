@@ -224,6 +224,7 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                     message = "Failed to reset password. Please ensure the reset token is valid and not expired."
                 });
             }
+        
 
             return Ok(new
             {
@@ -293,6 +294,8 @@ namespace Amazon_eCommerce_API.Controllers.Authentication
                 Purpose = "PasswordReset",
                 ExpirationInMinutes = 15
             });
+            //OtpPurpose.PasswordReset
+            
 
             return Ok(new 
                 { success = true, 

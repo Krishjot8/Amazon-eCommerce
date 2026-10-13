@@ -16,34 +16,34 @@ using Amazon_eCommerce_API.Services.Users.Business;
 namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 {
     public class PasswordChallengeService(
-        IUserResolverService  userResolverService,
+        IUserResolverService userResolverService,
         ICacheService cacheService,
         IEmailService emailService,
         ISmsService smsService,
         ICustomerUserService customerUserService,
         IBusinessUserService businessUserService
-            )
-        : IPasswordChallengeService //For Generating One time Password
+    )
+        : IPasswordChallengeService //For Generating One Time Password
     {
         //
         public async Task<PasswordChallengeResponseDto> GenerateOtpChallengeAsync
-            (string identifier,
-                string password,
-                UserRole role,
-                OtpPurpose otpPurpose = OtpPurpose.SignIn,
-                string deviceDetails = "generic web browser",
-                string locationDetails = "Texas, United States",
-                string denyLink = "https://www.amazon.com")
+        (string identifier,
+            string password,
+            UserRole role,
+            OtpPurpose otpPurpose = OtpPurpose.SignIn,
+            string deviceDetails = "generic web browser",
+            string locationDetails = "Texas, United States",
+            string denyLink = "https://www.amazon.com")
         {
 
             var result = await userResolverService.ResolveAndValidateAsync(identifier, password, role);
 
-            
-            if(result.User == null || !result.IsPasswordValid)
+
+            if (result.User == null || !result.IsPasswordValid)
                 return null;
-            
-            
-            var otp =  RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
+
+
+            var otp = RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
 
             string userName = result.User switch
             {
@@ -53,7 +53,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
                     : "Business Partner",
                 _ => "Valued User"
             };
-            
+
             var otpCache = new OtpCacheDto
             {
 
@@ -78,9 +78,9 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
             {
                 otpChannel = OtpChannel.Email;
                 maskedDestination = MaskEmail(identifier);
-                
-              //  string timestamp = DateTime.Now.ToString("MMM dd, yyyy hh:mm tt");
-                
+
+                //  string timestamp = DateTime.Now.ToString("MMM dd, yyyy hh:mm tt");
+
                 var centralZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
                 var centralTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, centralZone);
                 string formattedTimestamp = $"{centralTime:MMM dd, yyyy hh:mm tt} Central Daylight Time";
@@ -91,27 +91,27 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
                     case OtpPurpose.Registration:
                         await emailService.SendRegistrationOtpEmailAsync(identifier, otp);
                         break;
-                    
-                
-                
+
+
+
                     case OtpPurpose.SignIn:
-                        await emailService.SendSignInAttemptOtpEmailAsync( 
-                        email: identifier,
-                         otp: otp,
-                         timestamp: formattedTimestamp, 
-                        userName: userName,
-                         deviceDetails: deviceDetails,
-                         locationDetails: locationDetails,
-                         denyLink: denyLink
+                        await emailService.SendSignInAttemptOtpEmailAsync(
+                            email: identifier,
+                            otp: otp,
+                            timestamp: formattedTimestamp,
+                            userName: userName,
+                            deviceDetails: deviceDetails,
+                            locationDetails: locationDetails,
+                            denyLink: denyLink
                         );
                         break;
-                    
-             case OtpPurpose.PasswordReset:       
+
+                    case OtpPurpose.PasswordReset:
                         await emailService.SendPasswordResetOtpEmailAsync(
                             email: identifier,
                             otp: otp,
                             timestamp: formattedTimestamp,
-                           userName: userName,
+                            userName: userName,
                             deviceDetails: deviceDetails,
                             locationDetails: locationDetails,
                             denyLink: denyLink
@@ -139,24 +139,24 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
         }
 
-      
-        
+
+
 
         public async Task<bool> VerifyOtpAsync(PasswordChallengeVerifyDto verifyDto)
         {
-           var cachedOtp = await cacheService.ValidateOtpAsync(verifyDto.PendingAuthId, verifyDto.Otp);
+            var cachedOtp = await cacheService.ValidateOtpAsync(verifyDto.PendingAuthId, verifyDto.Otp);
 
-           if (cachedOtp == null) return false;
+            if (cachedOtp == null) return false;
 
-           await cacheService.RemoveOtpAsync(verifyDto.PendingAuthId);
-           return true;
+            await cacheService.RemoveOtpAsync(verifyDto.PendingAuthId);
+            return true;
 
         }
 
         public async Task<ResendOtpResponseDto> ResendOtpAsync(ResendOtpRequestDto request)
         {
             var cache = await cacheService.GetOtpAsync(request.PendingAuthId);
-            
+
             if (cache == null)
             {
                 return new ResendOtpResponseDto
@@ -173,7 +173,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
             if (DateTime.UtcNow < nextAllowedTime)
             {
                 var remaining = (nextAllowedTime - DateTime.UtcNow).Seconds;
-                
+
                 return new ResendOtpResponseDto
                 {
                     Success = false,
@@ -181,26 +181,26 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
                     CooldownSeconds = remaining
                 };
             }
-            
-            
+
+
 
             var newOtp = RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
-            
+
             cache.Otp = newOtp;
             cache.ExpirationTime = DateTime.UtcNow.AddMinutes(5);
             cache.LastRequestTime = DateTime.UtcNow;
             cache.Attempts++;
-            
+
             await cacheService.SetOtpAsync(request.PendingAuthId, cache);
-            
-            
+
+
             if (cache.OtpChannel == OtpChannel.Email)
             {
-               // string timestamp = DateTime.Now.ToString("MMM dd, yyyy hh:mm tt");
-               
-               var centralZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
-               var centralTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, centralZone);
-                
+                // string timestamp = DateTime.Now.ToString("MMM dd, yyyy hh:mm tt");
+
+                var centralZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+                var centralTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, centralZone);
+
                 string formattedTimestamp = $"{centralTime:MMM dd, yyyy hh:mm tt} Central Daylight Time";
 
 
@@ -209,22 +209,22 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
                     case OtpPurpose.Registration:
                         await emailService.SendRegistrationOtpEmailAsync(cache.Identifier, newOtp);
                         break;
-                    
-                
-                
+
+
+
                     case OtpPurpose.SignIn:
-                        await emailService.SendSignInAttemptOtpEmailAsync( 
+                        await emailService.SendSignInAttemptOtpEmailAsync(
                             email: cache.Identifier,
                             otp: newOtp,
-                            timestamp: formattedTimestamp, 
+                            timestamp: formattedTimestamp,
                             userName: cache.UserName,
                             deviceDetails: "generic web browser",
                             locationDetails: "Texas, United States",
                             denyLink: "https://www.amazon.com"
                         );
                         break;
-                    
-                    case OtpPurpose.PasswordReset:       
+
+                    case OtpPurpose.PasswordReset:
                         await emailService.SendPasswordResetOtpEmailAsync(
                             email: cache.Identifier,
                             otp: newOtp,
@@ -250,7 +250,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
                 OtpChannel = cache.OtpChannel,
                 MaskedDestination = cache.MaskedDestination,
                 CooldownSeconds = cooldownSeconds
-                
+
             };
         }
 
@@ -289,7 +289,7 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
             var centralZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
             var centralTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, centralZone);
             string formattedTimestamp = $"{centralTime:MMM dd, yyyy hh:mm tt} Central Daylight Time";
-            
+
             await emailService.SendPasswordResetOtpEmailAsync(
                 email: normalizedIdentifier,
                 otp: otpCode,
@@ -304,37 +304,71 @@ namespace Amazon_eCommerce_API.Services.Authentication.PasswordChallenge
 
         public async Task<bool> VerifyPasswordResetOtpAsync(string pendingAuthId, string otp, AccountType accountType)
         {
-         var normalizedIdentifier = pendingAuthId.Trim().ToLowerInvariant();
-         
-         
-         var cachedOtpDto = await cacheService.GetOtpAsync(normalizedIdentifier);
-         
-         if(cachedOtpDto == null || cachedOtpDto.Otp != otp)
-         {
-             return false;
-         }
+            var normalizedIdentifier = pendingAuthId.Trim().ToLowerInvariant();
 
-         
-         await cacheService.RemoveOtpAsync(normalizedIdentifier);
-         
-         return true;
+
+            var cachedOtpDto = await cacheService.GetOtpAsync(normalizedIdentifier);
+
+            if (cachedOtpDto == null || cachedOtpDto.Otp != otp)
+            {
+                return false;
+            }
+
+
+            await cacheService.RemoveOtpAsync(normalizedIdentifier);
+
+            return true;
         }
 
         public async Task<bool> ResetForgotPasswordAsync(ResetForgotPasswordDto request)
         {
-            return request.AccountType switch
+            bool isSuccess = request.AccountType switch
             {
                 AccountType.Customer => await customerUserService.ResetCustomerPasswordAsync(request),
                 AccountType.Business => await businessUserService.ResetBusinessPasswordAsync(request),
                 _ => false
             };
+
+            if (isSuccess)
+
+                try
+                {
+
+                    string userEmail = null;
+
+
+                    if (request.AccountType == AccountType.Customer)
+                    {
+                        var customer = await customerUserService.GetUserByCustomerEmailAsync(request.Identifier);
+                        userEmail = customer?.EmailAddress;
+                    }
+                    else if (request.AccountType == AccountType.Business)
+                    {
+                        var business = await businessUserService.GetUserByBusinessEmailAsync(request.Identifier);
+                        userEmail = business?.BusinessEmail;
+                    }
+
+                    if (!string.IsNullOrEmpty(userEmail))
+                    {
+                        await emailService.SendPasswordResetConfirmationEmailAsync(userEmail);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine($"Failed to send password reset confirmation email: {ex.Message}");
+                }
+
+            return isSuccess;
+
         }
+    
 
-        
-        
-        
 
-        private bool IsValidEmail(string email)
+
+
+    private bool IsValidEmail(string email)
         {
             try
             {

@@ -22,7 +22,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Authentication.PasswordChallenge.For
         [Required(ErrorMessage = "Please confirm your new password.")]
         [DataType(DataType.Password)]
         [Compare("NewPassword", ErrorMessage = "Passwords must match")]
-        public string ConfirmPassword { get; set; } = String.Empty;
+        public string ConfirmNewPassword { get; set; } = String.Empty;
         
         
         public AccountType AccountType { get; set; }

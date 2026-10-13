@@ -216,7 +216,7 @@ namespace Amazon_eCommerce_API.Controllers.Account
         [HttpGet("phoneNumber")]
 
 
-        public async Task<IActionResult> GetCustomerAccountbyPhoneNumber(string phoneNumber)
+        public async Task<IActionResult> GetCustomerAccountByPhoneNumber(string phoneNumber)
         { 
         
             var customerUser = await _customerUserService.GetUserByCustomerPhoneNumberAsync(phoneNumber);

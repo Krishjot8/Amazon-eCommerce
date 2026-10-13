@@ -29,6 +29,8 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             string denyLink = "https://www.amazon.com",
             string providerName = null);
         
+        Task<bool> SendPasswordResetConfirmationEmailAsync(string email);
+        
         
         string GetRegistrationEmailTemplate(string verificationCode); //Generates the HTML or text content of the email, including the OTP.
 
@@ -37,7 +39,7 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
         
         string GetPasswordResetEmailTemplate(string verificationCode, string timestamp, string userName, string deviceDetails, string locationDetails,   string denyLink = "https://www.amazon.com"); 
         
-        
+        string GetPasswordResetConfirmationEmailTemplate(); //Generates the password reset confirmation after reset.
         
         Task<bool> VerifyEmailOtpAsync(VerifyEmailDto dto); // Checks if the OTP entered by the user matches the one stored in cache or database.
 

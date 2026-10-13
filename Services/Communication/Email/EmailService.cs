@@ -112,6 +112,25 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             return await SendEmailInternalAsync(email, subject, htmlContent, providerName);
         }
 
+        
+        public async Task<bool> SendPasswordResetConfirmationEmailAsync(string email)
+        {
+            try
+            {
+                
+                var subject = "Revision to Your Amazon.com Account";
+                var htmlContent = GetPasswordResetConfirmationEmailTemplate();
+
+                return await SendEmailInternalAsync(email, subject, htmlContent);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }   
+        }
+
+        
+        
         public async Task<bool> SendEmailVerificationAsync(VerifyEmailDto dto)
         {
             var user = await GetUserByEmailAndType(dto.Email, (AccountType)dto.AccountType);
@@ -137,7 +156,101 @@ namespace Amazon_eCommerce_API.Services.Communication.Email
             return await SendRegistrationOtpEmailAsync(dto.Email, otp);
         }
 
-       
+
+        public string GetPasswordResetConfirmationEmailTemplate()
+        {
+           return $@"
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='color-scheme' content='light' />
+    <meta name='supported-color-schemes' content='light' />
+    <style>
+        body, table, td, div {{
+            font-family: Arial, sans-serif !important;
+        }}
+    </style>
+</head>
+<body bgcolor='#ffffff' style='margin: 0; padding: 0; background-color: #ffffff !important; color: #111111 !important;'>
+    <!-- Outer Container -->
+    <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0' bgcolor='#ffffff' style='background-color: #ffffff !important; width: 100%;'>
+        <tr>
+            <td align='center' bgcolor='#ffffff' style='padding: 24px; background-color: #ffffff !important;'>
+                
+                <!-- Main Email Card -->
+                <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0' style='max-width: 540px; background-color: #ffffff !important;'>
+                    
+                    <!-- Top Black Amazon Logo -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; padding-bottom: 24px;'>
+                            <img src='https://www.thriftysigns.com/wp-content/uploads/2020/12/Amazon-Logo.jpg.webp' 
+                                 alt='Amazon' 
+                                 width='115' 
+                                 style='width: 115px; height: auto; display: block; border: 0;'>
+                        </td>
+                    </tr>
+
+                    <!-- Paragraph 1 -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; font-size: 14px; color: #111111 !important; line-height: 1.5; padding-bottom: 16px;'>
+                            Thanks for visiting Amazon.com! Per your request, we have successfully changed your password.
+                        </td>
+                    </tr>
+
+                    <!-- Paragraph 2 -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; font-size: 14px; color: #111111 !important; line-height: 1.5; padding-bottom: 16px;'>
+                            Visit Your Account at Amazon.com to view your orders, make changes to any order that hasn't yet entered the shipping process, update your subscriptions, and much more.
+                        </td>
+                    </tr>
+
+                    <!-- Paragraph 3 -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; font-size: 14px; color: #111111 !important; line-height: 1.5; padding-bottom: 16px;'>
+                            Should you need to contact us for any reason, please know that we can give out order information only to the name and e-mail address associated with your account.
+                        </td>
+                    </tr>
+
+                    <!-- Closing -->
+                    <tr>
+                        <td align='left' bgcolor='#ffffff' style='background-color: #ffffff !important; font-size: 14px; color: #111111 !important; padding-bottom: 28px;'>
+                            Thanks again for shopping with us.
+                        </td>
+                    </tr>
+
+                    <!-- Footer Container -->
+                    <tr>
+                        <td align='left' bgcolor='#f0f2f2' style='background-color: #f0f2f2 !important; padding: 20px; border-radius: 2px;'>
+                            <table role='presentation' width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                    <td style='font-size: 11.5px; color: #555555 !important; line-height: 1.5;'>
+                                        &copy;{DateTime.UtcNow.Year} Amazon.com, Inc. or its affiliates. Amazon and all related marks are trademarks of Amazon.com, Inc. or its affiliates, Amazon.com, Inc. 410 Terry Avenue N., Seattle, WA 98109.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style='padding-top: 16px;'>
+                                        <!-- Bottom Black Amazon Logo (Arrow/Smile) -->
+                                        <img src='https://vectorseek.com/wp-content/uploads/2023/09/Amazon-shopping-smile-Logo-Vector.svg-.png' 
+                                             alt='Amazon' 
+                                             width='60' 
+                                             style='width: 60px; height: auto; display: block; border: 0;'>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>";
+        }
+
         public async Task<bool> VerifyEmailOtpAsync(VerifyEmailDto dto)
         {
             // Resend flow

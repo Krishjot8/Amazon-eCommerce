@@ -21,7 +21,7 @@ namespace Amazon_eCommerce_API.Models.DTO_s.Accounts.CustomerUserAccount.Account
 
 
         [Required(ErrorMessage = "Your Email Address is Required")]
-        [EmailAddress(ErrorMessage = "Invailid email format")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; } = null!;
 
 

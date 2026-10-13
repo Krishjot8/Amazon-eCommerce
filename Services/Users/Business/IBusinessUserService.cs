@@ -34,7 +34,6 @@ namespace Amazon_eCommerce_API.Services.Users.Business
         Task<BusinessStoreInformation> GetUserByBusinessNameAsync(string businessName);
 
         
-        
         Task<bool> UpdateBusinessUserAsync(int userId, UpdateBusinessUserDto updateBusinessUserDto);
 
 
