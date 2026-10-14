@@ -15,9 +15,9 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Products;
         
         public string ImageUrl { get; set; } = null!; // Main Image
 
-        public int SellerUserId { get; set; }
+        public int? SellerUserId { get; set; }
         
-        public SellerUser SellerUser { get; set; } = null!;
+        public SellerUser? SellerUser { get; set; } = null!;
 
 
     public int ProductTypeId { get; set; }

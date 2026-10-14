@@ -256,6 +256,7 @@ namespace Amazon_eCommerce_API.Data
                 .HasOne(p => p.SellerUser)
                 .WithMany()
                 .HasForeignKey(p => p.SellerUserId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Product>()
