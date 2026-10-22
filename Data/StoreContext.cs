@@ -60,6 +60,10 @@ namespace Amazon_eCommerce_API.Data
         
         public DbSet<ProductVariant> ProductVariants { get; set; }
         
+        public DbSet<ProductAttribute> ProductAttributes { get; set; }
+        
+        public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
+        
        
         //Seller Users
 
@@ -307,6 +311,18 @@ namespace Amazon_eCommerce_API.Data
             modelBuilder.Entity<ProductVariant>()
              .Property(p => p.Price)
              .HasPrecision(18, 2);
+            
+            modelBuilder.Entity<ProductAttributeValue>()
+                .HasOne(pav => pav.Product)
+                .WithMany(p => p.AttributeValues)
+                .HasForeignKey(pav => pav.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ProductAttributeValue>()
+                .HasOne(pav => pav.ProductAttribute)
+                .WithMany(pa => pa.ProductAttributeValues)
+                .HasForeignKey(pav => pav.ProductAttributeId)
+                .OnDelete(DeleteBehavior.Restrict); 
 
 
             // ========================

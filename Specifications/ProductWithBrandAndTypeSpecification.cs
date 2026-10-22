@@ -13,4 +13,5 @@ namespace Amazon_eCommerce_API.Specifications
             AddInclude(p => p.ProductType);
         }
     }
+    
 }

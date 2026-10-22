@@ -16,17 +16,79 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57879d55-2416-48a8-b2fe-8f9208f9fbdb" name="Changes" comment="">
+    <list default="true" id="57879d55-2416-48a8-b2fe-8f9208f9fbdb" name="Changes" comment="Added and updated few more products. Added entities for a product, attribute values and product attributes. Ready to migrate on desktop.">
+      <change afterPath="$PROJECT_DIR$/Models/DBEntities/Products/ProductAttribute.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/DBEntities/Products/ProductAttributeValue.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/DTO's/Products/ProductCreateDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox One X.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Digital Gaming Console | 1TB SSD/xbox-series-x-digital-front.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Digital Gaming Console | 1TB SSD/xbox-series-x-digital-inclusions.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Digital Gaming Console | 1TB SSD/xbox-series-x-digital-power-meets-performance.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Digital Gaming Console | 1TB SSD/xbox-series-x-digital-wireless-controller-information.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Disc Gaming Console | 1TB SSD/xbox-series-x-add-second-controller.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Disc Gaming Console | 1TB SSD/xbox-series-x-disc-front-left-view.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Disc Gaming Console | 1TB SSD/xbox-series-x-disc-front.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Disc Gaming Console | 1TB SSD/xbox-series-x-disc-inclusions.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Disc Gaming Console | 1TB SSD/xbox-series-x-disc-power-meets-performance.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Disc Gaming Console | 1TB SSD/xbox-series-x-disc-wireless-controller-information.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Disc Gaming Console | 1TB SSD/xbox-series-x-oick-your-perfect.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X | 1TB SSD/Xbox Series X | Disc Gaming Console | 1TB SSD/xbox-series-x-play-on.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Carbon Black/capture-and-share-carbon-black.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Carbon Black/controller-box-back-carbon-black.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Carbon Black/controller-box-carbon-black.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Carbon Black/feel-the-difference-carbon-black.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Carbon Black/main-carbon-black.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Carbon Black/play-across-devices-carbon-black.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Carbon Black/ready-to-connect-carbon-black.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Carbon Black/stay-on-target-carbon-black.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Robot White/capture-and-share-robot-white.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Robot White/controller-box-back-robot-white.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Robot White/controller-box-robot-white.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Robot White/feel-the-difference-robot-white.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Robot White/main-robot-white.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Robot White/play-across-devices-robot-white.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Robot White/ready-to-connect-robot-white.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Robot White/stay-on-target-robot-white.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Shock Blue/capture-and-share-shock-blue.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Shock Blue/controller-box-back-shock-blue.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Shock Blue/controller-box-shock-blue.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Shock Blue/feel-the-difference-shock-blue.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Shock Blue/main-shock-blue.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Shock Blue/play-across-devices-shock-blue.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/XBOX Wireless Gaming Controller | Shock Blue/stay-on-target-shock-blue.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/Xbox Wireless Gaming Controller | Velocity Green/capture-and-share-velocity-green.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/Xbox Wireless Gaming Controller | Velocity Green/controller-box-back-velocity-green.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/Xbox Wireless Gaming Controller | Velocity Green/controller-box-velocity-green.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/Xbox Wireless Gaming Controller | Velocity Green/feel-the-difference-velocity-green.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/Xbox Wireless Gaming Controller | Velocity Green/main-velocity-green.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/Xbox Wireless Gaming Controller | Velocity Green/play-across-devices-velocity-green.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/XBOX Wireless Gaming Controller/Xbox Wireless Gaming Controller | Velocity Green/stay-on-target-velocity-green.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Dead Space - Xbox Series X/dead-space-front-cover.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Dead Space - Xbox Series X/dead-space-xbox-series-x-front-cover.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Dead Space - Xbox Series X/gameplay-image-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Dead Space - Xbox Series X/gameplay-image-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Dead Space - Xbox Series X/gameplay-image-3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Dead Space - Xbox Series X/gameplay-image-4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Dead Space - Xbox Series X/gameplay-image-5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Hogwarts Legacy (Deluxe Edition) - For Xbox Series X/gameplay-image-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Hogwarts Legacy (Deluxe Edition) - For Xbox Series X/gameplay-image-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Hogwarts Legacy (Deluxe Edition) - For Xbox Series X/gameplay-image-3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Hogwarts Legacy (Deluxe Edition) - For Xbox Series X/gameplay-image-4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Hogwarts Legacy (Deluxe Edition) - For Xbox Series X/gameplay-image-5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Hogwarts Legacy (Deluxe Edition) - For Xbox Series X/hogwarts-legacy-deluxe-edition-front-cover.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Amazon-eCommerce API/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Amazon-eCommerce API/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/Account/CustomerAccountController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/Authentication/PasswordChallengeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/Authentication/PasswordChallengeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/DTO's/Accounts/CustomerUserAccount/AccountRegistration/CustomerUserRegistrationDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/DTO's/Accounts/CustomerUserAccount/AccountRegistration/CustomerUserRegistrationDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/DTO's/Authentication/PasswordChallenge/ForgotPassword/ResetPasswordDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/DTO's/Authentication/PasswordChallenge/ForgotPassword/ResetPasswordDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Authentication/PasswordChallenge/PasswordChallengeService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Cache/ICacheService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Cache/ICacheService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Communication/Email/EmailService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Communication/Email/IEmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Communication/Email/IEmailService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Users/Business/IBusinessUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Users/Business/IBusinessUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Amazon-eCommerce API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Amazon-eCommerce API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/SeedData/products.json" beforeDir="false" afterPath="$PROJECT_DIR$/Data/SeedData/products.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/StoreContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/StoreContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Migrations/StoreContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Migrations/StoreContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/DBEntities/Products/Product.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/DBEntities/Products/Product.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Specifications/ProductWithBrandAndTypeSpecification.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Specifications/ProductWithBrandAndTypeSpecification.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox One X.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Consoles/Xbox Series X.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/Xbox Series XS Controller.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Controllers/Xbox Wireless Controller – White.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/DeadSpace-XboxSeriesX.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwroot/images/products/Video Games/Xbox/Games/Hogwarts Legacy Deluxe Edition - Xbox Series X.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +104,7 @@
     <option name="firstShow" value="false" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="97" />
+    <option name="cachedIndexableFilesCount" value="66" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -67,6 +129,8 @@
     <setting file="file://$PROJECT_DIR$/Models/DBEntities/Carts/Customer/CustomerCart.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DBEntities/Carts/Customer/CustomerCartItem.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DBEntities/Preferences/Customer/CustomerPreferences.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Models/DBEntities/Products/ProductAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Models/DBEntities/Products/ProductAttributeValue.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DBEntities/Products/ProductImage.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DBEntities/Products/ProductReview.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DBEntities/Products/ProductVariant.cs" root0="FORCE_HIGHLIGHTING" />
@@ -111,6 +175,7 @@
     <setting file="file://$PROJECT_DIR$/Models/DTO's/Authentication/UserResolver/ResolvedUserResult.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DTO's/Products/CategoryDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DTO's/Products/ProductBrandDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Models/DTO's/Products/ProductCreateDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DTO's/Products/ProductDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DTO's/Products/ProductImageDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Models/DTO's/Products/ProductReviewDto.cs" root0="FORCE_HIGHLIGHTING" />
@@ -125,7 +190,6 @@
     <setting file="file://$PROJECT_DIR$/Validators/SellerUserTaxProfileValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ac2a88a1b8c442bf847475a5a257846a5a00/9e/c02380c5/BCrypt.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/db7395f4add94e6d10e515b3e55373f2821f8323de7dc8e314d78feefacf5584/ActionMethodExecutor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Immediate Window" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -138,65 +202,65 @@
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="5.7109882434914975E-115" />
-      <entry key="S2" value="2.888778361235316E-29" />
-      <entry key="S5" value="5.0368480414902865E-12" />
-      <entry key="S10" value="3.478259543559184E-6" />
-      <entry key="S30" value="0.05392824600461477" />
-      <entry key="S60" value="1.0589592232052907" />
-      <entry key="M2" value="5.442706331834965" />
-      <entry key="M5" value="16.42475321779463" />
-      <entry key="M10" value="27.562669179227555" />
-      <entry key="M15" value="35.24140505745894" />
-      <entry key="M30" value="49.64798176981143" />
-      <entry key="H1" value="62.713765475756304" />
-      <entry key="H2" value="72.55438031749586" />
-      <entry key="H4" value="85.69668580641748" />
-      <entry key="D1" value="225.78603352707322" />
-      <entry key="W1" value="329.3811154349517" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000000000001557" />
+      <entry key="S2" value="1.000697708828685" />
+      <entry key="S5" value="1.1010828198196423" />
+      <entry key="S10" value="1.6683374709238117" />
+      <entry key="S30" value="3.5256265032321337" />
+      <entry key="S60" value="4.549181482818012" />
+      <entry key="M2" value="5.23418393041003" />
+      <entry key="M5" value="6.072734689681201" />
+      <entry key="M10" value="8.736873448483738" />
+      <entry key="M15" value="13.010634407511107" />
+      <entry key="M30" value="26.437172548513782" />
+      <entry key="H1" value="48.85157747093062" />
+      <entry key="H2" value="77.89005117963993" />
+      <entry key="H4" value="108.84288905279557" />
+      <entry key="D1" value="268.89453077086733" />
+      <entry key="W1" value="385.8356872084122" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0000006632242069" />
-      <entry key="S5" value="1.0033780365637266" />
-      <entry key="S10" value="1.0581611261132158" />
-      <entry key="S30" value="1.4471364841962508" />
-      <entry key="S60" value="2.2213489779685593" />
-      <entry key="M2" value="3.999898821300379" />
-      <entry key="M5" value="7.4045908638474165" />
-      <entry key="M10" value="10.5449220830391" />
-      <entry key="M15" value="12.657081841720647" />
-      <entry key="M30" value="16.485041541391723" />
-      <entry key="H1" value="19.80808953391678" />
-      <entry key="H2" value="22.191880470600047" />
-      <entry key="H4" value="25.126752126325897" />
-      <entry key="D1" value="52.77389666919202" />
-      <entry key="W1" value="71.75812157750427" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="6.810004120418035E-123" />
+      <entry key="S5" value="1.3591235880758296E-49" />
+      <entry key="S10" value="3.6866293386721547E-25" />
+      <entry key="S30" value="7.170415122864986E-9" />
+      <entry key="S60" value="8.487325052814536E-5" />
+      <entry key="M2" value="0.009900206444292776" />
+      <entry key="M5" value="0.29243603649336214" />
+      <entry key="M10" value="1.3750011262210118" />
+      <entry key="M15" value="2.492421224538977" />
+      <entry key="M30" value="5.16119715898324" />
+      <entry key="H1" value="9.95098527765203" />
+      <entry key="H2" value="16.95087036942007" />
+      <entry key="H4" value="24.577683814397066" />
+      <entry key="D1" value="57.978985032018926" />
+      <entry key="W1" value="80.0051531737579" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.0028201742100048754" />
-      <entry key="MS500" value="0.3090688152302379" />
-      <entry key="S2" value="0.7456140842049965" />
-      <entry key="S5" value="0.8922903996075078" />
-      <entry key="S10" value="0.9985006898290093" />
-      <entry key="S30" value="1.4712145756261095" />
-      <entry key="S60" value="3.238532910229582" />
-      <entry key="M2" value="9.382524717252052" />
-      <entry key="M5" value="23.774776893640503" />
-      <entry key="M10" value="38.06712937686505" />
-      <entry key="M15" value="47.86589583201168" />
-      <entry key="M30" value="66.11174778679472" />
-      <entry key="H1" value="82.50905363096311" />
-      <entry key="H2" value="94.73907598862367" />
-      <entry key="H4" value="110.81931626397682" />
-      <entry key="D1" value="278.5583003489512" />
-      <entry key="W1" value="401.1389097201098" />
+      <entry key="MS100" value="0.8766057213160351" />
+      <entry key="MS500" value="0.974004268543345" />
+      <entry key="S2" value="0.994071711088661" />
+      <entry key="S5" value="1.0951660365437221" />
+      <entry key="S10" value="1.6559148732650757" />
+      <entry key="S30" value="3.5104618920235193" />
+      <entry key="S60" value="4.538516076952135" />
+      <entry key="M2" value="5.237415839062097" />
+      <entry key="M5" value="6.35984016679889" />
+      <entry key="M10" value="10.103616407712762" />
+      <entry key="M15" value="15.493073524977014" />
+      <entry key="M30" value="31.58779680123036" />
+      <entry key="H1" value="58.793084327211915" />
+      <entry key="H2" value="94.83351745727957" />
+      <entry key="H4" value="133.41548136245416" />
+      <entry key="D1" value="326.8715615445579" />
+      <entry key="W1" value="465.84045300779974" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="Toolset" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -427,7 +491,14 @@
       <workItem from="1791576129284" duration="132000" />
       <workItem from="1791576265784" duration="10646000" />
       <workItem from="1791746327942" duration="3212000" />
-      <workItem from="1791851055337" duration="2769000" />
+      <workItem from="1791851055337" duration="2852000" />
+      <workItem from="1791919061634" duration="14000" />
+      <workItem from="1791927480846" duration="5686000" />
+      <workItem from="1792091345668" duration="65000" />
+      <workItem from="1792091430299" duration="7615000" />
+      <workItem from="1792426907098" duration="32000" />
+      <workItem from="1792426950723" duration="3855000" />
+      <workItem from="1792631027091" duration="3319000" />
     </task>
     <task id="LOCAL-00001" summary="updated things">
       <option name="closed" value="true" />
@@ -709,7 +780,15 @@
       <option name="project" value="LOCAL" />
       <updated>1791054879107</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Added a Password Reset Confirmation Email After resetting the user password.">
+      <option name="closed" value="true" />
+      <created>1791858026040</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1791858026040</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -736,8 +815,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Updated namespaces and moving DTOs into separate folders." />
-    <MESSAGE value="More changes for folders" />
     <MESSAGE value="Moved and improved seller user services." />
     <MESSAGE value="Add a couple of seller DB entities and updated name spaces for other files" />
     <MESSAGE value="Added payments, carts and preferences, and database entities. Added orders files." />
@@ -761,7 +838,9 @@
     <MESSAGE value="good fix: updated code" />
     <MESSAGE value="added comment" />
     <MESSAGE value="Updated Email Templates and Cache properties." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Email Templates and Cache properties." />
+    <MESSAGE value="Added a Password Reset Confirmation Email After resetting the user password." />
+    <MESSAGE value="Added and updated few more products. Added entities for a product, attribute values and product attributes. Ready to migrate on desktop." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added and updated few more products. Added entities for a product, attribute values and product attributes. Ready to migrate on desktop." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

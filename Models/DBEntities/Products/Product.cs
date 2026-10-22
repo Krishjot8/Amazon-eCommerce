@@ -38,5 +38,7 @@ namespace Amazon_eCommerce_API.Models.DBEntities.Products;
     public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
     public ICollection<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
     public ICollection<ProductReview> Reviews { get; set; } = new List<ProductReview>();
+    
+    public ICollection<ProductAttributeValue> AttributeValues { get; set; } = new List<ProductAttributeValue>();
 }
 

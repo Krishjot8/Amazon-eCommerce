@@ -263,7 +263,7 @@ namespace Amazon_eCommerce_API.Migrations
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SellerUserId")
+                    b.Property<int?>("SellerUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("StockQuantity")
@@ -283,6 +283,60 @@ namespace Amazon_eCommerce_API.Migrations
                     b.HasIndex("SellerUserId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Products.ProductAttribute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductAttributes");
+                });
+
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Products.ProductAttributeValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductAttributeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductAttributeId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductAttributeValues");
                 });
 
             modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Products.ProductBrand", b =>
@@ -1637,8 +1691,7 @@ namespace Amazon_eCommerce_API.Migrations
                     b.HasOne("Amazon_eCommerce_API.Models.DBEntities.Users.Seller.SellerUser", "SellerUser")
                         .WithMany()
                         .HasForeignKey("SellerUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
 
@@ -1647,6 +1700,25 @@ namespace Amazon_eCommerce_API.Migrations
                     b.Navigation("ProductType");
 
                     b.Navigation("SellerUser");
+                });
+
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Products.ProductAttributeValue", b =>
+                {
+                    b.HasOne("Amazon_eCommerce_API.Models.DBEntities.Products.ProductAttribute", "ProductAttribute")
+                        .WithMany("ProductAttributeValues")
+                        .HasForeignKey("ProductAttributeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Amazon_eCommerce_API.Models.DBEntities.Products.Product", "Product")
+                        .WithMany("AttributeValues")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("ProductAttribute");
                 });
 
             modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Products.ProductImage", b =>
@@ -1921,11 +1993,18 @@ namespace Amazon_eCommerce_API.Migrations
 
             modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Products.Product", b =>
                 {
+                    b.Navigation("AttributeValues");
+
                     b.Navigation("Images");
 
                     b.Navigation("Reviews");
 
                     b.Navigation("Variants");
+                });
+
+            modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Products.ProductAttribute", b =>
+                {
+                    b.Navigation("ProductAttributeValues");
                 });
 
             modelBuilder.Entity("Amazon_eCommerce_API.Models.DBEntities.Products.ProductBrand", b =>
