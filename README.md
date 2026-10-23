@@ -59,6 +59,14 @@ To debug your code step by step, keep pressing F11. This allows you to step thro
 
 ![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/github-assets/README-images//Debugging.png)
 
+
+
+
+
+
+
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
