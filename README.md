@@ -1,4 +1,4 @@
-![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/github assets/README-images/amazon-platform.jpg)
+![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/github-assets/README-images/amazon-platform.jpg)
 
 
 
