@@ -20,7 +20,7 @@ I recommend using any SQL Server IDE to generate and create your database to con
 3. Execute the query. (It might take a while for the database to be created)
 
 
-![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/SQL-Script.png)
+![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/github-assets/README-images/SQL-Script.png)
 
 
 
@@ -57,21 +57,21 @@ To debug SwaggerUI calls:
     When you run the project in debug mode, execution will pause at these breakpoints, allowing you to inspect the data and track down issues.
 
 
-![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/Amazon-eCommerce%20API%20-%20How%20to%20Debug.png)
+![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/github-assets/README-images/Amazon-eCommerce%20API%20-%20How%20to%20Debug.png)
 
 
 
 
 # Using SwaggerUI for Debugging
 
-![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/Swagger-UI.png)
+![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/github-assets/README-images/Swagger-UI.png)
 
                    
 After setting up your breakpoints, you can run SwaggerUI and execute your API calls by pressing the Execute button. When you do this, a yellow arrow will appear on the left side of the code, indicating the current line of execution.
 
 To debug your code step by step, keep pressing F11. This allows you to step through the code line by line, helping you understand how products are fetched from the database and what happens at each stage of the execution. This detailed debugging process is valuable for identifying any issues and gaining insights into the application's behavior.
 
-![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/Assets/README-images/Debugging.png)
+![Amazon eCommerce API - Platform](https://github.com/Krishjot8/Amazon-eCommerce/blob/main/github-assets/README-images/Debugging.png)
 
 
 # Running the Frontend
