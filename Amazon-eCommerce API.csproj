@@ -24,7 +24,7 @@
     <ItemGroup>
         <Folder Include="Migrations\" />
         <Folder Include="wwwroot\" />
-        <Folder Include="wwwroot\images\products\Video Games\Xbox\Controllers\" />
+        <Folder Include="wwwroot\images\products\video-games\Xbox\Controllers\" />
     </ItemGroup>
 
     <ItemGroup>

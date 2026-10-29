@@ -1,8 +1,10 @@
 ﻿using Amazon_eCommerce_API.Models.DBEntities.Products;
+using Amazon_eCommerce_API.Models.DTO_s.Products.ProductType;
 using Amazon_eCommerce_API.Repositories;
+using Amazon_eCommerce_API.Services.Products;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Amazon_eCommerce_API.Controllers.Product
+namespace Amazon_eCommerce_API.Controllers.Products
 {
 
     [Route("api/[controller]")]
@@ -10,20 +12,19 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
     public class ProductTypesController : ControllerBase
 
-
-
+    
     {
        
         private readonly IGenericRepository<ProductType> _productTypeRepository;
+        private readonly ICatalogService _catalogService;
 
-        public ProductTypesController( IGenericRepository<ProductType> productTypeRepository)       //assigning repositories
-        
+        public ProductTypesController( IGenericRepository<ProductType> productTypeRepository, ICatalogService catalogService)       
+
         {
             _productTypeRepository = productTypeRepository;
+            _catalogService = catalogService;
         }
-
-
-
+        
 
         [HttpGet]
 
@@ -43,51 +44,37 @@ namespace Amazon_eCommerce_API.Controllers.Product
             return Ok(productTypes);
 
         }
-
-        //productTypebyID
-
-        //
-
+        
         [HttpGet("{id}")]
 
         public async Task<ActionResult<ProductType>> GetProductType(int id)
         {
 
-
-
             return await _productTypeRepository.GetByIdAsync(id);
 
         }
-
-
-      
-
-
-
-       
+        
 
 
         [HttpPost]
 
-        public async Task<ActionResult<ProductType>> AddProductType(ProductType producttype)
+        public async Task<ActionResult<ProductType>> AddProductType([FromForm] ProductTypeCreateDto productTypeCreateDto)
         {
-
-            if (producttype == null)
+            if (productTypeCreateDto == null)
             {
-
                 return BadRequest("The product type doesn't exist");
-
-
             }
 
-            var createdProducttype = await _productTypeRepository.AddAsync(producttype);
+            var productType = new ProductType
+            {
+                Name = productTypeCreateDto.ProductType
+            };
 
-            return CreatedAtAction(nameof(GetProductType), new { id = createdProducttype.Id }, createdProducttype);
+            var createdProductType = await _catalogService.CreateProductTypeAsync(productType);
 
-
-
+            return CreatedAtAction(nameof(GetProductType), new { id = createdProductType.Id }, createdProductType);
         }
-
+       
        
 
 
@@ -95,18 +82,20 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
         [HttpPut("{id}")]
 
-        public async Task<ActionResult> UpdateProductType(int id, ProductType producttype)
+        public async Task<ActionResult> UpdateProductType(int id, ProductType productType)
         {
-
-            if (id != producttype.Id)
+            
+            if (productType == null)
             {
-
-                return BadRequest("ProductType ID mismatch");
-
-
+                return BadRequest("The product type doesn't exist");
             }
 
-            await _productTypeRepository.UpdateAsync(producttype);
+            if (id != productType.Id)
+            {
+                return BadRequest("ProductType ID mismatch");
+            }
+
+            await _catalogService.UpdateProductTypeAsync(id, productType);
 
             return NoContent();
 
@@ -125,7 +114,7 @@ namespace Amazon_eCommerce_API.Controllers.Product
                 return NotFound();
             }
 
-            await _productTypeRepository.DeleteAsync(productType.Id);
+            await _catalogService.DeleteProductTypeAsync(productType.Id);
 
             return NoContent();
 

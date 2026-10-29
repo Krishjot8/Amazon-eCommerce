@@ -1,25 +1,29 @@
 using Amazon_eCommerce_API.Models.DBEntities.Products;
+using Amazon_eCommerce_API.Models.DTO_s.Products;
 using Amazon_eCommerce_API.Repositories;
+using Amazon_eCommerce_API.Services.Products;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Amazon_eCommerce_API.Controllers.Product
+namespace Amazon_eCommerce_API.Controllers.Products
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IGenericRepository<Models.DBEntities.Products.Product> _productsRepository;
+        private readonly IGenericRepository<Product> _productsRepository;
+        private readonly IProductService _productService;
 
-        public ProductsController(IGenericRepository<Models.DBEntities.Products.Product> productsRepository)
+        public ProductsController(IGenericRepository<Product> productsRepository, IProductService productService)
         {
             _productsRepository = productsRepository;
+            _productService = productService;
         }
 
         
         
         // GET: api/products
         [HttpGet]
-        public async Task<ActionResult<List<Models.DBEntities.Products.Product>>> GetProducts()
+        public async Task<ActionResult<List<Product>>> GetProducts()
         {
             var products = await _productsRepository.GetAllIncludingAsync(
                 p => p.ProductBrand,
@@ -37,9 +41,9 @@ namespace Amazon_eCommerce_API.Controllers.Product
             return Ok(products);
         }
 
-        // GET: api/products/{id}
+     
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.DBEntities.Products.Product>> GetProduct(int id)
+        public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var product = await _productsRepository.GetByIdAsync(id);
 
@@ -49,33 +53,38 @@ namespace Amazon_eCommerce_API.Controllers.Product
             return Ok(product);
         }
 
-        // POST: api/products
+  
         [HttpPost]
-        public async Task<ActionResult<Models.DBEntities.Products.Product>> AddProduct(Models.DBEntities.Products.Product product)
+        public async Task<ActionResult<Product>> AddProduct([FromForm] ProductCreateDto createDto)
         {
-            if (product == null)
-                return BadRequest("The product doesn't exist.");
+            if (createDto == null)
+                return BadRequest("The product data doesn't exist.");
 
-            if (product.StockQuantity < 0)
+            if (createDto.StockQuantity < 0)
                 return BadRequest("Stock quantity cannot be negative.");
 
-            var createdProduct = await _productsRepository.AddAsync(product);
+            var createdProduct = await _productService.CreateProductAsync(createDto);
 
             return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.Id }, createdProduct);
         }
 
-        // PUT: api/products/{id}
+       
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateProduct(int id, Models.DBEntities.Products.Product product)
+        public async Task<ActionResult> UpdateProduct(int id,[FromForm] ProductUpdateDto updateDto)
         {
-            if (id != product.Id)
-                return BadRequest("Product ID mismatch.");
+           if(updateDto == null)
+                return BadRequest("The product data doesn't exist.");
 
-            await _productsRepository.UpdateAsync(product);
-            return NoContent();
+           var updatedProduct = await _productService.UpdateProductAsync(id ,updateDto);
+          
+          if(updatedProduct == null)
+            return NotFound($"Product with ID {id} not found.");
+          
+          return NoContent();
         }
 
-        // DELETE: api/products/{id}
+        
+       
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProduct(int id)
         {
@@ -83,8 +92,9 @@ namespace Amazon_eCommerce_API.Controllers.Product
 
             if (product == null)
                 return NotFound();
+            
 
-            await _productsRepository.DeleteAsync(product.Id);
+            await _productService.DeleteProductAsync(id);
             return NoContent();
         }
     }

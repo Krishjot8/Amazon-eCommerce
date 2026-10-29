@@ -16,28 +16,7 @@ namespace Amazon_eCommerce_API.Repositories
             _context = storeContext;
         }
 
-        public async Task<T> AddAsync(T entity)
-        {
-            await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-           var entity = await _context.Set<T>().FindAsync(id);
-
-            if (entity != null)
-            {
-
-                _context.Set<T>().Remove(entity);
-                await _context.SaveChangesAsync();
-            }
-            else {
-               throw new KeyNotFoundException("The Item you are trying to delete does not exist.");
-            };
-        }
-
+     
         public async Task<List<T>> GetAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
@@ -78,13 +57,7 @@ namespace Amazon_eCommerce_API.Repositories
 
 
         }
-
-        public async Task UpdateAsync(T entity)
-        {
-            _context.Set<T>().Update(entity);
-            await _context.SaveChangesAsync();
-        }
-
+   
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
 

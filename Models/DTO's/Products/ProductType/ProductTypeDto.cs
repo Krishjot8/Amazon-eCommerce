@@ -1,4 +1,4 @@
-namespace Amazon_eCommerce_API.Models.DTO_s.Products
+namespace Amazon_eCommerce_API.Models.DTO_s.Products.ProductType
 {
     public class ProductTypeDto
     {

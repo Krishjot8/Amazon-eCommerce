@@ -1,3 +1,6 @@
+using Amazon_eCommerce_API.Models.DTO_s.Products.ProductImage;
+using Amazon_eCommerce_API.Models.DTO_s.Products.ProductVariant;
+
 namespace Amazon_eCommerce_API.Models.DTO_s.Products
 {
     public class ProductDto

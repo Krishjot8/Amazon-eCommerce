@@ -13,6 +13,7 @@ using System.Text;
 using Amazon_eCommerce_API.Services.Authentication.Token;
 using Amazon_eCommerce_API.Services.Authentication.UserResolver;
 using Amazon_eCommerce_API.Services.Communication.Email;
+using Amazon_eCommerce_API.Services.Products;
 using Amazon_eCommerce_API.Services.Users.Business;
 using Amazon_eCommerce_API.Services.Users.Seller;
 
@@ -117,15 +118,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Repositories and Services
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IPasswordChallengeService, PasswordChallengeService>();
-builder.Services.AddScoped<ICustomerUserService, CustomerUserServicee>();
-builder.Services.AddScoped<IBusinessUserService, BusinessUserService>();
-builder.Services.AddScoped<ISellerUserService, SellerUserService>();
 builder.Services.AddScoped(typeof(IUserResolverService), typeof(UserResolverService));
-builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddScoped<IBusinessUserService, BusinessUserService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
+builder.Services.AddScoped<ICatalogService, CatalogService>();
+builder.Services.AddScoped<ICustomerUserService, CustomerUserServicee>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IPasswordChallengeService, PasswordChallengeService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISellerUserService, SellerUserService>();
 builder.Services.AddScoped<ISmsService, SmsService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+
+
 builder.Services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
@@ -137,11 +144,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseStaticFiles();
+
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.Run();
