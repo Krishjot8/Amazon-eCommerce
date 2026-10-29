@@ -1,31 +1,31 @@
 .top-brands-carousel {
   position: relative;
   width: 100%;
-  height: 275px;
-  max-width: 1150px;
+  height: 100%;
   overflow: hidden;
   margin: auto;
 
   .carousel-inner {
     display: flex;
-    transition: transform 0.4s ease-in-out;
-    gap: 15px;
+    transition: transform 0.5s ease-in-out;
+    gap: 8px;
   }
 
 
   .carousel-item {
     /* Prevents images from stretching */
     flex: 0 0 auto;
-    width: 200px; /* Adjust this based on the number of items shown */
+    width: 100%; /* Adjust this based on the number of items shown */
     max-width: 220px; /* Set a maximum width for each image */
 
     cursor: pointer;
 
     img {
-      border-radius: 8px;
-       height: 240px;
+      border-radius: 7px;
+       height: 216px;
+       width: 216px;
        object-fit: cover;
-      width: 100%;
+      
 
 
 
@@ -33,18 +33,22 @@
 
   }
 
+  h4{
+
+    text-align: center;
+  }
+
   .carousel-control {
     position: absolute;
     top: 50%;
-
-    transform: translateY(-50%);
+    transform: translate(-15%, -50%);
     background-color: #ffffff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-      width: 45px;
-    height: 80px;
+      width: 55px;
+    height: 100px;
   
 
     img {
@@ -65,4 +69,5 @@
 button {
   width: 55px;
   height: 100px;
+  
 }

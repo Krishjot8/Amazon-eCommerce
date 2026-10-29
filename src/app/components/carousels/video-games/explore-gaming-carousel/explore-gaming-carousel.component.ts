@@ -28,10 +28,10 @@ export class ExploreGamingCarouselComponent implements OnInit {
 
     {
       title: 'Amazon Games',
-      link: '',
+      link: 'https://games.amazon.com/en-us',
       imageUrl:
         'assets/carousel-images/explore-gaming-carousel-images/amazon-games.jpg',
-      isExternal: false,
+      isExternal: true,
     },
 
     {
