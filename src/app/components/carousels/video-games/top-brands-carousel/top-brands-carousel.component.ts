@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductBrand } from 'src/app/models/products/product-brand.model';
 import { TopBrandsCarouselService } from './top-brands-carousel.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'top-brands-carousel',
@@ -14,7 +15,10 @@ export class TopBrandsCarouselComponent implements OnInit {
   gap = 15;
   containerWidth = 1150; // Set the container width as needed
 
-  constructor(private brandService: TopBrandsCarouselService) {}
+  constructor(
+    private brandService: TopBrandsCarouselService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getBrands();
@@ -56,6 +60,15 @@ export class TopBrandsCarouselComponent implements OnInit {
         0
       );
     }
+  }
+
+  onBrandClick(brand: ProductBrand): void {
+    // Handle brand click event, e.g., navigate to brand page or show details
+   if(!brand.name) return; // Guard clause to ensure brand.name is defined
+
+   const brandSlug = brand.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'); // Convert brand name to a URL-friendly slug
+  const routePath = `video-games/brands/top-brands/${brandSlug}/${brandSlug}-home`;
+  this.router.navigate([routePath]);
   }
 
   trackByBrandId(index: number, brand: ProductBrand): number {

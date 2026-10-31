@@ -1,15 +1,20 @@
 <div class="explore-gaming-carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item" *ngFor="let exploreItem of exploreItems ">
+  <div class="carousel-inner"
+  [style.transform]="'translateX(-' + (currentIndex * (itemWidth + gap)) + 'px)'"
+  >
+    <div class="carousel-item" *ngFor="let exploreItem of exploreItems; trackBy: trackByIndex"
+    (click)="onItemClick(exploreItem)">
       <img [src]="exploreItem.imageUrl" alt="{{exploreItem.title}}" />
       <h4 style="font-family: Amazon;">{{exploreItem.title}}</h4>
     </div>
   </div>
 
-  <button (click)="prev()" class="carousel-control prev">
-    <img src="assets/logo-images/left-arrow.svg" />
+  <button (click)="prev()" class="carousel-control prev"
+  *ngIf="currentIndex > 0">
+    <img src="assets/logo-images/left-arrow.svg" alt="Previous" />
   </button>
-  <button (click)="next()" class="carousel-control next">
-    <img src="assets/logo-images/right-arrow.svg" />
+  <button (click)="next()" class="carousel-control next"
+  *ngIf="currentIndex < maxIndex">
+    <img src="assets/logo-images/right-arrow.svg" alt="Next" />
   </button>
 </div>

@@ -27,8 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { VideoGamesComponent } from './pages/video-games/video-games.component';
-
+import { VideoGamesComponent } from './pages/video-games/video-games-section/video-games.component';
 import { RegisterComponent } from './components/account/customer-account/authentication/register/register.component';
 import { CustomerLoginComponent } from './components/account/customer-account/authentication/customer-login-identifier/login.component';
 import { BusinessRegisterComponent } from './components/account/business-account/business-register/business-register.component';
@@ -49,6 +48,10 @@ import { CustomerForgotPasswordComponent } from './components/account/customer-a
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CustomerResetPasswordComponent } from './components/account/customer-account/authentication/customer-reset-password/customer-reset-password.component';
 import { YourAccountComponent } from './components/account/customer-account/your-account/your-account.component';
+import { NintendoHomeComponent } from './pages/video-games/video-game-brands/nintendo/home/home.component';
+import { MetaHomeComponent } from './pages/video-games/video-game-brands/meta/home/home.component';
+import { PlaystationHomeComponent } from './pages/video-games/video-game-brands/playstation/home/home.component';
+import { XboxHomeComponent } from './pages/video-games/video-game-brands/xbox/home/home.component';
 
 @NgModule({
   declarations: [
@@ -82,14 +85,18 @@ import { YourAccountComponent } from './components/account/customer-account/your
     CustomerVerificationComponent,
     NewCustomerAccountComponent,
     AmazonHaulComponent,
- TopBrandsCarouselComponent,
- ExploreGamingCarouselComponent,
- CustomerVerifyEmailComponent,
- AuthFooterComponent,
- CustomerForgotPasswordComponent,
- NotFoundComponent,
- CustomerResetPasswordComponent,
- YourAccountComponent
+    TopBrandsCarouselComponent,
+    ExploreGamingCarouselComponent,
+    CustomerVerifyEmailComponent,
+    AuthFooterComponent,
+    CustomerForgotPasswordComponent,
+    NotFoundComponent,
+    CustomerResetPasswordComponent,
+    YourAccountComponent,
+    NintendoHomeComponent,
+    PlaystationHomeComponent,
+    XboxHomeComponent,
+    MetaHomeComponent
   ],
   imports: [
     AppRoutingModule,
@@ -103,7 +110,7 @@ import { YourAccountComponent } from './components/account/customer-account/your
     MatListModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

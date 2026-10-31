@@ -13,7 +13,7 @@ import { NewReleasesComponent } from './pages/new-releases/new-releases.componen
 import { PrimeComponent } from './pages/prime/prime.component';
 import { RegistryComponent } from './pages/registry/registry.component';
 import { MoversShakersComponent } from './pages/movers-shakers/movers-shakers.component';
-import { VideoGamesComponent } from './pages/video-games/video-games.component';
+import { VideoGamesComponent } from './pages/video-games/video-games-section/video-games.component';
 import { RegisterComponent } from './components/account/customer-account/authentication/register/register.component';
 import { CustomerLoginComponent } from './components/account/customer-account/authentication/customer-login-identifier/login.component';
 import { LoginPasswordComponent } from './components/account/customer-account/authentication/customer-login-password/login-password.component';
@@ -25,6 +25,10 @@ import { CustomerForgotPasswordComponent } from './components/account/customer-a
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CustomerResetPasswordComponent } from './components/account/customer-account/authentication/customer-reset-password/customer-reset-password.component';
 import { YourAccountComponent } from './components/account/customer-account/your-account/your-account.component';
+import { PlaystationHomeComponent } from './pages/video-games/video-game-brands/playstation/home/home.component';
+import { NintendoHomeComponent } from './pages/video-games/video-game-brands/nintendo/home/home.component';
+import { XboxHomeComponent } from './pages/video-games/video-game-brands/xbox/home/home.component';
+import { MetaHomeComponent } from './pages/video-games/video-game-brands/meta/home/home.component';
 
 const routes: Routes = [
   {
@@ -33,12 +37,11 @@ const routes: Routes = [
     component: HomeComponent,
   },
 
-    {
+  {
     path: 'amazon-haul',
 
     component: AmazonHaulComponent,
   },
-
 
   {
     path: 'gift-cards',
@@ -101,7 +104,7 @@ const routes: Routes = [
 
     component: CustomerLoginComponent,
   },
-    {
+  {
     path: 'login-password',
 
     component: LoginPasswordComponent,
@@ -125,7 +128,7 @@ const routes: Routes = [
     path: 'customer-verification',
     component: CustomerVerificationComponent,
   },
-    {
+  {
     path: 'new-customer-account',
     component: NewCustomerAccountComponent,
   },
@@ -137,17 +140,36 @@ const routes: Routes = [
     path: 'customer-forgot-password',
     component: CustomerForgotPasswordComponent,
   },
-   {
+  {
     path: 'customer-reset-password',
     component: CustomerResetPasswordComponent,
   },
-{
+  {
     path: 'your-account',
     component: YourAccountComponent,
   },
 
+  //Pages for Video Game Brands
+  
+  {
+    path: 'video-games/brands/top-brands/playstation/playstation-home',
+    component: PlaystationHomeComponent,
+  },
+  {
+    path: 'video-games/brands/top-brands/nintendo/nintendo-home',
+    component: NintendoHomeComponent,
+  },
+  {
+    path: 'video-games/brands/top-brands/xbox/xbox-home',
+    component: XboxHomeComponent,
+  },
 
-   {
+  {
+    path: 'video-games/brands/top-brands/meta/meta-home',
+    component: MetaHomeComponent,
+  },
+
+  {
     path: '404',
     component: NotFoundComponent,
   },

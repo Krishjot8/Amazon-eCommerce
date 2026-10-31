@@ -3,17 +3,20 @@
   class="carousel-inner"
 [style.transform]="'translateX(-' + currentIndex * (itemWidth + gap) + 'px)'"
   >
-    <div class="carousel-item" *ngFor="let brand of brands; trackBy: trackByBrandId">
+    <div class="carousel-item" *ngFor="let brand of brands; trackBy: trackByBrandId"
+    (click)="onBrandClick(brand)">
       <img [src]="brand.logoUrl" alt="{{brand.name}}" />
       <h4 style="font-family: Amazon;">{{brand.name}}</h4>
     </div>
   </div>
   
 
-  <button (click)="prev()" class="carousel-control prev">
+  <button (click)="prev()" class="carousel-control prev"
+  *ngIf="currentIndex > 0">
     <img src="assets/logo-images/left-arrow.svg" />
   </button>
-  <button (click)="next()" class="carousel-control next">
+  <button (click)="next()" class="carousel-control next"
+  *ngIf="currentIndex < maxIndex">
     <img src="assets/logo-images/right-arrow.svg" />
   </button>
 </div>
